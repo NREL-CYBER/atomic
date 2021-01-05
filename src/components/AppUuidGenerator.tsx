@@ -1,11 +1,10 @@
 import { ErrorObject } from 'ajv';
-import entity from 'core/entity';
-import validator from 'core/validation/Validator';
+import Validator from 'validator';
 import React, { MutableRefObject, useEffect, useState } from 'react';
-import titleCase from 'sugar/titleCase';
+import titleCase from '../util/titleCase';
 import { v4 as uuidv4 } from "uuid";
 import AppButtons from './AppButtons';
-import { AppColor } from './AppCard';
+import { AppColor } from '../theme/AppColor';
 import AppChip from './AppChip';
 import AppCol from './AppCol';
 import AppItem from './AppItem';
@@ -13,8 +12,8 @@ import AppLabel from './AppLabel';
 import AppText from './AppText';
 
 interface formInputProps<T> {
-    instanceRef: MutableRefObject<entity>
-    validator: validator<T>
+    instanceRef: MutableRefObject<any>
+    validator: Validator<T>
 }
 
 type InputStatus = "empty" | "invalid" | "valid";
@@ -24,7 +23,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppUuidGenerator = (props: formInputProps<entity>) => {
+const AppUuidGenerator = (props: formInputProps<any>) => {
     const { instanceRef, validator } = props;
     const property = "uuid";
     if (instanceRef.current.uuid === undefined) {

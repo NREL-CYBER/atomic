@@ -1,9 +1,9 @@
 import { IonIcon, IonLabel, IonRouterOutlet } from '@ionic/react';
-import useAppLayout from 'hooks/useAppLayout';
-import useCompletion from 'hooks/useCompletion';
+import useAppLayout from '../hooks/useAppLayout';
+import useCompletion from '../hooks/useCompletion';
 import React from 'react';
 import { useHistory, useLocation } from 'react-router';
-import AppRoute from 'core/routing/AppRoute';
+import AppRoute from '../routing/AppRoute';
 import { AppButton, AppRow } from '.';
 import AppGrid from './AppGrid';
 import { MapRoutes } from './AppRouterOutlet';

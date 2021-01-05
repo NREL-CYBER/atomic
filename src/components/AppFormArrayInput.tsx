@@ -1,18 +1,25 @@
 import { ErrorObject } from 'ajv';
-import entity from 'core/entity';
-import validator, { ArrayPropertyInfo } from 'core/validation/Validator';
-import FormComposer from 'forms/FormComposer';
+import Validator from 'validator';
+import FormComposer from './forms/FormComposer';
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useEffect, useState } from 'react';
-import titleCase from 'sugar/titleCase';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppColor, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
+import titleCase from '../util/titleCase';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppColor } from '../theme/AppColor';
 
+export interface ArrayPropertyInfo {
+    type: "array",
+    minItems: number,
+    items: {
+        $ref: string
+    }
+}
 
 interface formInputProps<T> {
     property: string
     propertyInfo: ArrayPropertyInfo
-    instanceRef: MutableRefObject<entity>
-    validator: validator<T>
+    instanceRef: MutableRefObject<any>
+    validator: Validator<T>
     onValid: (property: string) => void
 }
 
@@ -23,16 +30,16 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppFormArrayInput = (props: formInputProps<entity>) => {
+const AppFormArrayInput = (props: formInputProps<any>) => {
     const { property, instanceRef, validator, propertyInfo } = props;
     const [errors, setErrors] = useState<ErrorObject[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
-    const [value, setValue] = useState<entity[]>(instanceRef.current && (instanceRef.current as any)[property])
+    const [value, setValue] = useState<any[]>(instanceRef.current && (instanceRef.current as any)[property])
 
     const propertyFormattedName = titleCase(property).replace("-", " ");
     useEffect(() => {
-        const change: Record<string, entity[]> = {}
+        const change: Record<string, any[]> = {}
         change[property] = value
         instanceRef.current = { ...instanceRef.current, ...change }
         validator.validate(instanceRef.current)

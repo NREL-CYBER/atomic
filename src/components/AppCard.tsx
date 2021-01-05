@@ -1,7 +1,7 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/react';
 import React, { ReactFragment } from 'react';
+import { AppColor } from '../theme/AppColor';
 
-export type AppColor = "primary" | "secondary" | "favorite" | "tertiary" | "light" | "medium" | "dark" | "clear" | "warning" | "danger" | undefined
 interface cardProps {
     title?: ReactFragment
     titleColor?: AppColor

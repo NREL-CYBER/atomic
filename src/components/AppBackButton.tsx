@@ -1,7 +1,7 @@
 import AppButton from "./AppButton"
 import AppIcon from "./AppIcon"
 import { arrowBackOutline } from "ionicons/icons"
-import { AppColor } from "./AppCard"
+import { AppColor } from '../theme/AppColor';
 import React, { FC } from "react"
 interface backButtonProps {
     onClick: () => void;

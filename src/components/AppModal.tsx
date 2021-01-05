@@ -1,6 +1,6 @@
 import { IonModal } from '@ionic/react';
 import React, { ReactFragment } from 'react';
-import { AppColor } from './AppCard';
+import { AppColor } from '../theme/AppColor';
 
 
 

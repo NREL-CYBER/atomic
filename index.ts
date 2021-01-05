@@ -1,3 +1,2 @@
-import Validator, { RootSchemaObject } from "src/validator";
-export { RootSchemaObject };
-export default Validator;
+export * from "src/components";
+export * from "src/routing";

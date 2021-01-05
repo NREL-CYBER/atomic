@@ -1,6 +1,6 @@
 import { IonIcon } from '@ionic/react';
 import React from 'react';
-import { AppColor } from '.';
+import { AppColor } from '../theme/AppColor';
 
 
 interface iconProps {

@@ -1,7 +1,6 @@
-import { IonButton, IonBadge } from '@ionic/react';
+import { IonBadge } from '@ionic/react';
 import React from 'react';
-import AppRoute from 'core/routing/AppRoute';
-import { AppColor } from './AppCard';
+import { AppColor } from '../theme/AppColor';
 
 export type CyberAppFill = "clear" | "outline" | "solid" | "default" | undefined
 

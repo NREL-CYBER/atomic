@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppColor } from './AppCard';
+import { AppColor } from '../theme/AppColor';
 import { IonItemGroup } from '@ionic/react';
 
 

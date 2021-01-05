@@ -1,9 +1,8 @@
 import { ErrorObject } from 'ajv';
-import entity from 'core/entity';
-import validator from 'core/validation/Validator';
 import React, { MutableRefObject, useEffect, useState } from 'react';
-import titleCase from 'sugar/titleCase';
-import { AppColor } from './AppCard';
+import validator from 'validator';
+import { AppColor } from '../theme/AppColor';
+import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelect from './AppSelect';
@@ -14,7 +13,7 @@ import AppText from './AppText';
 interface formInputProps<T> {
     property: string,
     propertyInfo: { title: string, description: string, enum: string[] }
-    instanceRef: MutableRefObject<entity>
+    instanceRef: MutableRefObject<any>
     validator: validator<T>
     onValid: (property: string) => void
 }
@@ -26,7 +25,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppFormSelect = (props: formInputProps<entity>) => {
+const AppFormSelect = (props: formInputProps<any>) => {
     const { propertyInfo, instanceRef, validator, onValid, property } = props;
     const [errors, setErrors] = useState<ErrorObject[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");

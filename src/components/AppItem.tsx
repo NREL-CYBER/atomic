@@ -1,7 +1,7 @@
 import { IonItem } from '@ionic/react';
 import React from 'react';
-import AppRoute from 'core/routing/AppRoute';
-import { AppColor } from './AppCard';
+import AppRoute from '../routing/AppRoute';
+import { AppColor } from '../theme/AppColor';
 
 
 interface itemProps {

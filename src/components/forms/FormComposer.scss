@@ -1,0 +1,39 @@
+
+/* Buttons, forms and input */
+input, textarea {
+  border: 1px solid #4a4a4a; }
+  input:focus, textarea:focus {
+    border: 1px solid #1d7484; }
+
+textarea {
+  width: 100%; }
+
+  .vertical-layout-item{
+    display: block;
+  }
+  .horizontal-layout-item{
+    display: inline-block;
+  }
+    
+textarea, select, input {
+  color: #4a4a4a;
+  padding: 6px 10px;
+  margin:10px;
+  /* The 6px vertically centers text on FF, ignored by Webkit */
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border: 1px solid #f1f1f1;
+  border-radius: 4px;
+  box-shadow: none;
+  box-sizing: border-box; }
+  textarea:focus, select:focus, input:focus {
+    border: 1px solid #1d7484;
+    outline: 0; }
+
+input[type="checkbox"]:focus {
+  outline: 1px dotted #1d7484; }
+
+label, legend, fieldset {
+  display: block;
+  margin-bottom: .5rem;
+  font-weight: 600; }

@@ -1,6 +1,6 @@
 import { IonChip } from '@ionic/react';
 import React from 'react';
-import { AppColor } from './AppCard';
+import { AppColor } from '../theme/AppColor';
 
 
 interface itemProps {

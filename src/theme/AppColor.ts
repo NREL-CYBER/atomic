@@ -1,0 +1,1 @@
+export type AppColor = "primary" | "secondary" | "favorite" | "tertiary" | "light" | "medium" | "dark" | "clear" | "warning" | "danger" | undefined
