@@ -1,8 +1,8 @@
 import { ErrorObject } from 'ajv';
-import Validator from 'validator';
 import React, { MutableRefObject, useEffect, useState } from 'react';
-import titleCase from '../util/titleCase';
+import Validator from 'validator';
 import { AppColor } from '../theme/AppColor';
+import titleCase from '../util/titleCase';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
@@ -29,12 +29,12 @@ const AppFormInput = (props: formInputProps<any>) => {
     const { property, instanceRef, validator, input, onValid } = props;
     const [errors, setErrors] = useState<ErrorObject[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
-    const [value, setValue] = useState<string>(instanceRef.current && (instanceRef.current as any)[property] || "")
+    const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || "")
 
     const propertyFormattedName = titleCase(property);
 
     useEffect(() => {
-        if (value.length == 0) {
+        if (value.length === 0) {
             return;
         }
         const change: Record<string, string> = {}
@@ -43,7 +43,7 @@ const AppFormInput = (props: formInputProps<any>) => {
         validator.validate(instanceRef.current)
         const allErrors = validator.validate.errors || []
         const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property))
-        if (propertyErrors.length == 0 && value) {
+        if (propertyErrors.length === 0 && value) {
             setInputStatus("valid");
         } else if (value) {
             setInputStatus("invalid");
@@ -51,7 +51,7 @@ const AppFormInput = (props: formInputProps<any>) => {
             setInputStatus("empty");
         }
         setErrors(propertyErrors);
-    }, [value])
+    }, [instanceRef, property, validator, value])
 
 
     const inputStatusColor = inputStatusColorMap[inputStatus];

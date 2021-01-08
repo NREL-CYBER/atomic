@@ -1,6 +1,6 @@
 import { ErrorObject } from 'ajv';
 import Validator from 'validator';
-import FormComposer from './forms/FormComposer';
+import FormComposer from './forms/AppFormComposer';
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useEffect, useState } from 'react';
 import titleCase from '../util/titleCase';
@@ -30,7 +30,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppFormArrayInput = (props: formInputProps<any>) => {
+const AppFormArrayInput = (props: formInputProps<unknown>) => {
     const { property, instanceRef, validator, propertyInfo } = props;
     const [errors, setErrors] = useState<ErrorObject[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
@@ -44,8 +44,8 @@ const AppFormArrayInput = (props: formInputProps<any>) => {
         instanceRef.current = { ...instanceRef.current, ...change }
         validator.validate(instanceRef.current)
         const allErrors = validator.validate.errors || []
-        const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property))
-        if (propertyErrors.length == 0 && value) {
+        const propertyErrors = allErrors.filter((error) => error.message && error.message.includes(property))
+        if (propertyErrors.length === 0 && value) {
             setInputStatus("valid");
         } else if (value) {
             setInputStatus("invalid");
@@ -53,7 +53,7 @@ const AppFormArrayInput = (props: formInputProps<any>) => {
             setInputStatus("empty");
         }
         setErrors(propertyErrors);
-    }, [value])
+    }, [instanceRef, property, validator, value])
 
 
     const inputStatusColor = inputStatusColorMap[inputStatus];

@@ -4,11 +4,10 @@
 
 
 import { IonSplitPane } from '@ionic/react';
-import AppSubMenu from './AppSubMenu';
-import React, { useState } from 'react';
+import React from 'react';
 import AppList from './AppList';
 import AppRouterOutlet, { routerOutletProps } from './AppRouterOutlet';
-import useWindowSize from '../hooks/useWindowSize';
+import AppSubMenu from './AppSubMenu';
 
 
 
@@ -22,7 +21,7 @@ import useWindowSize from '../hooks/useWindowSize';
  */
 
 const AppSideMenu: React.FC<routerOutletProps> = ({ id, root }) => {
-    return <IonSplitPane when="xs" contentId={id}>
+    return <IonSplitPane className="side-bar" when="xs" contentId={id}>
         <AppList >
             {root.nested && <AppSubMenu pages={root.nested} />}
         </AppList>

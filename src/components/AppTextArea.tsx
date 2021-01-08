@@ -7,7 +7,7 @@ import { useDebouncedCallback } from 'use-debounce';
 interface textProps {
     className?: string
     color?: AppColor
-    onTextChange?: (value: string) => void
+    onTextChange: (value: string) => void
     value: string
     onLoseFocus?: () => void
 
@@ -17,8 +17,11 @@ interface textProps {
  * Component to display text with optional color
  */
 const AppTextArea: React.FC<textProps> = (props) => {
-    const { onLoseFocus, onTextChange } = props;
-    const handleKeyUp = onLoseFocus ? useDebouncedCallback(onLoseFocus, 1000).callback : () => { console.log("unhandled focus event") }
+    let { onLoseFocus, onTextChange } = props;
+    if (typeof onLoseFocus === 'undefined') {
+        onLoseFocus = () => { console.log("unhandled focus event"); }
+    }
+    const handleKeyUp = useDebouncedCallback(onLoseFocus, 1000).callback;
     const handleChange = onTextChange ? (val: string) => onTextChange(val) : (val: string) => { console.log("unhandled change event") }
     return <IonTextarea
         onKeyUp={handleKeyUp}

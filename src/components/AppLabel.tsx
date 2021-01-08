@@ -1,4 +1,4 @@
-import { IonItem, IonLabel } from '@ionic/react';
+import { IonLabel } from '@ionic/react';
 import React from 'react';
 import { AppColor } from '../theme/AppColor';
 

@@ -1,54 +1,55 @@
-import { AppColor } from "../theme/AppColor";
 import create from "zustand";
+import { AppCacheIndex } from "../state/AppCache";
+import { AppColor } from "../theme/AppColor";
 
 
 
-type AppCompletion = {
-    totalPaths: number,
-    unlockedPaths: string[],
-    validPaths: string[],
+export interface CompletionConfiguration {
+    conditions: Record<string, CompletionCondition>
+}
+
+export type CompletionStatus = "valid" | "unlocked" | "hidden" | "locked"
+export type CompletionCondition = (cache: AppCacheIndex) => CompletionStatus
+
+type CompletionService = {
+    order: string[],
+    paths: Record<string, CompletionStatus>,
+    setPathState: (pathName: string, status: CompletionStatus) => void
     isValid: (pathname: string) => boolean,
     isUnlocked: (pathname: string) => boolean,
-    markUnlocked: (pathname: string) => void
-    markValid: (pathname: string) => void
-    markLocked: (pathname: string) => void
-    markInValid: (pathname: string) => void
     pathStatusColor: (pathname: string) => AppColor
     latestUnockedPath: () => string
     completion: () => number
 }
-const useCompletion = create<AppCompletion>((set, store) => ({
+
+const useCompletion = create<CompletionService>((set, store) => ({
     /* all Routes in the app */
-    totalPaths: -1,
-    unlockedPaths: [],
-    validPaths: [],
-    markUnlocked: (path) => {
-        set({ unlockedPaths: [...store().unlockedPaths, path] })
-    },
-    markValid: (path) => {
-        set({ validPaths: [...store().validPaths, path] })
-    },
-    markLocked: (path) => {
-        set({ unlockedPaths: [...store().unlockedPaths.filter(x => x !== path)] })
-    },
-    markInValid: (path) => {
-        set({ validPaths: [...store().unlockedPaths.filter(x => x !== path)] })
+    order: [],
+    paths: {},
+    setPathState: (path, status) => {
+        set({ paths: { ...store().paths, [path]: status } });
     },
     isUnlocked: (path) => {
-        return store().unlockedPaths.includes(path) || store().validPaths.includes(path);
+        return store().paths[path] === "unlocked";
     },
     isValid: (path) => {
-        return store().validPaths.includes(path);
+        return store().paths[path] === "valid";
     },
     pathStatusColor: (path) => {
         return store().isValid(path) ? "favorite" : store().isUnlocked(path) ? "primary" : "medium";
     },
     latestUnockedPath: () => {
-        const invalidUnlockedPaths = store().unlockedPaths.filter(path => !store().validPaths.includes(path));
-        return invalidUnlockedPaths[invalidUnlockedPaths.length - 1] || "/"
+        store().order.forEach((path) => {
+            if (store().paths[path] === "unlocked") {
+                return path;
+            }
+        })
+        return store().order[0];
     },
     completion: () => {
-        return (store().validPaths.length + 1) / store().totalPaths
+        const allPathStates = Object.values(store().paths);
+        const validPaths = allPathStates.filter(x => x === "valid");
+        return validPaths.length / allPathStates.length;
     }
 
 }));

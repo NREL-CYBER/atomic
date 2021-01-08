@@ -1,5 +1,5 @@
-import { IonContent, IonGrid, IonCol, IonRow } from '@ionic/react';
-import React, { Children } from 'react';
+import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
+import React from 'react';
 
 
 

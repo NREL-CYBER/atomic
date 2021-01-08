@@ -1,9 +1,8 @@
 import { IonButton } from '@ionic/react';
 import React from 'react';
-import AppRoute from '../routing/AppRoute';
 import { AppColor } from '../theme/AppColor';
 
-export type CyberAppFill = "clear" | "outline" | "solid" | "default" | undefined
+export type AppFill = "clear" | "outline" | "solid" | "default" | undefined
 
 
 interface buttonProps {
@@ -11,7 +10,7 @@ interface buttonProps {
     routerLink?: string
     color?: AppColor
     onClick?: () => void
-    fill?: CyberAppFill
+    fill?: AppFill
     disabled?: boolean
     routerDirection?: "forward" | "back" | "none" | "root"
     onMouseEnter?: () => void

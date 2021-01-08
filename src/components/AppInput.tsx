@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { IonInput } from '@ionic/react';
 import React from 'react';
 import { useDebouncedCallback } from 'use-debounce';

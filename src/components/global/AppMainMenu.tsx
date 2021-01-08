@@ -1,9 +1,7 @@
-import { AppContent, AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
 import React from 'react';
-import { useLocation } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
 import AppRoute from '../../routing/AppRoute';
-import './Menu.css';
-
 
 
 
@@ -17,7 +15,6 @@ interface MenuProps {
 const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
   const { pathname } = useLocation();
   function renderlistItems(list: AppRoute[]) {
-
     return list
       .filter(route => !!route.path)
       .map(p => (
@@ -30,14 +27,14 @@ const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
       ));
   }
   function mainMenu() {
-    return <AppContent >
-      {Object.entries(sections).map(([section, routes]) => {
-        <AppList lines="none">
+    return < >
+      {Object.entries(sections).map(([section, routes]) =>
+        <AppList lines="none" key={section}>
           <AppListHeader>{section}</AppListHeader>
           {renderlistItems(routes)}
         </AppList>
-      })}
-    </AppContent>
+      )}
+    </>
   }
 
 

@@ -5,7 +5,6 @@ import AppRoute from '../routing/AppRoute';
 import AppIcon from './AppIcon';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
-import './Menu.css';
 
 
 

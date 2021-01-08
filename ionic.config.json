@@ -1,0 +1,7 @@
+{
+  "name": "atom",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

@@ -1,6 +1,5 @@
 import create from "zustand";
-import { AppRoute } from "../routing";
-
+import AppRoute from "../routing/AppRoute";
 
 
 /**
@@ -17,8 +16,8 @@ const selectBreadCrumbs = (breadCrumbRoutes: AppRoute[], path: string): AppRoute
  * @param path the current path
  */
 const calculateNextPage = (allFlattenedRoutes: AppRoute[], path: string): AppRoute => {
-    let currentRouteIndex = allFlattenedRoutes.findIndex(x => x && x.path == path)
-    if (currentRouteIndex == -1) {
+    let currentRouteIndex = allFlattenedRoutes.findIndex(x => x && x.path === path)
+    if (currentRouteIndex === -1) {
         const lastBreadCrumb = selectBreadCrumbs(allFlattenedRoutes, path).pop();
         currentRouteIndex = lastBreadCrumb ? allFlattenedRoutes.indexOf(lastBreadCrumb) : -1;
     }
@@ -40,6 +39,7 @@ type AppLayout = {
     path: string
     nextPage: AppRoute
     update: (pathname: string) => void
+    initialize: (rootRoute: AppRoute) => void
 }
 
 /**
@@ -48,6 +48,10 @@ type AppLayout = {
  *  and knowing the nested page and determining the next page.
  */
 const useAppLayout = create<AppLayout>((set, store) => ({
+    initialize: (rootRoute) => {
+        const allPageRoutes = rootRoute.nested;
+        set({ rootRoute, allPageRoutes });
+    },
     /* all Routes in the app */
     id: "",
     path: "",
@@ -68,7 +72,7 @@ const useAppLayout = create<AppLayout>((set, store) => ({
         // /example-page
         const rootPagePath = "/" + rootPage;
         // find the full Page object
-        const currentRootPage = store().allPageRoutes.find(route => route && route.path == rootPagePath) as AppRoute || store().rootRoute;
+        const currentRootPage = store().allPageRoutes.find(route => route && route.path === rootPagePath) as AppRoute || store().rootRoute;
         // fallback to the app title
         const title = currentRootPage ? currentRootPage.title : ""
 

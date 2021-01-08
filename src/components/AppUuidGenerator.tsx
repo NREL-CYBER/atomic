@@ -31,7 +31,7 @@ const AppUuidGenerator = (props: formInputProps<any>) => {
     }
     const [errors, setErrors] = useState<ErrorObject[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
-    const [value, setValue] = useState<string>(instanceRef.current && (instanceRef.current as any)[property] || "")
+    const [value] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || "")
 
     const propertyFormattedName = titleCase(property);
 
@@ -42,7 +42,7 @@ const AppUuidGenerator = (props: formInputProps<any>) => {
         validator.validate(instanceRef.current)
         const allErrors = validator.validate.errors || []
         const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property))
-        if (propertyErrors.length == 0 && value) {
+        if (propertyErrors.length === 0 && value) {
             setInputStatus("valid");
         } else if (value) {
             setInputStatus("invalid");
@@ -50,7 +50,7 @@ const AppUuidGenerator = (props: formInputProps<any>) => {
             setInputStatus("empty");
         }
         setErrors(propertyErrors);
-    }, [value])
+    }, [instanceRef, validator, value])
 
 
     const inputStatusColor = inputStatusColorMap[inputStatus];

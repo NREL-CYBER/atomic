@@ -29,7 +29,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
     const { propertyInfo, instanceRef, validator, onValid, property } = props;
     const [errors, setErrors] = useState<ErrorObject[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
-    const [value, setValue] = useState<string>(instanceRef.current && (instanceRef.current as any)[property] || "")
+    const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || "")
 
     const propertyFormattedName = titleCase(propertyInfo.title);
 
@@ -39,7 +39,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
         validator.validate(instanceRef.current)
         const allErrors = validator.validate.errors || []
         const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property))
-        if (propertyErrors.length == 0 && value) {
+        if (propertyErrors.length === 0 && value) {
             setInputStatus("valid");
             onValid(property);
             setErrors([]);
@@ -50,7 +50,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
             setInputStatus("empty");
         }
         setErrors(propertyErrors);
-    }, [value])
+    }, [instanceRef, onValid, property, validator, value])
 
 
     const inputStatusColor = inputStatusColorMap[inputStatus];

@@ -34,9 +34,9 @@ export const MapRoutes: React.FC<routeMapProps> = ({ routes }) => {
  */
 export const AppRouterOutlet: React.FC<routerOutletProps> = ({ root, id }) =>
     <IonRouterOutlet id={id}>
+        {root.nested ? <MapRoutes routes={root.nested} /> : <></>}
         {<Route {...root} />}
-        {root.nested && <MapRoutes routes={root.nested} />}
-    </IonRouterOutlet>
+    </IonRouterOutlet >
 
 
 

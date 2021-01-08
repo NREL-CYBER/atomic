@@ -1,6 +1,5 @@
-import { IonGrid } from '@ionic/react';
-import React from 'react';
 import { IonReactHashRouter } from '@ionic/react-router';
+import React from 'react';
 
 
 interface appRouterProps {
