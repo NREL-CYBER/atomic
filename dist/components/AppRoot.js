@@ -22,6 +22,7 @@ import AppRouterOutlet from './AppRouterOutlet';
 import AppBottomToolbar from './global/AppBottomToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
+import "../theme/variables.css";
 /**
  * Component that stores the root of the application and control current theme
  */

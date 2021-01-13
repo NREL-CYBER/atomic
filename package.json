@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -77,5 +77,5 @@
     "ts-jest": "^26.4.4",
     "typescript": "^4.1.3"
   },
-  "description": "Atomic:A Schema based Ionic apps that Target Electron"
+  "description": "Atomic:A Framework Component Library for Ionic/Electron Apps"
 }

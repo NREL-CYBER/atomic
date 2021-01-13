@@ -10,6 +10,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React from 'react';
 import { AppConfig } from '../util/AppConfig';
+import "../theme/variables.css";
 /**
  * Component that stores the root of the application and control current theme
  */

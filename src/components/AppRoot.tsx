@@ -20,7 +20,7 @@ import AppRouterOutlet from './AppRouterOutlet';
 import AppBottomToolbar from './global/AppBottomToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
-
+import "../theme/variables.css"
 
 
 /**
