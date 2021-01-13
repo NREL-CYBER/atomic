@@ -57,25 +57,26 @@ const AppFormInput = props => {
     inputStatus === "valid" && onValid(property);
   };
 
-  return <>
-        <AppItem>
-            <AppLabel position="stacked" color={inputStatusColor}>
-                {propertyFormattedName}
-            </AppLabel>
-            {input === "line" ? <AppInput onLoseFocus={handleLoseFocus} value={value} placeholder={propertyFormattedName} onInputChange={val => {
-        setValue(val);
-      }} /> : <AppTextArea onLoseFocus={handleLoseFocus} value={value} onTextChange={val => {
-        setValue(val);
-      }} />}
-        </AppItem>
-        {errors && errors.length > 0 && <AppItem>
-            <AppLabel position='stacked' color='danger'>
-                {errors.map(error => <AppText>
-                    {error.message}
-                </AppText>)}
-            </AppLabel>
-        </AppItem>}
-    </>;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+    position: "stacked",
+    color: inputStatusColor
+  }, propertyFormattedName), input === "line" ? /*#__PURE__*/React.createElement(AppInput, {
+    onLoseFocus: handleLoseFocus,
+    value: value,
+    placeholder: propertyFormattedName,
+    onInputChange: val => {
+      setValue(val);
+    }
+  }) : /*#__PURE__*/React.createElement(AppTextArea, {
+    onLoseFocus: handleLoseFocus,
+    value: value,
+    onTextChange: val => {
+      setValue(val);
+    }
+  })), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+    position: "stacked",
+    color: "danger"
+  }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error.message)))));
 };
 
 export default AppFormInput;

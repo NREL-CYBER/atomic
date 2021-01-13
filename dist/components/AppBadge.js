@@ -5,7 +5,7 @@ import React from 'react';
  * Button Component 
  */
 const AppBadge = props => {
-  return <IonBadge {...props} />;
+  return /*#__PURE__*/React.createElement(IonBadge, props);
 };
 
 export default AppBadge;

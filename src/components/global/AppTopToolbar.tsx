@@ -18,7 +18,7 @@ const AppTopToolbar: React.FC = ({ children }) => {
     const breadcrumbs = useAppLayout(x => x.breadCrumbs);
 
     useEffect(() => {
-        update(pathname);
+        update(pathname)
     }, [pathname, update])
     return (<AppToolbar>
         <AppButtons slot='start'>

@@ -4,6 +4,6 @@ import React from 'react';
 /**
  * Component for Side Drawer Menus
  */
-const AppMenu = props => <IonMenu {...props} />;
+const AppMenu = props => /*#__PURE__*/React.createElement(IonMenu, props);
 
 export default AppMenu;

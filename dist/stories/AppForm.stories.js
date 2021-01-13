@@ -12,7 +12,7 @@ export default {
   }
 };
 
-const Template = args => <AppFormComposer {...args} />;
+const Template = args => /*#__PURE__*/React.createElement(AppFormComposer, args);
 
 const validator = new Validator({
   "$id": "https://example.com/address.schema.json",

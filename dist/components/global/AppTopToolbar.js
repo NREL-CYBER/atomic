@@ -20,18 +20,25 @@ const AppTopToolbar = ({
   useEffect(() => {
     update(pathname);
   }, [pathname, update]);
-  return <AppToolbar>
-        <AppButtons slot='start'>
-            <AppMenuButton />
-            <AppButton expand='full' routerLink={"/"}>
-                <AppTitle color={pathname === '/' ? "tertiary" : undefined}><AppIcon icon={homeOutline} /> </AppTitle>
-            </AppButton>
-            {breadcrumbs.map(breadCrumb => <AppButton key={breadCrumb.path} color={breadCrumb.path === pathname ? "tertiary" : undefined} fill={breadCrumb.path === pathname ? "outline" : "clear"} routerLink={breadCrumb.path}>
-                <AppTitle color={breadCrumb.path === pathname ? "tertiary" : "dark"}>{breadCrumb.title} </AppTitle>  <AppIcon icon={breadCrumb.icon} />
-            </AppButton>)}
-            {children}
-        </AppButtons>
-    </AppToolbar>;
+  return /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppMenuButton, null), /*#__PURE__*/React.createElement(AppButton, {
+    expand: "full",
+    routerLink: "/"
+  }, /*#__PURE__*/React.createElement(AppTitle, {
+    color: pathname === '/' ? "tertiary" : undefined
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: homeOutline
+  }), " ")), breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(AppButton, {
+    key: breadCrumb.path,
+    color: breadCrumb.path === pathname ? "tertiary" : undefined,
+    fill: breadCrumb.path === pathname ? "outline" : "clear",
+    routerLink: breadCrumb.path
+  }, /*#__PURE__*/React.createElement(AppTitle, {
+    color: breadCrumb.path === pathname ? "tertiary" : "dark"
+  }, breadCrumb.title, " "), "  ", /*#__PURE__*/React.createElement(AppIcon, {
+    icon: breadCrumb.icon
+  }))), children));
 };
 
 export default AppTopToolbar;

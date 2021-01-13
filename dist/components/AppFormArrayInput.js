@@ -45,56 +45,45 @@ const AppFormArrayInput = props => {
     setErrors(propertyErrors);
   }, [instanceRef, property, validator, value]);
   const inputStatusColor = inputStatusColorMap[inputStatus];
-  return <AppRow>
-        <AppToolbar>
-            <AppButtons slot='start'>
-                <AppLabel color={inputStatusColor}>
-                    {propertyFormattedName}
-                </AppLabel>
-            </AppButtons>
-            <AppButtons>
-                {value && value.map((val, i) => {
-          return <AppChip key={i}>
-                        {val.hasOwnProperty("id") && val["id"]}
-                        {val.hasOwnProperty("type") && val["type"]}
-                        {val.hasOwnProperty("name") && val["name"]}
-                        {val.hasOwnProperty("value") && val["value"]}
-                        {val.hasOwnProperty("text") && val["text"]}
-                    </AppChip>;
-        })}
-            </AppButtons>
-            <AppButtons slot="end">
-                <AppButton onClick={() => {
-          if (typeof value === "undefined") {
-            setValue([]);
-          }
+  return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppLabel, {
+    color: inputStatusColor
+  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
+    return /*#__PURE__*/React.createElement(AppChip, {
+      key: i
+    }, val.hasOwnProperty("id") && val["id"], val.hasOwnProperty("type") && val["type"], val.hasOwnProperty("name") && val["name"], val.hasOwnProperty("value") && val["value"], val.hasOwnProperty("text") && val["text"]);
+  })), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  }, /*#__PURE__*/React.createElement(AppButton, {
+    onClick: () => {
+      if (typeof value === "undefined") {
+        setValue([]);
+      }
 
-          ;
-          setIsInsertingItem(true);
-        }} fill='outline' color={"primary"}>
-                    <AppIcon icon={addOutline} />
-                </AppButton>
-            </AppButtons>
-            <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
-                <AppContent>
-                    {isInsertingItem && <FormComposer validator={validator.makeReferenceValidator(propertyInfo)} data={{}} onSubmit={item => {
-            setValue([...value, item]);
-            setIsInsertingItem(false);
-          }}>
-                        <AppBackButton onClick={() => setIsInsertingItem(false)} />
-                    </FormComposer>}
-                </AppContent>
-            </AppModal>
-        </AppToolbar>
-        {errors && errors.length > 0 && <AppItem>
-
-            <AppLabel position='stacked' color='danger'>
-                {errors.map(error => <AppText>
-                    {error.message}
-                </AppText>)}
-            </AppLabel>
-        </AppItem>}
-    </AppRow>;
+      ;
+      setIsInsertingItem(true);
+    },
+    fill: "outline",
+    color: "primary"
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: addOutline
+  }))), /*#__PURE__*/React.createElement(AppModal, {
+    isOpen: isInsertingItem,
+    onDismiss: () => setIsInsertingItem(false)
+  }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(FormComposer, {
+    validator: validator.makeReferenceValidator(propertyInfo),
+    data: {},
+    onSubmit: item => {
+      setValue([...value, item]);
+      setIsInsertingItem(false);
+    }
+  }, /*#__PURE__*/React.createElement(AppBackButton, {
+    onClick: () => setIsInsertingItem(false)
+  }))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+    position: "stacked",
+    color: "danger"
+  }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error.message)))));
 };
 
 export default AppFormArrayInput;

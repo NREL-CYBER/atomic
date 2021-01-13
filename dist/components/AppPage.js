@@ -7,17 +7,19 @@ import React from 'react';
 const AppPage = ({
   children
 }) => {
-  return <IonPage id='main'>
-        <div style={{
+  return /*#__PURE__*/React.createElement(IonPage, {
+    id: "main"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
       height: 55
-    }}></div>
-        <IonContent slot="fixed">
-            {children}
-        </IonContent>
-        <div style={{
+    }
+  }), /*#__PURE__*/React.createElement(IonContent, {
+    slot: "fixed"
+  }, children), /*#__PURE__*/React.createElement("div", {
+    style: {
       height: 55
-    }}></div>
-    </IonPage>;
+    }
+  }));
 };
 
 export default AppPage;

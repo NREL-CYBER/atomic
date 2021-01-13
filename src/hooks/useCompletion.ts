@@ -1,11 +1,11 @@
 import create from "zustand";
-import { AppCacheIndex } from "../state/AppCache";
+import { AppCacheIndex } from "../state/AppCacheIndex";
 import { AppColor } from "../theme/AppColor";
 
 
 
 export interface CompletionConfiguration {
-    conditions: Record<string, CompletionCondition>
+    conditions: Record<string, CompletionCondition>    
 }
 
 export type CompletionStatus = "valid" | "unlocked" | "hidden" | "locked"

@@ -7,12 +7,14 @@ import React from 'react';
 const Footer = ({
   children
 }) => {
-  return <IonToolbar slot='end' style={{
-    height: 50,
-    bottom: 0,
-    position: 'absolute'
-  }}>
-    </IonToolbar>;
+  return /*#__PURE__*/React.createElement(IonToolbar, {
+    slot: "end",
+    style: {
+      height: 50,
+      bottom: 0,
+      position: 'absolute'
+    }
+  });
 };
 
 export default Footer;

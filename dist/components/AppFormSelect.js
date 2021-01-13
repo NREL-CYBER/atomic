@@ -51,21 +51,24 @@ const AppFormSelect = props => {
     setErrors(propertyErrors);
   }, [instanceRef, onValid, property, validator, value]);
   const inputStatusColor = inputStatusColorMap[inputStatus];
-  return <AppItem>
-        <AppLabel position="stacked" color={inputStatusColor}>
-            {propertyFormattedName}
-        </AppLabel>
-        <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={val => {
+  return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+    position: "stacked",
+    color: inputStatusColor
+  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelect, {
+    interface: "popover",
+    value: value,
+    placeholder: propertyFormattedName,
+    onSelectionChange: val => {
       setValue(val);
-    }}>
-            {propertyInfo.enum.map(enumValue => <AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
-        </AppSelect>
-        <AppLabel position='stacked' color='danger'>
-            {errors && errors.map(error => <AppText>
-                {error.message}
-            </AppText>)}
-        </AppLabel>
-    </AppItem>;
+    }
+  }, propertyInfo.enum.map(enumValue => /*#__PURE__*/React.createElement(AppSelectOption, {
+    key: enumValue,
+    value: enumValue,
+    children: titleCase(enumValue)
+  }))), /*#__PURE__*/React.createElement(AppLabel, {
+    position: "stacked",
+    color: "danger"
+  }, errors && errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error.message))));
 };
 
 export default AppFormSelect;

@@ -15,7 +15,7 @@ import React from 'react';
  * </AppItem>
  */
 const AppItem = props => {
-  return <IonItem {...props} />;
+  return /*#__PURE__*/React.createElement(IonItem, props);
 };
 
 export default AppItem;

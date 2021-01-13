@@ -4,6 +4,6 @@ import React from 'react';
 /**
  * Component for routing root pages
  */
-const AppRouter = props => <IonReactHashRouter {...props} />;
+const AppRouter = props => /*#__PURE__*/React.createElement(IonReactHashRouter, props);
 
 export default AppRouter;

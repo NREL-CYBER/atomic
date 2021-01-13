@@ -4,6 +4,6 @@ import React from 'react';
  * Component for a button on a menu
  */
 
-const AppMenuButton = props => <IonMenuButton {...props} />;
+const AppMenuButton = props => /*#__PURE__*/React.createElement(IonMenuButton, props);
 
 export default AppMenuButton;

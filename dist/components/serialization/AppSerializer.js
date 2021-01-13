@@ -5,12 +5,11 @@ const AppSerializer = ({
   cache
 }) => {
   useEffect(() => {
-    Object.entries(cache.storage).forEach(([collection, store]) => {
+    Object.entries(cache).forEach(([collection, store]) => {
       console.log("Watching " + collection);
     });
-  }, [cache.storage]);
-  return <>
-    </>;
+  }, [cache]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 
 export default AppSerializer;

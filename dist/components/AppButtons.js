@@ -8,7 +8,7 @@ import React from 'react';
  * 
  */
 const AppButtons = props => {
-  return <IonButtons {...props} />;
+  return /*#__PURE__*/React.createElement(IonButtons, props);
 };
 
 export default AppButtons;

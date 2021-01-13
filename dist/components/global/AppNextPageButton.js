@@ -18,7 +18,15 @@ export const AppNextPageButton = () => {
   } = useCompletion();
   const disabled = !isUnlocked(next.path);
   const color = pathStatusColor(next.path);
-  return <AppButton fill='solid' color={color} routerDirection='forward' routerLink={next.path} disabled={disabled}>
-        <AppIcon icon={next.icon} />{next.title}<AppIcon icon={arrowForwardOutline}></AppIcon>
-    </AppButton>;
+  return /*#__PURE__*/React.createElement(AppButton, {
+    fill: "solid",
+    color: color,
+    routerDirection: "forward",
+    routerLink: next.path,
+    disabled: disabled
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: next.icon
+  }), next.title, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: arrowForwardOutline
+  }));
 };

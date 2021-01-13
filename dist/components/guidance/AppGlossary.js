@@ -6,20 +6,10 @@ import AppLabel from '../AppLabel';
 
 const AppGlossary = ({
   glossary
-}) => <AppPage>
-        {Object.entries(glossary.records).map(([word, definition]) => <AppItem>
-                <AppButtons slot="start">
-                    <AppLabel>
-                        {word}
-                    </AppLabel>
-                </AppButtons>
-                <AppButtons slot="end">
-                    <AppLabel>
-                        {definition}
-                    </AppLabel>
-                </AppButtons>
-            </AppItem>)}
-        <AppItem />
-    </AppPage>;
+}) => /*#__PURE__*/React.createElement(AppPage, null, Object.entries(glossary.records).map(([word, definition]) => /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+  slot: "start"
+}, /*#__PURE__*/React.createElement(AppLabel, null, word)), /*#__PURE__*/React.createElement(AppButtons, {
+  slot: "end"
+}, /*#__PURE__*/React.createElement(AppLabel, null, definition)))), /*#__PURE__*/React.createElement(AppItem, null));
 
 export default AppGlossary;

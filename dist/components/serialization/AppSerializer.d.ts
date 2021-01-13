@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { AppCacheIndex } from "../../state/AppCache";
+import { AppCacheIndex } from "../../state/AppCacheIndex";
 interface appSerializerProps {
     mode: "cloud" | "local";
     cache: AppCacheIndex;

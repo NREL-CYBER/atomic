@@ -1,10 +1,11 @@
 {
-  "name": "atom",
-  "version": "0.0.2",
+  "name": "atomic",
+  "version": "0.0.4",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@babel/preset-typescript": "^7.12.7",
     "@capacitor/core": "2.4.5",
     "@ionic/react": "^5.0.7",

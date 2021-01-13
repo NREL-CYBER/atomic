@@ -7,7 +7,7 @@ import React from 'react';
  * We use this on the top bar, but we might have a footer later on as well.
  */
 const AppToolbar = props => {
-  return <IonToolbar {...props} />;
+  return /*#__PURE__*/React.createElement(IonToolbar, props);
 };
 
 export default AppToolbar;

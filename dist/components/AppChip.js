@@ -5,7 +5,7 @@ import React from 'react';
  * Chip Element! 
  */
 const AppChip = props => {
-  return <IonChip {...props} />;
+  return /*#__PURE__*/React.createElement(IonChip, props);
 };
 
 export default AppChip;

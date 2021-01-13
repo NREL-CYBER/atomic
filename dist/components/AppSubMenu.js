@@ -13,10 +13,17 @@ const AppSubMenu = ({
     pathStatusColor,
     isUnlocked
   } = useCompletion();
-  return <>{pages.map(p => <AppItem key={p.path} color={currentPath === p.path ? 'tertiary' : undefined} routerLink={isUnlocked(p.path) ? p.path : undefined}>
-                <AppIcon color={currentPath === p.path ? "dark" : pathStatusColor(p.path)} slot="start" icon={p.icon} />
-                <AppLabel color={currentPath === p.path ? "dark" : pathStatusColor(p.path)}>{p.title}</AppLabel>
-            </AppItem>)}</>;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, pages.map(p => /*#__PURE__*/React.createElement(AppItem, {
+    key: p.path,
+    color: currentPath === p.path ? 'tertiary' : undefined,
+    routerLink: isUnlocked(p.path) ? p.path : undefined
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    color: currentPath === p.path ? "dark" : pathStatusColor(p.path),
+    slot: "start",
+    icon: p.icon
+  }), /*#__PURE__*/React.createElement(AppLabel, {
+    color: currentPath === p.path ? "dark" : pathStatusColor(p.path)
+  }, p.title))));
 };
 
 export default AppSubMenu;

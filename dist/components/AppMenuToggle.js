@@ -9,6 +9,6 @@ import React from 'react';
  * If we decide to add a new menu, lets expand the access to inner API
  */
 
-const AppMenuToggle = props => <IonMenuToggle {...props} />;
+const AppMenuToggle = props => /*#__PURE__*/React.createElement(IonMenuToggle, props);
 
 export default AppMenuToggle;

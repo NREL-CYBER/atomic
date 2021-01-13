@@ -5,7 +5,7 @@ import React from 'react';
  * A title component for an App item
  */
 const AppTitle = props => {
-  return <IonTitle {...props} />;
+  return /*#__PURE__*/React.createElement(IonTitle, props);
 };
 
 export default AppTitle;

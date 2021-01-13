@@ -52,23 +52,17 @@ const AppUuidGenerator = props => {
     setErrors(propertyErrors);
   }, [instanceRef, validator, value]);
   const inputStatusColor = inputStatusColorMap[inputStatus];
-  return <AppItem>
-        <AppButtons slot="start">
-            <AppLabel position="stacked" color={inputStatusColor}>
-                <AppCol>
-                    {propertyFormattedName}
-                </AppCol>
-                <AppCol>
-                    <AppChip color={"medium"}>{value}</AppChip>
-                </AppCol>
-            </AppLabel>
-        </AppButtons>
-        <AppLabel position='stacked' color='danger'>
-            {errors && errors.map(error => <AppText>
-                {error.message}
-            </AppText>)}
-        </AppLabel>
-    </AppItem>;
+  return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppLabel, {
+    position: "stacked",
+    color: inputStatusColor
+  }, /*#__PURE__*/React.createElement(AppCol, null, propertyFormattedName), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppChip, {
+    color: "medium"
+  }, value)))), /*#__PURE__*/React.createElement(AppLabel, {
+    position: "stacked",
+    color: "danger"
+  }, errors && errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error.message))));
 };
 
 export default AppUuidGenerator;

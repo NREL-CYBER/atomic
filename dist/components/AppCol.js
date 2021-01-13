@@ -6,7 +6,7 @@ import React from 'react';
  * page size is 12
  */
 const AppCol = props => {
-  return <IonCol {...props} />;
+  return /*#__PURE__*/React.createElement(IonCol, props);
 };
 
 export default AppCol;

@@ -5,7 +5,7 @@ import React from 'react';
  */
 
 const AppListHeader = props => {
-  return <IonListHeader {...props} />;
+  return /*#__PURE__*/React.createElement(IonListHeader, props);
 };
 
 export default AppListHeader;

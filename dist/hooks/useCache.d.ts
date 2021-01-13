@@ -1,15 +1,13 @@
-import { UseStore } from "zustand";
-import { AppCacheIndex } from "../state/AppCache";
-import { Store } from "store";
+import { AppCacheIndex } from "../state/AppCacheIndex";
 /**
  * Type that defines what the useNotifications hook can do
  */
 declare type CacheService = {
     index: AppCacheIndex;
-    register: (collection: string, store: UseStore<Store<unknown>>) => void;
+    register: (index: AppCacheIndex) => void;
 };
 /**
-*  Push Notifications
+*  Application Cache
 */
-declare const useCache: UseStore<CacheService>;
+declare const useCache: import("zustand").UseStore<CacheService>;
 export default useCache;

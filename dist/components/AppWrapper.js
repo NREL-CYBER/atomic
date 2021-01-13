@@ -19,11 +19,7 @@ import { AppContent } from '.';
 const AppWrapper = ({
   children
 }) => {
-  return <IonApp>
-            <IonPage>
-                <AppContent>{children}</AppContent>
-            </IonPage>
-        </IonApp>;
+  return /*#__PURE__*/React.createElement(IonApp, null, /*#__PURE__*/React.createElement(IonPage, null, /*#__PURE__*/React.createElement(AppContent, null, children)));
 };
 
-addDecorator(storyFn => <AppWrapper>{storyFn()}</AppWrapper>);
+addDecorator(storyFn => /*#__PURE__*/React.createElement(AppWrapper, null, storyFn()));

@@ -11,12 +11,16 @@ const AppSideMenu = ({
   id,
   root
 }) => {
-  return <IonSplitPane className="side-bar" when="xs" contentId={id}>
-        <AppList>
-            {root.nested && <AppSubMenu pages={root.nested} />}
-        </AppList>
-        <AppRouterOutlet id={id} root={root} />
-    </IonSplitPane>;
+  return /*#__PURE__*/React.createElement(IonSplitPane, {
+    className: "side-bar",
+    when: "xs",
+    contentId: id
+  }, /*#__PURE__*/React.createElement(AppList, null, root.nested && /*#__PURE__*/React.createElement(AppSubMenu, {
+    pages: root.nested
+  })), /*#__PURE__*/React.createElement(AppRouterOutlet, {
+    id: id,
+    root: root
+  }));
 };
 
 export default AppSideMenu;

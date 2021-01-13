@@ -6,6 +6,6 @@ import React from 'react';
  * you can do AppCol or AppRow first depending on your context
  * anything is possible!
  */
-const AppGrid = props => <IonGrid {...props} />;
+const AppGrid = props => /*#__PURE__*/React.createElement(IonGrid, props);
 
 export default AppGrid;

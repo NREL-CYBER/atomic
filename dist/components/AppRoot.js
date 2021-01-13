@@ -23,8 +23,6 @@ import AppRouterOutlet from './AppRouterOutlet';
 import AppBottomToolbar from './global/AppBottomToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
-import AppCompletion from './completion/AppCompletion';
-import AppCache from './serialization/AppCache';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -32,23 +30,26 @@ import AppCache from './serialization/AppCache';
 const AppRoot = ({
   rootRoute,
   sections,
-  schemas,
-  completion
+  bottomBar,
+  topBar,
+  children
 }) => {
   const initLayout = useAppLayout(x => x.initialize);
   useEffect(() => {
     initLayout(rootRoute);
   }, [initLayout, rootRoute]);
-  return <IonApp className="dark-theme">
-        <AppRouter id={"root"}>
-            <AppCache schemas={schemas} />
-            <AppCompletion conditions={completion} />
-            <AppMainMenu sections={sections} />
-            <AppTopToolbar />
-            <AppRouterOutlet id={"root"} root={rootRoute} />
-            <AppBottomToolbar />
-        </AppRouter>
-    </IonApp>;
+  return /*#__PURE__*/React.createElement(IonApp, {
+    className: "dark-theme"
+  }, /*#__PURE__*/React.createElement(AppRouter, {
+    id: "root"
+  }, topBar ? {
+    topBar
+  } : /*#__PURE__*/React.createElement(AppTopToolbar, null), sections && /*#__PURE__*/React.createElement(AppMainMenu, {
+    sections: sections
+  }), /*#__PURE__*/React.createElement(AppRouterOutlet, {
+    id: "root",
+    root: rootRoute
+  }), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null)));
 };
 
 export default AppRoot;

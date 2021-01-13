@@ -1,6 +1,5 @@
-import create, { UseStore } from "zustand";
-import { AppCacheIndex } from "../state/AppCache";
-import { Store } from "store";
+import create from "zustand";
+import { AppCacheIndex } from "../state/AppCacheIndex";
 
 
 
@@ -9,16 +8,15 @@ import { Store } from "store";
  */
 type CacheService = {
     index: AppCacheIndex
-    register: (collection: string, store: UseStore<Store<unknown>>) => void
+    register: (index: AppCacheIndex) => void
 }
 
 /**
-*  Push Notifications
+*  Application Cache
 */
 const useCache = create<CacheService>((set, cache) => ({
     index: {},
-    register: (collection, store) => {
-        const index = { ...cache().index, [collection]: store };
+    register: (index) => {
         set({ index })
     }
 }));

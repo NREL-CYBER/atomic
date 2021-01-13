@@ -9,8 +9,8 @@ const AppRow = ({
   children,
   align,
   justify
-}) => <IonRow className={align && "ion-align-items-" + align + " " + justify && "ion-justify-content-" + justify}>
-        {children}
-    </IonRow>;
+}) => /*#__PURE__*/React.createElement(IonRow, {
+  className: align && "ion-align-items-" + align + " " + justify && "ion-justify-content-" + justify
+}, children);
 
 export default AppRow;

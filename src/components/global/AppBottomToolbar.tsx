@@ -14,7 +14,7 @@ const AppBottomToolbar: React.FC = ({ children }) => {
 
     const completion = useCompletion(x => x.completion);
     return (<>
-        <AppToolbar>
+        {!children ? <AppToolbar>
             <AppProgress color="favorite" value={completion()} />
             <AppButtons slot="start">
                 <AppButton onClick={() => show()}>
@@ -23,7 +23,8 @@ const AppBottomToolbar: React.FC = ({ children }) => {
             </AppButtons>
             <AppButtons slot="end" >
             </AppButtons>
-        </AppToolbar></>
+        </AppToolbar> : { children }
+        }</>
     );
 };
 export default AppBottomToolbar;

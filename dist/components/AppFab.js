@@ -6,7 +6,7 @@ import React from 'react';
  * use vertical and horizontal props for positioning
  */
 const AppFab = props => {
-  return <IonFab {...props} />;
+  return /*#__PURE__*/React.createElement(IonFab, props);
 };
 
 export default AppFab;

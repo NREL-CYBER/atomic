@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import React from "react";
-import { AppCacheIndex } from "../../state/AppCache";
+import { AppCacheIndex } from "../../state/AppCacheIndex";
 interface appSerializerProps {
     mode: "cloud" | "local"
     cache: AppCacheIndex
@@ -8,10 +8,10 @@ interface appSerializerProps {
 
 const AppSerializer: FC<appSerializerProps> = ({ cache }) => {
     useEffect(() => {
-        Object.entries(cache.storage).forEach(([collection, store]) => {
+        Object.entries(cache).forEach(([collection, store]) => {
             console.log("Watching " + collection);
         })
-    }, [cache.storage])
+    }, [cache])
 
     return <>
     </>

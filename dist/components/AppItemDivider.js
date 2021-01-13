@@ -5,7 +5,7 @@ import React from 'react';
  * A text label
  */
 const AppItemDivider = props => {
-  return <IonItemDivider {...props} />;
+  return /*#__PURE__*/React.createElement(IonItemDivider, props);
 };
 
 export default AppItemDivider;

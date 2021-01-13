@@ -1,22 +1,9 @@
-import { documentOutline } from "ionicons/icons";
-import FormExamples from "../pages/FormExamples";
+import "store/tests/groceries-store.test";
 import rootRoute from "./routes";
 const config = {
   rootRoute: rootRoute,
   sections: {
-    forms: [{
-      icon: documentOutline,
-      title: "form composer",
-      path: "/form-composer",
-      component: FormExamples
-    }]
-  },
-  glossary: {
-    records: {
-      atomic: "A cool application framework"
-    }
-  },
-  completion: {},
-  schemas: []
+    forms: rootRoute.nested
+  }
 };
 export default config;

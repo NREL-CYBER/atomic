@@ -1,12 +1,8 @@
 import AppRoute from "../routing/AppRoute";
-import { Glossary } from "../components/guidance/AppGlossary";
-import { RootSchemaObject } from "validator";
-import { CompletionCondition } from "../hooks/useCompletion";
 
 export interface AppConfig {
+    topBar?: React.FC
+    sections?: Record<string, AppRoute[]>
     rootRoute: AppRoute
-    sections: Record<string, AppRoute[]>
-    schemas: RootSchemaObject[]
-    completion: Record<string, CompletionCondition>
-    glossary?: Glossary
+    bottomBar?: React.FC
 }

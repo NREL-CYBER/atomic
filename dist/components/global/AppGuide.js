@@ -13,18 +13,18 @@ const Guide = () => {
   const {
     latestUnockedPath
   } = useCompletion();
-  return <AppPopover onDismiss={() => dismiss()} isOpen={status === "open"}>
-        <AppCard title="Greetings! Lets pick up where you left off...">
-            <AppRow>
-                {guidance}
-            </AppRow>
-            <AppRow>
-                <AppButton routerLink={latestUnockedPath()} expand="full" color="favorite" fill="outline" onClick={() => dismiss()}>
-                    Continue
-        </AppButton>
-            </AppRow>
-        </AppCard>
-    </AppPopover>;
+  return /*#__PURE__*/React.createElement(AppPopover, {
+    onDismiss: () => dismiss(),
+    isOpen: status === "open"
+  }, /*#__PURE__*/React.createElement(AppCard, {
+    title: "Greetings! Lets pick up where you left off..."
+  }, /*#__PURE__*/React.createElement(AppRow, null, guidance), /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppButton, {
+    routerLink: latestUnockedPath(),
+    expand: "full",
+    color: "favorite",
+    fill: "outline",
+    onClick: () => dismiss()
+  }, "Continue"))));
 };
 
 export default Guide;

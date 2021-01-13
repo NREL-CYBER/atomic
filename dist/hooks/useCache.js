@@ -1,14 +1,11 @@
 import create from "zustand";
 
 /**
-*  Push Notifications
+*  Application Cache
 */
 const useCache = create((set, cache) => ({
   index: {},
-  register: (collection, store) => {
-    const index = { ...cache().index,
-      [collection]: store
-    };
+  register: index => {
     set({
       index
     });

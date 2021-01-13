@@ -15,17 +15,20 @@ const AppBottomToolbar = ({
     show
   } = useGuidance();
   const completion = useCompletion(x => x.completion);
-  return <>
-        <AppToolbar>
-            <AppProgress color="favorite" value={completion()} />
-            <AppButtons slot="start">
-                <AppButton onClick={() => show()}>
-                    <AppIcon icon={helpCircleOutline} />
-                </AppButton>
-            </AppButtons>
-            <AppButtons slot="end">
-            </AppButtons>
-        </AppToolbar></>;
+  return /*#__PURE__*/React.createElement(React.Fragment, null, !children ? /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppProgress, {
+    color: "favorite",
+    value: completion()
+  }), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppButton, {
+    onClick: () => show()
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: helpCircleOutline
+  }))), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  })) : {
+    children
+  });
 };
 
 export default AppBottomToolbar;

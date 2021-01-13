@@ -13,19 +13,13 @@ const AppCard = ({
   subTitle,
   subTitleColor
 }) => {
-  return <IonCard onClick={onClick}>
-        <IonCardHeader>
-            {title && <IonCardTitle color={titleColor}>
-                {title}
-            </IonCardTitle>}
-            {subTitle && <IonCardSubtitle color={subTitleColor}>
-                {subTitle}
-            </IonCardSubtitle>}
-        </IonCardHeader>
-        <IonCardContent>
-            {children}
-        </IonCardContent>
-    </IonCard>;
+  return /*#__PURE__*/React.createElement(IonCard, {
+    onClick: onClick
+  }, /*#__PURE__*/React.createElement(IonCardHeader, null, title && /*#__PURE__*/React.createElement(IonCardTitle, {
+    color: titleColor
+  }, title), subTitle && /*#__PURE__*/React.createElement(IonCardSubtitle, {
+    color: subTitleColor
+  }, subTitle)), /*#__PURE__*/React.createElement(IonCardContent, null, children));
 };
 
 export default AppCard;

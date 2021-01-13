@@ -21,8 +21,6 @@ import AppRouterOutlet from './AppRouterOutlet';
 import AppBottomToolbar from './global/AppBottomToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
-import AppCompletion from './completion/AppCompletion';
-import AppCache from './serialization/AppCache';
 
 
 
@@ -31,10 +29,9 @@ import AppCache from './serialization/AppCache';
  */
 
 
-const AppRoot: React.FC<AppConfig> = ({ rootRoute, sections, schemas, completion }) => {
+const AppRoot: React.FC<AppConfig> = ({ rootRoute, sections, bottomBar, topBar, children }) => {
 
     const initLayout = useAppLayout(x => x.initialize);
-
     useEffect(() => {
         initLayout(rootRoute);
     }, [initLayout, rootRoute])
@@ -44,12 +41,10 @@ const AppRoot: React.FC<AppConfig> = ({ rootRoute, sections, schemas, completion
 
     return <IonApp className="dark-theme">
         <AppRouter id={"root"}>
-            <AppCache schemas={schemas} />
-            <AppCompletion conditions={completion} />
-            <AppMainMenu sections={sections} />
-            <AppTopToolbar />
+            {topBar ? { topBar } : <AppTopToolbar />}
+            {sections && <AppMainMenu sections={sections} />}
             <AppRouterOutlet id={"root"} root={rootRoute} />
-            <AppBottomToolbar />
+            {bottomBar ? bottomBar : <AppBottomToolbar />}
         </AppRouter>
     </IonApp>
 }
