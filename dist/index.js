@@ -3,3 +3,4 @@ export * from "./util";
 export * from "./hooks";
 export * from "./routing/AppRoute";
 export * from "./routing/destination";
+export * from "./theme";

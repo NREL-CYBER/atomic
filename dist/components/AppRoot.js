@@ -17,7 +17,6 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, { useEffect } from 'react';
 import { useAppLayout } from '../hooks';
-import "../theme/variables.css";
 import AppRouter from './AppRouter';
 import AppRouterOutlet from './AppRouterOutlet';
 import AppBottomToolbar from './global/AppBottomToolbar';
