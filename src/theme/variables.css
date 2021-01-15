@@ -64,15 +64,73 @@ ion-card{
     -o-animation: fadein 1s;
     /* Opera */
 }
+ion-item{
+  animation: growin 0.3s;
+  -moz-animation: growin 0.3s;
+  /* Firefox */
+  -webkit-animation: growin 0.3s;
+  /* Safari and Chrome */
+  -o-animation: growin 0.3s;
+  /* Opera */
+  transition: all 0.3s;
+}
+ion-list{
+  transition: all 0.3s;
+}
 
-@keyframes growin {
+
+
+
+@keyframes slidein {
   from {
-    transform:translate3d(-1,-1,-1);
     transform:translate3d(-1,-1,-1);
   }
   to {
     transform:translate3d(0,0,0);
-    transform:translate3d(0,0,0);
+  }
+}
+@-moz-keyframes slidein {
+  /* Firefox */
+  from {
+    transform:scaleX(0);
+    transform:scaleY(0);
+  }
+  to {
+    transform:scaleX(1);
+    transform:scaleY(1);
+  }
+}
+@-webkit-keyframes slidein {
+  /* Safari and Chrome */
+  from {
+    transform:scaleX(0);
+    transform:scaleY(0);
+  }
+  to {
+    transform:scaleX(1);
+    transform:scaleY(1);
+  }
+}
+@-o-keyframes slidein {
+  /* Opera */
+  from {
+    transform:scaleX(0);
+    transform:scaleY(0);
+  }
+  to {
+    transform:scaleX(1);
+    transform:scaleY(1);
+  }
+}
+
+@keyframes growin {
+  from {
+    transform:scaleX(0);
+    transform:scaleY(0);
+  }
+  to {
+    transform:scaleX(1);
+    transform:scaleY(1);
   }
 }
 @-moz-keyframes growin {

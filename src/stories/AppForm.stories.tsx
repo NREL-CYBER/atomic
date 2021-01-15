@@ -2,7 +2,7 @@ import React from 'react';
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import { Story, Meta } from '@storybook/react/types-6-0';
 
-import Validator from 'validator';
+import Validator, { RootSchemaObject } from 'validator';
 import { AppFormComposer } from '../components';
 import { formComposerProps } from '../components/forms/AppFormComposer';
 
@@ -16,11 +16,21 @@ export default {
 
 const Template: Story<formComposerProps> = (args) => <AppFormComposer {...args} />;
 
+interface Address {
+  "post-office-box": string,
+  "extended-address": string,
+  "street-address": string,
+  "locality": string,
+  "region": string
+  "postal-code": string
+  "country-name": string
+}
 
-const validator = new Validator({
+const addressSchema: RootSchemaObject = {
   "$id": "https://example.com/address.schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "An address similar to http://microformats.org/wiki/h-card",
+  "description": "A simple address Object with dependencies",
+  $comment: "OK NICE",
   "type": "object",
   "properties": {
     "post-office-box": {
@@ -50,11 +60,15 @@ const validator = new Validator({
     "post-office-box": ["street-address"],
     "extended-address": ["street-address"]
   }
-});
+}
 const onSubmit = () => {
   alert("submission valid");
 }
-const data = {};
-export const AddressWithDependencies = Template.bind({
-  validator, onSubmit, data
-});
+const validator = new Validator(addressSchema);
+
+export const AddressWithDependencies = Template.bind({});
+AddressWithDependencies.args = {
+  data: {},
+  validator,
+  onSubmit,
+}
