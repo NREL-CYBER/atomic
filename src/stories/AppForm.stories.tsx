@@ -7,7 +7,7 @@ import { AppFormComposer } from '../components';
 import { formComposerProps } from '../components/forms/AppFormComposer';
 
 export default {
-  title: 'FormComposer',
+  title: 'atomic/AppFormComposer',
   component: AppFormComposer,
   argTypes: {
     backgroundColor: { control: 'color' },

@@ -84,7 +84,6 @@ const AppFormComposer = (props: formComposerProps) => {
         }
         if (!validator.validate.errors) {
             alert("valid");
-            setErrors([]);
             setIsValid(true);
         }
     }, [calculatedFields, validator]);
