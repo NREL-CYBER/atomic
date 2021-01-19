@@ -1,5 +1,5 @@
-import Validator from 'validator';
 import React, { ReactFragment } from 'react';
+import Validator from 'validator';
 export interface propertyKeyValue {
     property: string;
     value: string;
@@ -8,7 +8,7 @@ export interface calculatedPropertyMap {
     map: Record<string, (base: propertyKeyValue) => propertyKeyValue>;
 }
 export interface formComposerProps {
-    validator: Validator<any>;
+    validator: Validator<unknown>;
     data: any;
     onSubmit: (validData: any) => void;
     children?: ReactFragment;

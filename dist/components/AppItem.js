@@ -5,7 +5,7 @@ import React from 'react';
  * Component for items in a list
  * A very nice feature of this component is adding AppButtons inside
  * and attaching them to specific slots 
- * @example \
+ * @example 
  * <AppItem>
  *      <AppButtons slot="start">
  *          <AppButton>Great left side button</AppButton>

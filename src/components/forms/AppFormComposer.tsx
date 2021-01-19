@@ -73,20 +73,11 @@ const LockedField: FC<lockedFieldProps> = ({ property, value }) => <AppItem>
 
 
 const AppFormComposer = (props: formComposerProps) => {
-    const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly, calculatedFields } = props
+    const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly } = props
     const { schema } = validator;
     const instance = useRef<any>({ ...data })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleValidInputReceived = useCallback((property: string) => {
-        if (calculatedFields && Object.keys(calculatedFields.map).includes(property)) {
-            const calculation = calculatedFields.map[property]({ property, value: instance.current[property] });
-            instance.current[calculation.property] = calculation.value;
-        }
-        if (!validator.validate.errors) {
-            alert("valid");
-            setIsValid(true);
-        }
-    }, [calculatedFields, validator]);
+    }, []);
 
     const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, instanceRef, onValid }) => {
         const { property } = propertyInfo;
@@ -175,10 +166,10 @@ const AppFormComposer = (props: formComposerProps) => {
 
     const optionalFields = schema.required ? schemaProperties.filter(x => !schema.required.includes(x)) : [];
     const requiredFields = schema.required ? schemaProperties.filter(x => schema.required.includes(x)) : schemaProperties;
-    const [isValid, setIsValid] = useState(false);
+    const isValid = validator.validate(instance.current);
     return <>
         <AppCard title={<>
-            <AppToolbar>
+            <AppToolbar color={"light"}>
                 <AppButtons slot="start">
                     {children}
                     <AppTitle color={isValid ? "favorite" : "tertiary"}>
@@ -218,6 +209,7 @@ const AppFormComposer = (props: formComposerProps) => {
 
             <AppToolbar>
                 <AppButtons slot="end">
+
                     <AppButton fill="solid" color={isValid ? "favorite" : "primary"} disabled={!isValid} onClick={() => {
                         onSubmit(instance.current);
                     }}>

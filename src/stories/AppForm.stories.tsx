@@ -18,8 +18,6 @@ const Template: Story<formComposerProps> = (args) => <AppFormComposer {...args} 
 
 interface Address {
   "post-office-box": string,
-  "extended-address": string,
-  "street-address": string,
   "locality": string,
   "region": string
   "postal-code": string
@@ -29,8 +27,9 @@ interface Address {
 const addressSchema: RootSchemaObject = {
   "$id": "https://example.com/address.schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "A simple address Object with dependencies",
-  $comment: "OK NICE",
+  "description": "A simple Address",
+  "title": "Address",
+  "$comment": "~",
   "type": "object",
   "properties": {
     "post-office-box": {
@@ -55,19 +54,16 @@ const addressSchema: RootSchemaObject = {
       "type": "string"
     }
   },
-  "required": ["locality", "region", "country-name"],
-  "dependencies": {
-    "post-office-box": ["street-address"],
-    "extended-address": ["street-address"]
-  }
+  "required": ["locality", "region", "country-name"]
 }
 const onSubmit = () => {
   alert("submission valid");
 }
 const validator = new Validator(addressSchema);
 
-export const AddressWithDependencies = Template.bind({});
-AddressWithDependencies.args = {
+export const AddressExample = Template.bind({});
+AddressExample.args = {
+  title: "Address",
   data: {},
   validator,
   onSubmit,

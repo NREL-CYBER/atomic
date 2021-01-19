@@ -43,7 +43,7 @@ const AppFormArrayInput = props => {
     }
 
     setErrors(propertyErrors);
-  }, [instanceRef, property, validator, value]);
+  }, [instanceRef, property, validator, value, validator.validate.errors]);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"

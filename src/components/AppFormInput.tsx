@@ -29,18 +29,21 @@ const AppFormInput = (props: formInputProps<any>) => {
     const { property, instanceRef, validator, input, onValid } = props;
     const [errors, setErrors] = useState<ErrorObject[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
-    const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || "")
+    const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || undefined)
 
     const propertyFormattedName = titleCase(property);
 
     useEffect(() => {
-        if (value.length === 0) {
+        if (value === undefined) {
             return;
         }
-        const change: Record<string, string> = {}
-        change[property] = value
-        instanceRef.current = { ...instanceRef.current, ...change }
-        validator.validate(instanceRef.current)
+        if (value.length === 1) {
+            return;
+        } else {
+            const change: Record<string, string> = {}
+            change[property] = value
+            instanceRef.current = { ...instanceRef.current, ...change }
+        }
         const allErrors = validator.validate.errors || []
         const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property))
         if (propertyErrors.length === 0 && value) {
@@ -50,8 +53,12 @@ const AppFormInput = (props: formInputProps<any>) => {
         } else {
             setInputStatus("empty");
         }
-        setErrors(propertyErrors);
-    }, [instanceRef, property, validator, value])
+        propertyErrors && setErrors(propertyErrors);
+    }, [instanceRef, property, validator, value, validator.validate.errors])
+
+    useEffect(() => {
+        validator.validate(instanceRef.current);
+    }, [instanceRef, validator, value])
 
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
@@ -64,7 +71,9 @@ const AppFormInput = (props: formInputProps<any>) => {
             </AppLabel>
             {input === "line" ?
                 <AppInput onLoseFocus={handleLoseFocus} value={value} placeholder={propertyFormattedName} onInputChange={(val) => { setValue(val) }} />
-                : <AppTextArea onLoseFocus={handleLoseFocus} value={value} onTextChange={(val) => { setValue(val) }} />}
+                : <AppTextArea onLoseFocus={handleLoseFocus} value={value} onTextChange={(val) => {
+                    setValue(val);
+                }} />}
         </AppItem>
         {errors && errors.length > 0 && <AppItem>
             <AppLabel position='stacked' color='danger'>

@@ -5,7 +5,7 @@ import React from 'react';
  * We'll customize the scrollbar here later.
  */
 
-const AppContent = props => /*#__PURE__*/React.createElement(IonContent, null, /*#__PURE__*/React.createElement(IonGrid, null, /*#__PURE__*/React.createElement(IonRow, null, /*#__PURE__*/React.createElement(IonCol, {
+const AppContent = props => props.center ? /*#__PURE__*/React.createElement(IonContent, null, /*#__PURE__*/React.createElement(IonGrid, null, /*#__PURE__*/React.createElement(IonRow, null, /*#__PURE__*/React.createElement(IonCol, {
   sizeSm: "0",
   sizeXs: "0",
   sizeMd: '3'
@@ -13,6 +13,6 @@ const AppContent = props => /*#__PURE__*/React.createElement(IonContent, null, /
   sizeSm: "12",
   sizeXs: "12",
   sizeMd: "6"
-}, props.children))));
+}, props.children)))) : /*#__PURE__*/React.createElement(IonContent, props);
 
 export default AppContent;

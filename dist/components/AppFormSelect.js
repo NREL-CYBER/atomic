@@ -49,7 +49,7 @@ const AppFormSelect = props => {
     }
 
     setErrors(propertyErrors);
-  }, [instanceRef, onValid, property, validator, value]);
+  }, [instanceRef, onValid, property, validator, value, validator.validate.errors]);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",

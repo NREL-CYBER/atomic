@@ -53,7 +53,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             setInputStatus("empty");
         }
         setErrors(propertyErrors);
-    }, [instanceRef, property, validator, value])
+    }, [instanceRef, property, validator, value, validator.validate.errors])
 
 
     const inputStatusColor = inputStatusColorMap[inputStatus];

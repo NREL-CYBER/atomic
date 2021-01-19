@@ -3,5 +3,7 @@ import React from 'react';
  * Component that allows for contents to be scrollable
  * We'll customize the scrollbar here later.
  */
-declare const AppContent: React.FC;
+declare const AppContent: React.FC<{
+    center?: boolean;
+}>;
 export default AppContent;

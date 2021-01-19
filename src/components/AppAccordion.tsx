@@ -9,12 +9,14 @@ type accordionItem = {
 }
 export interface accordionProps {
     items: accordionItem[]
-    multi: boolean
     itemColor?: AppColor,
     selectedColor?: AppColor
 }
-
-const AppAccordion: FC<accordionProps> = ({ items, multi, itemColor, selectedColor }) => {
+/**
+ * 
+ * @param accordionOptions items:[]accordionItem[], 
+ */
+const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor }) => {
     const [unlockedIndex, setUnlockedIndex] = useState(-1);
 
     return <AppList>{items.map((accordionItem, i) =>
@@ -27,7 +29,7 @@ const AppAccordion: FC<accordionProps> = ({ items, multi, itemColor, selectedCol
         }}>
             <accordionItem.toolbarContent />
         </AppItem>
-            {(unlockedIndex === i || multi) && <AppItem className="accordion-item">
+            {(unlockedIndex === i) && <AppItem lines={"none"} className="accordion-item">
                 <accordionItem.innerContent />
             </AppItem>}
         </>

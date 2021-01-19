@@ -1,6 +1,6 @@
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppModal, AppRow, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { saveOutline } from 'ionicons/icons';
-import React, { Fragment, memo, useRef, useState, useMemo, useCallback } from 'react';
+import React, { Fragment, memo, useCallback, useMemo, useRef, useState } from 'react';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppModal, AppRow, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { titleCase } from '../../util';
 
 const LockedField = ({
@@ -23,35 +23,14 @@ const AppFormComposer = props => {
     hiddenFields,
     description,
     title,
-    requiredOnly,
-    calculatedFields
+    requiredOnly
   } = props;
   const {
     schema
   } = validator;
   const instance = useRef({ ...data
   });
-  const handleValidInputReceived = useCallback(() => property => {
-    console.log(property);
-
-    if (calculatedFields && Object.keys(calculatedFields.map).includes(property)) {
-      const calculation = calculatedFields.map[property]({
-        property,
-        value: instance.current[property]
-      });
-      instance.current[calculation.property] = calculation.value;
-    }
-
-    const validity = validator.validate(instance.current);
-
-    if (validity === false) {
-      validator.validate.errors && setErrors(validator.validate.errors);
-    } else {
-      setErrors([]);
-    }
-
-    setIsValid(validity);
-  }, [calculatedFields, validator]);
+  const handleValidInputReceived = useCallback(property => {}, []);
 
   const ComposeNestedFormElement = ({
     propertyInfo,
@@ -82,7 +61,7 @@ const AppFormComposer = props => {
     })))));
   };
 
-  const ComposeFormElement = props => {
+  const FormElement = props => {
     const {
       instanceRef,
       property,
@@ -152,12 +131,13 @@ const AppFormComposer = props => {
 
   const [schemaProperties] = useState(Object.keys({ ...schema.properties
   }));
-  const [errors, setErrors] = useState();
   const optionalFields = schema.required ? schemaProperties.filter(x => !schema.required.includes(x)) : [];
   const requiredFields = schema.required ? schemaProperties.filter(x => schema.required.includes(x)) : schemaProperties;
-  const [isValid, setIsValid] = useState(false);
+  const isValid = validator.validate(instance.current);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
-    title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+    title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
+      color: "light"
+    }, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
@@ -173,14 +153,14 @@ const AppFormComposer = props => {
     if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
       key: property
     });
-    return /*#__PURE__*/React.createElement(ComposeFormElement, {
+    return /*#__PURE__*/React.createElement(FormElement, {
       key: property,
       onValid: handleValidInputReceived,
       validator: validator,
       instanceRef: instance,
       property: property
     });
-  }), [handleValidInputReceived, hiddenFields, lockedFields, requiredFields, validator])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && "HIDE THESE FIELDS", useMemo(() => optionalFields.map(property => {
+  }), [handleValidInputReceived, hiddenFields, lockedFields, requiredFields, validator])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && "Optional Fields", useMemo(() => optionalFields.map(property => {
     if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
       property: property,
       value: instance.current[property]
@@ -188,7 +168,7 @@ const AppFormComposer = props => {
     if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
       key: property
     });
-    return /*#__PURE__*/React.createElement(ComposeFormElement, {
+    return /*#__PURE__*/React.createElement(FormElement, {
       key: property,
       onValid: handleValidInputReceived,
       validator: validator,
@@ -196,12 +176,6 @@ const AppFormComposer = props => {
       property: property
     });
   }), [handleValidInputReceived, hiddenFields, lockedFields, optionalFields, validator])), /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "start"
-  }, errors && errors.map(error => /*#__PURE__*/React.createElement(AppItem, {
-    key: error.message
-  }, /*#__PURE__*/React.createElement(AppChip, {
-    color: "warning"
-  }, error.schemaPath.split("/").pop()), /*#__PURE__*/React.createElement(AppText, null, error.message)))), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "solid",

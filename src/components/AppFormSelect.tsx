@@ -50,7 +50,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
             setInputStatus("empty");
         }
         setErrors(propertyErrors);
-    }, [instanceRef, onValid, property, validator, value])
+    }, [instanceRef, onValid, property, validator, value, validator.validate.errors])
 
 
     const inputStatusColor = inputStatusColorMap[inputStatus];

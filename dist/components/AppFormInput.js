@@ -24,19 +24,23 @@ const AppFormInput = props => {
   } = props;
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
-  const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || "");
+  const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || undefined);
   const propertyFormattedName = titleCase(property);
   useEffect(() => {
-    if (value.length === 0) {
+    if (value === undefined) {
       return;
     }
 
-    const change = {};
-    change[property] = value;
-    instanceRef.current = { ...instanceRef.current,
-      ...change
-    };
-    validator.validate(instanceRef.current);
+    if (value.length === 1) {
+      return;
+    } else {
+      const change = {};
+      change[property] = value;
+      instanceRef.current = { ...instanceRef.current,
+        ...change
+      };
+    }
+
     const allErrors = validator.validate.errors || [];
     const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property));
 
@@ -48,8 +52,11 @@ const AppFormInput = props => {
       setInputStatus("empty");
     }
 
-    setErrors(propertyErrors);
-  }, [instanceRef, property, validator, value]);
+    propertyErrors && setErrors(propertyErrors);
+  }, [instanceRef, property, validator, value, validator.validate.errors]);
+  useEffect(() => {
+    validator.validate(instanceRef.current);
+  }, [instanceRef, validator, value]);
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
   const handleLoseFocus = () => {

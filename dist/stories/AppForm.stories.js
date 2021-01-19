@@ -3,7 +3,7 @@ import React from 'react'; // also exported from '@storybook/react' if you can d
 import Validator from 'validator';
 import { AppFormComposer } from '../components';
 export default {
-  title: 'FormComposer',
+  title: 'atomic/AppFormComposer',
   component: AppFormComposer,
   argTypes: {
     backgroundColor: {
@@ -14,10 +14,12 @@ export default {
 
 const Template = args => /*#__PURE__*/React.createElement(AppFormComposer, args);
 
-const validator = new Validator({
+const addressSchema = {
   "$id": "https://example.com/address.schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "description": "An address similar to http://microformats.org/wiki/h-card",
+  "description": "A simple Address",
+  "title": "Address",
+  "$comment": "~",
   "type": "object",
   "properties": {
     "post-office-box": {
@@ -42,20 +44,18 @@ const validator = new Validator({
       "type": "string"
     }
   },
-  "required": ["locality", "region", "country-name"],
-  "dependencies": {
-    "post-office-box": ["street-address"],
-    "extended-address": ["street-address"]
-  }
-});
+  "required": ["locality", "region", "country-name"]
+};
 
 const onSubmit = () => {
   alert("submission valid");
 };
 
-const data = {};
-export const AddressWithDependencies = Template.bind({
+const validator = new Validator(addressSchema);
+export const AddressExample = Template.bind({});
+AddressExample.args = {
+  title: "Address",
+  data: {},
   validator,
-  onSubmit,
-  data
-});
+  onSubmit
+};
