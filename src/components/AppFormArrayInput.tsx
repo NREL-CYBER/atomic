@@ -20,7 +20,7 @@ interface formInputProps<T> {
     propertyInfo: ArrayPropertyInfo
     instanceRef: MutableRefObject<any>
     validator: Validator<T>
-    onValid: (property: string) => void
+    onChange: (property: string) => void
 }
 
 type InputStatus = "empty" | "invalid" | "valid";

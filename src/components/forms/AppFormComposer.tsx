@@ -42,13 +42,13 @@ interface formElementProps {
     property: string
     instanceRef: MutableRefObject<any>
     validator: Validator<any>
-    onValid: (property: string) => void
+    onChange: (property: string) => void
 }
 
 interface nestedFormProps {
     instanceRef: any
     propertyInfo: any
-    onValid: (property: string) => void
+    onChange: (property: string) => void
 }
 
 interface lockedFieldProps {
@@ -76,10 +76,14 @@ const AppFormComposer = (props: formComposerProps) => {
     const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly } = props
     const { schema } = validator;
     const instance = useRef<any>({ ...data })
-    const handleValidInputReceived = useCallback((property: string) => {
-    }, []);
+    const [isValid, setIsValid] = useState(false);
+    const handleInputReceived = useCallback((property: string) => {
+        console.log(validator.validate(instance.current),validator.validate.errors)
+        
+        setIsValid(validator.validate(instance.current));
+    }, [validator]);
 
-    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, instanceRef, onValid }) => {
+    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, instanceRef, onChange }) => {
         const { property } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
         return <AppRow>
@@ -93,7 +97,7 @@ const AppFormComposer = (props: formComposerProps) => {
                         validator={validator.makeReferenceValidator(propertyInfo)}
                         onSubmit={(e) => {
                             instanceRef.current[property] = e;
-                            onValid(property);
+                            onChange(property);
                             setShowNestedFrom(false);
                         }}
                     ><AppBackButton onClick={() => setShowNestedFrom(false)} />
@@ -127,13 +131,13 @@ const AppFormComposer = (props: formComposerProps) => {
                 propertyInfo={propertyInfo}
                 property={property}
                 validator={validator}
-                onValid={handleValidInputReceived}
+                onChange={handleInputReceived}
                 key={property}
             />
         }
         if ("items" in propertyInfo) {
             return <AppFormArrayInput
-                onValid={handleValidInputReceived}
+                onChange={handleInputReceived}
                 instanceRef={instanceRef}
                 propertyInfo={propertyInfo as any}
                 property={property}
@@ -148,14 +152,14 @@ const AppFormComposer = (props: formComposerProps) => {
                 validator={validator}
                 instanceRef={instanceRef}
                 property={property}
-                onValid={handleValidInputReceived}
+                onChange={handleInputReceived}
                 key={property}
             />
 
         }
 
         if (propertyType === "object") {
-            return <ComposeNestedFormElement onValid={handleValidInputReceived} instanceRef={instanceRef} propertyInfo={propertyInfo} />
+            return <ComposeNestedFormElement onChange={handleInputReceived} instanceRef={instanceRef} propertyInfo={propertyInfo} />
         }
         return <></>
 
@@ -166,7 +170,6 @@ const AppFormComposer = (props: formComposerProps) => {
 
     const optionalFields = schema.required ? schemaProperties.filter(x => !schema.required.includes(x)) : [];
     const requiredFields = schema.required ? schemaProperties.filter(x => schema.required.includes(x)) : schemaProperties;
-    const isValid = validator.validate(instance.current);
     return <>
         <AppCard title={<>
             <AppToolbar color={"light"}>
@@ -190,8 +193,8 @@ const AppFormComposer = (props: formComposerProps) => {
                         return <LockedField key={property} property={property} value={instance.current[property]} />
                     if (hiddenFields && hiddenFields.includes(property))
                         return <Fragment key={property}></Fragment>
-                    return <FormElement key={property} onValid={handleValidInputReceived} validator={validator} instanceRef={instance} property={property} />
-                }), [handleValidInputReceived, hiddenFields, lockedFields, requiredFields, validator])}
+                    return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+                }), [handleInputReceived, hiddenFields, lockedFields, requiredFields, validator])}
             </AppList>
 
             {<AppList>
@@ -203,8 +206,8 @@ const AppFormComposer = (props: formComposerProps) => {
                     if (hiddenFields && hiddenFields.includes(property))
                         return <Fragment key={property}></Fragment>
 
-                    return <FormElement key={property} onValid={handleValidInputReceived} validator={validator} instanceRef={instance} property={property} />
-                }), [handleValidInputReceived, hiddenFields, lockedFields, optionalFields, validator])}
+                    return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+                }), [handleInputReceived, hiddenFields, lockedFields, optionalFields, validator])}
             </AppList>}
 
             <AppToolbar>
