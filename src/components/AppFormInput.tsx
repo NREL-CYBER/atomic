@@ -1,6 +1,5 @@
 import { ErrorObject } from 'ajv';
 import React, { MutableRefObject, useEffect, useState } from 'react';
-import Validator from 'validator';
 import { AppColor } from '../theme/AppColor';
 import titleCase from '../util/titleCase';
 import AppInput from './AppInput';
@@ -8,14 +7,15 @@ import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
+import { formFieldChangeEvent } from './forms/AppFormComposer';
+import AppItemDivider from './AppItemDivider';
 
 
 interface formInputProps<T> {
     property: string
     instanceRef: MutableRefObject<any>
-    validator: Validator<T>
     input: "line" | "text"
-    onChange: (property: string) => void
+    onChange: formFieldChangeEvent
 }
 
 type InputStatus = "empty" | "invalid" | "valid";
@@ -26,60 +26,46 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormInput = (props: formInputProps<any>) => {
-    const { property, instanceRef, validator, input, onChange } = props;
-    const [errors, setErrors] = useState<ErrorObject[]>([]);
+    const { property, instanceRef, input, onChange } = props;
+    const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || null)
-
     const propertyFormattedName = titleCase(property);
 
+
+
+
+
     useEffect(() => {
-        const change: Record<string, any> = {}
         if (value === null) {
             return;
         }
-        change[property] = value === "" ? undefined : value;
-        instanceRef.current = { ...instanceRef.current, ...change }
-    }, [instanceRef, property, value])
+        const formValue = value === "" ? undefined : value;
+        const [validationStatus, validationErrors] = onChange(property, formValue);
+        console.log(validationStatus);
+        setInputStatus(validationStatus);
+        setErrors(validationErrors || []);
+    }, [onChange, property, value])
 
-    useEffect(() => {
-        validator.validate(instanceRef.current);
-        const allErrors = validator.validate.errors || []
-        const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property))
-        if (propertyErrors.length === 0 && value) {
-            console.log("valid input status")
-            setInputStatus("valid");
-        } else if (value) {
-            console.log("inValid input status")
-            setInputStatus("invalid");
-        } else {
-            console.log("empty input status")
-            setInputStatus("empty");
-        }
-        propertyErrors && setErrors(propertyErrors);
-        onChange(property);
-    }, [instanceRef, onChange, property, validator, value])
-
-
-
-    const handleLoseFocus = () => { onChange(property) };
     const statusColor = inputStatusColorMap[inputStatus];
     return <>
-        <AppItem>
+        <AppItem lines="none">
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
             {input === "line" ?
-                <AppInput onLoseFocus={handleLoseFocus} value={value} placeholder={propertyFormattedName} onInputChange={(val) => { setValue(val) }} />
-                : <AppTextArea onLoseFocus={handleLoseFocus} value={value} onTextChange={(val) => {
-                    console.log("text changed");
+                <AppInput value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
+                    setValue(val)
+                }} />
+                : <AppTextArea value={value} onTextChange={(val) => {
                     setValue(val);
                 }} />}
         </AppItem>
+
         {errors && errors.length > 0 && <AppItem>
             <AppLabel position='stacked' color='danger'>
                 {errors.map((error, i) => <AppText key={i}>
-                    {error.message}
+                    {error}
                 </AppText>)}
             </AppLabel>
         </AppItem>}

@@ -1,11 +1,10 @@
-import { ErrorObject } from 'ajv';
-import Validator from 'validator';
-import FormComposer from './forms/AppFormComposer';
 import { addOutline } from 'ionicons/icons';
-import React, { MutableRefObject, useEffect, useState } from 'react';
-import titleCase from '../util/titleCase';
+import React, { MutableRefObject, useState } from 'react';
+import Validator from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { AppColor } from '../theme/AppColor';
+import titleCase from '../util/titleCase';
+import FormComposer, { formFieldChangeEvent } from './forms/AppFormComposer';
 
 export interface ArrayPropertyInfo {
     type: "array",
@@ -20,7 +19,7 @@ interface formInputProps<T> {
     propertyInfo: ArrayPropertyInfo
     instanceRef: MutableRefObject<any>
     validator: Validator<T>
-    onChange: (property: string) => void
+    onChange: formFieldChangeEvent
 }
 
 type InputStatus = "empty" | "invalid" | "valid";
@@ -31,31 +30,12 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormArrayInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, propertyInfo } = props;
-    const [errors, setErrors] = useState<ErrorObject[]>([]);
+    const { property, instanceRef, validator, propertyInfo, onChange } = props;
+    const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<any[]>(instanceRef.current && (instanceRef.current as any)[property])
-
     const propertyFormattedName = titleCase(property).replace("-", " ");
-    useEffect(() => {
-        const change: Record<string, any[]> = {}
-        change[property] = value
-        instanceRef.current = { ...instanceRef.current, ...change }
-        validator.validate(instanceRef.current)
-        const allErrors = validator.validate.errors || []
-        const propertyErrors = allErrors.filter((error) => error.message && error.message.includes(property))
-        if (propertyErrors.length === 0 && value) {
-            setInputStatus("valid");
-        } else if (value) {
-            setInputStatus("invalid");
-        } else {
-            setInputStatus("empty");
-        }
-        setErrors(propertyErrors);
-    }, [instanceRef, property, validator, value, validator.validate.errors])
-
-
     const inputStatusColor = inputStatusColorMap[inputStatus];
 
     return <AppRow>
@@ -87,22 +67,28 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                         validator={validator.makeReferenceValidator(propertyInfo)}
                         data={{}}
                         onSubmit={(item) => {
-                            setValue([...value, item])
+                            const newValue = [...value, item]
+                            setValue(newValue);
                             setIsInsertingItem(false);
+                            const [validationStatus, errors] = onChange(property, newValue);
+                            setInputStatus(validationStatus);
+                            setErrors(errors);
+
                         }} >
                         <AppBackButton onClick={() => setIsInsertingItem(false)} />
                     </FormComposer>}
                 </AppContent>
             </AppModal>
         </AppToolbar>
-        {errors && errors.length > 0 && < AppItem >
+        {
+            errors && errors.length > 0 && < AppItem >
 
-            <AppLabel position='stacked' color='danger'>
-                {errors.map(error => <AppText>
-                    {error.message}
-                </AppText>)}
-            </AppLabel>
-        </AppItem>
+                <AppLabel position='stacked' color='danger'>
+                    {errors.map(error => <AppText>
+                        {error}
+                    </AppText>)}
+                </AppLabel>
+            </AppItem>
         }
     </AppRow >
 }
