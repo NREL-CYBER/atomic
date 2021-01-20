@@ -30,7 +30,6 @@
     "react-scripts": "3.4.0",
     "store": "git://github.nrel.gov/CyberSecurity/store.git",
     "typescript": "3.8.3",
-    "use-debounce": "^5.2.0",
     "use-timeout": "^1.1.0",
     "uuid": "^8.3.2",
     "validator": "git://github.nrel.gov/CyberSecurity/validator.git",

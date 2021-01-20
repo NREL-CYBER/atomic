@@ -1,5 +1,6 @@
 import { saveOutline } from 'ionicons/icons';
-import React, { Fragment, memo, useCallback, useMemo, useRef, useState } from 'react';
+import cloneDeep from "lodash/cloneDeep";
+import React, { Fragment, useCallback, useRef, useState, useMemo } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppModal, AppRow, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { titleCase } from '../../util';
 
@@ -28,14 +29,32 @@ const AppFormComposer = props => {
   const {
     schema
   } = validator;
+  const [subValidator] = useState(cloneDeep(validator));
   const instance = useRef({ ...data
   });
-  const handleValidInputReceived = useCallback(property => {}, []);
+  const [isValid, setIsValid] = useState(false);
+  const handleInputReceived = useCallback((property, value) => {
+    console.log(property, "changed");
+    const change = {};
+    change[property] = value === "" ? undefined : value;
+    instance.current = { ...instance.current,
+      ...change
+    };
+    setIsValid(validator.validate(instance.current));
+    const allErrors = validator.validate.errors || [];
+    const propertyErrors = allErrors.map(error => typeof error.message === "string" ? error.message : "").filter(errorMessage => errorMessage.includes(property));
+
+    if (propertyErrors.length === 0) {
+      return ["valid", undefined];
+    } else {
+      return ["invalid", propertyErrors];
+    }
+  }, [validator]);
 
   const ComposeNestedFormElement = ({
     propertyInfo,
     instanceRef,
-    onValid
+    onChange
   }) => {
     const {
       property
@@ -50,10 +69,10 @@ const AppFormComposer = props => {
     }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
       data: { ...instanceRef.current[property]
       },
-      validator: validator.makeReferenceValidator(propertyInfo),
-      onSubmit: e => {
-        instanceRef.current[property] = e;
-        onValid(property);
+      validator: subValidator.makeReferenceValidator(propertyInfo),
+      onSubmit: nestedObjectValue => {
+        const [validationStatus, validationErrors] = onChange(property, nestedObjectValue);
+        console.log(validationStatus);
         setShowNestedFrom(false);
       }
     }, /*#__PURE__*/React.createElement(AppBackButton, {
@@ -90,15 +109,14 @@ const AppFormComposer = props => {
         instanceRef: instanceRef,
         propertyInfo: propertyInfo,
         property: property,
-        validator: validator,
-        onValid: handleValidInputReceived,
+        onChange: handleInputReceived,
         key: property
       });
     }
 
     if ("items" in propertyInfo) {
       return /*#__PURE__*/React.createElement(AppFormArrayInput, {
-        onValid: handleValidInputReceived,
+        onChange: handleInputReceived,
         instanceRef: instanceRef,
         propertyInfo: propertyInfo,
         property: property,
@@ -110,17 +128,16 @@ const AppFormComposer = props => {
     if (propertyType === "string") {
       return /*#__PURE__*/React.createElement(AppFormInput, {
         input: "text",
-        validator: validator,
         instanceRef: instanceRef,
         property: property,
-        onValid: handleValidInputReceived,
+        onChange: handleInputReceived,
         key: property
       });
     }
 
     if (propertyType === "object") {
       return /*#__PURE__*/React.createElement(ComposeNestedFormElement, {
-        onValid: handleValidInputReceived,
+        onChange: handleInputReceived,
         instanceRef: instanceRef,
         propertyInfo: propertyInfo
       });
@@ -132,8 +149,43 @@ const AppFormComposer = props => {
   const [schemaProperties] = useState(Object.keys({ ...schema.properties
   }));
   const optionalFields = schema.required ? schemaProperties.filter(x => !schema.required.includes(x)) : [];
-  const requiredFields = schema.required ? schemaProperties.filter(x => schema.required.includes(x)) : schemaProperties;
-  const isValid = validator.validate(instance.current);
+  const requiredFields = schema.required ? schemaProperties.filter(x => schema.required.includes(x)) : [];
+
+  const RequiredFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, requiredFields.map(property => {
+    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+      key: property,
+      property: property,
+      value: instance.current[property]
+    });
+    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+      key: property
+    });
+    return /*#__PURE__*/React.createElement(FormElement, {
+      key: property,
+      onChange: handleInputReceived,
+      validator: subValidator,
+      instanceRef: instance,
+      property: property
+    });
+  }));
+
+  const OptionalFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, optionalFields.map(property => {
+    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+      property: property,
+      value: instance.current[property]
+    });
+    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+      key: property
+    });
+    return /*#__PURE__*/React.createElement(FormElement, {
+      key: property,
+      onChange: handleInputReceived,
+      validator: subValidator,
+      instanceRef: instance,
+      property: property
+    });
+  }));
+
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
     title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
       color: "light"
@@ -144,38 +196,7 @@ const AppFormComposer = props => {
     }, title ? title : titleCase(schema.title || "")))))
   }, /*#__PURE__*/React.createElement(AppList, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), useMemo(() => requiredFields.map(property => {
-    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-      key: property,
-      property: property,
-      value: instance.current[property]
-    });
-    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-      key: property
-    });
-    return /*#__PURE__*/React.createElement(FormElement, {
-      key: property,
-      onValid: handleValidInputReceived,
-      validator: validator,
-      instanceRef: instance,
-      property: property
-    });
-  }), [handleValidInputReceived, hiddenFields, lockedFields, requiredFields, validator])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && "Optional Fields", useMemo(() => optionalFields.map(property => {
-    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-      property: property,
-      value: instance.current[property]
-    });
-    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-      key: property
-    });
-    return /*#__PURE__*/React.createElement(FormElement, {
-      key: property,
-      onValid: handleValidInputReceived,
-      validator: validator,
-      instanceRef: instance,
-      property: property
-    });
-  }), [handleValidInputReceived, hiddenFields, lockedFields, optionalFields, validator])), /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+  }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), [])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && "Optional Fields", useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [])), /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "solid",
@@ -189,4 +210,4 @@ const AppFormComposer = props => {
   }))))));
 };
 
-export default memo(AppFormComposer);
+export default AppFormComposer;

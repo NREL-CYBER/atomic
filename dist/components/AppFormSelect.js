@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
@@ -18,38 +18,13 @@ const AppFormSelect = props => {
   const {
     propertyInfo,
     instanceRef,
-    validator,
-    onValid,
+    onChange,
     property
   } = props;
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || "");
   const propertyFormattedName = titleCase(propertyInfo.title);
-  useEffect(() => {
-    const change = {
-      [property]: value
-    };
-    instanceRef.current = { ...instanceRef.current,
-      ...change
-    };
-    validator.validate(instanceRef.current);
-    const allErrors = validator.validate.errors || [];
-    const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property));
-
-    if (propertyErrors.length === 0 && value) {
-      setInputStatus("valid");
-      onValid(property);
-      setErrors([]);
-      return;
-    } else if (value) {
-      setInputStatus("invalid");
-    } else {
-      setInputStatus("empty");
-    }
-
-    setErrors(propertyErrors);
-  }, [instanceRef, onValid, property, validator, value, validator.validate.errors]);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
@@ -60,6 +35,9 @@ const AppFormSelect = props => {
     placeholder: propertyFormattedName,
     onSelectionChange: val => {
       setValue(val);
+      const [validationStatus, validationErrors] = onChange(property, val);
+      setInputStatus(validationStatus);
+      setErrors(validationErrors);
     }
   }, propertyInfo.enum.map(enumValue => /*#__PURE__*/React.createElement(AppSelectOption, {
     key: enumValue,
@@ -68,7 +46,7 @@ const AppFormSelect = props => {
   }))), /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
-  }, errors && errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error.message))));
+  }, errors && errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error))));
 };
 
 export default AppFormSelect;

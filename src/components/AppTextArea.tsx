@@ -1,7 +1,6 @@
 import { IonTextarea } from '@ionic/react';
 import React from 'react';
 import { AppColor } from '../theme/AppColor';
-import { useDebouncedCallback } from 'use-debounce';
 
 
 interface textProps {
@@ -9,22 +8,14 @@ interface textProps {
     color?: AppColor
     onTextChange: (value: string) => void
     value: string
-    onLoseFocus?: () => void
-
 }
 
 /**
- * Component to display text with optional color
+ * Component to display text with optional color (onText change debounced by 500ms)
  */
-const AppTextArea: React.FC<textProps> = (props) => {
-    let { onLoseFocus, onTextChange } = props;
-    if (typeof onLoseFocus === 'undefined') {
-        onLoseFocus = () => { console.log("unhandled focus event"); }
-    }
-    const handleKeyUp = useDebouncedCallback(onLoseFocus, 1000).callback;
-    const handleChange = onTextChange ? (val: string) => onTextChange(val) : (val: string) => { console.log("unhandled change event") }
+const AppTextArea: React.FC<textProps> = ({ onTextChange, ...props }) => {
     return <IonTextarea
-        onKeyUp={handleKeyUp}
-        onIonChange={(event) => { handleChange(event.detail.value!) }} {...props} />
+        debounce={500}
+        onIonChange={(event) => { onTextChange(event.detail.value!) }} {...props} />
 };
 export default AppTextArea;

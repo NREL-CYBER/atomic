@@ -18,64 +18,37 @@ const AppFormInput = props => {
   const {
     property,
     instanceRef,
-    validator,
     input,
-    onValid
+    onChange
   } = props;
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
-  const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || undefined);
+  const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || null);
   const propertyFormattedName = titleCase(property);
   useEffect(() => {
-    if (value === undefined) {
+    if (value === null) {
       return;
     }
 
-    if (value.length === 1) {
-      return;
-    } else {
-      const change = {};
-      change[property] = value;
-      instanceRef.current = { ...instanceRef.current,
-        ...change
-      };
-    }
-
-    const allErrors = validator.validate.errors || [];
-    const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property));
-
-    if (propertyErrors.length === 0 && value) {
-      setInputStatus("valid");
-    } else if (value) {
-      setInputStatus("invalid");
-    } else {
-      setInputStatus("empty");
-    }
-
-    propertyErrors && setErrors(propertyErrors);
-  }, [instanceRef, property, validator, value, validator.validate.errors]);
-  useEffect(() => {
-    validator.validate(instanceRef.current);
-  }, [instanceRef, validator, value]);
-  const inputStatusColor = inputStatusColorMap[inputStatus];
-
-  const handleLoseFocus = () => {
-    console.log("lose focus");
-    inputStatus === "valid" && onValid(property);
-  };
-
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+    const formValue = value === "" ? undefined : value;
+    const [validationStatus, validationErrors] = onChange(property, formValue);
+    console.log(validationStatus);
+    setInputStatus(validationStatus);
+    setErrors(validationErrors || []);
+  }, [onChange, property, value]);
+  const statusColor = inputStatusColorMap[inputStatus];
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
+    lines: "none"
+  }, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
-    color: inputStatusColor
+    color: statusColor
   }, propertyFormattedName), input === "line" ? /*#__PURE__*/React.createElement(AppInput, {
-    onLoseFocus: handleLoseFocus,
     value: value,
     placeholder: propertyFormattedName,
     onInputChange: val => {
       setValue(val);
     }
   }) : /*#__PURE__*/React.createElement(AppTextArea, {
-    onLoseFocus: handleLoseFocus,
     value: value,
     onTextChange: val => {
       setValue(val);
@@ -83,7 +56,9 @@ const AppFormInput = props => {
   })), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
-  }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error.message)))));
+  }, errors.map((error, i) => /*#__PURE__*/React.createElement(AppText, {
+    key: i
+  }, error)))));
 };
 
 export default AppFormInput;

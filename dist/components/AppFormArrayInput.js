@@ -1,8 +1,8 @@
-import FormComposer from './forms/AppFormComposer';
 import { addOutline } from 'ionicons/icons';
-import React, { useEffect, useState } from 'react';
-import titleCase from '../util/titleCase';
+import React, { useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
+import titleCase from '../util/titleCase';
+import FormComposer from './forms/AppFormComposer';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -17,33 +17,14 @@ const AppFormArrayInput = props => {
     property,
     instanceRef,
     validator,
-    propertyInfo
+    propertyInfo,
+    onChange
   } = props;
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   const [isInsertingItem, setIsInsertingItem] = useState(false);
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property]);
   const propertyFormattedName = titleCase(property).replace("-", " ");
-  useEffect(() => {
-    const change = {};
-    change[property] = value;
-    instanceRef.current = { ...instanceRef.current,
-      ...change
-    };
-    validator.validate(instanceRef.current);
-    const allErrors = validator.validate.errors || [];
-    const propertyErrors = allErrors.filter(error => error.message && error.message.includes(property));
-
-    if (propertyErrors.length === 0 && value) {
-      setInputStatus("valid");
-    } else if (value) {
-      setInputStatus("invalid");
-    } else {
-      setInputStatus("empty");
-    }
-
-    setErrors(propertyErrors);
-  }, [instanceRef, property, validator, value, validator.validate.errors]);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
@@ -75,15 +56,19 @@ const AppFormArrayInput = props => {
     validator: validator.makeReferenceValidator(propertyInfo),
     data: {},
     onSubmit: item => {
-      setValue([...value, item]);
+      const newValue = [...value, item];
+      setValue(newValue);
       setIsInsertingItem(false);
+      const [validationStatus, errors] = onChange(property, newValue);
+      setInputStatus(validationStatus);
+      setErrors(errors);
     }
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => setIsInsertingItem(false)
   }))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
-  }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error.message)))));
+  }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error)))));
 };
 
 export default AppFormArrayInput;

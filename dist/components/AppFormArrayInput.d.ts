@@ -1,5 +1,6 @@
-import Validator from 'validator';
 import { MutableRefObject } from 'react';
+import Validator from 'validator';
+import { formFieldChangeEvent } from './forms/AppFormComposer';
 export interface ArrayPropertyInfo {
     type: "array";
     minItems: number;
@@ -12,7 +13,7 @@ interface formInputProps<T> {
     propertyInfo: ArrayPropertyInfo;
     instanceRef: MutableRefObject<any>;
     validator: Validator<T>;
-    onValid: (property: string) => void;
+    onChange: formFieldChangeEvent;
 }
 /**
  * Component for input that displays validation errors

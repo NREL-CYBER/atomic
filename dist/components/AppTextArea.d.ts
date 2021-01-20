@@ -5,10 +5,9 @@ interface textProps {
     color?: AppColor;
     onTextChange: (value: string) => void;
     value: string;
-    onLoseFocus?: () => void;
 }
 /**
- * Component to display text with optional color
+ * Component to display text with optional color (onText change debounced by 500ms)
  */
 declare const AppTextArea: React.FC<textProps>;
 export default AppTextArea;

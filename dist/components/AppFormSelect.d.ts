@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import validator from 'validator';
+import { formFieldChangeEvent } from './forms/AppFormComposer';
 interface formInputProps<T> {
     property: string;
     propertyInfo: {
@@ -8,8 +8,7 @@ interface formInputProps<T> {
         enum: string[];
     };
     instanceRef: MutableRefObject<any>;
-    validator: validator<T>;
-    onValid: (property: string) => void;
+    onChange: formFieldChangeEvent;
 }
 /**
  * Component for input that displays validation errors

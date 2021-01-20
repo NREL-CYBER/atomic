@@ -19,5 +19,8 @@ export interface formComposerProps {
     title?: string;
     requiredOnly?: boolean;
 }
-declare const _default: React.MemoExoticComponent<(props: formComposerProps) => JSX.Element>;
-export default _default;
+export declare type formFieldValidationStatus = [formFieldStatus, string[] | undefined];
+export declare type formFieldChangeEvent = (property: string, value: any) => formFieldValidationStatus;
+export declare type formFieldStatus = "valid" | "invalid" | "empty";
+declare const AppFormComposer: React.FC<formComposerProps>;
+export default AppFormComposer;
