@@ -1,12 +1,10 @@
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-}
 // .storybook/preview.js
 import React, { useState } from 'react';
 import { addDecorator } from "@storybook/react";
-import { 
-   IonApp, IonContent, IonPage, IonList, IonButton
+import { themes } from '@storybook/theming';
+import {
+  IonApp, IonContent, IonPage, IonList, IonButton
 } from "@ionic/react";
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -21,13 +19,23 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
+
+export const parameters = {
+  docs: {
+    theme: themes.dark,
+  },
+  actions: { argTypesRegex: "^on[A-Z].*" },
+};
+
+
 const IonWrapper = ({ children }) => {
   return (
-    <IonApp>
+
+    <ion-app class="dark-theme">
       <IonPage>
         <IonContent>{children}</IonContent>
       </IonPage>
-    </IonApp>
+    </ion-app>
   );
 };
 addDecorator((storyFn) => <IonWrapper>{storyFn()}</IonWrapper>);

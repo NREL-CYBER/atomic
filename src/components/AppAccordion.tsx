@@ -20,7 +20,7 @@ const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor }) =
     const [unlockedIndex, setUnlockedIndex] = useState(-1);
 
     return <AppList>{items.map((accordionItem, i) =>
-        <><AppItem color={unlockedIndex === i ? selectedColor : itemColor} onClick={() => {
+        <React.Fragment key={i}><AppItem color={unlockedIndex === i ? selectedColor : itemColor} onClick={() => {
             if (unlockedIndex === i) {
                 setUnlockedIndex(-1);
             } else {
@@ -32,7 +32,7 @@ const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor }) =
             {(unlockedIndex === i) && <AppItem lines={"none"} className="accordion-item">
                 <accordionItem.innerContent />
             </AppItem>}
-        </>
+        </React.Fragment >
     )}</AppList>
 }
 

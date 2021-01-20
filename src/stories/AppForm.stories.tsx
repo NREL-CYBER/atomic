@@ -9,9 +9,6 @@ import { formComposerProps } from '../components/forms/AppFormComposer';
 export default {
   title: 'atomic/AppFormComposer',
   component: AppFormComposer,
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
 } as Meta;
 
 const Template: Story<formComposerProps> = (args) => <AppFormComposer {...args} />;

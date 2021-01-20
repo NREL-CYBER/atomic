@@ -7,16 +7,13 @@ import AppAccordion, { accordionProps } from '../components/AppAccordion';
 export default {
     title: 'atomic/Accordion',
     component: AppAccordion,
-    argTypes: {
-        backgroundColor: { control: 'color' },
-    },
 } as Meta;
 
 const Template: Story<accordionProps> = (args) => <AppAccordion {...args} />;
 
 export const AccordionExample = Template.bind({});
 AccordionExample.args = {
-    itemColor: "medium",
+    itemColor: "light",
     selectedColor: "tertiary",
     items: [
         {

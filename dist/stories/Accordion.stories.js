@@ -3,19 +3,14 @@ import React from 'react';
 import AppAccordion from '../components/AppAccordion';
 export default {
   title: 'atomic/Accordion',
-  component: AppAccordion,
-  argTypes: {
-    backgroundColor: {
-      control: 'color'
-    }
-  }
+  component: AppAccordion
 };
 
 const Template = args => /*#__PURE__*/React.createElement(AppAccordion, args);
 
 export const AccordionExample = Template.bind({});
 AccordionExample.args = {
-  itemColor: "medium",
+  itemColor: "light",
   selectedColor: "tertiary",
   items: [{
     toolbarContent: () => /*#__PURE__*/React.createElement(React.Fragment, null, "reeds"),

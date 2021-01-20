@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,6 +10,8 @@
     "@capacitor/core": "2.4.5",
     "@ionic/react": "^5.5.2",
     "@ionic/react-router": "^5.5.2",
+    "@storybook/addons": "^6.1.14",
+    "@storybook/theming": "^6.1.14",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.3",

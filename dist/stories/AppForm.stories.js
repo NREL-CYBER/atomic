@@ -4,12 +4,7 @@ import Validator from 'validator';
 import { AppFormComposer } from '../components';
 export default {
   title: 'atomic/AppFormComposer',
-  component: AppFormComposer,
-  argTypes: {
-    backgroundColor: {
-      control: 'color'
-    }
-  }
+  component: AppFormComposer
 };
 
 const Template = args => /*#__PURE__*/React.createElement(AppFormComposer, args);

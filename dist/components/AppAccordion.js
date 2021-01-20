@@ -12,7 +12,9 @@ const AppAccordion = ({
   selectedColor
 }) => {
   const [unlockedIndex, setUnlockedIndex] = useState(-1);
-  return /*#__PURE__*/React.createElement(AppList, null, items.map((accordionItem, i) => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
+  return /*#__PURE__*/React.createElement(AppList, null, items.map((accordionItem, i) => /*#__PURE__*/React.createElement(React.Fragment, {
+    key: i
+  }, /*#__PURE__*/React.createElement(AppItem, {
     color: unlockedIndex === i ? selectedColor : itemColor,
     onClick: () => {
       if (unlockedIndex === i) {
