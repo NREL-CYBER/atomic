@@ -4,6 +4,9 @@ import React, { useMemo, useState } from "react";
 import { AppButtons, AppCard, AppIcon, AppText } from ".";
 import AppButton from "./AppButton";
 import AppToolbar from "./AppToolbar";
+/**
+ * The root Sequence.
+ */
 
 const AppSequence = ({
   sequence,

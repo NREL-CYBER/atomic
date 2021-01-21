@@ -4,9 +4,7 @@ import React, { useMemo, useState } from "react";
 import { AppButtons, AppCard, AppIcon, AppText } from ".";
 import { CompletionStatus } from "../hooks/useCompletion";
 import AppButton from "./AppButton";
-import AppPopover from "./AppPopover";
 import AppToolbar from "./AppToolbar";
-import AppModal from "./AppModal";
 
 
 

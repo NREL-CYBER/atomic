@@ -35,5 +35,6 @@ import AppItemDivider from "./AppItemDivider";
 import AppRouterOutlet from './AppRouterOutlet';
 import AppFormComposer from './forms/AppFormComposer';
 import AppSequence from './AppSequence';
+import AppAccordion from './AppAccordion';
 export * from "./AppCard";
-export { AppSequence, AppFormComposer, AppRouterOutlet, AppItemDivider, AppSelectOption, AppSelect, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
+export { AppSequence, AppAccordion, AppFormComposer, AppRouterOutlet, AppItemDivider, AppSelectOption, AppSelect, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
