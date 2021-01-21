@@ -63,5 +63,6 @@ AddressExample.args = {
   title: "Address",
   data: {},
   validator,
+  requiredOnly: true,
   onSubmit,
 }

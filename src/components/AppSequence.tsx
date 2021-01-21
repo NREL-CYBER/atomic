@@ -6,6 +6,7 @@ import { CompletionStatus } from "../hooks/useCompletion";
 import AppButton from "./AppButton";
 import AppPopover from "./AppPopover";
 import AppToolbar from "./AppToolbar";
+import AppModal from "./AppModal";
 
 
 
@@ -27,10 +28,10 @@ export interface SequenceElement extends Sequence {
 export interface appSequenceProps { sequence: Sequence, onNext: () => void, onBack: () => void }
 
 const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) => {
-    const { elements, guidance } = sequence;
+    const { elements } = sequence;
     const [activeElementIndex, setActiveElementIndex] = useState<number>(0);
     const activeSequenceElement = elements && elements[activeElementIndex]
-    const { title } = activeSequenceElement || { title: "Complete" };
+    const { title, guidance } = activeSequenceElement || { title: "Complete", guidance: sequence.guidance };
     const [showGuidance, setShowGuidance] = useState(false);
     const [status, setActiveElementStatus] = useState<CompletionStatus>("locked");
     const sequenceComplete = onNext;
@@ -44,10 +45,9 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
                 </AppText>
             </AppButtons>
             <AppButtons slot="end">
-                < AppButton fill="clear" onClick={() => { setShowGuidance(true) }}>
+                < AppButton fill="clear" onClick={() => { setShowGuidance(x => !x) }}>
                     <AppIcon icon={helpOutline}></AppIcon>
                 </AppButton>
-
             </AppButtons>
         </AppToolbar >
 
@@ -55,7 +55,7 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
         {children}
         < AppToolbar >
             < AppButtons slot="end">
-                {elements && activeElementIndex < elements.length ? <AppButton disabled={status === "locked"} onClick={onNext}>
+                {elements && activeElementIndex < elements.length ? <AppButton color={status !== "locked" ? "primary" : "medium"} disabled={status === "locked"} onClick={onNext}>
                     Next
                 </AppButton> : <AppButton onClick={sequenceComplete}>
                         Complete
@@ -83,15 +83,13 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
     return <AppCard title={sequence.title}>
         {useMemo(() => <>
             <SequenceElementInfo />
+        </>, [activeElementIndex])}
+        {showGuidance && <pre style={{ whiteSpace: "pre-wrap" }}>{guidance}</pre>}
+        {useMemo(() => <>
             <ActiveSequenceComponent />
         </>, [activeElementIndex])}
-        {useMemo(() => <SequenceElementNavigation onBack={previousSequenceElement} onNext={nextSequenceElement} />, [status])}
-        < AppPopover
-            isOpen={showGuidance}
-            onDismiss={() => setShowGuidance(false)}
-        >
-            <p>{guidance}</p>
-        </AppPopover >
+
+        {useMemo(() => <SequenceElementNavigation onBack={previousSequenceElement} onNext={nextSequenceElement} />, [status, activeElementIndex])}
     </AppCard>
 
 }

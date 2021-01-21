@@ -3,11 +3,7 @@ import { helpOutline } from "ionicons/icons";
 import React, { useMemo, useState } from "react";
 import { AppButtons, AppCard, AppIcon, AppText } from ".";
 import AppButton from "./AppButton";
-import AppPopover from "./AppPopover";
 import AppToolbar from "./AppToolbar";
-/**
- * The root Sequence.
- */
 
 const AppSequence = ({
   sequence,
@@ -15,15 +11,16 @@ const AppSequence = ({
   onNext
 }) => {
   const {
-    elements,
-    guidance
+    elements
   } = sequence;
   const [activeElementIndex, setActiveElementIndex] = useState(0);
   const activeSequenceElement = elements && elements[activeElementIndex];
   const {
-    title
+    title,
+    guidance
   } = activeSequenceElement || {
-    title: "Complete"
+    title: "Complete",
+    guidance: sequence.guidance
   };
   const [showGuidance, setShowGuidance] = useState(false);
   const [status, setActiveElementStatus] = useState("locked");
@@ -37,7 +34,7 @@ const AppSequence = ({
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
     onClick: () => {
-      setShowGuidance(true);
+      setShowGuidance(x => !x);
     }
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: helpOutline
@@ -50,6 +47,7 @@ const AppSequence = ({
   }) => /*#__PURE__*/React.createElement(React.Fragment, null, children, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, elements && activeElementIndex < elements.length ? /*#__PURE__*/React.createElement(AppButton, {
+    color: status !== "locked" ? "primary" : "medium",
     disabled: status === "locked",
     onClick: onNext
   }, "Next") : /*#__PURE__*/React.createElement(AppButton, {
@@ -75,13 +73,14 @@ const AppSequence = ({
   }) : () => /*#__PURE__*/React.createElement(AppText, null);
   return /*#__PURE__*/React.createElement(AppCard, {
     title: sequence.title
-  }, useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SequenceElementInfo, null), /*#__PURE__*/React.createElement(ActiveSequenceComponent, null)), [activeElementIndex]), useMemo(() => /*#__PURE__*/React.createElement(SequenceElementNavigation, {
+  }, useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(SequenceElementInfo, null)), [activeElementIndex]), showGuidance && /*#__PURE__*/React.createElement("pre", {
+    style: {
+      whiteSpace: "pre-wrap"
+    }
+  }, guidance), useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ActiveSequenceComponent, null)), [activeElementIndex]), useMemo(() => /*#__PURE__*/React.createElement(SequenceElementNavigation, {
     onBack: previousSequenceElement,
     onNext: nextSequenceElement
-  }), [status]), /*#__PURE__*/React.createElement(AppPopover, {
-    isOpen: showGuidance,
-    onDismiss: () => setShowGuidance(false)
-  }, /*#__PURE__*/React.createElement("p", null, guidance)));
+  }), [status, activeElementIndex]));
 };
 
 export default AppSequence;
