@@ -1,10 +1,10 @@
 import React from 'react';
-interface selectProps {
+interface searchProps {
     placeholder?: string;
-    onSearchChange?: (value: string) => void;
+    onQuery?: (query: string) => void;
 }
 /**
- * Component for a select interface
+ * Component for a search interface
  */
-declare const AppSearchBar: React.FC<selectProps>;
+declare const AppSearchBar: React.FC<searchProps>;
 export default AppSearchBar;

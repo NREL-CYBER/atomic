@@ -4,12 +4,13 @@ import { IonSearchbar } from '@ionic/react';
 import React from 'react';
 
 /**
- * Component for a select interface
+ * Component for a search interface
  */
 const AppSearchBar = props => {
   return /*#__PURE__*/React.createElement(IonSearchbar, _extends({
+    debounce: 200,
     onIonChange: e => {
-      props.onSearchChange && props.onSearchChange(e.detail.value);
+      props.onQuery && props.onQuery(e.detail.value);
     }
   }, props));
 };

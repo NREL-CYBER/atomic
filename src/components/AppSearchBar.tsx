@@ -2,17 +2,17 @@ import { IonSearchbar } from '@ionic/react';
 import React from 'react';
 
 
-interface selectProps {
+interface searchProps {
     placeholder?: string
-    onSearchChange?: (value: string) => void
+    onQuery?: (query: string) => void
 }
 
 /**
- * Component for a select interface
+ * Component for a search interface
  */
-const AppSearchBar: React.FC<selectProps> = (props) => {
-    return <IonSearchbar onIonChange={(e) => {
-        props.onSearchChange && props.onSearchChange(e.detail.value!)
+const AppSearchBar: React.FC<searchProps> = (props) => {
+    return <IonSearchbar debounce={200} onIonChange={(e) => {
+        props.onQuery && props.onQuery(e.detail.value!)
     }} {...props} />
 };
 export default AppSearchBar;
