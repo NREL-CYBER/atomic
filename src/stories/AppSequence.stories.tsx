@@ -3,7 +3,6 @@ import { Meta, Story } from '@storybook/react/types-6-0';
 import React, { useEffect } from 'react';
 import AppInput from '../components/AppInput';
 import AppSequence, { appSequenceProps } from '../components/AppSequence';
-import { AppLabel } from '../components';
 
 
 export default {
