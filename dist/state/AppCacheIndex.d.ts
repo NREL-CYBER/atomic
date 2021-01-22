@@ -1,6 +1,8 @@
-import { RootSchemaObject } from "validator";
-export interface AppCacheConfig<AppCacheCollections> {
-    schemas: RootSchemaObject[];
-    cacheIndex: AppCacheCollections;
+import { StoreApi } from "zustand";
+import { Store } from "store/dist/store";
+declare type namespace = string;
+declare type definition = string;
+export interface AppCacheIndex {
+    index: Record<namespace, Record<definition, StoreApi<Store<any>>>>;
 }
-export declare type AppCacheIndex = Record<string, unknown>;
+export {};

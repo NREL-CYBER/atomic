@@ -17,7 +17,7 @@ import { useAppLayout } from '../hooks';
 import { AppConfig } from '../util/AppConfig';
 import AppRouter from './AppRouter';
 import AppRouterOutlet from './AppRouterOutlet';
-import AppBottomToolbar from './global/AppBottomToolbar';
+import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
 import "../theme/variables.css"
@@ -30,18 +30,19 @@ import "../theme/variables.css"
 
 const AppRoot: React.FC<AppConfig> = ({ rootRoute, sections, bottomBar, topBar, children }) => {
 
-    const initLayout = useAppLayout(x => x.initialize);
+    const { initialize, dark } = useAppLayout();
     useEffect(() => {
-        initLayout(rootRoute);
-    }, [initLayout, rootRoute])
+        initialize(rootRoute);
+    }, [initialize, rootRoute])
 
 
 
 
-    return <IonApp className="dark-theme">
+    return <IonApp className={dark ? "dark-theme" : ""}>
         <AppRouter id={"root"}>
             {topBar ? { topBar } : <AppTopToolbar />}
             {sections && <AppMainMenu sections={sections} />}
+            {children}
             <AppRouterOutlet id={"root"} root={rootRoute} />
             {bottomBar ? bottomBar : <AppBottomToolbar />}
         </AppRouter>

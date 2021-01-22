@@ -5,7 +5,8 @@ import { AppColor } from '../theme/AppColor';
 
 interface appToolbarProps {
     color?: AppColor
-    slot?: "top" | "bottom"
+    slot?: "top" | "bottom",
+    onClick?: () => void
 }
 
 

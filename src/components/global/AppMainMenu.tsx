@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
-import AppRoute from '../../routing/AppRoute';
+import { AppRoute } from '../..';
 
 
 

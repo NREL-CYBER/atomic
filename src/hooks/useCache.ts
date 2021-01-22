@@ -7,7 +7,7 @@ import { AppCacheIndex } from "../state/AppCacheIndex";
  * Type that defines what the useNotifications hook can do
  */
 type CacheService = {
-    index: AppCacheIndex
+    index?: AppCacheIndex
     register: (index: AppCacheIndex) => void
 }
 
@@ -15,7 +15,6 @@ type CacheService = {
 *  Application Cache
 */
 const useCache = create<CacheService>((set, cache) => ({
-    index: {},
     register: (index) => {
         set({ index })
     }

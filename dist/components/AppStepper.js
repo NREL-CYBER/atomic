@@ -18,7 +18,7 @@ const StepButton = step => {
   const currentPath = useAppLayout(x => x.path);
   const statusColor = pathStatusColor(step.path);
   return /*#__PURE__*/React.createElement(AppButton, {
-    color: currentPath == step.path ? "tertiary" : undefined,
+    color: currentPath === step.path ? "tertiary" : undefined,
     fill: "clear",
     disabled: !isUnlocked(step.path),
     routerLink: step.path

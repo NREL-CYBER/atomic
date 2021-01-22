@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRoute from '../routing/AppRoute';
+import { AppRoute } from '..';
 /**
  * Component show a spinner while something is loading
  */

@@ -1,6 +1,6 @@
 import React from 'react';
-import AppRoute from '../routing/AppRoute';
 import { AppColor } from '../theme/AppColor';
+import { AppRoute } from '../core/routing';
 interface itemProps {
     destination?: AppRoute;
     color?: AppColor;

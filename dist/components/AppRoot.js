@@ -19,7 +19,7 @@ import React, { useEffect } from 'react';
 import { useAppLayout } from '../hooks';
 import AppRouter from './AppRouter';
 import AppRouterOutlet from './AppRouterOutlet';
-import AppBottomToolbar from './global/AppBottomToolbar';
+import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
 import "../theme/variables.css";
@@ -34,19 +34,22 @@ const AppRoot = ({
   topBar,
   children
 }) => {
-  const initLayout = useAppLayout(x => x.initialize);
+  const {
+    initialize,
+    dark
+  } = useAppLayout();
   useEffect(() => {
-    initLayout(rootRoute);
-  }, [initLayout, rootRoute]);
+    initialize(rootRoute);
+  }, [initialize, rootRoute]);
   return /*#__PURE__*/React.createElement(IonApp, {
-    className: "dark-theme"
+    className: dark ? "dark-theme" : ""
   }, /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, topBar ? {
     topBar
   } : /*#__PURE__*/React.createElement(AppTopToolbar, null), sections && /*#__PURE__*/React.createElement(AppMainMenu, {
     sections: sections
-  }), /*#__PURE__*/React.createElement(AppRouterOutlet, {
+  }), children, /*#__PURE__*/React.createElement(AppRouterOutlet, {
     id: "root",
     root: rootRoute
   }), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null)));

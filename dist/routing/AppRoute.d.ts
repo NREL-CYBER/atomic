@@ -2,7 +2,7 @@
 /**
  *  Storing a route with an icon title and references to nested routes.
  */
-export default interface AppRoute {
+export interface AppRoute {
     title: string;
     path: string;
     icon: string;

@@ -5,11 +5,11 @@ import { AppColor } from "../theme/AppColor";
 
 
 export interface CompletionConfiguration {
-    conditions: Record<string, CompletionCondition>    
+    conditions: Record<string, CompletionCondition>
 }
 
 export type CompletionStatus = "valid" | "unlocked" | "hidden" | "locked"
-export type CompletionCondition = (cache: AppCacheIndex) => CompletionStatus
+export type CompletionCondition = <CacheLayout>(cache: AppCacheIndex) => CompletionStatus
 
 type CompletionService = {
     order: string[],

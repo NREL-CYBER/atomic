@@ -1,10 +1,10 @@
 import React from 'react';
 import useAppLayout from '../hooks/useAppLayout';
 import useCompletion from '../hooks/useCompletion';
-import AppRoute from '../routing/AppRoute';
 import AppIcon from './AppIcon';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
+import { AppRoute } from '../core/routing';
 
 
 

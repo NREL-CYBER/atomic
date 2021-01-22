@@ -11,6 +11,10 @@ const AppCompletion = ({
   const cacheIndex = useCache(x => x.index);
   const setCompletion = useCompletion(x => x.setPathState);
   useEffect(() => {
+    if (typeof cacheIndex === "undefined") {
+      return;
+    }
+
     Object.entries(conditions).forEach(([path, condition]) => {
       setCompletion(path, condition(cacheIndex));
     });

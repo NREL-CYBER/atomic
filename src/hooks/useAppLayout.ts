@@ -1,5 +1,5 @@
 import create from "zustand";
-import AppRoute from "../routing/AppRoute";
+import { AppRoute } from "..";
 
 
 /**
@@ -29,6 +29,7 @@ const calculateNextPage = (allFlattenedRoutes: AppRoute[], path: string): AppRou
  * Type that defines what the useApplayout hook will be capable of
  */
 type AppLayout = {
+    dark: boolean,
     id: string,
     title: string,
     allPageRoutes: AppRoute[]
@@ -48,6 +49,7 @@ type AppLayout = {
  *  and knowing the nested page and determining the next page.
  */
 const useAppLayout = create<AppLayout>((set, store) => ({
+    dark: true,
     initialize: (rootRoute) => {
         const allPageRoutes = rootRoute.nested;
         set({ rootRoute, allPageRoutes });

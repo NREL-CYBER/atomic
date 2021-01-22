@@ -1,7 +1,6 @@
 import React from 'react';
 import { AppColor } from '../theme/AppColor';
 import { IonToast } from '@ionic/react';
-import AppRoute from '../routing/AppRoute';
 import { useHistory } from 'react-router';
 import useCompletion from '../hooks/useCompletion';
 

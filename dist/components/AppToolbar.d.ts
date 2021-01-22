@@ -3,6 +3,7 @@ import { AppColor } from '../theme/AppColor';
 interface appToolbarProps {
     color?: AppColor;
     slot?: "top" | "bottom";
+    onClick?: () => void;
 }
 /**
  * Toolbar component!

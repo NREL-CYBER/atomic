@@ -1,14 +1,26 @@
 import { useEffect } from "react";
 import React from "react";
+import useLocalSerialization from "../../hooks/useLocalSerialization";
 
 const AppSerializer = ({
-  cache
+  cache,
+  mode
 }) => {
+  const {
+    index
+  } = cache;
+  const {
+    synchronize
+  } = useLocalSerialization();
   useEffect(() => {
-    Object.entries(cache).forEach(([collection, store]) => {
-      console.log("Watching " + collection);
+    Object.entries(index).forEach(([namespace, collections]) => {
+      Object.values(collections).forEach(storeAPI => {
+        if (mode === "local") {
+          synchronize(namespace, storeAPI.getState);
+        }
+      });
     });
-  }, [cache]);
+  }, [index, mode, synchronize]);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 

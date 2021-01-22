@@ -1,7 +1,7 @@
 import { IonRouterOutlet } from '@ionic/react';
 import React from 'react';
-import AppRoute from '../routing/AppRoute';
 import { Route } from 'react-router';
+import { AppRoute } from '..';
 
 export interface routerOutletProps {
     id: string,
