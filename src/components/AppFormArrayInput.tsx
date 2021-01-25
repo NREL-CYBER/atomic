@@ -5,6 +5,7 @@ import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, App
 import { AppColor } from '../theme/AppColor';
 import titleCase from '../util/titleCase';
 import FormComposer, { formFieldChangeEvent } from './forms/AppFormComposer';
+import { remove } from '../util';
 
 export interface ArrayPropertyInfo {
     type: "array",
@@ -35,9 +36,9 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<any[]>(instanceRef.current && (instanceRef.current as any)[property])
+    const [data, setData] = useState<any>({})
     const propertyFormattedName = titleCase(property).replace("-", " ");
     const inputStatusColor = inputStatusColorMap[inputStatus];
-
     return <AppRow>
         <AppToolbar>
             <AppButtons slot='start'>
@@ -47,12 +48,16 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             </AppButtons>
             <AppButtons>
                 {value && value.map((val, i) => {
-                    return <AppChip key={i}>
-                        {val.hasOwnProperty("id") && (val as any)["id"]}
-                        {val.hasOwnProperty("type") && (val as any)["type"]}
-                        {val.hasOwnProperty("name") && (val as any)["name"]}
-                        {val.hasOwnProperty("value") && (val as any)["value"]}
-                        {val.hasOwnProperty("text") && (val as any)["text"]}
+                    const viewPropKey = Object.keys(val).filter((key) => {
+                        return ["name", "value", "text"].filter(viewPropLike => key.toLowerCase().includes(viewPropLike))
+                    })[0]
+                    return <AppChip key={i} onClick={() => {
+                        setData(val);
+                        const valueRemoved = remove<unknown>((item) => item === val, value);
+                        setValue(valueRemoved);
+                        setIsInsertingItem(true);
+                    }}>
+                        {val[viewPropKey]}
                     </AppChip>
                 })}
             </AppButtons>
@@ -65,7 +70,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                 <AppContent>
                     {isInsertingItem && <FormComposer
                         validator={validator.makeReferenceValidator(propertyInfo)}
-                        data={{}}
+                        data={data}
                         onSubmit={(item) => {
                             const newValue = [...value, item]
                             setValue(newValue);

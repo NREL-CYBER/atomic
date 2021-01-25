@@ -11,12 +11,13 @@ export interface accordionProps {
     items: accordionItem[]
     itemColor?: AppColor,
     selectedColor?: AppColor
+    expand?: boolean
 }
 /**
  * 
  * @param accordionOptions items:[]accordionItem[], 
  */
-const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor }) => {
+const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor, expand }) => {
     const [unlockedIndex, setUnlockedIndex] = useState(-1);
 
     return <AppList>{items.map((accordionItem, i) =>
@@ -29,7 +30,7 @@ const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor }) =
         }}>
             <accordionItem.toolbarContent />
         </AppItem>
-            {(unlockedIndex === i) && <AppItem lines={"none"} className="accordion-item">
+            {((unlockedIndex === i) || expand) && <AppItem lines={"none"} className="accordion-item">
                 <accordionItem.innerContent />
             </AppItem>}
         </React.Fragment >

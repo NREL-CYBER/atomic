@@ -1,6 +1,5 @@
 import { saveOutline } from 'ionicons/icons';
-import cloneDeep from "lodash/cloneDeep";
-import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useRef, useState, useMemo } from 'react';
+import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useMemo, useRef, useState } from 'react';
 import Validator from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
@@ -15,6 +14,7 @@ import {
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { titleCase } from '../../util';
+import AppFormToggle from '../AppFormToggle';
 
 export interface propertyKeyValue {
     property: string,
@@ -79,11 +79,12 @@ export type formFieldStatus = "valid" | "invalid" | "empty";
 const AppFormComposer: React.FC<formComposerProps> = (props) => {
     const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly } = props
     const { schema } = validator;
-    const [subValidator] = useState(cloneDeep(validator));
     const instance = useRef<any>({ ...data })
     const [isValid, setIsValid] = useState<boolean>(false);
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
+
         console.log(property, "changed");
+        console.log(schema);
         const change: Record<string, any> = {}
         change[property] = value === "" ? undefined : value;
         instance.current = { ...instance.current, ...change }
@@ -96,10 +97,11 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         } else {
             return ["invalid", propertyErrors]
         }
-    }, [validator]);
+    }, [schema, validator]);
 
     const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, instanceRef, onChange }) => {
         const { property } = propertyInfo;
+        console.log(property);
         const [showNestedForm, setShowNestedFrom] = useState(false);
         return <AppRow>
             <AppButton fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
@@ -109,11 +111,12 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                 <AppContent>
                     {showNestedForm && <AppFormComposer
                         data={{ ...instanceRef.current[property] }}
-                        validator={subValidator.makeReferenceValidator(propertyInfo)}
+                        validator={validator.makeReferenceValidator(propertyInfo)}
                         onSubmit={(nestedObjectValue) => {
                             const [validationStatus, validationErrors] = onChange(property, nestedObjectValue);
                             console.log(validationStatus);
                             setShowNestedFrom(false);
+                            alert("");
                         }}
                     ><AppBackButton onClick={() => setShowNestedFrom(false)} />
                     </AppFormComposer>}
@@ -124,15 +127,14 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
     }
 
 
-    const FormElement = (props: formElementProps) => {
-        const { instanceRef, property, validator } = props;
-
-
+    const FormElement: React.FC<formElementProps> = ({ instanceRef, property, validator }) => {
+        console.log("Make Form element", property);
         let propertyInfo = schema.properties && schema.properties[property];
         if (typeof propertyInfo === "undefined") {
             throw new Error("Undefined property... is your JSON schema OK?");
         }
         propertyInfo = { ...propertyInfo, ...validator.getReferenceInformation(propertyInfo) };
+        console.log(propertyInfo);
         const propertyType = propertyInfo["type"] || "object";
         if (property === "uuid") {
             return <AppUuidGenerator
@@ -149,7 +151,17 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                 key={property}
             />
         }
-        if ("items" in propertyInfo) {
+        if (propertyType === "boolean") {
+            return <AppFormToggle
+                instanceRef={instanceRef}
+                propertyInfo={propertyInfo as any}
+                property={property}
+                onChange={handleInputReceived}
+                key={property}
+            />
+        }
+
+        if ("items" in propertyInfo || propertyType === "array") {
             return <AppFormArrayInput
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
@@ -179,27 +191,30 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
     }
 
     const [schemaProperties] = useState<string[]>(Object.keys({ ...schema.properties }));
-
-    const optionalFields = schema.required ? schemaProperties.filter(x => !schema.required.includes(x)) : [];
-    const requiredFields = schema.required ? schemaProperties.filter(x => schema.required.includes(x)) : [];
+    const requiredProperties = schema.required || [];
+    const optionalFields = schemaProperties.filter(x => !requiredProperties.includes(x));
+    const requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
+    console.log(optionalFields, requiredFields);
     const RequiredFormFields = () => <>{
         requiredFields.map(property => {
+            console.log(property);
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
                 return <Fragment key={property}></Fragment>
-            return <FormElement key={property} onChange={handleInputReceived} validator={subValidator} instanceRef={instance} property={property} />
+            return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
         })}</>
 
 
-    const OptionalFormFields = () => <>{
+    const OptionalFormFields: React.FC = () => <>{
         optionalFields.map(property => {
+            console.log(property);
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
                 return <Fragment key={property}></Fragment>
 
-            return <FormElement key={property} onChange={handleInputReceived} validator={subValidator} instanceRef={instance} property={property} />
+            return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
         })}</>
 
 
@@ -220,26 +235,24 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                         {description ? description : schema.description}
                     </AppText>
                 </AppItem>
-                {/**Compose required fields */}
                 {useMemo(() => <RequiredFormFields />, [])}
             </AppList>
 
             {<AppList>
                 {!requiredOnly && optionalFields.length > 0 && "Optional Fields"}
-                {/**Compose optional fields */}
                 {useMemo(() => <OptionalFormFields />, [])}
             </AppList>}
 
             <AppToolbar>
                 <AppButtons slot="end">
-                    <AppButton fill="solid" color={isValid ? "favorite" : "primary"} disabled={!isValid} onClick={() => {
+                    {useMemo(() => <AppButton fill="solid" color={isValid ? "favorite" : "primary"} disabled={!isValid} onClick={() => {
                         onSubmit(instance.current);
                     }}>
                         <AppLabel>
                             Save
                         </AppLabel>
                         <AppIcon icon={saveOutline} />
-                    </AppButton>
+                    </AppButton>, [isValid, onSubmit])}
                 </AppButtons>
             </AppToolbar>
 

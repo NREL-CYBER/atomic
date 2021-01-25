@@ -3,6 +3,7 @@ import React from 'react';
 
 
 interface toggleProps {
+    checked: boolean | undefined
     onToggleChange?: (value: boolean) => void
 }
 /**
