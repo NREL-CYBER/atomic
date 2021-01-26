@@ -33,6 +33,7 @@ const AppFormComposer = props => {
   const instance = useRef({ ...data
   });
   const [isValid, setIsValid] = useState(false);
+  const [errors, setErrors] = useState([]);
   const handleInputReceived = useCallback((property, value) => {
     let change = {};
     change[property] = value === "" ? undefined : value;
@@ -53,14 +54,19 @@ const AppFormComposer = props => {
     };
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
+    const allErrorMessages = allErrors.map(x => x.message || "").filter(x => x.length < 2);
     const propertyErrors = allErrors.map(error => typeof error.message === "string" ? error.message : "").filter(errorMessage => errorMessage.includes(property));
 
     if (propertyErrors.length === 0) {
+      if (allErrorMessages.length !== 0) {
+        setErrors(allErrorMessages);
+      }
+
       return ["valid", undefined];
     } else {
       return ["invalid", propertyErrors];
     }
-  }, [schema, validator]);
+  }, [calculatedFields, validator]);
 
   const ComposeNestedFormElement = ({
     propertyInfo,
@@ -222,6 +228,10 @@ const AppFormComposer = props => {
   }, /*#__PURE__*/React.createElement(AppList, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
   }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), [])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && "Optional Fields", useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [])), /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
+    color: "danger"
+  }, error))), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, useMemo(() => /*#__PURE__*/React.createElement(AppButton, {
     fill: "solid",

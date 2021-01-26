@@ -81,6 +81,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
     const { schema } = validator;
     const instance = useRef<any>({ ...data })
     const [isValid, setIsValid] = useState<boolean>(false);
+    const [errors, setErrors] = useState<string[]>([]);
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
 
         let change: Record<string, any> = {}
@@ -95,14 +96,17 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         instance.current = { ...instance.current, ...change }
         setIsValid(validator.validate(instance.current))
         const allErrors = validator.validate.errors || []
-
+        const allErrorMessages = allErrors.map(x => x.message || "").filter(x => x.length < 2);
         const propertyErrors = allErrors.map(error => typeof (error.message) === "string" ? error.message : "").filter(errorMessage => errorMessage.includes(property));
         if (propertyErrors.length === 0) {
+            if (allErrorMessages.length !== 0) {
+                setErrors(allErrorMessages);
+            }
             return ["valid", undefined]
         } else {
             return ["invalid", propertyErrors]
         }
-    }, [schema, validator]);
+    }, [calculatedFields, validator]);
 
     const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, instanceRef, onChange }) => {
         const { property } = propertyInfo;
@@ -246,6 +250,11 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
             </AppList>}
 
             <AppToolbar>
+                <AppButtons slot="start">
+                    {errors.slice(0, 1).map(error => <AppChip color='danger'>
+                        {error}
+                    </AppChip>)}
+                </AppButtons>
                 <AppButtons slot="end">
                     {useMemo(() => <AppButton fill="solid" color={isValid ? "favorite" : "primary"} disabled={!isValid} onClick={() => {
                         onSubmit(instance.current);
