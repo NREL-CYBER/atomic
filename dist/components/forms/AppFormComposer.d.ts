@@ -18,6 +18,7 @@ export interface formComposerProps {
     description?: string;
     title?: string;
     requiredOnly?: boolean;
+    showFields?: string[];
 }
 export declare type formFieldValidationStatus = [formFieldStatus, string[] | undefined];
 export declare type formFieldChangeEvent = (property: string, value: any) => formFieldValidationStatus;
