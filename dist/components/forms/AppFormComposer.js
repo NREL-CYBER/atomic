@@ -25,7 +25,8 @@ const AppFormComposer = props => {
     description,
     title,
     requiredOnly,
-    calculatedFields
+    calculatedFields,
+    showFields
   } = props;
   const {
     schema
@@ -178,10 +179,10 @@ const AppFormComposer = props => {
   }));
   const requiredProperties = schema.required || [];
   const optionalFields = !requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : [];
-  const requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
+  let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
+  requiredFields = showFields ? [...requiredFields, ...showFields] : requiredFields;
 
   const RequiredFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, requiredFields.map(property => {
-    console.log(property);
     if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
       key: property,
       property: property,
@@ -200,7 +201,6 @@ const AppFormComposer = props => {
   }));
 
   const OptionalFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, optionalFields.map(property => {
-    console.log(property);
     if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
       property: property,
       value: instance.current[property]
