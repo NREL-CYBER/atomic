@@ -7,4 +7,5 @@ export interface AppConfig {
     routes: AppRoute[];
     cache: AppCacheIndex;
     bottomBar?: React.FC;
+    darkMode?: boolean;
 }

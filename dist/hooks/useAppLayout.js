@@ -36,7 +36,6 @@ const calculateNextPage = (allFlattenedRoutes, path) => {
  *  and knowing the nested page and determining the next page.
  */
 const useAppLayout = create((set, store) => ({
-  dark: true,
   initialize: routes => {
     const allPageRoutes = routes;
     const rootRoute = routes.find(x => x.path === "/");

@@ -3,7 +3,6 @@ import { AppRoute } from "..";
  * Type that defines what the useApplayout hook will be capable of
  */
 declare type AppLayout = {
-    dark: boolean;
     id: string;
     title: string;
     allPageRoutes: AppRoute[];

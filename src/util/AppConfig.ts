@@ -6,5 +6,6 @@ export interface AppConfig {
     sections?: Record<string, AppRoute[]>
     routes: AppRoute[]
     cache: AppCacheIndex
-    bottomBar?: React.FC
+    bottomBar?: React.FC,
+    darkMode?:boolean
 }

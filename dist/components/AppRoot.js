@@ -33,17 +33,19 @@ const AppRoot = ({
   sections,
   bottomBar,
   topBar,
+  darkMode,
   children
 }) => {
   const {
-    initialize,
-    dark
+    initialize
   } = useAppLayout();
-  useDarkMode(dark);
+  useDarkMode(darkMode ? darkMode : false);
   useEffect(() => {
     initialize(routes);
   }, [initialize, routes]);
-  return /*#__PURE__*/React.createElement(IonApp, null, /*#__PURE__*/React.createElement(AppRouter, {
+  return /*#__PURE__*/React.createElement(IonApp, {
+    className: darkMode ? "dark-theme" : "light-theme"
+  }, /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
     sections: sections

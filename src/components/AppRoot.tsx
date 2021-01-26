@@ -29,11 +29,11 @@ import useDarkMode from '../hooks/useDarkMode';
  */
 
 
-const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, children }) => {
+const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, darkMode, children }) => {
 
-    const { initialize, dark } = useAppLayout();
+    const { initialize } = useAppLayout();
 
-    useDarkMode(dark);
+    useDarkMode(darkMode ? darkMode : false);
 
     useEffect(() => {
         initialize(routes);
@@ -42,7 +42,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, chi
 
 
 
-    return <IonApp>
+    return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
         <AppRouter id={"root"}>
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar />}
