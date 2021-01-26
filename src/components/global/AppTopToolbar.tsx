@@ -16,7 +16,7 @@ const AppTopToolbar: React.FC = ({ children }) => {
     const { pathname } = useLocation();
     const { update } = useAppLayout();
     const breadcrumbs = useAppLayout(x => x.breadCrumbs);
-
+    const isHome = pathname === '/';
     useEffect(() => {
         update(pathname)
     }, [pathname, update])
@@ -24,9 +24,9 @@ const AppTopToolbar: React.FC = ({ children }) => {
         <AppButtons slot='start'>
             <AppMenuButton />
             <AppButton expand='full' routerLink={"/"}>
-                <AppTitle color={pathname === '/' ? "tertiary" : undefined}><AppIcon icon={homeOutline} /> </AppTitle>
+                <AppTitle color={isHome ? "tertiary" : undefined}><AppIcon icon={homeOutline} /> </AppTitle>
             </AppButton>
-            {breadcrumbs.map(breadCrumb => <AppButton key={breadCrumb.path} color={breadCrumb.path === pathname ? "tertiary" : undefined} fill={breadCrumb.path === pathname ? "outline" : "clear"} routerLink={breadCrumb.path}>
+            {!isHome && breadcrumbs.map(breadCrumb => <AppButton key={breadCrumb.path} color={breadCrumb.path === pathname ? "tertiary" : undefined} fill={breadCrumb.path === pathname ? "outline" : "clear"} routerLink={breadCrumb.path}>
                 <AppTitle color={breadCrumb.path === pathname ? "tertiary" : "dark"}>{breadCrumb.title} </AppTitle>  <AppIcon icon={breadCrumb.icon} />
             </AppButton>)}
             {children}

@@ -21,6 +21,7 @@ import AppRouter from './AppRouter';
 import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
+import useDarkMode from '../hooks/useDarkMode';
 
 
 /**
@@ -31,6 +32,9 @@ import AppTopToolbar from './global/AppTopToolbar';
 const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, children }) => {
 
     const { initialize, dark } = useAppLayout();
+
+    useDarkMode(dark);
+
     useEffect(() => {
         initialize(routes);
     }, [initialize, routes])
@@ -38,7 +42,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, chi
 
 
 
-    return <IonApp className={dark ? "dark-theme" : ""}>
+    return <IonApp>
         <AppRouter id={"root"}>
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar />}

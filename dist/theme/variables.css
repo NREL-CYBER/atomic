@@ -65,6 +65,10 @@ ion-card{
     /* Opera */
 }
 
+.dark-theme body{
+  background-color: black;
+}
+
 @keyframes growin {
   from {
     transform:translate3d(-1,-1,-1);

@@ -17,6 +17,7 @@ const AppTopToolbar = ({
     update
   } = useAppLayout();
   const breadcrumbs = useAppLayout(x => x.breadCrumbs);
+  const isHome = pathname === '/';
   useEffect(() => {
     update(pathname);
   }, [pathname, update]);
@@ -26,10 +27,10 @@ const AppTopToolbar = ({
     expand: "full",
     routerLink: "/"
   }, /*#__PURE__*/React.createElement(AppTitle, {
-    color: pathname === '/' ? "tertiary" : undefined
+    color: isHome ? "tertiary" : undefined
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: homeOutline
-  }), " ")), breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(AppButton, {
+  }), " ")), !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(AppButton, {
     key: breadCrumb.path,
     color: breadCrumb.path === pathname ? "tertiary" : undefined,
     fill: breadCrumb.path === pathname ? "outline" : "clear",

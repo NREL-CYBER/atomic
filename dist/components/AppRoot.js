@@ -23,6 +23,7 @@ import AppRouter from './AppRouter';
 import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
+import useDarkMode from '../hooks/useDarkMode';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -38,12 +39,11 @@ const AppRoot = ({
     initialize,
     dark
   } = useAppLayout();
+  useDarkMode(dark);
   useEffect(() => {
     initialize(routes);
   }, [initialize, routes]);
-  return /*#__PURE__*/React.createElement(IonApp, {
-    className: dark ? "dark-theme" : ""
-  }, /*#__PURE__*/React.createElement(AppRouter, {
+  return /*#__PURE__*/React.createElement(IonApp, null, /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
     sections: sections
