@@ -12,7 +12,7 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { Route } from 'react-router';
 import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
@@ -40,18 +40,16 @@ const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, dar
     }, [initialize, routes])
 
 
-
-
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
         <AppRouter id={"root"}>
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar />}
             {children}
             {routes.map(route =>
-                <Route {...route} />
+                <Route key={route.path} {...route} />
             )}
             {bottomBar ? bottomBar : <AppBottomToolbar />}
         </AppRouter>
     </IonApp>
 }
-export default AppRoot;
+export default memo(AppRoot);

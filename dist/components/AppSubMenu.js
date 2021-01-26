@@ -15,14 +15,14 @@ const AppSubMenu = ({
   } = useCompletion();
   return /*#__PURE__*/React.createElement(React.Fragment, null, pages.map(p => /*#__PURE__*/React.createElement(AppItem, {
     key: p.path,
-    color: currentPath === p.path ? 'tertiary' : undefined,
+    color: currentPath === p.path ? 'tertiary' : "dark",
     routerLink: isUnlocked(p.path) ? p.path : undefined
   }, /*#__PURE__*/React.createElement(AppIcon, {
-    color: currentPath === p.path ? "dark" : pathStatusColor(p.path),
+    color: pathStatusColor(p.path),
     slot: "start",
     icon: p.icon
   }), /*#__PURE__*/React.createElement(AppLabel, {
-    color: currentPath === p.path ? "dark" : pathStatusColor(p.path)
+    color: pathStatusColor(p.path)
   }, p.title))));
 };
 

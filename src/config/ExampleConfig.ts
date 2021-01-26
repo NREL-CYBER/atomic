@@ -42,7 +42,7 @@ type Address = {
 }
 
 
-const config: AppConfig = {
+const ExampleConfig: AppConfig = {
     routes: [rootRoute],
     sections: { forms: rootRoute.nested },
     cache: {
@@ -54,4 +54,4 @@ const config: AppConfig = {
     }
 
 }
-export default config;
+export default ExampleConfig;

@@ -11,8 +11,5 @@ import "@ionic/react/css/typography.css";
 import React from 'react';
 import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
-/**
- * Component that stores the root of the application and control current theme
- */
-declare const AppRoot: React.FC<AppConfig>;
-export default AppRoot;
+declare const _default: React.NamedExoticComponent<AppConfig>;
+export default _default;

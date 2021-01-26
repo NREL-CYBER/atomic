@@ -1,3 +1,5 @@
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 import { IonApp } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 
@@ -15,7 +17,7 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import { Route } from 'react-router';
 import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
@@ -51,7 +53,9 @@ const AppRoot = ({
     sections: sections
   }), topBar ? {
     topBar
-  } : /*#__PURE__*/React.createElement(AppTopToolbar, null), children, routes.map(route => /*#__PURE__*/React.createElement(Route, route)), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null)));
+  } : /*#__PURE__*/React.createElement(AppTopToolbar, null), children, routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
+    key: route.path
+  }, route))), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null)));
 };
 
-export default AppRoot;
+export default memo(AppRoot);

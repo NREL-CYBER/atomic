@@ -65,8 +65,8 @@ ion-card{
     /* Opera */
 }
 
-.dark-theme body{
-  background-color: black;
+body .dark-theme {
+  background-color: #121212;
 }
 
 @keyframes growin {
