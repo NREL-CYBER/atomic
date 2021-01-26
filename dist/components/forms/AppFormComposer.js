@@ -39,7 +39,10 @@ const AppFormComposer = props => {
     const calculateProperties = calculatedFields && calculatedFields.map[property];
 
     if (calculateProperties) {
-      const calculatedFieldValue = calculateProperties(value);
+      const calculatedFieldValue = calculateProperties({
+        property,
+        value
+      });
       change = { ...change,
         [calculatedFieldValue.property]: calculatedFieldValue.value
       };
