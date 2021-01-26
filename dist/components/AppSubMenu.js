@@ -17,6 +17,7 @@ const AppSubMenu = ({
     const isCurrentPath = currentPath === p.path;
     const currentPathStatusColor = isCurrentPath ? "dark" : pathStatusColor(p.path);
     return /*#__PURE__*/React.createElement(AppItem, {
+      lines: "none",
       key: p.path,
       color: isCurrentPath ? 'tertiary' : "clear",
       routerLink: isUnlocked(p.path) ? p.path : undefined
