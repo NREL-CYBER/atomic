@@ -24,7 +24,8 @@ const AppFormComposer = props => {
     hiddenFields,
     description,
     title,
-    requiredOnly
+    requiredOnly,
+    calculatedFields
   } = props;
   const {
     schema
@@ -33,10 +34,17 @@ const AppFormComposer = props => {
   });
   const [isValid, setIsValid] = useState(false);
   const handleInputReceived = useCallback((property, value) => {
-    console.log(property, "changed");
-    console.log(schema);
-    const change = {};
+    let change = {};
     change[property] = value === "" ? undefined : value;
+    const calculateProperties = calculatedFields && calculatedFields.map[property];
+
+    if (calculateProperties) {
+      const calculatedFieldValue = calculateProperties(value);
+      change = { ...change,
+        [calculatedFieldValue.property]: calculatedFieldValue.value
+      };
+    }
+
     instance.current = { ...instance.current,
       ...change
     };

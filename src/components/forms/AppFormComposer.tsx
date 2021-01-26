@@ -77,16 +77,21 @@ export type formFieldStatus = "valid" | "invalid" | "empty";
 
 
 const AppFormComposer: React.FC<formComposerProps> = (props) => {
-    const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly } = props
+    const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly, calculatedFields } = props
     const { schema } = validator;
     const instance = useRef<any>({ ...data })
     const [isValid, setIsValid] = useState<boolean>(false);
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
 
-        console.log(property, "changed");
-        console.log(schema);
-        const change: Record<string, any> = {}
+        let change: Record<string, any> = {}
         change[property] = value === "" ? undefined : value;
+        const calculateProperties = calculatedFields && calculatedFields.map[property];
+
+        if (calculateProperties) {
+            const calculatedFieldValue = calculateProperties(value);
+            change = { ...change, [calculatedFieldValue.property]: calculatedFieldValue.value }
+        }
+
         instance.current = { ...instance.current, ...change }
         setIsValid(validator.validate(instance.current))
         const allErrors = validator.validate.errors || []
