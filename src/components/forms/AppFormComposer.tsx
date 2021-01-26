@@ -35,6 +35,7 @@ export interface formComposerProps {
     description?: string
     title?: string
     requiredOnly?: boolean
+    showFields?: string[]
 }
 
 export type formFieldValidationStatus = [formFieldStatus, string[] | undefined]
@@ -77,7 +78,7 @@ export type formFieldStatus = "valid" | "invalid" | "empty";
 
 
 const AppFormComposer: React.FC<formComposerProps> = (props) => {
-    const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly, calculatedFields } = props
+    const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly, calculatedFields, showFields } = props
     const { schema } = validator;
     const instance = useRef<any>({ ...data })
     const [isValid, setIsValid] = useState<boolean>(false);
@@ -200,10 +201,10 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
     const [schemaProperties] = useState<string[]>(Object.keys({ ...schema.properties }));
     const requiredProperties = schema.required || [];
     const optionalFields = !requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : [];
-    const requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
+    let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
+    requiredFields = showFields ? [...requiredFields, ...showFields] : requiredFields;
     const RequiredFormFields = () => <>{
         requiredFields.map(property => {
-            console.log(property);
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
@@ -214,7 +215,6 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
 
     const OptionalFormFields: React.FC = () => <>{
         optionalFields.map(property => {
-            console.log(property);
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
