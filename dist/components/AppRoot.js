@@ -26,6 +26,7 @@ import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
 import useDarkMode from '../hooks/useDarkMode';
+import AppSerializer from './serialization/AppSerializer';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -36,7 +37,9 @@ const AppRoot = ({
   bottomBar,
   topBar,
   darkMode,
-  children
+  children,
+  cache,
+  preload
 }) => {
   const {
     initialize
@@ -47,7 +50,11 @@ const AppRoot = ({
   }, [initialize, routes]);
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
-  }, /*#__PURE__*/React.createElement(AppRouter, {
+  }, /*#__PURE__*/React.createElement(AppSerializer, {
+    mode: "local",
+    cache: cache,
+    preload: preload
+  }), /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
     sections: sections

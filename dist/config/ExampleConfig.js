@@ -40,6 +40,7 @@ const ExampleConfig = {
         addresses: composeStore(AddressSchema)
       }
     }
-  }
+  },
+  preload: () => {}
 };
 export default ExampleConfig;

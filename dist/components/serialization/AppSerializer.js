@@ -4,7 +4,8 @@ import useLocalSerialization from "../../hooks/useLocalSerialization";
 
 const AppSerializer = ({
   cache,
-  mode
+  mode,
+  preload
 }) => {
   const {
     index
@@ -13,6 +14,7 @@ const AppSerializer = ({
     synchronize
   } = useLocalSerialization();
   useEffect(() => {
+    preload(cache);
     Object.entries(index).forEach(([namespace, collections]) => {
       Object.values(collections).forEach(storeAPI => {
         if (mode === "local") {
@@ -20,7 +22,7 @@ const AppSerializer = ({
         }
       });
     });
-  }, [index, mode, synchronize]);
+  }, [cache, index, mode, preload, synchronize]);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 

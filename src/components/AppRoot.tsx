@@ -22,6 +22,7 @@ import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
 import useDarkMode from '../hooks/useDarkMode';
+import AppSerializer from './serialization/AppSerializer';
 
 
 /**
@@ -29,7 +30,7 @@ import useDarkMode from '../hooks/useDarkMode';
  */
 
 
-const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, darkMode, children }) => {
+const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, darkMode, children, cache, preload }) => {
 
     const { initialize } = useAppLayout();
 
@@ -41,6 +42,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, dar
 
 
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
+        <AppSerializer mode="local" cache={cache} preload={preload} />
         <AppRouter id={"root"}>
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar />}

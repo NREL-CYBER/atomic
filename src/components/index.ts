@@ -37,7 +37,8 @@ import AppFormComposer from './forms/AppFormComposer';
 import AppSequence from './AppSequence';
 import AppAccordion from './AppAccordion';
 import AppSearchBar from './AppSearchBar';
+import AppSerializer from './serialization/AppSerializer';
 
 export * from "./AppCard";
-export { AppSequence, AppSearchBar, AppAccordion, AppFormComposer, AppRouterOutlet, AppItemDivider, AppSelectOption, AppSelect, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
+export { AppSerializer, AppSequence, AppSearchBar, AppAccordion, AppFormComposer, AppRouterOutlet, AppItemDivider, AppSelectOption, AppSelect, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
 
