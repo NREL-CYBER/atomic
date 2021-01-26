@@ -9,7 +9,8 @@ import AppList from "./AppList";
 const AppAccordion = ({
   items,
   itemColor,
-  selectedColor
+  selectedColor,
+  expand
 }) => {
   const [unlockedIndex, setUnlockedIndex] = useState(-1);
   return /*#__PURE__*/React.createElement(AppList, null, items.map((accordionItem, i) => /*#__PURE__*/React.createElement(React.Fragment, {
@@ -23,7 +24,7 @@ const AppAccordion = ({
         setUnlockedIndex(i);
       }
     }
-  }, /*#__PURE__*/React.createElement(accordionItem.toolbarContent, null)), unlockedIndex === i && /*#__PURE__*/React.createElement(AppItem, {
+  }, /*#__PURE__*/React.createElement(accordionItem.toolbarContent, null)), (unlockedIndex === i || expand) && /*#__PURE__*/React.createElement(AppItem, {
     lines: "none",
     className: "accordion-item"
   }, /*#__PURE__*/React.createElement(accordionItem.innerContent, null)))));

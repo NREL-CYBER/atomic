@@ -40,7 +40,7 @@ type AppLayout = {
     path: string
     nextPage: AppRoute
     update: (pathname: string) => void
-    initialize: (rootRoute: AppRoute) => void
+    initialize: (routes: AppRoute[]) => void
 }
 
 /**
@@ -50,8 +50,9 @@ type AppLayout = {
  */
 const useAppLayout = create<AppLayout>((set, store) => ({
     dark: true,
-    initialize: (rootRoute) => {
-        const allPageRoutes = rootRoute.nested;
+    initialize: (routes) => {
+        const allPageRoutes = routes;
+        const rootRoute = routes.find(x => x.path === "/");
         set({ rootRoute, allPageRoutes });
     },
     /* all Routes in the app */

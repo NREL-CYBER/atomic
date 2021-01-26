@@ -43,7 +43,7 @@ type Address = {
 
 
 const config: AppConfig = {
-    rootRoute: rootRoute,
+    routes: [rootRoute],
     sections: { forms: rootRoute.nested },
     cache: {
         index: {

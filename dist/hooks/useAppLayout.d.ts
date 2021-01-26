@@ -14,7 +14,7 @@ declare type AppLayout = {
     path: string;
     nextPage: AppRoute;
     update: (pathname: string) => void;
-    initialize: (rootRoute: AppRoute) => void;
+    initialize: (routes: AppRoute[]) => void;
 };
 /**
  *  Hook for Responsible for the current page title

@@ -13,14 +13,14 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, { useEffect } from 'react';
+import { Route } from 'react-router';
 import { useAppLayout } from '../hooks';
+import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
 import AppRouter from './AppRouter';
-import AppRouterOutlet from './AppRouterOutlet';
 import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
-import "../theme/variables.css"
 
 
 /**
@@ -28,22 +28,24 @@ import "../theme/variables.css"
  */
 
 
-const AppRoot: React.FC<AppConfig> = ({ rootRoute, sections, bottomBar, topBar, children }) => {
+const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, children }) => {
 
     const { initialize, dark } = useAppLayout();
     useEffect(() => {
-        initialize(rootRoute);
-    }, [initialize, rootRoute])
+        initialize(routes);
+    }, [initialize, routes])
 
 
 
 
     return <IonApp className={dark ? "dark-theme" : ""}>
+        {sections && <AppMainMenu sections={sections} />}
         <AppRouter id={"root"}>
             {topBar ? { topBar } : <AppTopToolbar />}
-            {sections && <AppMainMenu sections={sections} />}
             {children}
-            <AppRouterOutlet id={"root"} root={rootRoute} />
+            {routes.map(route =>
+                <Route {...route} />
+            )}
             {bottomBar ? bottomBar : <AppBottomToolbar />}
         </AppRouter>
     </IonApp>

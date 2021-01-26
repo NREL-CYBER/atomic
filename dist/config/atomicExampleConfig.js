@@ -30,7 +30,7 @@ const AddressSchema = {
   "required": ["locality", "region", "country_name"]
 };
 const config = {
-  rootRoute: rootRoute,
+  routes: [rootRoute],
   sections: {
     forms: rootRoute.nested
   },

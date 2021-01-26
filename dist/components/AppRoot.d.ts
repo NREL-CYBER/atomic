@@ -9,8 +9,8 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React from 'react';
-import { AppConfig } from '../util/AppConfig';
 import "../theme/variables.css";
+import { AppConfig } from '../util/AppConfig';
 /**
  * Component that stores the root of the application and control current theme
  */

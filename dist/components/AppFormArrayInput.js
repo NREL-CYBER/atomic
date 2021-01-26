@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import titleCase from '../util/titleCase';
 import FormComposer from './forms/AppFormComposer';
+import { remove } from '../util';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -24,6 +25,7 @@ const AppFormArrayInput = props => {
   const [inputStatus, setInputStatus] = useState("empty");
   const [isInsertingItem, setIsInsertingItem] = useState(false);
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property]);
+  const [data, setData] = useState({});
   const propertyFormattedName = titleCase(property).replace("-", " ");
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
@@ -31,9 +33,18 @@ const AppFormArrayInput = props => {
   }, /*#__PURE__*/React.createElement(AppLabel, {
     color: inputStatusColor
   }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
+    const viewPropKey = Object.keys(val).filter(key => {
+      return ["name", "value", "text"].filter(viewPropLike => key.toLowerCase().includes(viewPropLike));
+    })[0];
     return /*#__PURE__*/React.createElement(AppChip, {
-      key: i
-    }, val.hasOwnProperty("id") && val["id"], val.hasOwnProperty("type") && val["type"], val.hasOwnProperty("name") && val["name"], val.hasOwnProperty("value") && val["value"], val.hasOwnProperty("text") && val["text"]);
+      key: i,
+      onClick: () => {
+        setData(val);
+        const valueRemoved = remove(item => item === val, value);
+        setValue(valueRemoved);
+        setIsInsertingItem(true);
+      }
+    }, val[viewPropKey] || val);
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
@@ -54,7 +65,7 @@ const AppFormArrayInput = props => {
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(FormComposer, {
     validator: validator.makeReferenceValidator(propertyInfo),
-    data: {},
+    data: data,
     onSubmit: item => {
       const newValue = [...value, item];
       setValue(newValue);

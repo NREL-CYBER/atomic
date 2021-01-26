@@ -16,19 +16,19 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, { useEffect } from 'react';
+import { Route } from 'react-router';
 import { useAppLayout } from '../hooks';
+import "../theme/variables.css";
 import AppRouter from './AppRouter';
-import AppRouterOutlet from './AppRouterOutlet';
 import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
-import "../theme/variables.css";
 /**
  * Component that stores the root of the application and control current theme
  */
 
 const AppRoot = ({
-  rootRoute,
+  routes,
   sections,
   bottomBar,
   topBar,
@@ -39,20 +39,17 @@ const AppRoot = ({
     dark
   } = useAppLayout();
   useEffect(() => {
-    initialize(rootRoute);
-  }, [initialize, rootRoute]);
+    initialize(routes);
+  }, [initialize, routes]);
   return /*#__PURE__*/React.createElement(IonApp, {
     className: dark ? "dark-theme" : ""
-  }, /*#__PURE__*/React.createElement(AppRouter, {
+  }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
+    sections: sections
+  }), /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, topBar ? {
     topBar
-  } : /*#__PURE__*/React.createElement(AppTopToolbar, null), sections && /*#__PURE__*/React.createElement(AppMainMenu, {
-    sections: sections
-  }), children, /*#__PURE__*/React.createElement(AppRouterOutlet, {
-    id: "root",
-    root: rootRoute
-  }), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null)));
+  } : /*#__PURE__*/React.createElement(AppTopToolbar, null), children, routes.map(route => /*#__PURE__*/React.createElement(Route, route)), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null)));
 };
 
 export default AppRoot;

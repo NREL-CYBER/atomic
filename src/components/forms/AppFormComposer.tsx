@@ -113,10 +113,8 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                         data={{ ...instanceRef.current[property] }}
                         validator={validator.makeReferenceValidator(propertyInfo)}
                         onSubmit={(nestedObjectValue) => {
-                            const [validationStatus, validationErrors] = onChange(property, nestedObjectValue);
-                            console.log(validationStatus);
+                            onChange(property, nestedObjectValue);
                             setShowNestedFrom(false);
-                            alert("");
                         }}
                     ><AppBackButton onClick={() => setShowNestedFrom(false)} />
                     </AppFormComposer>}
@@ -192,9 +190,8 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
 
     const [schemaProperties] = useState<string[]>(Object.keys({ ...schema.properties }));
     const requiredProperties = schema.required || [];
-    const optionalFields = schemaProperties.filter(x => !requiredProperties.includes(x));
+    const optionalFields = !requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : [];
     const requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
-    console.log(optionalFields, requiredFields);
     const RequiredFormFields = () => <>{
         requiredFields.map(property => {
             console.log(property);

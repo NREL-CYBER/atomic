@@ -57,7 +57,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                         setValue(valueRemoved);
                         setIsInsertingItem(true);
                     }}>
-                        {val[viewPropKey]}
+                        {val[viewPropKey] || val}
                     </AppChip>
                 })}
             </AppButtons>

@@ -4,7 +4,7 @@ import { AppCacheIndex } from "../state/AppCacheIndex";
 export interface AppConfig {
     topBar?: React.FC;
     sections?: Record<string, AppRoute[]>;
-    rootRoute: AppRoute;
+    routes: AppRoute[];
     cache: AppCacheIndex;
     bottomBar?: React.FC;
 }

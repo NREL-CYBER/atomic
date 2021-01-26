@@ -8,6 +8,7 @@ export interface accordionProps {
     items: accordionItem[];
     itemColor?: AppColor;
     selectedColor?: AppColor;
+    expand?: boolean;
 }
 /**
  *
