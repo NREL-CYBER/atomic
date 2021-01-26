@@ -39,8 +39,8 @@ const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, chi
 
 
     return <IonApp className={dark ? "dark-theme" : ""}>
-        {sections && <AppMainMenu sections={sections} />}
         <AppRouter id={"root"}>
+            {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar />}
             {children}
             {routes.map(route =>

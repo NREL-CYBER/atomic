@@ -43,11 +43,11 @@ const AppRoot = ({
   }, [initialize, routes]);
   return /*#__PURE__*/React.createElement(IonApp, {
     className: dark ? "dark-theme" : ""
+  }, /*#__PURE__*/React.createElement(AppRouter, {
+    id: "root"
   }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
     sections: sections
-  }), /*#__PURE__*/React.createElement(AppRouter, {
-    id: "root"
-  }, topBar ? {
+  }), topBar ? {
     topBar
   } : /*#__PURE__*/React.createElement(AppTopToolbar, null), children, routes.map(route => /*#__PURE__*/React.createElement(Route, route)), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null)));
 };
