@@ -4,6 +4,7 @@ import React, { useMemo, useState } from "react";
 import { AppButtons, AppCard, AppIcon, AppText } from ".";
 import AppButton from "./AppButton";
 import AppToolbar from "./AppToolbar";
+import AppProgress from "./AppProgress";
 /**
  * The root Sequence.
  */
@@ -83,7 +84,10 @@ const AppSequence = ({
   }, guidance), useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ActiveSequenceComponent, null)), [activeElementIndex]), useMemo(() => /*#__PURE__*/React.createElement(SequenceElementNavigation, {
     onBack: previousSequenceElement,
     onNext: nextSequenceElement
-  }), [status, activeElementIndex]));
+  }), [status, activeElementIndex]), elements && /*#__PURE__*/React.createElement(AppProgress, {
+    color: "success",
+    value: activeElementIndex / elements.length
+  }));
 };
 
 export default AppSequence;

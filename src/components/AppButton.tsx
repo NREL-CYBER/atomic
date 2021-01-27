@@ -5,7 +5,7 @@ import { AppColor } from '../theme/AppColor';
 export type AppFill = "clear" | "outline" | "solid" | "default" | undefined
 
 
-interface buttonProps {
+export interface buttonProps {
     expand?: "full" | "block"
     routerLink?: string
     color?: AppColor

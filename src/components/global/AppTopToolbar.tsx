@@ -3,7 +3,6 @@ import { homeOutline } from 'ionicons/icons';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
-import useDarkMode from '../../hooks/useDarkMode';
 
 
 
@@ -13,7 +12,6 @@ import useDarkMode from '../../hooks/useDarkMode';
  */
 
 const AppTopToolbar: React.FC = ({ children }) => {
-
     const { pathname } = useLocation();
     const { update } = useAppLayout();
     const breadcrumbs = useAppLayout(x => x.breadCrumbs);

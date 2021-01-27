@@ -5,6 +5,7 @@ import { AppButtons, AppCard, AppIcon, AppText } from ".";
 import { CompletionStatus } from "../hooks/useCompletion";
 import AppButton from "./AppButton";
 import AppToolbar from "./AppToolbar";
+import AppProgress from "./AppProgress";
 
 
 
@@ -93,6 +94,7 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
                 onBack={previousSequenceElement}
                 onNext={nextSequenceElement} />,
             [status, activeElementIndex])}
+        {elements && <AppProgress color="success" value={activeElementIndex / elements.length} />}
     </AppCard>
 
 }
