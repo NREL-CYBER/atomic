@@ -30,7 +30,7 @@ const useCompletion = create<CompletionService>((set, store) => ({
         set({ paths: { ...store().paths, [path]: status } });
     },
     isUnlocked: (path) => {
-        return store().paths[path] === "unlocked";
+        return store().paths[path] === "unlocked" || store().paths[path] === "valid";
     },
     isValid: (path) => {
         return store().paths[path] === "valid";
@@ -51,6 +51,5 @@ const useCompletion = create<CompletionService>((set, store) => ({
         const validPaths = allPathStates.filter(x => x === "valid");
         return validPaths.length / allPathStates.length;
     }
-
 }));
 export default useCompletion;
