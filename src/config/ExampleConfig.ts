@@ -51,7 +51,6 @@ const ExampleConfig: AppConfig = {
                 addresses: composeStore<Address>(AddressSchema)
             }
         }
-    }, preload: () => { }
-
+    }
 }
 export default ExampleConfig;

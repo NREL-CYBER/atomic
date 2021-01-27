@@ -7,6 +7,8 @@ interface cardProps {
     titleColor?: AppColor
     subTitle?: ReactFragment
     subTitleColor?: AppColor
+    contentColor?: AppColor
+    headerColor?: AppColor
     id?: string
     onClick?: () => void
 }
@@ -15,9 +17,9 @@ interface cardProps {
  * Provides an area with padding, and title
  * put anything and everything in cards for continuity
  */
-const AppCard: React.FC<cardProps> = ({ onClick, children, title, titleColor, subTitle, subTitleColor }) => {
+const AppCard: React.FC<cardProps> = ({ onClick, children, title, titleColor, subTitle, subTitleColor, contentColor, headerColor }) => {
     return <IonCard onClick={onClick}>
-        <IonCardHeader>
+        <IonCardHeader color={headerColor}>
             {title && <IonCardTitle color={titleColor}>
                 {title}
             </IonCardTitle>}
@@ -25,7 +27,7 @@ const AppCard: React.FC<cardProps> = ({ onClick, children, title, titleColor, su
                 {subTitle}
             </IonCardSubtitle>}
         </IonCardHeader>
-        <IonCardContent>
+        <IonCardContent color={contentColor}>
             {children}
         </IonCardContent>
     </IonCard>

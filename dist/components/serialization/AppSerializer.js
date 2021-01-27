@@ -3,8 +3,7 @@ import useLocalSerialization from "../../hooks/useLocalSerialization";
 
 const AppSerializer = ({
   cache,
-  mode,
-  preload
+  mode
 }) => {
   const {
     index
@@ -12,7 +11,6 @@ const AppSerializer = ({
   const {
     synchronize
   } = useLocalSerialization();
-  preload(cache);
   Object.entries(index).forEach(([namespace, collections]) => {
     Object.values(collections).forEach(storeAPI => {
       synchronize(namespace, storeAPI.getState);

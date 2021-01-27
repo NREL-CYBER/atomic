@@ -27,6 +27,7 @@ import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
 import useDarkMode from '../hooks/useDarkMode';
 import AppSerializer from './serialization/AppSerializer';
+import AppNotifications from './global/AppNotifications';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -38,8 +39,7 @@ const AppRoot = ({
   topBar,
   darkMode,
   children,
-  cache,
-  preload
+  cache
 }) => {
   const {
     initialize
@@ -52,8 +52,7 @@ const AppRoot = ({
     className: darkMode ? "dark-theme" : "light-theme"
   }, /*#__PURE__*/React.createElement(AppSerializer, {
     mode: "local",
-    cache: cache,
-    preload: preload
+    cache: cache
   }), /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
@@ -62,7 +61,7 @@ const AppRoot = ({
     topBar
   } : /*#__PURE__*/React.createElement(AppTopToolbar, null), children, routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
-  }, route))), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null)));
+  }, route))), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null), /*#__PURE__*/React.createElement(AppNotifications, null)));
 };
 
 export default memo(AppRoot);

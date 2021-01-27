@@ -8,13 +8,21 @@
 
 
 
+  pre{
+    animation: fadein 1s;
+    -moz-animation: fadein 1s;
+    /* Firefox */
+    -webkit-animation: fadein 1s;
+    /* Safari and Chrome */
+    -o-animation: fadein 1s;
+    }
 
- .side-bar .split-pane-visible >.split-pane-side {
-    min-width: 88px; /* Default: 270px */
-    max-width: 88px; /* Same as when menu opens in mobile mode */
+ .side-menu  {
+    min-width: 60px; /* Default: 270px */
+    max-width: 60px; /* Same as when menu opens in mobile mode */
     transition: all 1s ease-in-out;
   }
-  .side-bar   .split-pane-visible >.split-pane-side:hover {
+  .side-menu:hover {
     transition: all 1s ease-in-out;
     min-width: 300px; /* Default: 270px */
     max-width: 300px; /* Same as when menu opens in mobile mode */

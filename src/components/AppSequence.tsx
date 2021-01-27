@@ -76,7 +76,8 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
     const onStatusChange = (status: CompletionStatus) => {
         setActiveElementStatus(status);
     }
-    const ActiveSequenceComponent = activeSequenceElement && activeSequenceElement.component ? () => activeSequenceElement.component({ onStatusChange }) : () => <AppText>{}</AppText>
+    const ActiveSequenceComponent = activeSequenceElement && activeSequenceElement.component ?
+        () => activeSequenceElement.component({ onStatusChange }) : () => <AppText></AppText>
 
     return <AppCard title={sequence.title}>
         {useMemo(() => <>
@@ -87,7 +88,11 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
             <ActiveSequenceComponent />
         </>, [activeElementIndex])}
 
-        {useMemo(() => <SequenceElementNavigation onBack={previousSequenceElement} onNext={nextSequenceElement} />, [status, activeElementIndex])}
+        {useMemo(() =>
+            <SequenceElementNavigation
+                onBack={previousSequenceElement}
+                onNext={nextSequenceElement} />,
+            [status, activeElementIndex])}
     </AppCard>
 
 }

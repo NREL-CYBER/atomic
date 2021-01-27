@@ -5,6 +5,8 @@ interface cardProps {
     titleColor?: AppColor;
     subTitle?: ReactFragment;
     subTitleColor?: AppColor;
+    contentColor?: AppColor;
+    headerColor?: AppColor;
     id?: string;
     onClick?: () => void;
 }
