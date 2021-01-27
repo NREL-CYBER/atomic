@@ -5,7 +5,8 @@ import { AppRoute, AppPath } from "..";
 declare type AppLayout = {
     id: string;
     title: string;
-    allRoutes: AppRoute[];
+    allRoutesFlattened: AppRoute[];
+    allPageRoutes: AppRoute[];
     rootRoute: AppRoute;
     order: AppPath[];
     currentRootPage: AppRoute;
