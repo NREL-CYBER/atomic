@@ -1,21 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import AppButton, { buttonProps } from './AppButton';
+import { AppColor } from '../theme';
 
 export interface selectButtonProps extends buttonProps {
     value: string
-    text: string
+    text: string,
+    color?: AppColor,
 }
 export interface selectButtonsProps {
     buttons: selectButtonProps[]
     onSelectionChange: (values: string[]) => void
+    data?: string[]
     multi?: boolean
 }
 
 /**
  * Component for a select interface via buttons
  */
-const AppSelectButtons: React.FC<selectButtonsProps> = ({ buttons, onSelectionChange, multi }) => {
-    const [values, setValues] = useState<string[]>([]);
+const AppSelectButtons: React.FC<selectButtonsProps> = ({ data, buttons, onSelectionChange, multi }) => {
+    const [values, setValues] = useState<string[]>(data || []);
     const [initialized, setInitialized] = useState<boolean>(false)
     useEffect(() => {
         initialized && onSelectionChange(values);

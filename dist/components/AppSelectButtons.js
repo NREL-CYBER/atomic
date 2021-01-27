@@ -7,11 +7,12 @@ import AppButton from './AppButton';
  * Component for a select interface via buttons
  */
 const AppSelectButtons = ({
+  data,
   buttons,
   onSelectionChange,
   multi
 }) => {
-  const [values, setValues] = useState([]);
+  const [values, setValues] = useState(data || []);
   const [initialized, setInitialized] = useState(false);
   useEffect(() => {
     initialized && onSelectionChange(values);
