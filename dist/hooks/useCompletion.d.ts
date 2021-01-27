@@ -14,6 +14,7 @@ declare type CompletionService = {
     pathStatusColor: (pathname: string) => AppColor;
     latestUnockedPath: () => string;
     completion: () => number;
+    setOrder: (order: string[]) => void;
 };
 declare const useCompletion: import("zustand").UseStore<CompletionService>;
 export default useCompletion;

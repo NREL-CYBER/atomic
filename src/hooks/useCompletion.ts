@@ -19,7 +19,8 @@ type CompletionService = {
     isUnlocked: (pathname: string) => boolean,
     pathStatusColor: (pathname: string) => AppColor
     latestUnockedPath: () => string
-    completion: () => number
+    completion: () => number,
+    setOrder: (order: string[]) => void
 }
 
 const useCompletion = create<CompletionService>((set, store) => ({
@@ -50,6 +51,8 @@ const useCompletion = create<CompletionService>((set, store) => ({
         const allPathStates = Object.values(store().paths);
         const validPaths = allPathStates.filter(x => x === "valid");
         return validPaths.length / allPathStates.length;
+    }, setOrder: (order) => {
+        set({ order })
     }
 }));
 export default useCompletion;

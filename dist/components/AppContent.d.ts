@@ -5,5 +5,6 @@ import React from 'react';
  */
 declare const AppContent: React.FC<{
     center?: boolean;
+    next?: boolean;
 }>;
 export default AppContent;

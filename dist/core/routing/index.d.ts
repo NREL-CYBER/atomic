@@ -1,10 +1,12 @@
 /// <reference types="react" />
+export declare type AppPath = string;
+export declare type AppParameter = string;
 /**
  *  Storing a route with an icon title and references to nested routes.
  */
 export interface AppRoute {
     title: string;
-    path: string;
+    path: AppPath;
     icon: string;
     nested?: AppRoute[];
     routerDirection?: string;

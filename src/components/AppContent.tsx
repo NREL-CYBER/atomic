@@ -1,7 +1,6 @@
 import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
 import React from 'react';
-
-
+import { AppNextButton } from './global/AppNextButton';
 
 
 
@@ -9,7 +8,7 @@ import React from 'react';
  * Component that allows for contents to be scrollable
  * We'll customize the scrollbar here later.
  */
-const AppContent: React.FC<{ center?: boolean }> = (props) =>
+const AppContent: React.FC<{ center?: boolean, next?: boolean }> = (props) =>
     props.center ?
         <IonContent>
             <IonGrid>
@@ -18,10 +17,14 @@ const AppContent: React.FC<{ center?: boolean }> = (props) =>
                     </IonCol>
                     <IonCol sizeSm="12" sizeXs="12" sizeMd='6'>
                         {props.children}
+                        {props.next && <AppNextButton />}
                     </IonCol>
                 </IonRow>
 
             </IonGrid>
-        </IonContent> : <IonContent {...props} />
+        </IonContent> : <IonContent>
+            {props.children}
+            {props.next && <AppNextButton />}
+        </IonContent>
 
 export default AppContent;

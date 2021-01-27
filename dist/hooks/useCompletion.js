@@ -31,6 +31,11 @@ const useCompletion = create((set, store) => ({
     const allPathStates = Object.values(store().paths);
     const validPaths = allPathStates.filter(x => x === "valid");
     return validPaths.length / allPathStates.length;
+  },
+  setOrder: order => {
+    set({
+      order
+    });
   }
 }));
 export default useCompletion;
