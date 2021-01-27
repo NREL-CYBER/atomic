@@ -3,10 +3,10 @@ import { homeOutline } from 'ionicons/icons';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
+
 /**
  * Self aware top toolbar
  */
-
 const AppTopToolbar = ({
   children
 }) => {

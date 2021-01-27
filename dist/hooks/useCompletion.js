@@ -11,7 +11,7 @@ const useCompletion = create((set, store) => ({
     });
   },
   isUnlocked: path => {
-    return store().paths[path] === "unlocked";
+    return store().paths[path] === "unlocked" || store().paths[path] === "valid";
   },
   isValid: path => {
     return store().paths[path] === "valid";

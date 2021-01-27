@@ -638,7 +638,7 @@ ion-app .scroll-content {
 * Dark Theme
 * ----------------------------------------------------------------------------
 */
-.dark-theme body{
+.dark-theme ion-app{
   background-color: #121212;
 }
 
