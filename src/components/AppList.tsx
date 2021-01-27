@@ -5,6 +5,7 @@ import { AppColor } from '../theme/AppColor';
 
 interface listProps {
     color?: AppColor
+    className?:string,
     lines?: "none" | "full" | "inset" | undefined
     id?: string
 }

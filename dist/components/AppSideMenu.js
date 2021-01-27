@@ -12,7 +12,6 @@ const AppSideMenu = ({
   root
 }) => {
   return /*#__PURE__*/React.createElement(IonSplitPane, {
-    className: "side-menu",
     when: "xs",
     contentId: id
   }, /*#__PURE__*/React.createElement(AppList, null, root.nested && /*#__PURE__*/React.createElement(AppSubMenu, {

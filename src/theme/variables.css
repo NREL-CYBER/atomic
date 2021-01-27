@@ -17,15 +17,17 @@
     -o-animation: fadein 1s;
     }
 
- .side-menu  {
-    min-width: 60px; /* Default: 270px */
-    max-width: 60px; /* Same as when menu opens in mobile mode */
+  ion-split-pane > ion-list
+  {
+    min-width: 88px; 
+    max-width: 88px; 
     transition: all 1s ease-in-out;
   }
-  .side-menu:hover {
+  ion-split-pane > ion-list:hover
+  {
     transition: all 1s ease-in-out;
-    min-width: 300px; /* Default: 270px */
-    max-width: 300px; /* Same as when menu opens in mobile mode */
+    min-width: 270px; 
+    max-width: 270px; 
   }
 
 

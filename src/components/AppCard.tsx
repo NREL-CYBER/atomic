@@ -18,7 +18,7 @@ interface cardProps {
  * put anything and everything in cards for continuity
  */
 const AppCard: React.FC<cardProps> = ({ onClick, children, title, titleColor, subTitle, subTitleColor, contentColor, headerColor }) => {
-    return <IonCard onClick={onClick}>
+    return <IonCard color={contentColor} onClick={onClick}>
         <IonCardHeader color={headerColor}>
             {title && <IonCardTitle color={titleColor}>
                 {title}
@@ -27,7 +27,7 @@ const AppCard: React.FC<cardProps> = ({ onClick, children, title, titleColor, su
                 {subTitle}
             </IonCardSubtitle>}
         </IonCardHeader>
-        <IonCardContent color={contentColor}>
+        <IonCardContent>
             {children}
         </IonCardContent>
     </IonCard>

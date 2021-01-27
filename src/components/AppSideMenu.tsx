@@ -21,7 +21,7 @@ import AppSubMenu from './AppSubMenu';
  */
 
 const AppSideMenu: React.FC<routerOutletProps> = ({ id, root }) => {
-    return <IonSplitPane className="side-menu" when="xs" contentId={id}>
+    return <IonSplitPane when="xs" contentId={id}>
         <AppList >
             {root.nested && <AppSubMenu pages={root.nested} />}
         </AppList>
