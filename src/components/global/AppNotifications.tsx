@@ -3,7 +3,7 @@ import AppToast from "../AppToast";
 import React, { FC } from "react";
 import useTimeout from 'use-timeout'
 
-const Notifications: FC = () => {
+const AppNotifications: FC = () => {
     const { notices, dismiss, enable } = useNotifications();
 
     useTimeout(() => {
@@ -16,5 +16,5 @@ const Notifications: FC = () => {
     </>
 }
 
-export default Notifications;
+export default AppNotifications;
 

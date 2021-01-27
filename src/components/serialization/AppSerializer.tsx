@@ -1,7 +1,6 @@
-import { FC, useEffect } from "react";
-import React from "react";
-import { AppCacheIndex } from "../../state/AppCacheIndex";
+import React, { FC, memo } from "react";
 import useLocalSerialization from "../../hooks/useLocalSerialization";
+import { AppCacheIndex } from "../../state/AppCacheIndex";
 interface appSerializerProps {
     mode: "local"
     cache: AppCacheIndex
@@ -11,19 +10,16 @@ interface appSerializerProps {
 const AppSerializer: FC<appSerializerProps> = ({ cache, mode, preload }) => {
     const { index } = cache;
     const { synchronize } = useLocalSerialization();
-    useEffect(() => {
-        preload(cache);
-        Object.entries(index).forEach(([namespace, collections]) => {
-            Object.values(collections).forEach((storeAPI) => {
-                if (mode === "local") {
-                    synchronize(namespace, storeAPI.getState);
-                }
-            })
+    preload(cache);
+    Object.entries(index).forEach(([namespace, collections]) => {
+        Object.values(collections).forEach((storeAPI) => {
+            synchronize(namespace, storeAPI.getState);
         })
-    }, [cache, index, mode, preload, synchronize])
-
-
-    return <>
-    </>
+    })
+    return <></>
 }
-export default AppSerializer;
+
+
+
+
+export default memo(AppSerializer);

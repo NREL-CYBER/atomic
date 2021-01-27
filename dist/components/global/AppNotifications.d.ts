@@ -1,3 +1,3 @@
 import { FC } from "react";
-declare const Notifications: FC;
-export default Notifications;
+declare const AppNotifications: FC;
+export default AppNotifications;

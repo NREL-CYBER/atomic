@@ -5,7 +5,7 @@ import AppToast from "../AppToast";
 import React from "react";
 import useTimeout from 'use-timeout';
 
-const Notifications = () => {
+const AppNotifications = () => {
   const {
     notices,
     dismiss,
@@ -23,4 +23,4 @@ const Notifications = () => {
   }))));
 };
 
-export default Notifications;
+export default AppNotifications;

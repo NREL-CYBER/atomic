@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import React from "react";
+import React, { memo } from "react";
 import useLocalSerialization from "../../hooks/useLocalSerialization";
 
 const AppSerializer = ({
@@ -13,17 +12,13 @@ const AppSerializer = ({
   const {
     synchronize
   } = useLocalSerialization();
-  useEffect(() => {
-    preload(cache);
-    Object.entries(index).forEach(([namespace, collections]) => {
-      Object.values(collections).forEach(storeAPI => {
-        if (mode === "local") {
-          synchronize(namespace, storeAPI.getState);
-        }
-      });
+  preload(cache);
+  Object.entries(index).forEach(([namespace, collections]) => {
+    Object.values(collections).forEach(storeAPI => {
+      synchronize(namespace, storeAPI.getState);
     });
-  }, [cache, index, mode, preload, synchronize]);
+  });
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 
-export default AppSerializer;
+export default memo(AppSerializer);
