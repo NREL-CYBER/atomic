@@ -14,7 +14,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, { useEffect, memo } from 'react';
 import { Route } from 'react-router';
-import { useAppLayout } from '../hooks';
+import { useAppLayout, useCompletion } from '../hooks';
 import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
 import AppRouter from './AppRouter';

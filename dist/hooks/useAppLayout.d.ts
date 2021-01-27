@@ -1,13 +1,13 @@
-import { AppRoute } from "..";
+import { AppRoute, AppPath } from "..";
 /**
  * Type that defines what the useApplayout hook will be capable of
  */
 declare type AppLayout = {
     id: string;
     title: string;
-    allPageRoutes: AppRoute[];
+    allRoutes: AppRoute[];
     rootRoute: AppRoute;
-    nextPageRoutes: AppRoute[];
+    order: AppPath[];
     currentRootPage: AppRoute;
     breadCrumbs: AppRoute[];
     path: string;

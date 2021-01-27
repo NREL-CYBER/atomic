@@ -1,7 +1,7 @@
 import create from "zustand";
-import { AppRoute } from "..";
+import { AppRoute, AppPath } from "..";
 
-
+const EmptyRoute: AppRoute = { icon: "", path: "", title: "", }
 /**
  * Get the bread crumbs from the current path
  * @param breadCrumbRoutes All routes that can become breadcrumbs
@@ -15,13 +15,10 @@ const selectBreadCrumbs = (breadCrumbRoutes: AppRoute[], path: string): AppRoute
  * @param allFlattenedRoutes Routes that include nested routes in order 
  * @param path the current path
  */
-const calculateNextPage = (allFlattenedRoutes: AppRoute[], path: string): AppRoute => {
-    let currentRouteIndex = allFlattenedRoutes.findIndex(x => x && x.path === path)
-    if (currentRouteIndex === -1) {
-        const lastBreadCrumb = selectBreadCrumbs(allFlattenedRoutes, path).pop();
-        currentRouteIndex = lastBreadCrumb ? allFlattenedRoutes.indexOf(lastBreadCrumb) : -1;
-    }
-    return allFlattenedRoutes[currentRouteIndex + 1];
+const calculateNextPage = (allRoutes: AppRoute[], routeOrder: AppPath[], path: string): AppRoute => {
+    let currentRouteIndex = routeOrder.findIndex(routePath => routePath === path)
+    const nextRoutePath = routeOrder[currentRouteIndex + 1];
+    return allRoutes.find(route => route.path === nextRoutePath) || EmptyRoute;
 }
 
 
@@ -31,9 +28,9 @@ const calculateNextPage = (allFlattenedRoutes: AppRoute[], path: string): AppRou
 type AppLayout = {
     id: string,
     title: string,
-    allPageRoutes: AppRoute[]
+    allRoutes: AppRoute[]
     rootRoute: AppRoute
-    nextPageRoutes: AppRoute[]
+    order: AppPath[]
     currentRootPage: AppRoute
     breadCrumbs: AppRoute[]
     path: string
@@ -49,17 +46,18 @@ type AppLayout = {
  */
 const useAppLayout = create<AppLayout>((set, store) => ({
     initialize: (routes) => {
-        const allPageRoutes = routes;
+        const allRoutes = routes;
         const rootRoute = routes.find(x => x.path === "/");
-        set({ rootRoute, allPageRoutes });
+        const order = routes.map(x => x.path);
+        set({ rootRoute, allRoutes, order });
     },
     /* all Routes in the app */
     id: "",
     path: "",
     title: "",
-    allPageRoutes: [],
+    allRoutes: [],
     rootRoute: { icon: "", path: "", title: "" },
-    nextPageRoutes: [],
+    order: [],
     currentRootPage: { icon: "", path: "", title: "" },
     breadCrumbs: [] as AppRoute[],
     nextPage: {} as AppRoute,
@@ -73,12 +71,12 @@ const useAppLayout = create<AppLayout>((set, store) => ({
         // /example-page
         const rootPagePath = "/" + rootPage;
         // find the full Page object
-        const currentRootPage = store().allPageRoutes.find(route => route && route.path === rootPagePath) as AppRoute || store().rootRoute;
+        const currentRootPage = store().allRoutes.find(route => route && route.path === rootPagePath) as AppRoute || store().rootRoute;
         // fallback to the app title
         const title = currentRootPage ? currentRootPage.title : ""
 
-        const breadCrumbs = selectBreadCrumbs(store().allPageRoutes, pathname);
-        const nextPage = calculateNextPage(store().nextPageRoutes, pathname);
+        const breadCrumbs = selectBreadCrumbs(store().allRoutes, pathname);
+        const nextPage = calculateNextPage(store().allRoutes, store().order, pathname);
 
         const lastPathItem = pathPeices[pathPeices.length - 1];
         set({ breadCrumbs, path, nextPage, title, currentRootPage, id: lastPathItem })

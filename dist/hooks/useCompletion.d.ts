@@ -6,7 +6,6 @@ export interface CompletionConfiguration {
 export declare type CompletionStatus = "valid" | "unlocked" | "hidden" | "locked";
 export declare type CompletionCondition = <CacheLayout>(cache: AppCacheIndex) => CompletionStatus;
 declare type CompletionService = {
-    order: string[];
     paths: Record<string, CompletionStatus>;
     setPathState: (pathName: string, status: CompletionStatus) => void;
     isValid: (pathname: string) => boolean;
@@ -14,7 +13,6 @@ declare type CompletionService = {
     pathStatusColor: (pathname: string) => AppColor;
     latestUnockedPath: () => string;
     completion: () => number;
-    setOrder: (order: string[]) => void;
 };
 declare const useCompletion: import("zustand").UseStore<CompletionService>;
 export default useCompletion;

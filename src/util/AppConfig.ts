@@ -5,11 +5,7 @@ import { CompletionStatus } from "../hooks/useCompletion";
 export interface AppConfig {
     topBar?: React.FC
     sections?: Record<string, AppRoute[]>
-    routes: AppRoute[]
-    completion: {
-        order: AppPath[],
-        default: CompletionStatus
-    }
+    routes: AppRoute[],
     cache: AppCacheIndex
     bottomBar?: React.FC,
     darkMode?: boolean

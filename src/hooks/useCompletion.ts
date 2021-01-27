@@ -12,7 +12,6 @@ export type CompletionStatus = "valid" | "unlocked" | "hidden" | "locked"
 export type CompletionCondition = <CacheLayout>(cache: AppCacheIndex) => CompletionStatus
 
 type CompletionService = {
-    order: string[],
     paths: Record<string, CompletionStatus>,
     setPathState: (pathName: string, status: CompletionStatus) => void
     isValid: (pathname: string) => boolean,
@@ -20,12 +19,10 @@ type CompletionService = {
     pathStatusColor: (pathname: string) => AppColor
     latestUnockedPath: () => string
     completion: () => number,
-    setOrder: (order: string[]) => void
 }
 
 const useCompletion = create<CompletionService>((set, store) => ({
     /* all Routes in the app */
-    order: [],
     paths: {},
     setPathState: (path, status) => {
         set({ paths: { ...store().paths, [path]: status } });
@@ -40,19 +37,17 @@ const useCompletion = create<CompletionService>((set, store) => ({
         return store().isValid(path) ? "favorite" : store().isUnlocked(path) ? "primary" : "medium";
     },
     latestUnockedPath: () => {
-        store().order.forEach((path) => {
+        Object.values(store().paths).forEach((path) => {
             if (store().paths[path] === "unlocked") {
                 return path;
             }
         })
-        return store().order[0];
+        return "/";
     },
     completion: () => {
         const allPathStates = Object.values(store().paths);
         const validPaths = allPathStates.filter(x => x === "valid");
         return validPaths.length / allPathStates.length;
-    }, setOrder: (order) => {
-        set({ order })
     }
 }));
 export default useCompletion;

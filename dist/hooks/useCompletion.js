@@ -1,7 +1,6 @@
 import create from "zustand";
 const useCompletion = create((set, store) => ({
   /* all Routes in the app */
-  order: [],
   paths: {},
   setPathState: (path, status) => {
     set({
@@ -20,22 +19,17 @@ const useCompletion = create((set, store) => ({
     return store().isValid(path) ? "favorite" : store().isUnlocked(path) ? "primary" : "medium";
   },
   latestUnockedPath: () => {
-    store().order.forEach(path => {
+    Object.values(store().paths).forEach(path => {
       if (store().paths[path] === "unlocked") {
         return path;
       }
     });
-    return store().order[0];
+    return "/";
   },
   completion: () => {
     const allPathStates = Object.values(store().paths);
     const validPaths = allPathStates.filter(x => x === "valid");
     return validPaths.length / allPathStates.length;
-  },
-  setOrder: order => {
-    set({
-      order
-    });
   }
 }));
 export default useCompletion;

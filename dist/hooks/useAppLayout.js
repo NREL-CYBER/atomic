@@ -1,10 +1,15 @@
 import create from "zustand";
-
+const EmptyRoute = {
+  icon: "",
+  path: "",
+  title: ""
+};
 /**
  * Get the bread crumbs from the current path
  * @param breadCrumbRoutes All routes that can become breadcrumbs
  * @param path Current Path
  */
+
 const selectBreadCrumbs = (breadCrumbRoutes, path) => {
   return breadCrumbRoutes.filter(x => x && path.includes(x.path));
 };
@@ -15,15 +20,10 @@ const selectBreadCrumbs = (breadCrumbRoutes, path) => {
  */
 
 
-const calculateNextPage = (allFlattenedRoutes, path) => {
-  let currentRouteIndex = allFlattenedRoutes.findIndex(x => x && x.path === path);
-
-  if (currentRouteIndex === -1) {
-    const lastBreadCrumb = selectBreadCrumbs(allFlattenedRoutes, path).pop();
-    currentRouteIndex = lastBreadCrumb ? allFlattenedRoutes.indexOf(lastBreadCrumb) : -1;
-  }
-
-  return allFlattenedRoutes[currentRouteIndex + 1];
+const calculateNextPage = (allRoutes, routeOrder, path) => {
+  let currentRouteIndex = routeOrder.findIndex(routePath => routePath === path);
+  const nextRoutePath = routeOrder[currentRouteIndex + 1];
+  return allRoutes.find(route => route.path === nextRoutePath) || EmptyRoute;
 };
 /**
  * Type that defines what the useApplayout hook will be capable of
@@ -37,11 +37,13 @@ const calculateNextPage = (allFlattenedRoutes, path) => {
  */
 const useAppLayout = create((set, store) => ({
   initialize: routes => {
-    const allPageRoutes = routes;
+    const allRoutes = routes;
     const rootRoute = routes.find(x => x.path === "/");
+    const order = routes.map(x => x.path);
     set({
       rootRoute,
-      allPageRoutes
+      allRoutes,
+      order
     });
   },
 
@@ -49,13 +51,13 @@ const useAppLayout = create((set, store) => ({
   id: "",
   path: "",
   title: "",
-  allPageRoutes: [],
+  allRoutes: [],
   rootRoute: {
     icon: "",
     path: "",
     title: ""
   },
-  nextPageRoutes: [],
+  order: [],
   currentRootPage: {
     icon: "",
     path: "",
@@ -72,11 +74,11 @@ const useAppLayout = create((set, store) => ({
 
     const rootPagePath = "/" + rootPage; // find the full Page object
 
-    const currentRootPage = store().allPageRoutes.find(route => route && route.path === rootPagePath) || store().rootRoute; // fallback to the app title
+    const currentRootPage = store().allRoutes.find(route => route && route.path === rootPagePath) || store().rootRoute; // fallback to the app title
 
     const title = currentRootPage ? currentRootPage.title : "";
-    const breadCrumbs = selectBreadCrumbs(store().allPageRoutes, pathname);
-    const nextPage = calculateNextPage(store().nextPageRoutes, pathname);
+    const breadCrumbs = selectBreadCrumbs(store().allRoutes, pathname);
+    const nextPage = calculateNextPage(store().allRoutes, store().order, pathname);
     const lastPathItem = pathPeices[pathPeices.length - 1];
     set({
       breadCrumbs,
