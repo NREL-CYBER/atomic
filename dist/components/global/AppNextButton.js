@@ -13,7 +13,9 @@ export const AppNextButton = () => {
   } = useCompletion();
   const color = pathStatusColor(next.path);
   const nextButtonVisible = isUnlocked(next.path);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
+    color: "clear"
+  }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, nextButtonVisible && /*#__PURE__*/React.createElement(AppButton, {
     fill: "solid",

@@ -14,7 +14,7 @@ export const AppNextButton: React.FC = () => {
 
     const nextButtonVisible = isUnlocked(next.path);
     return <>
-        <AppToolbar >
+        <AppToolbar color="clear">
             {<AppButtons slot="end">
                 {nextButtonVisible && <AppButton
                     fill='solid' color={color}
