@@ -20,10 +20,10 @@ const selectBreadCrumbs = (breadCrumbRoutes, path) => {
  */
 
 
-const calculateNextPage = (allRoutes, routeOrder, path) => {
+const calculateNextPage = (allPageRoutes, routeOrder, path) => {
   let currentRouteIndex = routeOrder.findIndex(routePath => routePath === path);
   const nextRoutePath = routeOrder[currentRouteIndex + 1];
-  return allRoutes.find(route => route.path === nextRoutePath) || EmptyRoute;
+  return allPageRoutes.find(route => route.path === nextRoutePath) || EmptyRoute;
 };
 /**
  * Type that defines what the useApplayout hook will be capable of
@@ -37,21 +37,22 @@ const calculateNextPage = (allRoutes, routeOrder, path) => {
  */
 const useAppLayout = create((set, store) => ({
   initialize: routes => {
-    const allRoutes = routes;
+    const allPageRoutes = routes;
+    const allRoutesFlattened = routes.map(route => route.nested ? [route, ...route.nested] : [route]).reduce((flatRoutes, moreFlatRoutes) => [...flatRoutes, ...moreFlatRoutes]);
     const rootRoute = routes.find(x => x.path === "/");
-    const order = routes.map(x => x.path);
+    const order = allRoutesFlattened.map(x => x.path);
     set({
       rootRoute,
-      allRoutes,
+      allPageRoutes,
+      allRoutesFlattened,
       order
     });
   },
-
-  /* all Routes in the app */
   id: "",
   path: "",
   title: "",
-  allRoutes: [],
+  allPageRoutes: [],
+  allRoutesFlattened: [],
   rootRoute: {
     icon: "",
     path: "",
@@ -74,11 +75,11 @@ const useAppLayout = create((set, store) => ({
 
     const rootPagePath = "/" + rootPage; // find the full Page object
 
-    const currentRootPage = store().allRoutes.find(route => route && route.path === rootPagePath) || store().rootRoute; // fallback to the app title
+    const currentRootPage = store().allPageRoutes.find(route => route && route.path === rootPagePath) || store().rootRoute; // fallback to the app title
 
     const title = currentRootPage ? currentRootPage.title : "";
-    const breadCrumbs = selectBreadCrumbs(store().allRoutes, pathname);
-    const nextPage = calculateNextPage(store().allRoutes, store().order, pathname);
+    const breadCrumbs = selectBreadCrumbs(store().allPageRoutes, pathname);
+    const nextPage = calculateNextPage(store().allRoutesFlattened, store().order, pathname);
     const lastPathItem = pathPeices[pathPeices.length - 1];
     set({
       breadCrumbs,
