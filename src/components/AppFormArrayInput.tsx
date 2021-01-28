@@ -49,7 +49,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             <AppButtons>
                 {value && value.map((val, i) => {
                     const viewPropKey = Object.keys(val).filter((key) => {
-                        return ["name", "value", "text"].filter(viewPropLike => key.toLowerCase().includes(viewPropLike))
+                        return ["name", "value", "text", "title"].filter(viewPropLike => key.toLowerCase().includes(viewPropLike))
                     })[0]
                     return <AppChip key={i} onClick={() => {
                         setData(val);

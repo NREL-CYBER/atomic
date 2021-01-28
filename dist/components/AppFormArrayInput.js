@@ -34,7 +34,7 @@ const AppFormArrayInput = props => {
     color: inputStatusColor
   }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
     const viewPropKey = Object.keys(val).filter(key => {
-      return ["name", "value", "text"].filter(viewPropLike => key.toLowerCase().includes(viewPropLike));
+      return ["name", "value", "text", "title"].filter(viewPropLike => key.toLowerCase().includes(viewPropLike));
     })[0];
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
