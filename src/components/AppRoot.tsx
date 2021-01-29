@@ -53,7 +53,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     if (needs_authentication && serialization && serialization.cloud && typeof uid === "undefined") {
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
             <AppPage>
-                <AppContent>
+                <AppContent center>
                     <AppLogin cloud={serialization.cloud} onLoginSuccess={(uidCredential) => {
                         setUid(uidCredential);
                     }} />
