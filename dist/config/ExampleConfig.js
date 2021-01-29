@@ -13,7 +13,7 @@ const ExampleConfig = {
       addresses: useAddress
     }
   },
-  darkMode: true,
+  darkMode: false,
   serialization: {
     mode: "cloud",
     encryption: "plaintext",

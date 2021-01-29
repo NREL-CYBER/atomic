@@ -46,7 +46,7 @@ const AppLogin: React.FC<{ onLoginSuccess: (uid: string) => void, cloud: AppClou
 
     const [validator] = useState<Validator<credential>>(new Validator<credential>(credentialSchema));
     return <AppCard title="Please Authenticate">
-        {status === "idle" && <AppSelectButtons onSelectionChange={(values) => {
+        {status === "idle" && <AppSelectButtons selected={[]} onSelectionChange={(values) => {
             if (values.includes("login")) {
                 setStatus("login");
             } else if (values.includes("create")) {

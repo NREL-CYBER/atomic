@@ -27,6 +27,7 @@ import AppNotifications from './global/AppNotifications';
 import AppCloudSerializer from './serialization/AppCloudSerializer';
 import { AppPage, AppContent } from '.';
 import AppLogin from './AppLogin';
+import AppGuidance from './guidance/AppGuidance';
 
 
 /**
@@ -75,6 +76,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
             )}
             {bottomBar ? bottomBar : <AppBottomToolbar />}
             <AppNotifications />
+            <AppGuidance />
         </AppRouter>
     </IonApp>
 }

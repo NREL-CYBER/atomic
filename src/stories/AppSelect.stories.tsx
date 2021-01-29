@@ -13,10 +13,11 @@ const Template: Story<selectButtonsProps> = (args) => <AppSelectButtons {...args
 
 export const SelectButtonsExample = Template.bind({});
 SelectButtonsExample.args = {
+    selected: ["nist_800_36"],
     buttons: [
         { value: "nist_800_36", color: "danger", text: "HIGH" }, { value: "nist_800_37", color: "success", text: "LOW" }
     ],
-    onSelectionChange: (values) => { 
+    onSelectionChange: (values) => {
         console.log(values);
     }
 }

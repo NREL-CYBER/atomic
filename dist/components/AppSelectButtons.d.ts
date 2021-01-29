@@ -9,7 +9,7 @@ export interface selectButtonProps extends buttonProps {
 export interface selectButtonsProps {
     buttons: selectButtonProps[];
     onSelectionChange: (values: string[]) => void;
-    data?: string[];
+    data: string[];
     multi?: boolean;
 }
 /**

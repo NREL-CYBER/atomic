@@ -17,7 +17,6 @@ type GuidanceService = {
 */
 const useGuidance = create<GuidanceService>((set) => {
     return ({
-
         status: "closed",
         setGuidance: (guidance) => {
             set({ guidance });

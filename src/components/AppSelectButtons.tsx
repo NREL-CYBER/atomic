@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import AppButton, { buttonProps } from './AppButton';
+import React from 'react';
 import { AppColor } from '../theme';
+import AppButton, { buttonProps } from './AppButton';
 
 export interface selectButtonProps extends buttonProps {
     value: string
@@ -10,31 +10,24 @@ export interface selectButtonProps extends buttonProps {
 export interface selectButtonsProps {
     buttons: selectButtonProps[]
     onSelectionChange: (values: string[]) => void
-    data?: string[]
+    selected: string[]
     multi?: boolean
 }
 
 /**
  * Component for a select interface via buttons
  */
-const AppSelectButtons: React.FC<selectButtonsProps> = ({ data, buttons, onSelectionChange, multi }) => {
-    const [values, setValues] = useState<string[]>(data || []);
-    const [initialized, setInitialized] = useState<boolean>(false)
-    useEffect(() => {
-        initialized && onSelectionChange(values);
-        setInitialized(true);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [onSelectionChange, values])
+const AppSelectButtons: React.FC<selectButtonsProps> = ({ selected, buttons, onSelectionChange, multi }) => {
     return <>
         {buttons.map(button => <AppButton
-            fill={values.includes(button.value) ? "solid" : "outline"}
+            fill={selected.includes(button.value) ? "solid" : "outline"}
             children={button.text} {...button}
             onClick={() => {
                 if (multi) {
-                    const newValues = values.includes(button.value) ? values.filter(v => v !== button.value) : [...values, button.value];
-                    setValues(newValues);
+                    const newselected = selected.includes(button.value) ? selected.filter(v => v !== button.value) : [...selected, button.value];
+                    onSelectionChange(newselected);
                 } else {
-                    setValues([button.value]);
+                    onSelectionChange([button.value]);
                 }
             }} />)}
     </>

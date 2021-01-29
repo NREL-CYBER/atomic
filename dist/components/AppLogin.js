@@ -45,6 +45,7 @@ const AppLogin = ({
   return /*#__PURE__*/React.createElement(AppCard, {
     title: "Please Authenticate"
   }, status === "idle" && /*#__PURE__*/React.createElement(AppSelectButtons, {
+    selected: [],
     onSelectionChange: values => {
       if (values.includes("login")) {
         setStatus("login");

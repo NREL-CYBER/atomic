@@ -31,6 +31,7 @@ import AppNotifications from './global/AppNotifications';
 import AppCloudSerializer from './serialization/AppCloudSerializer';
 import { AppPage, AppContent } from '.';
 import AppLogin from './AppLogin';
+import AppGuidance from './guidance/AppGuidance';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -84,7 +85,7 @@ const AppRoot = ({
     topBar
   } : /*#__PURE__*/React.createElement(AppTopToolbar, null), children, routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
-  }, route))), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null), /*#__PURE__*/React.createElement(AppNotifications, null)));
+  }, route))), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null)));
 };
 
 export default memo(AppRoot);

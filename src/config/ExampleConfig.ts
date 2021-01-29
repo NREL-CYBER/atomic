@@ -24,7 +24,7 @@ const ExampleConfig: AppConfig = {
             addresses: useAddress
         }
     },
-    darkMode: true,
+    darkMode: false,
     serialization: {
         mode: "cloud",
         encryption: "plaintext",
