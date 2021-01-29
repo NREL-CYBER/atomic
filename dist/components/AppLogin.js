@@ -1,14 +1,32 @@
-import React, { useState, memo } from 'react';
+import { arrowBackOutline } from 'ionicons/icons';
+import React, { memo, useState } from 'react';
 import Validator from 'validator';
-import credentialSchema from '../schemas/credential.schema.json';
+import { AppSpinner } from '.';
+import useFirebaseStorage from '../hooks/useFirebaseSerialization';
+import AppButton from './AppButton';
 import AppCard from './AppCard';
+import AppIcon from './AppIcon';
 import AppSelectButtons from './AppSelectButtons';
 import AppFormComposer from './forms/AppFormComposer';
-import useFirebaseStorage from '../hooks/useFirebaseSerialization';
-import { AppSpinner } from '.';
-import AppButton from './AppButton';
-import AppIcon from './AppIcon';
-import { arrowBackOutline } from 'ionicons/icons';
+const credentialSchema = {
+  "$id": "user",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Please Enter your Username and Password",
+  "title": "Account",
+  "$comment": "~",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "password": {
+      "type": "string",
+      "writeOnly": true
+    }
+  },
+  "required": ["email", "password"]
+};
 ;
 /**
  * Component to show a loading overlay on the application

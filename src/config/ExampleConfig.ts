@@ -1,8 +1,6 @@
+import { composeStore } from "store";
+import AddressSchema from "../schemas/address.schema.json";
 import { AppConfig } from "../util/AppConfig";
-import rootRoute from "./routes";
-import { composeStore } from "store"
-import { RootSchemaObject } from "validator";
-import AddressSchema from "../schemas/address.schema.json"
 import routes from "./routes";
 
 type Address = {
