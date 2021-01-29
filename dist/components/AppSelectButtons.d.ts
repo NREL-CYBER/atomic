@@ -1,6 +1,6 @@
 import React from 'react';
-import { buttonProps } from './AppButton';
 import { AppColor } from '../theme';
+import { buttonProps } from './AppButton';
 export interface selectButtonProps extends buttonProps {
     value: string;
     text: string;
@@ -9,7 +9,7 @@ export interface selectButtonProps extends buttonProps {
 export interface selectButtonsProps {
     buttons: selectButtonProps[];
     onSelectionChange: (values: string[]) => void;
-    data: string[];
+    selected: string[];
     multi?: boolean;
 }
 /**
