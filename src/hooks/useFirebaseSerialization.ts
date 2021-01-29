@@ -59,8 +59,15 @@ function useFirebaseStorage(cloud: AppCloudConfig) {
             const db = firebase.firestore();
             db.collection("data").doc(uid).collection(store().collection).get().then((serverCollection) => {
                 serverCollection.docs.forEach((doc) => {
-                    console.log(doc.data());
-                    store().insert(doc.data() as T, doc.id);
+                    if (doc.id === "partial") {
+                        store().setPartial((partialDraft) => {
+                            Object.entries(doc.data()).forEach(([key, value]) => {
+                                (partialDraft as any)[key] = value;
+                            })
+                        });
+                    } else {
+                        store().insert(doc.data() as T, doc.id);
+                    }
                 })
             })
             store().addListener((index, data, status) => {
