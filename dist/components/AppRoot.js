@@ -56,7 +56,9 @@ const AppRoot = ({
   const needs_authentication = serialization && serialization.cloud && serialization.cloud.provider.authentication.required && !uid;
 
   if (needs_authentication && serialization && serialization.cloud && typeof uid === "undefined") {
-    return /*#__PURE__*/React.createElement(IonApp, null, /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppLogin, {
+    return /*#__PURE__*/React.createElement(IonApp, {
+      className: darkMode ? "dark-theme" : "light-theme"
+    }, /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppLogin, {
       cloud: serialization.cloud,
       onLoginSuccess: uidCredential => {
         setUid(uidCredential);
