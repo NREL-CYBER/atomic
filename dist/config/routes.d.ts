@@ -1,15 +1,9 @@
 /// <reference types="react" />
 /// <reference types="@emotion/core" />
-declare const rootRoute: {
+declare const routes: {
     icon: string;
     path: string;
     title: string;
     component: import("react").FC<{}>;
-    nested: {
-        icon: string;
-        path: string;
-        title: string;
-        component: import("react").FC<{}>;
-    }[];
-};
-export default rootRoute;
+}[];
+export default routes;

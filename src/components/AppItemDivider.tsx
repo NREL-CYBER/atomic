@@ -11,6 +11,6 @@ interface labelProps {
  * A text label
  */
 const AppItemDivider: React.FC<labelProps> = (props) => {
-    return <IonItemDivider {...props} />
+    return <IonItemDivider color={props.color?props.color:"clear"} {...props} />
 };
 export default AppItemDivider;

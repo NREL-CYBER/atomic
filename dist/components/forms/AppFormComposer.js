@@ -157,6 +157,7 @@ const AppFormComposer = props => {
     if (propertyType === "string") {
       return /*#__PURE__*/React.createElement(AppFormInput, {
         input: "text",
+        propertyInfo: propertyInfo,
         instanceRef: instanceRef,
         property: property,
         onChange: handleInputReceived,
@@ -218,8 +219,9 @@ const AppFormComposer = props => {
   }));
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
+    contentColor: "light",
     title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
-      color: "light"
+      color: "clear"
     }, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
@@ -227,7 +229,9 @@ const AppFormComposer = props => {
     }, title ? title : titleCase(schema.title || "")))))
   }, /*#__PURE__*/React.createElement(AppList, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), [])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && "Optional Fields", useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [])), /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+  }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), [])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && "Optional Fields", useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [])), /*#__PURE__*/React.createElement(AppToolbar, {
+    color: "clear"
+  }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     color: "danger"

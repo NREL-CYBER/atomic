@@ -37,7 +37,7 @@ import AppFormComposer from './forms/AppFormComposer';
 import AppSequence from './AppSequence';
 import AppAccordion from './AppAccordion';
 import AppSearchBar from './AppSearchBar';
-import AppSerializer from './serialization/AppSerializer';
+import AppSerializer from './serialization/AppLocalSerializer';
 import AppRouteCard from './completion/AppRouteCard';
 import AppSelectButtons from './AppSelectButtons';
 

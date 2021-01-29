@@ -57,7 +57,7 @@ const useAppLayout = create<AppLayout>((set, store) => ({
             ]));
         const rootRoute = routes.find(x => x.path === "/");
         const order = allRoutesFlattened.map(x => x.path);
-        set({ rootRoute, allPageRoutes, allRoutesFlattened, order });
+        set({ rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
     },
     id: "",
     path: "",

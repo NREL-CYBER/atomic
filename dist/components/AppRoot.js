@@ -17,7 +17,7 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, memo, useState } from 'react';
 import { Route } from 'react-router';
 import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
@@ -26,8 +26,11 @@ import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
 import useDarkMode from '../hooks/useDarkMode';
-import AppSerializer from './serialization/AppSerializer';
+import AppSerializer from './serialization/AppLocalSerializer';
 import AppNotifications from './global/AppNotifications';
+import AppCloudSerializer from './serialization/AppCloudSerializer';
+import { AppPage, AppContent } from '.';
+import AppLogin from './AppLogin';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -39,6 +42,7 @@ const AppRoot = ({
   topBar,
   darkMode,
   children,
+  serialization,
   cache
 }) => {
   const {
@@ -48,10 +52,25 @@ const AppRoot = ({
   useEffect(() => {
     initialize(routes);
   }, [initialize, routes]);
+  const [uid, setUid] = useState();
+  const needs_authentication = serialization && serialization.cloud && serialization.cloud.provider.authentication.required && !uid;
+
+  if (needs_authentication && serialization && serialization.cloud && typeof uid === "undefined") {
+    return /*#__PURE__*/React.createElement(IonApp, null, /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppLogin, {
+      cloud: serialization.cloud,
+      onLoginSuccess: uidCredential => {
+        setUid(uidCredential);
+      }
+    }))));
+  }
+
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
-  }, /*#__PURE__*/React.createElement(AppSerializer, {
-    mode: "local",
+  }, serialization && serialization.mode === "local" && /*#__PURE__*/React.createElement(AppSerializer, {
+    cache: cache
+  }), serialization && serialization.mode === "cloud" && serialization.cloud && uid && /*#__PURE__*/React.createElement(AppCloudSerializer, {
+    uid: uid,
+    cloud: serialization.cloud,
     cache: cache
   }), /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"

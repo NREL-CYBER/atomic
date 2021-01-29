@@ -73,6 +73,7 @@ ion-card{
   -o-animation: fadein 1s;
   /* Opera */
 }
+
 ion-item{
 animation: growin 0.3s;
 -moz-animation: growin 0.3s;
@@ -601,7 +602,7 @@ ion-app .scroll-content {
   --ion-color-danger-shade: #D9531E;
   --ion-color-danger-tint: #FE6523;
 
-  --ion-color-dark: #DEE2E5;
+  --ion-color-dark: #000;
   --ion-color-dark-rgb: 244,245,248;
   --ion-color-dark-contrast: #000000;
   --ion-color-dark-contrast-rgb: 0,0,0;
@@ -615,7 +616,7 @@ ion-app .scroll-content {
   --ion-color-medium-shade: #86888f;
   --ion-color-medium-tint: #a2a4ab;
 
-  --ion-color-light: #222428;
+  --ion-color-light: #fff;
   --ion-color-light-rgb: 34,36,40;
   --ion-color-light-contrast: #ffffff;
   --ion-color-light-contrast-rgb: 255,255,255;

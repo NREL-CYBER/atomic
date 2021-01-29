@@ -15,8 +15,8 @@ export default {
 
 const Template: Story<routerOutletProps> = (args) => <IonReactHashRouter><AppSideMenu {...args} /></IonReactHashRouter>;
 
-export const AccordionExample = Template.bind({});
-AccordionExample.args = {
+export const SideMenuExample = Template.bind({});
+SideMenuExample.args = {
     id: "nice",
     root: {
         icon: "", path: "/", title: "ok", component: () => <AppContent center><AppCard titleColor="danger" headerColor="tertiary" contentColor={"primary"} title="OK"></AppCard></AppContent>,

@@ -1,4 +1,4 @@
-import { IonApp } from '@ionic/react';
+import { IonApp, IonPage, IonCard } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/display.css";
@@ -12,7 +12,7 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, { useEffect, memo } from 'react';
+import React, { useEffect, memo, useState } from 'react';
 import { Route } from 'react-router';
 import { useAppLayout, useCompletion } from '../hooks';
 import "../theme/variables.css";
@@ -22,8 +22,11 @@ import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppTopToolbar from './global/AppTopToolbar';
 import useDarkMode from '../hooks/useDarkMode';
-import AppSerializer from './serialization/AppSerializer';
+import AppSerializer from './serialization/AppLocalSerializer';
 import AppNotifications from './global/AppNotifications';
+import AppCloudSerializer from './serialization/AppCloudSerializer';
+import { AppPage, AppContent } from '.';
+import AppLogin from './AppLogin';
 
 
 /**
@@ -31,7 +34,9 @@ import AppNotifications from './global/AppNotifications';
  */
 
 
-const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, darkMode, children, cache }) => {
+const AppRoot: React.FC<AppConfig> = ({ routes,
+    sections, bottomBar, topBar, darkMode, children,
+    serialization, cache }) => {
 
     const { initialize } = useAppLayout();
 
@@ -41,9 +46,26 @@ const AppRoot: React.FC<AppConfig> = ({ routes, sections, bottomBar, topBar, dar
         initialize(routes);
     }, [initialize, routes])
 
+    const [uid, setUid] = useState<string | undefined>()
+
+    const needs_authentication = serialization && serialization.cloud &&
+        serialization.cloud.provider.authentication.required && !uid;
+    if (needs_authentication && serialization && serialization.cloud && typeof uid === "undefined") {
+        return <IonApp>
+            <AppPage>
+                <AppContent>
+                    <AppLogin cloud={serialization.cloud} onLoginSuccess={(uidCredential) => {
+                        setUid(uidCredential);
+                    }} />
+                </AppContent>
+            </AppPage>
+        </IonApp>
+    }
 
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
-        <AppSerializer mode="local" cache={cache} />
+        {serialization && serialization.mode === "local" && <AppSerializer cache={cache} />}
+        {serialization && serialization.mode === "cloud" && serialization.cloud && uid &&
+            <AppCloudSerializer uid={uid} cloud={serialization.cloud} cache={cache} />}
         <AppRouter id={"root"}>
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar />}

@@ -2,37 +2,9 @@ import { AppConfig } from "../util/AppConfig";
 import rootRoute from "./routes";
 import { composeStore } from "store"
 import { RootSchemaObject } from "validator";
+import AddressSchema from "../schemas/address.schema.json"
+import routes from "./routes";
 
-
-const AddressSchema: RootSchemaObject = {
-    "$id": "https://example.com/address.schema.json",
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "description": "A simple Address",
-    "title": "Address",
-    "$comment": "~",
-    "type": "object",
-    "properties": {
-        "post_office_box": {
-            "type": "string"
-        },
-        "extended_address": {
-            "type": "string"
-        },
-        "street_address": {
-            "type": "string"
-        },
-        "locality": {
-            "type": "string"
-        },
-        "region": {
-            "type": "string"
-        },
-        "country_name": {
-            "type": "string"
-        }
-    },
-    "required": ["locality", "region", "country_name"]
-}
 type Address = {
     post_office_box?: string
     street_address?: string
@@ -42,13 +14,38 @@ type Address = {
 }
 
 
+const useAddress = composeStore<Address>(AddressSchema);
+
+export { useAddress };
+
 const ExampleConfig: AppConfig = {
-    routes: [rootRoute],
-    sections: { forms: rootRoute.nested },
+    routes,
+    sections: { forms: [routes[1]] },
     cache: {
-        index: {
-            test: {
-                addresses: composeStore<Address>(AddressSchema)
+        atomic: {
+            addresses: useAddress
+        }
+    },
+    darkMode: true,
+    serialization: {
+        mode: "cloud",
+        encryption: "plaintext",
+        cloud: {
+            provider: {
+                firebase: {
+                    apiKey: "AIzaSyCpu67xdMKRxZOpN-FGxXH_wmLhqvAUFQM",
+                    authDomain: "cyber-risk-manager.firebaseapp.com",
+                    databaseURL: "https://cyber-risk-manager.firebaseio.com",
+                    projectId: "cyber-risk-manager",
+                    storageBucket: "cyber-risk-manager.appspot.com",
+                    messagingSenderId: "859144297245",
+                    appId: "1:859144297245:web:860111e3fbc173327e9ff4",
+                    measurementId: "G-T9PQXBYXR7",
+                },
+                authentication: {
+                    provider: "email",
+                    required: true
+                }
             }
         }
     }

@@ -1,6 +1,6 @@
 import { saveOutline } from 'ionicons/icons';
 import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useMemo, useRef, useState } from 'react';
-import Validator from 'validator';
+import Validator, { PropertyDefinitionRef } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
     AppCard, AppChip, AppCol,
@@ -141,7 +141,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         if (typeof propertyInfo === "undefined") {
             throw new Error("Undefined property... is your JSON schema OK?");
         }
-        propertyInfo = { ...propertyInfo, ...validator.getReferenceInformation(propertyInfo) };
+        propertyInfo = { ...propertyInfo, ...validator.getReferenceInformation(propertyInfo) } as PropertyDefinitionRef;
         console.log(propertyInfo);
         const propertyType = propertyInfo["type"] || "object";
         if (property === "uuid") {
@@ -183,6 +183,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         if (propertyType === "string") {
             return <AppFormInput
                 input={"text"}
+                propertyInfo={propertyInfo}
                 instanceRef={instanceRef}
                 property={property}
                 onChange={handleInputReceived}
@@ -225,8 +226,8 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
 
 
     return <>
-        <AppCard title={<>
-            <AppToolbar color={"light"}>
+        <AppCard contentColor={"light"} title={<>
+            <AppToolbar color="clear">
                 <AppButtons slot="start">
                     {children}
                     {<AppTitle color={isValid ? "favorite" : "tertiary"}>
@@ -249,7 +250,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                 {useMemo(() => <OptionalFormFields />, [])}
             </AppList>}
 
-            <AppToolbar>
+            <AppToolbar color="clear">
                 <AppButtons slot="start">
                     {errors.slice(0, 1).map(error => <AppChip color='danger'>
                         {error}

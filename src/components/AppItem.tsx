@@ -30,6 +30,6 @@ interface itemProps {
  * </AppItem>
  */
 const AppItem: React.FC<itemProps> = (props) => {
-    return <IonItem {...props} />
+    return <IonItem color={props.color ? props.color : "clear"} {...props} />
 };
 export default AppItem;

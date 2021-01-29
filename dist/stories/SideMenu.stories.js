@@ -10,8 +10,8 @@ export default {
 
 const Template = args => /*#__PURE__*/React.createElement(IonReactHashRouter, null, /*#__PURE__*/React.createElement(AppSideMenu, args));
 
-export const AccordionExample = Template.bind({});
-AccordionExample.args = {
+export const SideMenuExample = Template.bind({});
+SideMenuExample.args = {
   id: "nice",
   root: {
     icon: "",

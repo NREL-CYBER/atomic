@@ -1,0 +1,29 @@
+{
+    "$id": "address",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "description": "A simple Address",
+    "title": "Address",
+    "$comment": "~",
+    "type": "object",
+    "properties": {
+        "post_office_address": {
+            "type": "string"
+        },
+        "extended_address": {
+            "type": "string"
+        },
+        "street_address": {
+            "type": "string"
+        },
+        "locality": {
+            "type": "string"
+        },
+        "region": {
+            "type": "string"
+        },
+        "country_name": {
+            "type": "string"
+        }
+    },
+    "required": ["post_office_address", "region", "country_name"]
+}

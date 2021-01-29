@@ -1,17 +1,17 @@
-import { ErrorObject } from 'ajv';
 import React, { MutableRefObject, useEffect, useState } from 'react';
 import { AppColor } from '../theme/AppColor';
 import titleCase from '../util/titleCase';
-import AppInput from './AppInput';
+import AppInput, { stringFormat } from './AppInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
 import { formFieldChangeEvent } from './forms/AppFormComposer';
-import AppItemDivider from './AppItemDivider';
+import { PropertyDefinitionRef } from 'validator';
 
 
 interface formInputProps<T> {
+    propertyInfo: PropertyDefinitionRef
     property: string
     instanceRef: MutableRefObject<any>
     input: "line" | "text"
@@ -20,18 +20,31 @@ interface formInputProps<T> {
 
 type InputStatus = "empty" | "invalid" | "valid";
 
-const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", valid: "favorite", invalid: "danger" }
+const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", valid: "favorite", invalid: "danger" }
+
+type supported_schema_format = "email" | "date" | "time" | undefined
 
 /**
  * Component for input that displays validation errors
  */
 const AppFormInput = (props: formInputProps<any>) => {
-    const { property, instanceRef, input, onChange } = props;
+    const { property, instanceRef, input, onChange, propertyInfo } = props;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || null)
     const propertyFormattedName = titleCase(property);
 
+    const calculateType = () => {
+        const accepted_formats = ["email", "date", "time"];
+        const accepted_format_index = accepted_formats.indexOf(propertyInfo.format || "")
+        if (accepted_format_index !== -1) {
+            return accepted_formats[accepted_format_index] as supported_schema_format;
+        } else if (propertyInfo.writeOnly) {
+            return "password"
+        } else {
+            return undefined;
+        }
+    }
 
 
 
@@ -48,16 +61,20 @@ const AppFormInput = (props: formInputProps<any>) => {
     }, [onChange, property, value])
 
     const statusColor = inputStatusColorMap[inputStatus];
+
+    const inputMode = calculateType();
     return <>
-        <AppItem lines="none">
+        <AppItem color="clear" lines="none">
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
-            {input === "line" ?
-                <AppInput value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
+            {input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
+                <AppInput type={inputMode} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
+                    console.log(val);
                     setValue(val)
                 }} />
-                : <AppTextArea value={value} onTextChange={(val) => {
+                : <AppTextArea inputMode={inputMode} value={value} onTextChange={(val) => {
+                    console.log(val);
                     setValue(val);
                 }} />}
         </AppItem>

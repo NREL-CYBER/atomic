@@ -4,12 +4,12 @@ import { AppButton, AppButtons, AppCard, AppContent, AppItem, AppPage } from '..
 const Home: React.FC = () => {
   return <AppPage >
     <AppContent>
-      <AppCard titleColor="primary" title={"Welcome to Atomic!"}>
+      <AppCard contentColor={"light"} titleColor="primary" title={"Welcome to Atomic!"}>
         Check out the examples to get started
-  <AppItem>
+        <AppItem>
           <AppButtons slot="end">
-            <AppButton color="favorite" fill="solid">
-              Lets Go
+            <AppButton routerLink={"/form"} color="favorite" fill="solid">
+              Form Example
             </AppButton>
           </AppButtons>
         </AppItem>

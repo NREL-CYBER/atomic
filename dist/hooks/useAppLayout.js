@@ -43,7 +43,7 @@ const useAppLayout = create((set, store) => ({
     const order = allRoutesFlattened.map(x => x.path);
     set({
       rootRoute,
-      allPageRoutes,
+      allPageRoutes: allPageRoutes.filter(x => x.path !== "/"),
       allRoutesFlattened,
       order
     });

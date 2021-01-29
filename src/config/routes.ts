@@ -1,12 +1,9 @@
-import { homeOutline } from "ionicons/icons";
+import { documentOutline, homeOutline } from "ionicons/icons";
 import Home from "../pages/Home";
+import ExampleForm from "./FormExample";
 
-const rootRoute = {
-    icon: homeOutline, path: "/", title: "home", component: Home, nested: [
-        { icon: homeOutline, path: "/OK", title: "OK", component: Home },
-        { icon: homeOutline, path: "/test", title: "TEST", component: Home },
-        { icon: homeOutline, path: "/Other", title: "OTHER", component: Home },
-        { icon: homeOutline, path: "/form-composer", title: "OTHER", component: Home }
-    ]
-}
-export default rootRoute;
+const routes = [
+    { icon: homeOutline, path: "/", title: "", component: Home },
+    { icon: documentOutline, path: "/Form", title: "Form", component: ExampleForm }
+]
+export default routes;
