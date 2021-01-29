@@ -63,6 +63,8 @@ const AppFormComposer = props => {
     if (propertyErrors.length === 0) {
       if (allErrorMessages.length !== 0) {
         setErrors(allErrorMessages);
+      } else {
+        autoSubmit && onSubmit(instance.current);
       }
 
       return ["valid", undefined];
