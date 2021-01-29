@@ -19,6 +19,8 @@ export interface formComposerProps {
     title?: string;
     requiredOnly?: boolean;
     showFields?: string[];
+    autoSubmit?: boolean;
+    customSubmit?: ReactFragment;
 }
 export declare type formFieldValidationStatus = [formFieldStatus, string[] | undefined];
 export declare type formFieldChangeEvent = (property: string, value: any) => formFieldValidationStatus;

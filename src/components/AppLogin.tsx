@@ -56,9 +56,11 @@ const AppLogin: React.FC<{ onLoginSuccess: (uid: string) => void, cloud: AppClou
             { text: "Login", value: "login" },
             { text: "Sign up", value: "create" }
         ]} />}
-        {status !== "idle" && status !== "authenticating" && <AppFormComposer title={"Account " + status} data={{}} validator={validator} onSubmit={({ email, password }) => {
-            authenticate(email, password, status, onLoginSuccess);
-        }} >
+        {status !== "idle" && status !== "authenticating" && <AppFormComposer
+            customSubmit={<>{status}</>}
+            title={"Account " + status} data={{}} validator={validator} onSubmit={({ email, password }) => {
+                authenticate(email, password, status, onLoginSuccess);
+            }} >
             <AppButton onClick={() => setStatus("idle")}>
                 <AppIcon icon={arrowBackOutline} />
             </AppButton>

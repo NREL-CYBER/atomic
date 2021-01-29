@@ -26,7 +26,9 @@ const AppFormComposer = props => {
     title,
     requiredOnly,
     calculatedFields,
-    showFields
+    showFields,
+    customSubmit,
+    autoSubmit
   } = props;
   const {
     schema
@@ -229,7 +231,9 @@ const AppFormComposer = props => {
     }, title ? title : titleCase(schema.title || "")))))
   }, /*#__PURE__*/React.createElement(AppList, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), [])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && "Optional Fields", useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [])), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), [])), /*#__PURE__*/React.createElement(AppList, null, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppLabel, {
+    color: "medium"
+  }, "Optional Fields"), useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [])), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
@@ -237,16 +241,16 @@ const AppFormComposer = props => {
     color: "danger"
   }, error))), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, useMemo(() => /*#__PURE__*/React.createElement(AppButton, {
+  }, useMemo(() => !autoSubmit ? /*#__PURE__*/React.createElement(AppButton, {
     fill: "solid",
     color: isValid ? "favorite" : "primary",
     disabled: !isValid,
     onClick: () => {
       onSubmit(instance.current);
     }
-  }, /*#__PURE__*/React.createElement(AppLabel, null, "Save"), /*#__PURE__*/React.createElement(AppIcon, {
+  }, !customSubmit ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppLabel, null, "Save"), /*#__PURE__*/React.createElement(AppIcon, {
     icon: saveOutline
-  })), [isValid, onSubmit])))));
+  })) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit])))));
 };
 
 export default AppFormComposer;

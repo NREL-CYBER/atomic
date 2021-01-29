@@ -36,6 +36,8 @@ export interface formComposerProps {
     title?: string
     requiredOnly?: boolean
     showFields?: string[]
+    autoSubmit?: boolean
+    customSubmit?: ReactFragment
 }
 
 export type formFieldValidationStatus = [formFieldStatus, string[] | undefined]
@@ -78,7 +80,9 @@ export type formFieldStatus = "valid" | "invalid" | "empty";
 
 
 const AppFormComposer: React.FC<formComposerProps> = (props) => {
-    const { validator, data, onSubmit, children, lockedFields, hiddenFields, description, title, requiredOnly, calculatedFields, showFields } = props
+    const { validator, data, onSubmit, children, lockedFields, hiddenFields,
+        description, title, requiredOnly, calculatedFields, showFields,
+        customSubmit, autoSubmit } = props
     const { schema } = validator;
     const instance = useRef<any>({ ...data })
     const [isValid, setIsValid] = useState<boolean>(false);
@@ -246,7 +250,9 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
             </AppList>
 
             {<AppList>
-                {!requiredOnly && optionalFields.length > 0 && "Optional Fields"}
+                {!requiredOnly && optionalFields.length > 0 && <AppLabel color="medium">
+                    Optional Fields
+                </AppLabel>}
                 {useMemo(() => <OptionalFormFields />, [])}
             </AppList>}
 
@@ -257,14 +263,15 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                     </AppChip>)}
                 </AppButtons>
                 <AppButtons slot="end">
-                    {useMemo(() => <AppButton fill="solid" color={isValid ? "favorite" : "primary"} disabled={!isValid} onClick={() => {
+                    {useMemo(() => !autoSubmit ? <AppButton fill="solid" color={isValid ? "favorite" : "primary"} disabled={!isValid} onClick={() => {
                         onSubmit(instance.current);
                     }}>
-                        <AppLabel>
-                            Save
+                        {!customSubmit ? <>
+                            <AppLabel>
+                                Save
                         </AppLabel>
-                        <AppIcon icon={saveOutline} />
-                    </AppButton>, [isValid, onSubmit])}
+                            <AppIcon icon={saveOutline} /></> : customSubmit}
+                    </AppButton> : <></>, [autoSubmit, customSubmit, isValid, onSubmit])}
                 </AppButtons>
             </AppToolbar>
 

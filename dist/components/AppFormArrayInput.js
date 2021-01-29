@@ -54,6 +54,7 @@ const AppFormArrayInput = props => {
       }
 
       ;
+      setData({});
       setIsInsertingItem(true);
     },
     fill: "outline",

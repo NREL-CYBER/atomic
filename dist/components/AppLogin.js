@@ -60,6 +60,7 @@ const AppLogin = ({
       value: "create"
     }]
   }), status !== "idle" && status !== "authenticating" && /*#__PURE__*/React.createElement(AppFormComposer, {
+    customSubmit: /*#__PURE__*/React.createElement(React.Fragment, null, status),
     title: "Account " + status,
     data: {},
     validator: validator,

@@ -62,7 +62,11 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                 })}
             </AppButtons>
             <AppButtons slot="end">
-                <AppButton onClick={() => { if (typeof (value) === "undefined") { setValue([]) }; setIsInsertingItem(true) }} fill='outline' color={"primary"} >
+                <AppButton onClick={() => {
+                    if (typeof (value) === "undefined") { setValue([]) };
+                    setData({});
+                    setIsInsertingItem(true)
+                }} fill='outline' color={"primary"} >
                     <AppIcon icon={addOutline} />
                 </AppButton>
             </AppButtons>
