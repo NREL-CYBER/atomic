@@ -1,11 +1,11 @@
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useState } from 'react';
-import Validator from 'validator';
+import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { AppColor } from '../theme/AppColor';
+import { remove } from '../util';
 import titleCase from '../util/titleCase';
 import FormComposer, { formFieldChangeEvent } from './forms/AppFormComposer';
-import { remove } from '../util';
 
 export interface ArrayPropertyInfo {
     type: "array",
@@ -16,6 +16,7 @@ export interface ArrayPropertyInfo {
 }
 
 interface formInputProps<T> {
+    inline?: boolean,
     property: string
     propertyInfo: ArrayPropertyInfo
     instanceRef: MutableRefObject<any>
@@ -31,7 +32,8 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormArrayInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, propertyInfo, onChange } = props;
+    const { property, instanceRef, validator, onChange, inline } = props;
+    const propertyInfo = { ...props.propertyInfo, ...inline ? validator.getReferenceInformation(props.propertyInfo) : {} } as PropertyDefinitionRef;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
@@ -39,12 +41,17 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     const [data, setData] = useState<any>({})
     const propertyFormattedName = titleCase(property).replace("-", " ");
     const inputStatusColor = inputStatusColorMap[inputStatus];
+    const beginInsertItem = () => {
+        if (typeof (value) === "undefined") { setValue([]) };
+        setData({});
+        setIsInsertingItem(true)
+    };
     return <AppRow>
         <AppToolbar>
             <AppButtons slot='start'>
-                <AppLabel color={inputStatusColor} >
+                <AppButton fill="clear" onClick={beginInsertItem} color={inputStatusColor} >
                     {propertyFormattedName}
-                </AppLabel>
+                </AppButton>
             </AppButtons>
             <AppButtons>
                 {value && value.map((val, i) => {
@@ -57,23 +64,19 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                         setValue(valueRemoved);
                         setIsInsertingItem(true);
                     }}>
-                        {val[viewPropKey] || val}
+                        {typeof val === "string" ? val : val[viewPropKey] ? val[viewPropKey] : val}
                     </AppChip>
                 })}
             </AppButtons>
             <AppButtons slot="end">
-                <AppButton onClick={() => {
-                    if (typeof (value) === "undefined") { setValue([]) };
-                    setData({});
-                    setIsInsertingItem(true)
-                }} fill='outline' color={"primary"} >
+                <AppButton onClick={beginInsertItem} fill='outline' color={"primary"} >
                     <AppIcon icon={addOutline} />
                 </AppButton>
             </AppButtons>
             <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
                     {isInsertingItem && <FormComposer
-                        validator={validator.makeReferenceValidator(propertyInfo)}
+                        validator={validator}
                         data={data}
                         onSubmit={(item) => {
                             const newValue = [...value, item]
@@ -82,7 +85,6 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                             const [validationStatus, errors] = onChange(property, newValue);
                             setInputStatus(validationStatus);
                             setErrors(errors);
-
                         }} >
                         <AppBackButton onClick={() => setIsInsertingItem(false)} />
                     </FormComposer>}

@@ -9,6 +9,7 @@ export interface ArrayPropertyInfo {
     };
 }
 interface formInputProps<T> {
+    inline?: boolean;
     property: string;
     propertyInfo: ArrayPropertyInfo;
     instanceRef: MutableRefObject<any>;

@@ -1,9 +1,9 @@
 import { addOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { remove } from '../util';
 import titleCase from '../util/titleCase';
 import FormComposer from './forms/AppFormComposer';
-import { remove } from '../util';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -18,9 +18,12 @@ const AppFormArrayInput = props => {
     property,
     instanceRef,
     validator,
-    propertyInfo,
-    onChange
+    onChange,
+    inline
   } = props;
+  const propertyInfo = { ...props.propertyInfo,
+    ...(inline ? validator.getReferenceInformation(props.propertyInfo) : {})
+  };
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   const [isInsertingItem, setIsInsertingItem] = useState(false);
@@ -28,9 +31,22 @@ const AppFormArrayInput = props => {
   const [data, setData] = useState({});
   const propertyFormattedName = titleCase(property).replace("-", " ");
   const inputStatusColor = inputStatusColorMap[inputStatus];
+
+  const beginInsertItem = () => {
+    if (typeof value === "undefined") {
+      setValue([]);
+    }
+
+    ;
+    setData({});
+    setIsInsertingItem(true);
+  };
+
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
-  }, /*#__PURE__*/React.createElement(AppLabel, {
+  }, /*#__PURE__*/React.createElement(AppButton, {
+    fill: "clear",
+    onClick: beginInsertItem,
     color: inputStatusColor
   }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
     const viewPropKey = Object.keys(val).filter(key => {
@@ -44,19 +60,11 @@ const AppFormArrayInput = props => {
         setValue(valueRemoved);
         setIsInsertingItem(true);
       }
-    }, val[viewPropKey] || val);
+    }, typeof val === "string" ? val : val[viewPropKey] ? val[viewPropKey] : val);
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
-    onClick: () => {
-      if (typeof value === "undefined") {
-        setValue([]);
-      }
-
-      ;
-      setData({});
-      setIsInsertingItem(true);
-    },
+    onClick: beginInsertItem,
     fill: "outline",
     color: "primary"
   }, /*#__PURE__*/React.createElement(AppIcon, {
@@ -65,7 +73,7 @@ const AppFormArrayInput = props => {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(FormComposer, {
-    validator: validator.makeReferenceValidator(propertyInfo),
+    validator: validator,
     data: data,
     onSubmit: item => {
       const newValue = [...value, item];

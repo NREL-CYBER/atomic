@@ -9,12 +9,13 @@ import {
     AppFormArrayInput, AppFormInput, AppFormSelect,
     AppIcon, AppItem, AppLabel,
     AppList,
-    AppModal, AppRow,
+    AppModal,
     AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
+import { ArrayPropertyInfo } from '../AppFormArrayInput';
 
 export interface propertyKeyValue {
     property: string,
@@ -88,47 +89,52 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
+        if (schema.type !== "object") {
+            instance.current = value;
+        } else {
+            let change: Record<string, any> = {}
+            change[property] = value === "" ? undefined : value;
+            const calculateProperties = calculatedFields && calculatedFields.map[property];
 
-        let change: Record<string, any> = {}
-        change[property] = value === "" ? undefined : value;
-        const calculateProperties = calculatedFields && calculatedFields.map[property];
+            if (calculateProperties) {
+                const calculatedFieldValue = calculateProperties({ property, value });
+                change = { ...change, [calculatedFieldValue.property]: calculatedFieldValue.value }
+            }
 
-        if (calculateProperties) {
-            const calculatedFieldValue = calculateProperties({ property, value });
-            change = { ...change, [calculatedFieldValue.property]: calculatedFieldValue.value }
+            instance.current = { ...instance.current, ...change }
         }
-
-        instance.current = { ...instance.current, ...change }
         setIsValid(validator.validate(instance.current))
         const allErrors = validator.validate.errors || []
-        const allErrorMessages = allErrors.map(x => x.message || "").filter(x => x.length < 2);
-        const propertyErrors = allErrors.map(error => typeof (error.message) === "string" ? error.message : "").filter(errorMessage => errorMessage.includes(property));
+        const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
+        setErrors(allErrors.map(x => x.dataPath + " " + x.message || ""))
         if (propertyErrors.length === 0) {
-            if (allErrorMessages.length !== 0) {
-                setErrors(allErrorMessages);
-            } else {
+            if (allErrors.length === 0) {
                 autoSubmit && onSubmit(instance.current);
             }
             return ["valid", undefined]
         } else {
             return ["invalid", propertyErrors]
         }
-    }, [calculatedFields, validator]);
+    }, [autoSubmit, calculatedFields, onSubmit, schema.type, validator]);
 
     const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, instanceRef, onChange }) => {
-        const { property } = propertyInfo;
-        console.log(property);
+
+        const { property, title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
-        return <AppRow>
-            <AppButton fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
-                {propertyInfo.property}
-            </AppButton>
+        const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>("empty");
+        return title || property ? <AppItem>
+            <AppButtons slot="start">
+                <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
+                    {title}
+                </AppButton>
+            </AppButtons>
             <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
                 <AppContent>
                     {showNestedForm && <AppFormComposer
                         data={{ ...instanceRef.current[property] }}
                         validator={validator.makeReferenceValidator(propertyInfo)}
                         onSubmit={(nestedObjectValue) => {
+                            setNestedFormStatus("valid");
                             onChange(property, nestedObjectValue);
                             setShowNestedFrom(false);
                         }}
@@ -137,29 +143,37 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                 </AppContent>
             </AppModal>
 
-        </AppRow>
+        </AppItem> : <></>
     }
 
 
     const FormElement: React.FC<formElementProps> = ({ instanceRef, property, validator }) => {
-        console.log("Make Form element", property);
-        let propertyInfo = schema.properties && schema.properties[property];
+        const propertyInfo = schema.properties && schema.properties[property];
         if (typeof propertyInfo === "undefined") {
             throw new Error("Undefined property... is your JSON schema OK?");
         }
-        propertyInfo = { ...propertyInfo, ...validator.getReferenceInformation(propertyInfo) } as PropertyDefinitionRef;
-        console.log(propertyInfo);
-        const propertyType = propertyInfo["type"] || "object";
+        const refPropertyInfo = validator.getReferenceInformation(propertyInfo) as PropertyDefinitionRef;
+        const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
+        if (propertyInfo.title?.includes("integrity")) { 
+            console.log(refPropertyInfo,"ref info")
+            console.log(propertyInfo,"prop info");
+            alert();
+        }
+        if (propertyType === undefined) {
+            console.log(propertyInfo);
+        }
+        if (property.includes("import")) {
+            return <></>
+        }
         if (property === "uuid") {
             return <AppUuidGenerator
-                validator={validator}
                 instanceRef={instanceRef} />
         }
 
         if ("enum" in propertyInfo) {
             return <AppFormSelect
                 instanceRef={instanceRef}
-                propertyInfo={propertyInfo}
+                propertyInfo={refPropertyInfo as any}
                 property={property}
                 onChange={handleInputReceived}
                 key={property}
@@ -168,23 +182,24 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         if (propertyType === "boolean") {
             return <AppFormToggle
                 instanceRef={instanceRef}
-                propertyInfo={propertyInfo as any}
+                propertyInfo={refPropertyInfo as any}
                 property={property}
                 onChange={handleInputReceived}
                 key={property}
             />
         }
 
-        if ("items" in propertyInfo || propertyType === "array") {
+        if (propertyType === "array") {
             return <AppFormArrayInput
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
                 propertyInfo={propertyInfo as any}
                 property={property}
-                validator={validator}
+                validator={validator.makeReferenceValidator(propertyInfo)}
                 key={property}
             />
         }
+
 
         if (propertyType === "string") {
             return <AppFormInput
@@ -199,9 +214,9 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         }
 
         if (propertyType === "object") {
-            return <ComposeNestedFormElement onChange={handleInputReceived} instanceRef={instanceRef} propertyInfo={propertyInfo} />
+            return <ComposeNestedFormElement onChange={handleInputReceived} instanceRef={instanceRef} propertyInfo={refPropertyInfo} />
         }
-        return <></>
+        return <AppChip color="danger">{property}</AppChip>
 
     }
 
@@ -210,6 +225,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
     const optionalFields = !requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : [];
     let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = showFields ? [...requiredFields, ...showFields] : requiredFields;
+    const [showOptional, setShowOptional] = useState<boolean>(false);
     const RequiredFormFields = () => <>{
         requiredFields.map(property => {
             if (lockedFields && lockedFields.includes(property))
@@ -231,6 +247,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         })}</>
 
 
+
     return <>
         <AppCard contentColor={"light"} title={<>
             <AppToolbar color="clear">
@@ -249,20 +266,21 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                     </AppText>
                 </AppItem>
                 {useMemo(() => <RequiredFormFields />, [])}
+                {schema.type === "string" && <AppFormInput propertyInfo={schema as any} property={schema.title || ""} input={"line"} instanceRef={instance} onChange={handleInputReceived} />}
             </AppList>
 
-            {<AppList>
-                {!requiredOnly && optionalFields.length > 0 && <AppLabel color="medium">
+            {<AppList color={"tertiary"}>
+                {!requiredOnly && optionalFields.length > 0 && <AppChip onClick={() => setShowOptional(x => !x)} color="medium">
                     Optional Fields
-                </AppLabel>}
-                {useMemo(() => <OptionalFormFields />, [])}
+                </AppChip>}
+                {useMemo(() => showOptional ? <OptionalFormFields /> : <></>, [showOptional])}
             </AppList>}
 
             <AppToolbar color="clear">
                 <AppButtons slot="start">
-                    {errors.slice(0, 1).map(error => <AppChip color='danger'>
+                    {errors.slice(0, 1).map(error => <AppText color='danger'>
                         {error}
-                    </AppChip>)}
+                    </AppText>)}
                 </AppButtons>
                 <AppButtons slot="end">
                     {useMemo(() => !autoSubmit ? <AppButton fill="solid" color={isValid ? "favorite" : "primary"} disabled={!isValid} onClick={() => {
