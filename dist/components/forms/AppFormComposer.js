@@ -34,16 +34,15 @@ const AppFormComposer = props => {
   const {
     schema
   } = validator;
-  const instance = useRef({ ...data
-  });
+  const instance = useRef(schema.type === "object" ? { ...data
+  } : schema.type === "array" ? [...data] : undefined);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
   const handleInputReceived = useCallback((property, value) => {
-    if (schema.type === "string") {
+    if (schema.type === "string" || schema.type === "array") {
       instance.current = value;
-    } else {
-      let change = {};
-      change[property] = value === "" ? undefined : value;
+    } else if (schema.type === "object") {
+      instance.current[property] = value === "" ? undefined : value;
       const calculateProperties = calculatedFields && calculatedFields.map[property];
 
       if (calculateProperties) {
@@ -51,26 +50,22 @@ const AppFormComposer = props => {
           property,
           value
         });
-        change = { ...change,
-          [calculatedFieldValue.property]: calculatedFieldValue.value
-        };
+        console.log(calculatedFieldValue); //                instance.current[calculatedFieldValue.property] = calculatedFieldValue.value;
       }
-
-      instance.current = { ...instance.current,
-        ...change
-      };
     }
 
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
+    console.log(instance.current);
+    console.log(allErrors);
     const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
     setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""));
 
-    if (propertyErrors.length === 0) {
-      if (allErrors.length === 0) {
-        autoSubmit && onSubmit(instance.current);
-      }
+    if (allErrors.length === 0) {
+      autoSubmit && onSubmit(instance.current);
+    }
 
+    if (propertyErrors.length === 0) {
       return ["valid", undefined];
     } else {
       return ["invalid", propertyErrors];
@@ -79,27 +74,26 @@ const AppFormComposer = props => {
 
   const ComposeNestedFormElement = ({
     propertyInfo,
+    property,
     instanceRef,
     onChange
   }) => {
     const {
-      property,
       title
     } = propertyInfo;
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState("empty");
-    return title || property ? /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }, /*#__PURE__*/React.createElement(AppButton, {
       color: nestedFormStatus === "valid" ? "success" : "primary",
       fill: "outline",
       onClick: () => setShowNestedFrom(x => !x)
-    }, title)), /*#__PURE__*/React.createElement(AppModal, {
+    }, property || title)), /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
       isOpen: showNestedForm
     }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
-      data: { ...instanceRef.current[property]
-      },
+      data: instanceRef.current[property],
       validator: validator.makeReferenceValidator(propertyInfo),
       onSubmit: nestedObjectValue => {
         setNestedFormStatus("valid");
@@ -108,7 +102,7 @@ const AppFormComposer = props => {
       }
     }, /*#__PURE__*/React.createElement(AppBackButton, {
       onClick: () => setShowNestedFrom(false)
-    }))))) : /*#__PURE__*/React.createElement(React.Fragment, null);
+    })))));
   };
 
   const FormElement = ({
@@ -139,11 +133,6 @@ const AppFormComposer = props => {
       return /*#__PURE__*/React.createElement(AppLastModifiedGenerator, {
         instanceRef: instanceRef
       });
-    }
-
-    if (property === "oscal_version") {
-      instanceRef.current.oscal_version = "0.1.rc";
-      return /*#__PURE__*/React.createElement(React.Fragment, null);
     }
 
     if ("enum" in propertyInfo) {
@@ -192,7 +181,10 @@ const AppFormComposer = props => {
       return /*#__PURE__*/React.createElement(ComposeNestedFormElement, {
         onChange: handleInputReceived,
         instanceRef: instanceRef,
-        propertyInfo: refPropertyInfo
+        property: property,
+        propertyInfo: { ...refPropertyInfo,
+          ...propertyInfo
+        }
       });
     }
 
@@ -255,13 +247,13 @@ const AppFormComposer = props => {
     }, title ? title : titleCase(schema.title || "")))))
   }, /*#__PURE__*/React.createElement(AppList, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(AppFormInput, {
+  }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     propertyInfo: schema,
     property: schema.title || "",
     input: "line",
     instanceRef: instance,
     onChange: handleInputReceived
-  })), /*#__PURE__*/React.createElement(AppList, {
+  }))), /*#__PURE__*/React.createElement(AppList, {
     color: "tertiary"
   }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppChip, {
     onClick: () => setShowOptional(x => !x),

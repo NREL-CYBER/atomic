@@ -15,7 +15,6 @@ import {
 } from '..';
 import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
-import { ArrayPropertyInfo } from '../AppFormArrayInput';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
 export interface propertyKeyValue {
@@ -53,8 +52,9 @@ interface formElementProps {
 }
 
 interface nestedFormProps {
-    instanceRef: any
-    propertyInfo: any
+    property: string
+    instanceRef: MutableRefObject<any>
+    propertyInfo: PropertyDefinitionRef
     onChange: formFieldChangeEvent
 }
 
@@ -86,53 +86,53 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         description, title, requiredOnly, calculatedFields, showFields,
         customSubmit, autoSubmit } = props
     const { schema } = validator;
-    const instance = useRef<any>({ ...data })
+    const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
-        if (schema.type === "string") {
+        if (schema.type === "string" || schema.type === "array") {
             instance.current = value;
-        } else {
-            let change: Record<string, any> = {}
-            change[property] = value === "" ? undefined : value;
+        } else if (schema.type === "object") {
+            instance.current[property] = value === "" ? undefined : value;
             const calculateProperties = calculatedFields && calculatedFields.map[property];
-
             if (calculateProperties) {
                 const calculatedFieldValue = calculateProperties({ property, value });
-                change = { ...change, [calculatedFieldValue.property]: calculatedFieldValue.value }
-            }
+                console.log(calculatedFieldValue);
+                //                instance.current[calculatedFieldValue.property] = calculatedFieldValue.value;
 
-            instance.current = { ...instance.current, ...change }
+            }
         }
         setIsValid(validator.validate(instance.current))
         const allErrors = validator.validate.errors || []
+        console.log(instance.current);
+        console.log(allErrors);
         const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
         setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""))
+        if (allErrors.length === 0) {
+            autoSubmit && onSubmit(instance.current);
+        }
         if (propertyErrors.length === 0) {
-            if (allErrors.length === 0) {
-                autoSubmit && onSubmit(instance.current);
-            }
             return ["valid", undefined]
         } else {
             return ["invalid", propertyErrors]
         }
     }, [autoSubmit, calculatedFields, onSubmit, schema.type, validator]);
 
-    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, instanceRef, onChange }) => {
+    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, property, instanceRef, onChange }) => {
 
-        const { property, title } = propertyInfo;
+        const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
         const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>("empty");
-        return title || property ? <AppItem>
+        return <AppItem>
             <AppButtons slot="start">
                 <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
-                    {title}
+                    {property || title}
                 </AppButton>
             </AppButtons>
             <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
                 <AppContent>
                     {showNestedForm && <AppFormComposer
-                        data={{ ...instanceRef.current[property] }}
+                        data={instanceRef.current[property]}
                         validator={validator.makeReferenceValidator(propertyInfo)}
                         onSubmit={(nestedObjectValue) => {
                             setNestedFormStatus("valid");
@@ -144,7 +144,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                 </AppContent>
             </AppModal>
 
-        </AppItem> : <></>
+        </AppItem>
     }
 
 
@@ -166,17 +166,13 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
             return <AppLastModifiedGenerator
                 instanceRef={instanceRef} />
         }
-        if (property === "oscal_version") {
-            instanceRef.current.oscal_version = "0.1.rc"
-            return <></>
-        }
 
 
 
         if ("enum" in propertyInfo) {
             return <AppFormSelect
                 instanceRef={instanceRef}
-                propertyInfo={propertyInfo as any}
+                propertyInfo={propertyInfo}
                 property={property}
                 onChange={handleInputReceived}
                 key={property}
@@ -185,7 +181,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         if (propertyType === "boolean") {
             return <AppFormToggle
                 instanceRef={instanceRef}
-                propertyInfo={refPropertyInfo as any}
+                propertyInfo={refPropertyInfo}
                 property={property}
                 onChange={handleInputReceived}
                 key={property}
@@ -196,7 +192,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
             return <AppFormArrayInput
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
-                propertyInfo={propertyInfo as any}
+                propertyInfo={propertyInfo}
                 property={property}
                 validator={validator.makeReferenceValidator(propertyInfo)}
                 key={property}
@@ -217,7 +213,12 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         }
 
         if (propertyType === "object") {
-            return <ComposeNestedFormElement onChange={handleInputReceived} instanceRef={instanceRef} propertyInfo={refPropertyInfo} />
+            return <ComposeNestedFormElement
+                onChange={handleInputReceived}
+                instanceRef={instanceRef}
+                property={property}
+                propertyInfo={{ ...refPropertyInfo, ...propertyInfo }}
+            />
         }
         return <AppChip color="danger">{property}</AppChip>
 
@@ -269,7 +270,13 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                     </AppText>
                 </AppItem>
                 {useMemo(() => <RequiredFormFields />, [])}
-                {schema.type === "string" && <AppFormInput propertyInfo={schema as any} property={schema.title || ""} input={"line"} instanceRef={instance} onChange={handleInputReceived} />}
+                {schema.type === "string" && <><AppFormInput
+                    propertyInfo={schema as PropertyDefinitionRef}
+                    property={schema.title || ""}
+                    input={"line"}
+                    instanceRef={instance}
+                    onChange={handleInputReceived}
+                /></>}
             </AppList>
 
             {<AppList color={"tertiary"}>

@@ -4,6 +4,7 @@ import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, App
 import { remove } from '../util';
 import titleCase from '../util/titleCase';
 import FormComposer from './forms/AppFormComposer';
+import produce from "immer";
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -18,18 +19,14 @@ const AppFormArrayInput = props => {
     property,
     instanceRef,
     validator,
-    onChange,
-    inline
+    onChange
   } = props;
-  const propertyInfo = { ...props.propertyInfo,
-    ...(inline ? validator.getReferenceInformation(props.propertyInfo) : {})
-  };
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   const [isInsertingItem, setIsInsertingItem] = useState(false);
-  const [value, setValue] = useState(instanceRef.current && instanceRef.current[property]);
+  const [value, setValue] = useState(instanceRef.current[property] ? instanceRef.current[property] : []);
   const [data, setData] = useState({});
-  const [undoCache, setUndoCache] = useState({});
+  const [undoCache, setUndoCache] = useState();
   const propertyFormattedName = titleCase(property).replace("-", " ");
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
@@ -48,7 +45,9 @@ const AppFormArrayInput = props => {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
-    onClick: beginInsertItem,
+    onClick: () => {
+      beginInsertItem();
+    },
     color: inputStatusColor
   }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
     return /*#__PURE__*/React.createElement(AppChip, {
@@ -58,11 +57,13 @@ const AppFormArrayInput = props => {
         setValue(valueRemoved);
         beginInsertItem(val);
       }
-    }, typeof val === "string" && val, ["name", "description", "title"].map(k => val[k]));
+    }, typeof val === "string" && val, Object.values(val)[0]);
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
-    onClick: beginInsertItem,
+    onClick: () => {
+      beginInsertItem();
+    },
     fill: "outline",
     color: "primary"
   }, /*#__PURE__*/React.createElement(AppIcon, {
@@ -72,12 +73,15 @@ const AppFormArrayInput = props => {
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(FormComposer, {
     validator: validator,
-    data: data,
+    data: { ...data
+    },
     onSubmit: item => {
-      const newValue = [...value, item];
-      setValue(newValue);
-      setIsInsertingItem(false);
+      const newValue = produce(value, draftValue => {
+        draftValue.push(item);
+      });
       const [validationStatus, errors] = onChange(property, newValue);
+      setIsInsertingItem(false);
+      setValue(newValue);
       setInputStatus(validationStatus);
       setErrors(errors);
     }

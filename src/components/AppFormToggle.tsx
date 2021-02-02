@@ -1,19 +1,17 @@
-import { ErrorObject } from 'ajv';
-import React, { useEffect, useState, MutableRefObject } from 'react';
+import React, { MutableRefObject, useState } from 'react';
+import { PropertyDefinitionRef } from 'validator';
+import { AppButtons, AppToggle } from '.';
 import { AppColor } from '../theme/AppColor';
 import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
-import AppSelect from './AppSelect';
-import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppFormComposer';
-import { AppToggle, AppButtons } from '.';
 
 
 interface formToggleProps<T> {
     property: string,
-    propertyInfo: { title: string, description: string }
+    propertyInfo: PropertyDefinitionRef
     instanceRef: MutableRefObject<T>
     onChange: formFieldChangeEvent
 }
@@ -31,7 +29,7 @@ const AppFormToggle = (props: formToggleProps<any>) => {
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [checked, setChecked] = useState<boolean | undefined>((instanceRef.current && (instanceRef.current as any)[property]) || undefined)
 
-    const propertyFormattedName = titleCase(propertyInfo.title || propertyInfo.description);
+    const propertyFormattedName = titleCase(propertyInfo.title ? propertyInfo.title : propertyInfo.description ? propertyInfo.description : property);
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
     return <AppItem>

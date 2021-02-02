@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
-import { formFieldChangeEvent } from './forms/AppFormComposer';
 import { PropertyDefinitionRef } from 'validator';
+import { formFieldChangeEvent } from './forms/AppFormComposer';
 interface formInputProps<T> {
     propertyInfo: PropertyDefinitionRef;
     property: string;

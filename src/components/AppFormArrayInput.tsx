@@ -6,19 +6,13 @@ import { AppColor } from '../theme/AppColor';
 import { remove } from '../util';
 import titleCase from '../util/titleCase';
 import FormComposer, { formFieldChangeEvent } from './forms/AppFormComposer';
+import produce from "immer"
 
-export interface ArrayPropertyInfo {
-    type: "array",
-    minItems: number,
-    items: {
-        $ref: string
-    }
-}
 
 interface formInputProps<T> {
     inline?: boolean,
     property: string
-    propertyInfo: ArrayPropertyInfo
+    propertyInfo: PropertyDefinitionRef
     instanceRef: MutableRefObject<any>
     validator: Validator<T>
     onChange: formFieldChangeEvent
@@ -32,14 +26,13 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormArrayInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, onChange, inline } = props;
-    const propertyInfo = { ...props.propertyInfo, ...inline ? validator.getReferenceInformation(props.propertyInfo) : {} } as PropertyDefinitionRef;
+    const { property, instanceRef, validator, onChange } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
-    const [value, setValue] = useState<any[]>(instanceRef.current && (instanceRef.current as any)[property])
+    const [value, setValue] = useState<any[]>(instanceRef.current[property] ? instanceRef.current[property] : [])
     const [data, setData] = useState<any>({})
-    const [undoCache, setUndoCache] = useState<any>({});
+    const [undoCache, setUndoCache] = useState<any>();
     const propertyFormattedName = titleCase(property).replace("-", " ");
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
@@ -52,7 +45,9 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     return <AppRow>
         <AppToolbar>
             <AppButtons slot='start'>
-                <AppButton fill="clear" onClick={beginInsertItem} color={inputStatusColor} >
+                <AppButton fill="clear" onClick={() => {
+                    beginInsertItem()
+                }} color={inputStatusColor} >
                     {propertyFormattedName}
                 </AppButton>
             </AppButtons>
@@ -64,12 +59,12 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                         beginInsertItem(val);
                     }}>
                         {typeof val === "string" && val}
-                        {["name", "description", "title"].map(k => val[k])}
+                        {Object.values(val)[0]}
                     </AppChip>
                 })}
             </AppButtons>
             <AppButtons slot="end">
-                <AppButton onClick={beginInsertItem} fill='outline' color={"primary"} >
+                <AppButton onClick={() => { beginInsertItem() }} fill='outline' color={"primary"} >
                     <AppIcon icon={addOutline} />
                 </AppButton>
             </AppButtons>
@@ -77,12 +72,14 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                 <AppContent>
                     {isInsertingItem && <FormComposer
                         validator={validator}
-                        data={data}
+                        data={{ ...data }}
                         onSubmit={(item) => {
-                            const newValue = [...value, item]
-                            setValue(newValue);
-                            setIsInsertingItem(false);
+                            const newValue = produce(value, (draftValue) => {
+                                draftValue.push(item);
+                            });
                             const [validationStatus, errors] = onChange(property, newValue);
+                            setIsInsertingItem(false);
+                            setValue(newValue);
                             setInputStatus(validationStatus);
                             setErrors(errors);
                         }} >

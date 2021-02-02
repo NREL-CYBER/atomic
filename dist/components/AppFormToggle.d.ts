@@ -1,12 +1,10 @@
 import { MutableRefObject } from 'react';
+import { PropertyDefinitionRef } from 'validator';
 import { AppColor } from '../theme/AppColor';
 import { formFieldChangeEvent } from './forms/AppFormComposer';
 interface formToggleProps<T> {
     property: string;
-    propertyInfo: {
-        title: string;
-        description: string;
-    };
+    propertyInfo: PropertyDefinitionRef;
     instanceRef: MutableRefObject<T>;
     onChange: formFieldChangeEvent;
 }

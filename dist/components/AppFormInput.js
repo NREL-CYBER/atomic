@@ -46,8 +46,8 @@ const AppFormInput = props => {
     }
 
     const formValue = value === "" ? undefined : value;
+    console.log(formValue);
     const [validationStatus, validationErrors] = onChange(property, formValue);
-    console.log(validationStatus);
     setInputStatus(validationStatus);
     setErrors(validationErrors || []);
   }, [onChange, property, value]);
@@ -64,7 +64,6 @@ const AppFormInput = props => {
     value: value,
     placeholder: propertyFormattedName,
     onInputChange: val => {
-      console.log(val);
       setValue(val);
     }
   }) : /*#__PURE__*/React.createElement(AppTextArea, {

@@ -1,17 +1,10 @@
 import { MutableRefObject } from 'react';
-import Validator from 'validator';
+import Validator, { PropertyDefinitionRef } from 'validator';
 import { formFieldChangeEvent } from './forms/AppFormComposer';
-export interface ArrayPropertyInfo {
-    type: "array";
-    minItems: number;
-    items: {
-        $ref: string;
-    };
-}
 interface formInputProps<T> {
     inline?: boolean;
     property: string;
-    propertyInfo: ArrayPropertyInfo;
+    propertyInfo: PropertyDefinitionRef;
     instanceRef: MutableRefObject<any>;
     validator: Validator<T>;
     onChange: formFieldChangeEvent;

@@ -1,13 +1,13 @@
 import React, { MutableRefObject, useEffect, useState } from 'react';
+import { PropertyDefinitionRef } from 'validator';
 import { AppColor } from '../theme/AppColor';
 import titleCase from '../util/titleCase';
-import AppInput, { stringFormat } from './AppInput';
+import AppInput from './AppInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
 import { formFieldChangeEvent } from './forms/AppFormComposer';
-import { PropertyDefinitionRef } from 'validator';
 
 
 interface formInputProps<T> {
@@ -54,8 +54,8 @@ const AppFormInput = (props: formInputProps<any>) => {
             return;
         }
         const formValue = value === "" ? undefined : value;
+        console.log(formValue);
         const [validationStatus, validationErrors] = onChange(property, formValue);
-        console.log(validationStatus);
         setInputStatus(validationStatus);
         setErrors(validationErrors || []);
     }, [onChange, property, value])
@@ -70,7 +70,6 @@ const AppFormInput = (props: formInputProps<any>) => {
             </AppLabel>
             {input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
                 <AppInput type={inputMode} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
-                    console.log(val);
                     setValue(val)
                 }} />
                 : <AppTextArea inputMode={inputMode} value={value} onTextChange={(val) => {
