@@ -25,7 +25,7 @@ const AppFormInput = props => {
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || null);
-  const propertyFormattedName = titleCase(property || "").replaceAll("_", " ");
+  const propertyFormattedName = titleCase(property || "").replace("_", " ");
 
   const calculateType = () => {
     const accepted_formats = ["email", "date", "time"];
