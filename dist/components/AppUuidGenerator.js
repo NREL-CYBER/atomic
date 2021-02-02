@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from "uuid";
-const inputStatusColorMap = {
-  empty: "dark",
-  valid: "favorite",
-  invalid: "danger"
-};
+
 /**
  * Component for input that displays validation errors
  */
-
-const AppUuidGenerator = props => {
-  const {
-    instanceRef
-  } = props;
+const AppUuidGenerator = ({
+  instanceRef
+}) => {
   const property = "uuid";
 
   if (instanceRef.current.uuid === undefined) {

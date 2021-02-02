@@ -24,7 +24,7 @@ const AppFormSelect = props => {
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || "");
-  const propertyFormattedName = titleCase(propertyInfo.title);
+  const propertyFormattedName = titleCase(propertyInfo.title || property || "");
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",

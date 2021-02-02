@@ -3,6 +3,7 @@ import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
+import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
 const LockedField = ({
   property,
@@ -38,7 +39,7 @@ const AppFormComposer = props => {
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
   const handleInputReceived = useCallback((property, value) => {
-    if (schema.type !== "object") {
+    if (schema.type === "string") {
       instance.current = value;
     } else {
       let change = {};
@@ -63,7 +64,7 @@ const AppFormComposer = props => {
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
     const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
-    setErrors(allErrors.map(x => x.dataPath + " " + x.message || ""));
+    setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""));
 
     if (propertyErrors.length === 0) {
       if (allErrors.length === 0) {
@@ -84,10 +85,10 @@ const AppFormComposer = props => {
     const {
       property,
       title
-    } = validator.getReferenceInformation(propertyInfo);
+    } = propertyInfo;
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState("empty");
-    return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    return title || property ? /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }, /*#__PURE__*/React.createElement(AppButton, {
       color: nestedFormStatus === "valid" ? "success" : "primary",
@@ -107,7 +108,7 @@ const AppFormComposer = props => {
       }
     }, /*#__PURE__*/React.createElement(AppBackButton, {
       onClick: () => setShowNestedFrom(false)
-    })))));
+    }))))) : /*#__PURE__*/React.createElement(React.Fragment, null);
   };
 
   const FormElement = ({
@@ -124,10 +125,6 @@ const AppFormComposer = props => {
     const refPropertyInfo = validator.getReferenceInformation(propertyInfo);
     const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
 
-    if (propertyType === undefined) {
-      console.log(propertyInfo);
-    }
-
     if (property.includes("import")) {
       return /*#__PURE__*/React.createElement(React.Fragment, null);
     }
@@ -138,10 +135,21 @@ const AppFormComposer = props => {
       });
     }
 
-    if ("enum" in refPropertyInfo) {
+    if (property === "last_modified") {
+      return /*#__PURE__*/React.createElement(AppLastModifiedGenerator, {
+        instanceRef: instanceRef
+      });
+    }
+
+    if (property === "oscal_version") {
+      instanceRef.current.oscal_version = "0.1.rc";
+      return /*#__PURE__*/React.createElement(React.Fragment, null);
+    }
+
+    if ("enum" in propertyInfo) {
       return /*#__PURE__*/React.createElement(AppFormSelect, {
         instanceRef: instanceRef,
-        propertyInfo: refPropertyInfo,
+        propertyInfo: propertyInfo,
         property: property,
         onChange: handleInputReceived,
         key: property
@@ -184,7 +192,7 @@ const AppFormComposer = props => {
       return /*#__PURE__*/React.createElement(ComposeNestedFormElement, {
         onChange: handleInputReceived,
         instanceRef: instanceRef,
-        propertyInfo: propertyInfo
+        propertyInfo: refPropertyInfo
       });
     }
 

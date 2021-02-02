@@ -16,6 +16,7 @@ import {
 import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import { ArrayPropertyInfo } from '../AppFormArrayInput';
+import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
 export interface propertyKeyValue {
     property: string,
@@ -89,7 +90,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
-        if (schema.type !== "object") {
+        if (schema.type === "string") {
             instance.current = value;
         } else {
             let change: Record<string, any> = {}
@@ -106,7 +107,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         setIsValid(validator.validate(instance.current))
         const allErrors = validator.validate.errors || []
         const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
-        setErrors(allErrors.map(x => x.dataPath + " " + x.message || ""))
+        setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""))
         if (propertyErrors.length === 0) {
             if (allErrors.length === 0) {
                 autoSubmit && onSubmit(instance.current);
@@ -154,14 +155,6 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         }
         const refPropertyInfo = validator.getReferenceInformation(propertyInfo) as PropertyDefinitionRef;
         const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
-        if (propertyInfo.title?.includes("integrity")) { 
-            console.log(refPropertyInfo,"ref info")
-            console.log(propertyInfo,"prop info");
-            alert();
-        }
-        if (propertyType === undefined) {
-            console.log(propertyInfo);
-        }
         if (property.includes("import")) {
             return <></>
         }
@@ -169,11 +162,21 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
             return <AppUuidGenerator
                 instanceRef={instanceRef} />
         }
+        if (property === "last_modified") {
+            return <AppLastModifiedGenerator
+                instanceRef={instanceRef} />
+        }
+        if (property === "oscal_version") {
+            instanceRef.current.oscal_version = "0.1.rc"
+            return <></>
+        }
+
+
 
         if ("enum" in propertyInfo) {
             return <AppFormSelect
                 instanceRef={instanceRef}
-                propertyInfo={refPropertyInfo as any}
+                propertyInfo={propertyInfo as any}
                 property={property}
                 onChange={handleInputReceived}
                 key={property}

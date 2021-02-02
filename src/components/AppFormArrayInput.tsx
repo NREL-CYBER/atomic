@@ -39,13 +39,16 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<any[]>(instanceRef.current && (instanceRef.current as any)[property])
     const [data, setData] = useState<any>({})
+    const [undoCache, setUndoCache] = useState<any>({});
     const propertyFormattedName = titleCase(property).replace("-", " ");
     const inputStatusColor = inputStatusColorMap[inputStatus];
-    const beginInsertItem = () => {
+    const beginInsertItem = (val: any = {}) => {
         if (typeof (value) === "undefined") { setValue([]) };
-        setData({});
+        setData(val);
+        setUndoCache(val);
         setIsInsertingItem(true)
     };
+
     return <AppRow>
         <AppToolbar>
             <AppButtons slot='start'>
@@ -55,16 +58,13 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             </AppButtons>
             <AppButtons>
                 {value && value.map((val, i) => {
-                    const viewPropKey = Object.keys(val).filter((key) => {
-                        return ["name", "value", "text", "title"].filter(viewPropLike => key.toLowerCase().includes(viewPropLike))
-                    })[0]
                     return <AppChip key={i} onClick={() => {
-                        setData(val);
                         const valueRemoved = remove<unknown>((item) => item === val, value);
                         setValue(valueRemoved);
-                        setIsInsertingItem(true);
+                        beginInsertItem(val);
                     }}>
-                        {typeof val === "string" ? val : val[viewPropKey] ? val[viewPropKey] : val}
+                        {typeof val === "string" && val}
+                        {["name", "description", "title"].map(k => val[k])}
                     </AppChip>
                 })}
             </AppButtons>
@@ -86,7 +86,13 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                             setInputStatus(validationStatus);
                             setErrors(errors);
                         }} >
-                        <AppBackButton onClick={() => setIsInsertingItem(false)} />
+                        <AppBackButton onClick={() => {
+                            if (validator.validate(undoCache)) {
+                                const newValue = [...value, undoCache]
+                                setValue(newValue);
+                            }
+                            setIsInsertingItem(false);
+                        }} />
                     </FormComposer>}
                 </AppContent>
             </AppModal>

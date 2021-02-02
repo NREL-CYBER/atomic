@@ -1,5 +1,4 @@
-import { ErrorObject } from 'ajv';
-import React, { useEffect, useState, MutableRefObject } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import { AppColor } from '../theme/AppColor';
 import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
@@ -30,7 +29,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || "")
 
-    const propertyFormattedName = titleCase(propertyInfo.title);
+    const propertyFormattedName = titleCase(propertyInfo.title || property || "");
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
     return <AppItem>

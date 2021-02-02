@@ -18,10 +18,8 @@ const addressSchema = {
   "type": "object",
   "properties": {
     "post-office-box": {
-      "type": "string"
-    },
-    "extended-address": {
-      "type": "string"
+      "type": "string",
+      "enum": ["80401", "90218", "8888"]
     },
     "street-address": {
       "type": "string"
@@ -72,14 +70,14 @@ const veggieSchema = {
     "veggie": {
       "type": "object",
       "title": "Veggie",
-      "description": "you know what it is",
-      "required": ["veggieName", "veggieLike"],
+      "description": "Part of a balanced lunch",
+      "required": ["name", "like"],
       "properties": {
-        "veggieName": {
+        "name": {
           "type": "string",
           "description": "The name of the vegetable."
         },
-        "veggieLike": {
+        "like": {
           "type": "boolean",
           "description": "Do I like this vegetable?"
         }
@@ -731,7 +729,6 @@ const sspSchema = {
               "citation": {
                 "title": "Citation",
                 "description": "A citation consisting of end note text and optional structured bibliographic data.",
-                "$id": "#/definitions/citation",
                 "type": "object",
                 "properties": {
                   "text": {
@@ -1668,7 +1665,6 @@ const sspSchema = {
                 "items": {
                   "title": "Information Type Categorization",
                   "description": "A set of information type identifiers qualified by the given identification system used, such as NIST SP 800_60.",
-                  "$id": "#/definitions/categorization",
                   "type": "object",
                   "properties": {
                     "system": {
@@ -1683,7 +1679,6 @@ const sspSchema = {
                       "items": {
                         "title": "Information Type Systemized Identifier",
                         "description": "An identifier qualified by the given identification system used, such as NIST SP 800_60.",
-                        "$id": "#/definitions/information_type_id",
                         "type": "string"
                       }
                     }
@@ -2780,7 +2775,7 @@ AddressExample.args = {
   title: "Address",
   data: {},
   validator,
-  requiredOnly: true,
+  requiredOnly: false,
   onSubmit
 };
 export const VeggieExample = Template.bind({});

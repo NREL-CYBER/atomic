@@ -30,10 +30,11 @@ const addressSchema: RootSchemaObject = {
     "type": "object",
     "properties": {
         "post-office-box": {
-            "type": "string"
-        },
-        "extended-address": {
-            "type": "string"
+            "type": "string",
+            "enum": [
+                "80401",
+                "90218",
+                "8888"]
         },
         "street-address": {
             "type": "string"
@@ -63,14 +64,14 @@ const veggieSchema = {
     "$id": "https://example.com/arrays.schema.json",
     "$schema": "http://json-schema.org/draft-07/schema#",
     "description": "A representation of a Grocery List",
-    "title":"Produce ",
+    "title": "Produce ",
     "type": "object",
     "properties": {
         "fruits": {
             "type": "array",
             "items": {
                 "title": "fruit",
-                "description":"is a fruit by any other name as sweet?",
+                "description": "is a fruit by any other name as sweet?",
                 "type": "string"
             }
         },
@@ -85,21 +86,21 @@ const veggieSchema = {
         "veggie": {
             "type": "object",
             "title": "Veggie",
-            "description":"you know what it is",
-            "required": ["veggieName", "veggieLike"],
+            "description": "Part of a balanced lunch",
+            "required": ["name", "like"],
             "properties": {
-                "veggieName": {
+                "name": {
                     "type": "string",
                     "description": "The name of the vegetable."
                 },
-                "veggieLike": {
+                "like": {
                     "type": "boolean",
                     "description": "Do I like this vegetable?"
                 }
             }
         }
     }, "required": [
-    "fruits","vegetables"
+        "fruits", "vegetables"
     ]
 }
 const validator = new Validator(addressSchema);
@@ -800,7 +801,6 @@ const sspSchema = {
                             "citation": {
                                 "title": "Citation",
                                 "description": "A citation consisting of end note text and optional structured bibliographic data.",
-                                "$id": "#/definitions/citation",
                                 "type": "object",
                                 "properties": {
                                     "text": {
@@ -1846,7 +1846,6 @@ const sspSchema = {
                                             "items": {
                                                 "title": "Information Type Systemized Identifier",
                                                 "description": "An identifier qualified by the given identification system used, such as NIST SP 800_60.",
-                                                "$id": "#/definitions/information_type_id",
                                                 "type": "string"
                                             }
                                         }
@@ -3054,7 +3053,7 @@ AddressExample.args = {
     title: "Address",
     data: {},
     validator,
-    requiredOnly: true,
+    requiredOnly: false,
     onSubmit,
 }
 export const VeggieExample = Template.bind({});

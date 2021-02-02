@@ -29,16 +29,18 @@ const AppFormArrayInput = props => {
   const [isInsertingItem, setIsInsertingItem] = useState(false);
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property]);
   const [data, setData] = useState({});
+  const [undoCache, setUndoCache] = useState({});
   const propertyFormattedName = titleCase(property).replace("-", " ");
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
-  const beginInsertItem = () => {
+  const beginInsertItem = (val = {}) => {
     if (typeof value === "undefined") {
       setValue([]);
     }
 
     ;
-    setData({});
+    setData(val);
+    setUndoCache(val);
     setIsInsertingItem(true);
   };
 
@@ -49,18 +51,14 @@ const AppFormArrayInput = props => {
     onClick: beginInsertItem,
     color: inputStatusColor
   }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
-    const viewPropKey = Object.keys(val).filter(key => {
-      return ["name", "value", "text", "title"].filter(viewPropLike => key.toLowerCase().includes(viewPropLike));
-    })[0];
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
       onClick: () => {
-        setData(val);
         const valueRemoved = remove(item => item === val, value);
         setValue(valueRemoved);
-        setIsInsertingItem(true);
+        beginInsertItem(val);
       }
-    }, typeof val === "string" ? val : val[viewPropKey] ? val[viewPropKey] : val);
+    }, typeof val === "string" && val, ["name", "description", "title"].map(k => val[k]));
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
@@ -84,7 +82,14 @@ const AppFormArrayInput = props => {
       setErrors(errors);
     }
   }, /*#__PURE__*/React.createElement(AppBackButton, {
-    onClick: () => setIsInsertingItem(false)
+    onClick: () => {
+      if (validator.validate(undoCache)) {
+        const newValue = [...value, undoCache];
+        setValue(newValue);
+      }
+
+      setIsInsertingItem(false);
+    }
   }))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
