@@ -5,7 +5,7 @@ import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, App
 import { AppColor } from '../theme/AppColor';
 import { remove } from '../util';
 import titleCase from '../util/titleCase';
-import FormComposer, { formFieldChangeEvent } from './forms/AppFormComposer';
+import FormComposer, { formFieldChangeEvent } from './forms/AppForm';
 import produce from "immer"
 
 

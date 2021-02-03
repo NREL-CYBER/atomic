@@ -1,13 +1,13 @@
 import React from 'react'; // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 
 import Validator from 'validator';
-import { AppFormComposer } from '../components';
+import { AppForm } from '../components';
 export default {
-  title: 'atomic/AppFormComposer',
-  component: AppFormComposer
+  title: 'atomic/AppForm',
+  component: AppForm
 };
 
-const Template = args => /*#__PURE__*/React.createElement(AppFormComposer, args);
+const Template = args => /*#__PURE__*/React.createElement(AppForm, args);
 
 const addressSchema = {
   "$id": "https://example.com/address.schema.json",

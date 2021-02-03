@@ -3,15 +3,15 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 
 import Validator, { RootSchemaObject } from 'validator';
-import { AppFormComposer } from '../components';
-import { formComposerProps } from '../components/forms/AppFormComposer';
+import { AppForm } from '../components';
+import { formComposerProps } from '../components/forms/AppForm';
 
 export default {
-    title: 'atomic/AppFormComposer',
-    component: AppFormComposer,
+    title: 'atomic/AppForm',
+    component: AppForm,
 } as Meta;
 
-const Template: Story<formComposerProps> = (args) => <AppFormComposer {...args} />;
+const Template: Story<formComposerProps> = (args) => <AppForm {...args} />;
 
 interface Address {
     "post-office-box": string,

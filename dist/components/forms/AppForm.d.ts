@@ -32,5 +32,5 @@ interface nestedFormProps {
     onChange: formFieldChangeEvent;
 }
 export declare type formFieldStatus = "valid" | "invalid" | "empty";
-declare const AppFormComposer: React.FC<formComposerProps>;
-export default AppFormComposer;
+declare const AppForm: React.FC<formComposerProps>;
+export default AppForm;

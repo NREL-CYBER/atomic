@@ -7,7 +7,7 @@ import AppButton from './AppButton';
 import AppCard from './AppCard';
 import AppIcon from './AppIcon';
 import AppSelectButtons from './AppSelectButtons';
-import AppFormComposer from './forms/AppFormComposer';
+import AppForm from './forms/AppForm';
 const credentialSchema = {
   "$id": "user",
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -60,7 +60,7 @@ const AppLogin = ({
       text: "Sign up",
       value: "create"
     }]
-  }), status !== "idle" && status !== "authenticating" && /*#__PURE__*/React.createElement(AppFormComposer, {
+  }), status !== "idle" && status !== "authenticating" && /*#__PURE__*/React.createElement(AppForm, {
     customSubmit: /*#__PURE__*/React.createElement(React.Fragment, null, status),
     title: "Account " + status,
     data: {},

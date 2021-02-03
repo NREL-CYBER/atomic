@@ -6,7 +6,7 @@ import AppLabel from './AppLabel';
 import AppSelect from './AppSelect';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
-import { formFieldChangeEvent } from './forms/AppFormComposer';
+import { formFieldChangeEvent } from './forms/AppForm';
 
 
 interface formInputProps<T> {

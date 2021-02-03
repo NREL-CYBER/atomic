@@ -7,7 +7,7 @@ import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
-import { formFieldChangeEvent } from './forms/AppFormComposer';
+import { formFieldChangeEvent } from './forms/AppForm';
 
 
 interface formInputProps<T> {

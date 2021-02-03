@@ -16,7 +16,7 @@ const LockedField = ({
   color: "favorite"
 }, /*#__PURE__*/React.createElement(AppCol, null, titleCase(property)), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppChip, null, typeof value === "object" ? value.map(x => x) : value)))));
 
-const AppFormComposer = props => {
+const AppForm = props => {
   const {
     validator,
     data,
@@ -96,7 +96,7 @@ const AppFormComposer = props => {
     }, formated_title)), /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
       isOpen: showNestedForm
-    }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
+    }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppForm, {
       data: instanceRef.current[property],
       validator: validator.makeReferenceValidator(propertyInfo),
       onSubmit: nestedObjectValue => {
@@ -301,4 +301,4 @@ const AppFormComposer = props => {
   })) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit])))));
 };
 
-export default AppFormComposer;
+export default AppForm;

@@ -4,8 +4,9 @@ import React, { MutableRefObject, useState } from 'react';
 import { v4 } from 'uuid';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
-import { AppColor, AppFormComposer, titleCase } from '../..';
-import { formFieldChangeEvent } from './AppFormComposer';
+import { titleCase } from "../../util";
+import AppForm, { formFieldChangeEvent } from './AppForm';
+import { AppColor } from "../..";
 
 
 interface formInputProps<T> {
@@ -67,7 +68,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
             </AppButtons>
             <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
-                    {isInsertingItem && <AppFormComposer
+                    {isInsertingItem && <AppForm
                         validator={validator}
                         data={{ ...data }}
                         onSubmit={(item: any) => {
@@ -83,7 +84,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                         <AppBackButton onClick={() => {
                             setIsInsertingItem(false);
                         }} />
-                    </AppFormComposer>}
+                    </AppForm>}
                 </AppContent>
             </AppModal>
         </AppToolbar>

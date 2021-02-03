@@ -1,5 +1,5 @@
 import React from "react";
-import { AppFormComposer, AppPage, AppChip } from "../components";
+import { AppChip, AppForm, AppPage } from "../components";
 import { useAddress } from "./ExampleConfig";
 
 const ExampleForm = () => {
@@ -12,7 +12,7 @@ const ExampleForm = () => {
     country_name,
     locality,
     region
-  }) => /*#__PURE__*/React.createElement(AppChip, null, " ", country_name + " " + locality + " " + region)), /*#__PURE__*/React.createElement(AppFormComposer, {
+  }) => /*#__PURE__*/React.createElement(AppChip, null, " ", country_name + " " + locality + " " + region)), /*#__PURE__*/React.createElement(AppForm, {
     requiredOnly: true,
     onSubmit: insert,
     data: {},

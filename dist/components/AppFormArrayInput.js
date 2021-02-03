@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import titleCase from '../util/titleCase';
-import FormComposer from './forms/AppFormComposer';
+import FormComposer from './forms/AppForm';
 import produce from "immer";
 const inputStatusColorMap = {
   empty: "dark",

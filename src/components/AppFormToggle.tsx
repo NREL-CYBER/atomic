@@ -6,7 +6,7 @@ import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
-import { formFieldChangeEvent } from './forms/AppFormComposer';
+import { formFieldChangeEvent } from './forms/AppForm';
 
 
 interface formToggleProps<T> {

@@ -3,7 +3,8 @@ import { addOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { v4 } from 'uuid';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
-import { AppFormComposer, titleCase } from '../..';
+import { titleCase } from "../../util";
+import AppForm from './AppForm';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -69,7 +70,7 @@ const AppFormDictionaryInput = props => {
   }))), /*#__PURE__*/React.createElement(AppModal, {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
-  }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppFormComposer, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppForm, {
     validator: validator,
     data: { ...data
     },

@@ -40,6 +40,7 @@ export interface formComposerProps {
     showFields?: string[]
     autoSubmit?: boolean
     customSubmit?: ReactFragment
+    customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
 export type formFieldValidationStatus = [formFieldStatus, string[] | undefined]
@@ -82,10 +83,10 @@ export type formFieldStatus = "valid" | "invalid" | "empty";
 
 
 
-const AppFormComposer: React.FC<formComposerProps> = (props) => {
+const AppForm: React.FC<formComposerProps> = (props) => {
     const { validator, data, onSubmit, children, lockedFields, hiddenFields,
         description, title, requiredOnly, calculatedFields, showFields,
-        customSubmit, autoSubmit } = props
+        customSubmit, autoSubmit, customComponentMap } = props
     const { schema } = validator;
     const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
@@ -98,9 +99,9 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
             const calculateProperties = calculatedFields && calculatedFields.map[property];
             if (calculateProperties) {
                 const calculatedFieldValue = calculateProperties({ property, value });
-                console.log(calculatedFieldValue);
-                //                instance.current[calculatedFieldValue.property] = calculatedFieldValue.value;
-
+                if (calculatedFieldValue.value) {
+                    instance.current[calculatedFieldValue.property] = calculatedFieldValue.value;
+                }
             }
         }
         setIsValid(validator.validate(instance.current))
@@ -130,7 +131,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
             </AppButtons>
             <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
                 <AppContent>
-                    {showNestedForm && <AppFormComposer
+                    {showNestedForm && <AppForm
                         data={instanceRef.current[property]}
                         validator={validator.makeReferenceValidator(propertyInfo)}
                         onSubmit={(nestedObjectValue) => {
@@ -139,7 +140,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                             setShowNestedFrom(false);
                         }}
                     ><AppBackButton onClick={() => setShowNestedFrom(false)} />
-                    </AppFormComposer>}
+                    </AppForm>}
                 </AppContent>
             </AppModal>
 
@@ -164,6 +165,9 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         if (property === "last_modified") {
             return <AppLastModifiedGenerator
                 instanceRef={instanceRef} />
+        }
+        if (customComponentMap && customComponentMap[property]) {
+            return customComponentMap[property]({ instanceRef, onChange: handleInputReceived, property, propertyInfo, children })
         }
 
 
@@ -320,4 +324,4 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         </AppCard >
     </>
 };
-export default AppFormComposer;
+export default AppForm;
