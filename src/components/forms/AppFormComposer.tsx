@@ -16,6 +16,7 @@ import {
 import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
+import AppFormDictionaryInput from './AppFormDictionaryInput';
 
 export interface propertyKeyValue {
     property: string,
@@ -104,8 +105,6 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
         }
         setIsValid(validator.validate(instance.current))
         const allErrors = validator.validate.errors || []
-        console.log(instance.current);
-        console.log(allErrors);
         const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
         setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""))
         if (allErrors.length === 0) {
@@ -119,14 +118,14 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
     }, [autoSubmit, calculatedFields, onSubmit, schema.type, validator]);
 
     const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, property, instanceRef, onChange }) => {
-
         const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
         const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>("empty");
+        const formated_title = titleCase((property || title || '').split("_").join(" "));
         return <AppItem>
             <AppButtons slot="start">
                 <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
-                    {property || title}
+                    {formated_title}
                 </AppButton>
             </AppButtons>
             <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
@@ -199,6 +198,19 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
             />
         }
 
+        if (propertyType === "object" && (propertyInfo as any).additionalProperties && (propertyInfo as any).additionalProperties.allOf) {
+            return <AppFormDictionaryInput
+                onChange={handleInputReceived}
+                instanceRef={instanceRef}
+                propertyInfo={propertyInfo}
+                property={property}
+                validator={validator.makeReferenceValidator(refPropertyInfo)}
+                key={property}
+            />
+        }
+
+
+
 
         if (propertyType === "string") {
             return <AppFormInput
@@ -217,7 +229,7 @@ const AppFormComposer: React.FC<formComposerProps> = (props) => {
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
                 property={property}
-                propertyInfo={{ ...refPropertyInfo, ...propertyInfo }}
+                propertyInfo={propertyInfo}
             />
         }
         return <AppChip color="danger">{property}</AppChip>

@@ -166,6 +166,17 @@ const AppFormComposer = props => {
       });
     }
 
+    if (propertyType === "object" && propertyInfo.allOf) {
+      return /*#__PURE__*/React.createElement(AppFormArrayInput, {
+        onChange: handleInputReceived,
+        instanceRef: instanceRef,
+        propertyInfo: refPropertyInfo,
+        property: property,
+        validator: validator.makeReferenceValidator(refPropertyInfo),
+        key: property
+      });
+    }
+
     if (propertyType === "string") {
       return /*#__PURE__*/React.createElement(AppFormInput, {
         input: "text",

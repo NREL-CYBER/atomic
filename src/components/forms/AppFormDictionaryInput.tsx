@@ -1,12 +1,11 @@
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
-import { AppColor } from '../theme/AppColor';
-import { remove } from '../util';
-import titleCase from '../util/titleCase';
-import FormComposer, { formFieldChangeEvent } from './forms/AppFormComposer';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import produce from "immer"
+import { AppColor, titleCase, remove, AppFormComposer } from '../..';
+import { formFieldChangeEvent } from './AppFormComposer';
+import { v4 } from 'uuid';
 
 
 interface formInputProps<T> {
@@ -25,18 +24,18 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppFormArrayInput = (props: formInputProps<unknown>) => {
+const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
     const { property, instanceRef, validator, onChange } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
-    const [value, setValue] = useState<any[]>(instanceRef.current[property] ? instanceRef.current[property] : [])
+    const [value, setValue] = useState<any>(instanceRef.current[property] ? instanceRef.current[property] : {})
     const [data, setData] = useState<any>({})
     const [undoCache, setUndoCache] = useState<any>();
-    const propertyFormattedName = titleCase(property).split("_").join(" ");
+    const propertyFormattedName = titleCase(property).replace("-", " ");
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
-        if (typeof (value) === "undefined") { setValue([]) };
+        if (typeof (value) === "undefined") { setValue({}) };
         setData(val);
         setUndoCache(val);
         setIsInsertingItem(true)
@@ -52,14 +51,14 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                 </AppButton>
             </AppButtons>
             <AppButtons>
-                {value && value.map((val, i) => {
+                {value && Object.entries(value).map(([i, val]) => {
                     return <AppChip key={i} onClick={() => {
                         const valueRemoved = remove<unknown>((item) => item === val, value);
                         setValue(valueRemoved);
                         beginInsertItem(val);
                     }}>
                         {typeof val === "string" && val}
-                        {Object.values(val)[0]}
+                        {typeof val === "object" && Object.values(val as Object)[0]}
                     </AppChip>
                 })}
             </AppButtons>
@@ -70,12 +69,12 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             </AppButtons>
             <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
-                    {isInsertingItem && <FormComposer
+                    {isInsertingItem && <AppFormComposer
                         validator={validator}
                         data={{ ...data }}
-                        onSubmit={(item) => {
+                        onSubmit={(item: any) => {
                             const newValue = produce(value, (draftValue) => {
-                                draftValue.push(item);
+                                draftValue[v4()] = item;
                             });
                             const [validationStatus, errors] = onChange(property, newValue);
                             setIsInsertingItem(false);
@@ -90,7 +89,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                             }
                             setIsInsertingItem(false);
                         }} />
-                    </FormComposer>}
+                    </AppFormComposer>}
                 </AppContent>
             </AppModal>
         </AppToolbar>
@@ -107,4 +106,4 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     </AppRow >
 }
 
-export default AppFormArrayInput;
+export default AppFormDictionaryInput;
