@@ -201,6 +201,7 @@ const sspSchema = {
           "items": {
             "title": "Document Identifier",
             "description": "A document identifier qualified by an identifier type.",
+            "$id": "#/definitions/document_id",
             "type": "object",
             "properties": {
               "scheme": {
@@ -729,6 +730,7 @@ const sspSchema = {
               "citation": {
                 "title": "Citation",
                 "description": "A citation consisting of end note text and optional structured bibliographic data.",
+                "$id": "#/definitions/citation",
                 "type": "object",
                 "properties": {
                   "text": {
@@ -1711,7 +1713,6 @@ const sspSchema = {
               "confidentiality_impact": {
                 "title": "Confidentiality Impact Level",
                 "description": "The expected level of impact resulting from the unauthorized disclosure of the described information.",
-                "$id": "#/definitions/confidentiality_impact",
                 "type": "object",
                 "properties": {
                   "props": {
@@ -1757,7 +1758,6 @@ const sspSchema = {
               "integrity_impact": {
                 "title": "Integrity Impact Level",
                 "description": "The expected level of impact resulting from the unauthorized modification of the described information.",
-                "$id": "#/definitions/integrity_impact",
                 "type": "object",
                 "properties": {
                   "props": {
@@ -1803,7 +1803,6 @@ const sspSchema = {
               "availability_impact": {
                 "title": "Availability Impact Level",
                 "description": "The expected level of impact resulting from the disruption of access to or use of the described information or the information system.",
-                "$id": "#/definitions/availability_impact",
                 "type": "object",
                 "properties": {
                   "props": {

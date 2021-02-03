@@ -4,6 +4,7 @@ import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppCont
 import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
+import AppFormDictionaryInput from './AppFormDictionaryInput';
 
 const LockedField = ({
   property,
@@ -56,8 +57,6 @@ const AppFormComposer = props => {
 
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
-    console.log(instance.current);
-    console.log(allErrors);
     const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
     setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""));
 
@@ -83,13 +82,14 @@ const AppFormComposer = props => {
     } = propertyInfo;
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState("empty");
+    const formated_title = titleCase((property || title || '').split("_").join(" "));
     return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }, /*#__PURE__*/React.createElement(AppButton, {
       color: nestedFormStatus === "valid" ? "success" : "primary",
       fill: "outline",
       onClick: () => setShowNestedFrom(x => !x)
-    }, property || title)), /*#__PURE__*/React.createElement(AppModal, {
+    }, formated_title)), /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
       isOpen: showNestedForm
     }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
@@ -166,11 +166,11 @@ const AppFormComposer = props => {
       });
     }
 
-    if (propertyType === "object" && propertyInfo.allOf) {
-      return /*#__PURE__*/React.createElement(AppFormArrayInput, {
+    if (propertyType === "object" && propertyInfo.additionalProperties && propertyInfo.additionalProperties.allOf) {
+      return /*#__PURE__*/React.createElement(AppFormDictionaryInput, {
         onChange: handleInputReceived,
         instanceRef: instanceRef,
-        propertyInfo: refPropertyInfo,
+        propertyInfo: propertyInfo,
         property: property,
         validator: validator.makeReferenceValidator(refPropertyInfo),
         key: property
@@ -193,9 +193,7 @@ const AppFormComposer = props => {
         onChange: handleInputReceived,
         instanceRef: instanceRef,
         property: property,
-        propertyInfo: { ...refPropertyInfo,
-          ...propertyInfo
-        }
+        propertyInfo: propertyInfo
       });
     }
 
