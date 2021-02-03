@@ -1,11 +1,11 @@
+import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useState } from 'react';
+import { v4 } from 'uuid';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
-import produce from "immer"
-import { AppColor, titleCase, remove, AppFormComposer } from '../..';
+import { AppColor, AppFormComposer, titleCase } from '../..';
 import { formFieldChangeEvent } from './AppFormComposer';
-import { v4 } from 'uuid';
 
 
 interface formInputProps<T> {
@@ -31,13 +31,13 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<any>(instanceRef.current[property] ? instanceRef.current[property] : {})
     const [data, setData] = useState<any>({})
-    const [undoCache, setUndoCache] = useState<any>();
+    const [activeIndex, setActiveIndex] = useState<string | undefined>(undefined);
     const propertyFormattedName = titleCase(property).replace("-", " ");
     const inputStatusColor = inputStatusColorMap[inputStatus];
-    const beginInsertItem = (val: any = {}) => {
+    const beginInsertItem = (index: string = v4(), val: any = {}) => {
+        setActiveIndex(index);
         if (typeof (value) === "undefined") { setValue({}) };
         setData(val);
-        setUndoCache(val);
         setIsInsertingItem(true)
     };
 
@@ -53,9 +53,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
             <AppButtons>
                 {value && Object.entries(value).map(([i, val]) => {
                     return <AppChip key={i} onClick={() => {
-                        const valueRemoved = remove<unknown>((item) => item === val, value);
-                        setValue(valueRemoved);
-                        beginInsertItem(val);
+                        beginInsertItem(i, val);
                     }}>
                         {typeof val === "string" && val}
                         {typeof val === "object" && Object.values(val as Object)[0]}
@@ -63,7 +61,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                 })}
             </AppButtons>
             <AppButtons slot="end">
-                <AppButton onClick={() => { beginInsertItem() }} fill='outline' color={"primary"} >
+                <AppButton onClick={() => { beginInsertItem(v4()) }} fill='outline' color={"primary"} >
                     <AppIcon icon={addOutline} />
                 </AppButton>
             </AppButtons>
@@ -74,7 +72,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                         data={{ ...data }}
                         onSubmit={(item: any) => {
                             const newValue = produce(value, (draftValue) => {
-                                draftValue[v4()] = item;
+                                draftValue[activeIndex ? activeIndex : v4()] = item;
                             });
                             const [validationStatus, errors] = onChange(property, newValue);
                             setIsInsertingItem(false);
@@ -83,10 +81,6 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                             setErrors(errors);
                         }} >
                         <AppBackButton onClick={() => {
-                            if (validator.validate(undoCache)) {
-                                const newValue = [...value, undoCache]
-                                setValue(newValue);
-                            }
                             setIsInsertingItem(false);
                         }} />
                     </AppFormComposer>}

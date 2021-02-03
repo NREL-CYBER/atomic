@@ -1,9 +1,9 @@
+import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
-import produce from "immer";
-import { titleCase, remove, AppFormComposer } from '../..';
 import { v4 } from 'uuid';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
+import { AppFormComposer, titleCase } from '../..';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -25,18 +25,19 @@ const AppFormDictionaryInput = props => {
   const [isInsertingItem, setIsInsertingItem] = useState(false);
   const [value, setValue] = useState(instanceRef.current[property] ? instanceRef.current[property] : {});
   const [data, setData] = useState({});
-  const [undoCache, setUndoCache] = useState();
+  const [activeIndex, setActiveIndex] = useState(undefined);
   const propertyFormattedName = titleCase(property).replace("-", " ");
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
-  const beginInsertItem = (val = {}) => {
+  const beginInsertItem = (index = v4(), val = {}) => {
+    setActiveIndex(index);
+
     if (typeof value === "undefined") {
       setValue({});
     }
 
     ;
     setData(val);
-    setUndoCache(val);
     setIsInsertingItem(true);
   };
 
@@ -52,16 +53,14 @@ const AppFormDictionaryInput = props => {
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
       onClick: () => {
-        const valueRemoved = remove(item => item === val, value);
-        setValue(valueRemoved);
-        beginInsertItem(val);
+        beginInsertItem(i, val);
       }
     }, typeof val === "string" && val, typeof val === "object" && Object.values(val)[0]);
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
-      beginInsertItem();
+      beginInsertItem(v4());
     },
     fill: "outline",
     color: "primary"
@@ -76,7 +75,7 @@ const AppFormDictionaryInput = props => {
     },
     onSubmit: item => {
       const newValue = produce(value, draftValue => {
-        draftValue[v4()] = item;
+        draftValue[activeIndex ? activeIndex : v4()] = item;
       });
       const [validationStatus, errors] = onChange(property, newValue);
       setIsInsertingItem(false);
@@ -86,11 +85,6 @@ const AppFormDictionaryInput = props => {
     }
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => {
-      if (validator.validate(undoCache)) {
-        const newValue = [...value, undoCache];
-        setValue(newValue);
-      }
-
       setIsInsertingItem(false);
     }
   }))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
