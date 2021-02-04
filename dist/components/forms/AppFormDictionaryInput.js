@@ -56,7 +56,7 @@ const AppFormDictionaryInput = props => {
       onClick: () => {
         beginInsertItem(i, val);
       }
-    }, typeof val === "string" && val, typeof val === "object" && Object.values(val)[0]);
+    }, typeof val === "string" && val, typeof val === "object" && Object.values(val).sort((a, b) => String(a).length - String(b).length)[0]);
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
