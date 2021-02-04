@@ -59,7 +59,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                         beginInsertItem(val);
                     }}>
                         {typeof val === "string" && val}
-                        {Object.values(val)[0]}
+                        {typeof val === "object" && Object.values(val as Object).sort((a, b) => String(a).length - String(b).length)[0]}
                     </AppChip>
                 })}
             </AppButtons>
