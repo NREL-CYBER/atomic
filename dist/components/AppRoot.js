@@ -32,6 +32,8 @@ import AppCloudSerializer from './serialization/AppCloudSerializer';
 import { AppPage, AppContent } from '.';
 import AppLogin from './AppLogin';
 import AppGuidance from './guidance/AppGuidance';
+import AppTitle from './AppTitle';
+import AppChip from './AppChip';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -44,7 +46,9 @@ const AppRoot = ({
   darkMode,
   children,
   serialization,
-  cache
+  cache,
+  title,
+  version
 }) => {
   const {
     initialize
@@ -61,7 +65,11 @@ const AppRoot = ({
       className: darkMode ? "dark-theme" : "light-theme"
     }, /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
       center: true
-    }, /*#__PURE__*/React.createElement(AppLogin, {
+    }, /*#__PURE__*/React.createElement(AppTitle, {
+      color: "tertiary"
+    }, title, /*#__PURE__*/React.createElement(AppChip, {
+      color: "primary"
+    }, version)), /*#__PURE__*/React.createElement(AppLogin, {
       cloud: serialization.cloud,
       onLoginSuccess: uidCredential => {
         setUid(uidCredential);

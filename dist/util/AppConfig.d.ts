@@ -20,6 +20,8 @@ export interface AppCloudConfig {
     };
 }
 export interface AppConfig {
+    title: string;
+    version: string;
     topBar?: React.FC;
     sections?: Record<string, AppRoute[]>;
     routes: AppRoute[];

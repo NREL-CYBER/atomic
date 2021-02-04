@@ -19,6 +19,8 @@ const useAddress = composeStore<Address>(
 export { useAddress };
 
 const ExampleConfig: AppConfig = {
+    title: "Atomic Example",
+    version:"0.4.4",
     routes,
     sections: { forms: [routes[1]] },
     cache: {

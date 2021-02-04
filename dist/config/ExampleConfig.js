@@ -1,9 +1,13 @@
 import { composeStore } from "store";
 import AddressSchema from "../schemas/address.schema.json";
 import routes from "./routes";
-const useAddress = composeStore(AddressSchema);
+const useAddress = composeStore({
+  schema: AddressSchema
+});
 export { useAddress };
 const ExampleConfig = {
+  title: "Atomic Example",
+  version: "0.4.4",
   routes,
   sections: {
     forms: [routes[1]]

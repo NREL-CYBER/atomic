@@ -1,4 +1,4 @@
-import { IonApp, IonPage, IonCard } from '@ionic/react';
+import { IonApp } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/display.css";
@@ -14,7 +14,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, { useEffect, memo, useState } from 'react';
 import { Route } from 'react-router';
-import { useAppLayout, useCompletion } from '../hooks';
+import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
 import AppRouter from './AppRouter';
@@ -28,6 +28,8 @@ import AppCloudSerializer from './serialization/AppCloudSerializer';
 import { AppPage, AppContent } from '.';
 import AppLogin from './AppLogin';
 import AppGuidance from './guidance/AppGuidance';
+import AppTitle from './AppTitle';
+import AppChip from './AppChip';
 
 
 /**
@@ -37,7 +39,7 @@ import AppGuidance from './guidance/AppGuidance';
 
 const AppRoot: React.FC<AppConfig> = ({ routes,
     sections, bottomBar, topBar, darkMode, children,
-    serialization, cache }) => {
+    serialization, cache, title, version }) => {
 
     const { initialize } = useAppLayout();
 
@@ -55,6 +57,12 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
             <AppPage>
                 <AppContent center>
+                    <AppTitle color="tertiary">
+                        {title}
+                        <AppChip color="primary">
+                            {version}
+                        </AppChip>
+                    </AppTitle>
                     <AppLogin cloud={serialization.cloud} onLoginSuccess={(uidCredential) => {
                         setUid(uidCredential);
                     }} />
