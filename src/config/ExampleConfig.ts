@@ -12,7 +12,9 @@ type Address = {
 }
 
 
-const useAddress = composeStore<Address>(AddressSchema);
+const useAddress = composeStore<Address>(
+    { schema: AddressSchema }
+);
 
 export { useAddress };
 
