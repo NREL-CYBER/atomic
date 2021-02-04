@@ -61,6 +61,7 @@ const AppForm = props => {
 
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
+    console.log(allErrors);
     const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
     setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""));
 
@@ -180,7 +181,7 @@ const AppForm = props => {
       });
     }
 
-    if (propertyType === "object" && propertyInfo.additionalProperties && propertyInfo.additionalProperties.allOf) {
+    if (propertyType === "object" && !propertyInfo.properties && propertyInfo.additionalProperties && propertyInfo.additionalProperties.allOf) {
       return /*#__PURE__*/React.createElement(AppFormDictionaryInput, {
         onChange: handleInputReceived,
         instanceRef: instanceRef,
@@ -219,7 +220,7 @@ const AppForm = props => {
   const [schemaProperties] = useState(Object.keys({ ...schema.properties
   }));
   const requiredProperties = schema.required || [];
-  const optionalFields = !requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : [];
+  const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
   let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
   requiredFields = showFields ? [...requiredFields, ...showFields] : requiredFields;
   const [showOptional, setShowOptional] = useState(false);
