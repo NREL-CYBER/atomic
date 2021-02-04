@@ -57,7 +57,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                         beginInsertItem(i, val);
                     }}>
                         {typeof val === "string" && val}
-                        {typeof val === "object" && Object.values(val as Object)[0]}
+                        {typeof val === "object" && Object.values(val as Object).sort((a, b) => String(a).length - String(b).length)[0]}
                     </AppChip>
                 })}
             </AppButtons>
