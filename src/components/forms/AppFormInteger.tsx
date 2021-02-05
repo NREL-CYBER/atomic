@@ -32,8 +32,8 @@ const AppFormInteger = (props: formInputProps<any>) => {
         if (value === null) {
             return;
         }
-        const formValue = value === "" ? undefined : value;
-        const [validationStatus, validationErrors] = onChange(property, formValue);
+        const formValue = value === "" ? "0" : value;
+        const [validationStatus, validationErrors] = onChange(property, formValue ? parseInt(formValue) : 0);
         setInputStatus(validationStatus);
         setErrors(validationErrors || []);
     }, [onChange, property, value])
