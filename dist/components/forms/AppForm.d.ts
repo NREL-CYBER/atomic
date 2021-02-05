@@ -14,6 +14,7 @@ export interface formComposerProps {
     children?: ReactFragment;
     lockedFields?: string[];
     hiddenFields?: string[];
+    inlineFields?: string[];
     calculatedFields?: calculatedPropertyMap;
     description?: string;
     title?: string;
@@ -27,6 +28,7 @@ export declare type formFieldValidationStatus = [formFieldStatus, string[] | und
 export declare type formFieldChangeEvent = (property: string, value: any) => formFieldValidationStatus;
 interface nestedFormProps {
     property: string;
+    inline?: boolean;
     instanceRef: MutableRefObject<any>;
     propertyInfo: PropertyDefinitionRef;
     onChange: formFieldChangeEvent;

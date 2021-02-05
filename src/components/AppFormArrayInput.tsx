@@ -1,12 +1,12 @@
+import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { AppColor } from '../theme/AppColor';
 import { remove } from '../util';
-import titleCase from '../util/titleCase';
+import prettyTitle from '../util/prettyTitle';
 import FormComposer, { formFieldChangeEvent } from './forms/AppForm';
-import produce from "immer"
 
 
 interface formInputProps<T> {
@@ -26,14 +26,14 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormArrayInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, onChange } = props;
+    const { property, instanceRef, validator, onChange, propertyInfo } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<any[]>(instanceRef.current[property] ? instanceRef.current[property] : [])
     const [data, setData] = useState<any>({})
     const [undoCache, setUndoCache] = useState<any>();
-    const propertyFormattedName = titleCase(property).split("_").join(" ");
+    const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
         if (typeof (value) === "undefined") { setValue([]) };

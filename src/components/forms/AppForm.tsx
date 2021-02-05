@@ -34,6 +34,7 @@ export interface formComposerProps {
     children?: ReactFragment,
     lockedFields?: string[]
     hiddenFields?: string[]
+    inlineFields?: string[]
     calculatedFields?: calculatedPropertyMap
     description?: string
     title?: string
@@ -56,6 +57,7 @@ interface formElementProps {
 
 interface nestedFormProps {
     property: string
+    inline?: boolean
     instanceRef: MutableRefObject<any>
     propertyInfo: PropertyDefinitionRef
     onChange: formFieldChangeEvent
@@ -87,7 +89,7 @@ export type formFieldStatus = "valid" | "invalid" | "empty";
 const AppForm: React.FC<formComposerProps> = (props) => {
     const { validator, data, onSubmit, children, lockedFields, hiddenFields,
         description, title, requiredOnly, calculatedFields, showFields,
-        customSubmit, autoSubmit, customComponentMap } = props
+        customSubmit, autoSubmit, customComponentMap, inlineFields } = props
     const { schema } = validator;
     const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
@@ -120,33 +122,44 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         }
     }, [autoSubmit, calculatedFields, onSubmit, schema.type, validator]);
 
-    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, property, instanceRef, onChange }) => {
+    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, property, inline, instanceRef, onChange }) => {
         const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
         const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>("empty");
         const formated_title = titleCase((property || title || '').split("_").join(" "));
-        return <AppItem>
-            <AppButtons slot="start">
-                <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
-                    {formated_title}
-                </AppButton>
-            </AppButtons>
-            <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
-                <AppContent>
-                    {showNestedForm && <AppForm
-                        data={instanceRef.current[property]}
-                        validator={validator.makeReferenceValidator(propertyInfo)}
-                        onSubmit={(nestedObjectValue) => {
-                            setNestedFormStatus("valid");
-                            onChange(property, nestedObjectValue);
-                            setShowNestedFrom(false);
-                        }}
-                    ><AppBackButton onClick={() => setShowNestedFrom(false)} />
-                    </AppForm>}
-                </AppContent>
-            </AppModal>
+        return inline ? <AppForm
+            data={instanceRef.current[property]}
+            validator={validator.makeReferenceValidator(propertyInfo)}
+            requiredOnly
+            autoSubmit={true}
+            onSubmit={(nestedObjectValue) => {
+                setNestedFormStatus("valid");
+                onChange(property, nestedObjectValue);
+                setShowNestedFrom(false);
+            }}
+        >
+        </AppForm> : <AppItem>
+                <AppButtons slot="start">
+                    <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
+                        {formated_title}
+                    </AppButton>
+                </AppButtons>
+                <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
+                    <AppContent>
+                        {showNestedForm && <AppForm
+                            data={instanceRef.current[property]}
+                            validator={validator.makeReferenceValidator(propertyInfo)}
+                            onSubmit={(nestedObjectValue) => {
+                                setNestedFormStatus("valid");
+                                onChange(property, nestedObjectValue);
+                                setShowNestedFrom(false);
+                            }}
+                        ><AppBackButton onClick={() => setShowNestedFrom(false)} />
+                        </AppForm>}
+                    </AppContent>
+                </AppModal>
 
-        </AppItem>
+            </AppItem>
     }
 
 
@@ -241,7 +254,8 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         }
 
         if (propertyType === "object") {
-            return <ComposeNestedFormElement
+            return < ComposeNestedFormElement
+                inline={inlineFields && inlineFields.includes(property)}
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
                 property={property}
@@ -307,7 +321,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 /></>}
             </AppList>
 
-            {<AppList color={"tertiary"}>
+            {<AppList color={"clear"}>
                 {!requiredOnly && optionalFields.length > 0 && <AppChip onClick={() => setShowOptional(x => !x)} color="medium">
                     Optional Fields
                 </AppChip>}

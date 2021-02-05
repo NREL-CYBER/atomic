@@ -32,7 +32,8 @@ const AppForm = props => {
     showFields,
     customSubmit,
     autoSubmit,
-    customComponentMap
+    customComponentMap,
+    inlineFields
   } = props;
   const {
     schema
@@ -80,6 +81,7 @@ const AppForm = props => {
   const ComposeNestedFormElement = ({
     propertyInfo,
     property,
+    inline,
     instanceRef,
     onChange
   }) => {
@@ -89,7 +91,17 @@ const AppForm = props => {
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState("empty");
     const formated_title = titleCase((property || title || '').split("_").join(" "));
-    return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    return inline ? /*#__PURE__*/React.createElement(AppForm, {
+      data: instanceRef.current[property],
+      validator: validator.makeReferenceValidator(propertyInfo),
+      requiredOnly: true,
+      autoSubmit: true,
+      onSubmit: nestedObjectValue => {
+        setNestedFormStatus("valid");
+        onChange(property, nestedObjectValue);
+        setShowNestedFrom(false);
+      }
+    }) : /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }, /*#__PURE__*/React.createElement(AppButton, {
       color: nestedFormStatus === "valid" ? "success" : "primary",
@@ -216,6 +228,7 @@ const AppForm = props => {
 
     if (propertyType === "object") {
       return /*#__PURE__*/React.createElement(ComposeNestedFormElement, {
+        inline: inlineFields && inlineFields.includes(property),
         onChange: handleInputReceived,
         instanceRef: instanceRef,
         property: property,
@@ -289,7 +302,7 @@ const AppForm = props => {
     instanceRef: instance,
     onChange: handleInputReceived
   }))), /*#__PURE__*/React.createElement(AppList, {
-    color: "tertiary"
+    color: "clear"
   }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppChip, {
     onClick: () => setShowOptional(x => !x),
     color: "medium"

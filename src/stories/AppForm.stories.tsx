@@ -122,7 +122,7 @@ const sspSchema = {
                 "title": {
                     "title": "Document Title",
                     "description": "A name given to the document, which may be used by a tool for display and navigation.",
-                    
+
                     "type": "string"
                 },
                 "published": {
@@ -163,32 +163,32 @@ const sspSchema = {
                             "title": {
                                 "title": "Document Title",
                                 "description": "A name given to the document revision, which may be used by a tool for display and navigation.",
-                                
+
                                 "type": "string"
                             },
                             "published": {
                                 "title": "Publication Timestamp",
                                 "description": "The date and time the document was published. The date-time value must be formatted according to RFC 3339 with full time and time zone included.",
-                                            "type": "string",
+                                "type": "string",
                                 "format": "date-time",
                                 "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
                             },
                             "last_modified": {
                                 "title": "Last Modified Timestamp",
                                 "description": "The date and time the document was last modified. The date-time value must be formatted according to RFC 3339 with full time and time zone included.",
-                                            "type": "string",
+                                "type": "string",
                                 "format": "date-time",
                                 "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
                             },
                             "version": {
                                 "title": "Document Version",
                                 "description": "A string used to distinguish the current version of the document from other previous (and future) versions.",
-                                            "type": "string"
+                                "type": "string"
                             },
                             "oscal_version": {
                                 "title": "OSCAL version",
                                 "description": "The OSCAL model version the document was authored against.",
-            
+
                                 "type": "string"
                             },
                             "props": {
@@ -330,13 +330,13 @@ const sspSchema = {
                 "title": {
                     "title": "Location Title",
                     "description": "A name given to the location, which may be used by a tool for display and navigation.",
-                    
+
                     "type": "string"
                 },
                 "address": {
                     "title": "Address",
                     "description": "A postal address for the location.",
-                    
+
                     "type": "object",
                     "properties": {
                         "type": {
@@ -350,26 +350,26 @@ const sspSchema = {
                             "items": {
                                 "title": "Address line",
                                 "description": "A single line of an address.",
-                                
+
                                 "type": "string"
                             }
                         },
                         "city": {
                             "title": "City",
                             "description": "City, town or geographical region for the mailing address.",
-                            
+
                             "type": "string"
                         },
                         "state": {
                             "title": "State",
                             "description": "State, province or analogous geographical region for mailing address",
-                           
+
                             "type": "string"
                         },
                         "postal_code": {
                             "title": "Postal Code",
                             "description": "Postal or ZIP code for mailing address",
-                          
+
                             "type": "string"
                         },
                         "country": {
@@ -397,7 +397,7 @@ const sspSchema = {
                     "items": {
                         "title": "Telephone Number",
                         "description": "Contact number by telephone.",
-                       
+
                         "type": "object",
                         "properties": {
                             "type": {
@@ -560,7 +560,7 @@ const sspSchema = {
                     "items": {
                         "title": "Telephone Number",
                         "description": "Contact number by telephone.",
-                       
+
                         "type": "object",
                         "properties": {
                             "type": {
@@ -584,7 +584,7 @@ const sspSchema = {
                     "items": {
                         "title": "Address",
                         "description": "A postal address for the location.",
-                        
+
                         "type": "object",
                         "properties": {
                             "type": {
@@ -598,32 +598,32 @@ const sspSchema = {
                                 "items": {
                                     "title": "Address line",
                                     "description": "A single line of an address.",
-                                    
+
                                     "type": "string"
                                 }
                             },
                             "city": {
                                 "title": "City",
                                 "description": "City, town or geographical region for the mailing address.",
-                                
+
                                 "type": "string"
                             },
                             "state": {
                                 "title": "State",
                                 "description": "State, province or analogous geographical region for mailing address",
-                               
+
                                 "type": "string"
                             },
                             "postal_code": {
                                 "title": "Postal Code",
                                 "description": "Postal or ZIP code for mailing address",
-                              
+
                                 "type": "string"
                             },
                             "country": {
                                 "title": "Country Code",
                                 "description": "The ISO 3166_1 alpha_2 country code for the mailing address.",
-                                    "type": "string"
+                                "type": "string"
                             }
                         },
                         "additionalProperties": false
@@ -678,7 +678,7 @@ const sspSchema = {
                 "title": {
                     "title": "Role Title",
                     "description": "A name given to the role, which may be used by a tool for display and navigation.",
-                    
+
                     "type": "string"
                 },
                 "short_name": {
@@ -752,13 +752,13 @@ const sspSchema = {
                             "title": {
                                 "title": "Resource Title",
                                 "description": "A name given to the resource, which may be used by a tool for display and navigation.",
-                                
+
                                 "type": "string"
                             },
                             "description": {
                                 "title": "Resource Description",
                                 "description": "A short summary of the resource used to indicate the purpose of the resource.",
-                                            "type": "string"
+                                "type": "string"
                             },
                             "props": {
                                 "type": "array",
@@ -808,7 +808,7 @@ const sspSchema = {
                                     "text": {
                                         "title": "Citation Text",
                                         "description": "A line of citation text.",
-                                        
+
                                         "type": "string"
                                     },
                                     "props": {
@@ -1012,7 +1012,7 @@ const sspSchema = {
                 "text": {
                     "title": "Link Text",
                     "description": "A textual label to associate with the link, which may be used for presentation in a tool.",
-                    
+
                     "type": "string"
                 }
             },
@@ -1145,7 +1145,7 @@ const sspSchema = {
                 "title": {
                     "title": "Component Title",
                     "description": "A human readable name for the system component.",
-                    
+
                     "type": "string"
                 },
                 "description": {
@@ -1260,7 +1260,7 @@ const sspSchema = {
                 "title": {
                     "title": "title field",
                     "description": "A human readable name for the protocol (e.g., Transport Layer Security).",
-                    
+
                     "type": "string"
                 },
                 "port_ranges": {
@@ -1317,7 +1317,7 @@ const sspSchema = {
                 "title": {
                     "title": "User Title",
                     "description": "A name given to the user, which may be used by a tool for display and navigation.",
-                    
+
                     "type": "string"
                 },
                 "short_name": {
@@ -1380,7 +1380,7 @@ const sspSchema = {
                 "title": {
                     "title": "title field",
                     "description": "A human readable name for the privilege.",
-                    
+
                     "type": "string"
                 },
                 "description": {
@@ -1820,13 +1820,13 @@ const sspSchema = {
                             "title": {
                                 "title": "title field",
                                 "description": "A human readable name for the information type. This title should be meaningful within the context of the system.",
-                                
+
                                 "type": "string"
                             },
                             "description": {
                                 "title": "Information Type Description",
                                 "description": "A summary of how this information type is used within the system.",
-                                            "type": "string"
+                                "type": "string"
                             },
                             "categorizations": {
                                 "type": "array",
@@ -2333,7 +2333,7 @@ const sspSchema = {
                             "title": {
                                 "title": "title field",
                                 "description": "A human readable name for the leveraged authorization in the context of the system.",
-                                
+
                                 "type": "string"
                             },
                             "props": {
@@ -2366,7 +2366,7 @@ const sspSchema = {
                             "date_authorized": {
                                 "title": "System Authorization Date",
                                 "description": "The date the system received its authorization.",
-                                            "type": "string",
+                                "type": "string",
                                 "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))(Z|[+-][0-9]{2}:[0-9]{2})?$"
                             },
                             "remarks": {
@@ -2689,7 +2689,7 @@ const sspSchema = {
                         "description": {
                             "title": "Control Implementation Export Description",
                             "description": "An implementation statement that describes the aspects of the control or control statement implementation that can be available to another system leveraging this system.",
-                                    "type": "string"
+                            "type": "string"
                         },
                         "props": {
                             "type": "array",
@@ -2730,7 +2730,7 @@ const sspSchema = {
                                     "description": {
                                         "title": "Provided Control Implementation Description",
                                         "description": "An implementation statement that describes the aspects of the control or control statement implementation that can be provided to another system leveraging this system.",
-                                                            "type": "string"
+                                        "type": "string"
                                     },
                                     "props": {
                                         "type": "array",
@@ -2804,7 +2804,7 @@ const sspSchema = {
                                     "description": {
                                         "title": "Control Implementation Responsibility Description",
                                         "description": "An implementation statement that describes the aspects of the control or control statement implementation that a leveraging system must implement to satisfy the control provided by a leveraged system.",
-                                                            "type": "string"
+                                        "type": "string"
                                     },
                                     "props": {
                                         "type": "array",
@@ -2884,7 +2884,7 @@ const sspSchema = {
                             "description": {
                                 "title": "Inherited Control Implementation Description",
                                 "description": "An implementation statement that describes the aspects of a control or control statement implementation that a leveraging system is inheriting from a leveraged system.",
-                                            "type": "string"
+                                "type": "string"
                             },
                             "props": {
                                 "type": "array",
@@ -2955,7 +2955,7 @@ const sspSchema = {
                             "description": {
                                 "title": "Satisfied Control Implementation Responsibility Description",
                                 "description": "An implementation statement that describes the aspects of a control or control statement implementation that a leveraging system is implementing based on a requirement from a leveraged system.",
-                                            "type": "string"
+                                "type": "string"
                             },
                             "props": {
                                 "type": "array",
@@ -3044,7 +3044,7 @@ const sspSchema = {
     "maxProperties": 1
 }
 
-const sspValidator = new Validator(sspSchema, "system_security_plan");
+const sspValidator = new Validator(sspSchema, "system_component");
 
 
 export const AddressExample = Template.bind({});
@@ -3064,7 +3064,7 @@ VeggieExample.args = {
 }
 export const ComplexExample = Template.bind({});
 ComplexExample.args = {
-    title: "SSP",
+    inlineFields: ["status"],
     data: {},
     validator: sspValidator,
     onSubmit,

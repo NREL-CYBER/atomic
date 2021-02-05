@@ -2768,7 +2768,7 @@ const sspSchema = {
   "additionalProperties": false,
   "maxProperties": 1
 };
-const sspValidator = new Validator(sspSchema, "system_security_plan");
+const sspValidator = new Validator(sspSchema, "system_component");
 export const AddressExample = Template.bind({});
 AddressExample.args = {
   title: "Address",
@@ -2786,7 +2786,7 @@ VeggieExample.args = {
 };
 export const ComplexExample = Template.bind({});
 ComplexExample.args = {
-  title: "SSP",
+  inlineFields: ["status"],
   data: {},
   validator: sspValidator,
   onSubmit

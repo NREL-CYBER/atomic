@@ -1,10 +1,10 @@
+import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
-import titleCase from '../util/titleCase';
+import prettyTitle from '../util/prettyTitle';
 import FormComposer from './forms/AppForm';
-import produce from "immer";
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -19,7 +19,8 @@ const AppFormArrayInput = props => {
     property,
     instanceRef,
     validator,
-    onChange
+    onChange,
+    propertyInfo
   } = props;
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
@@ -27,7 +28,7 @@ const AppFormArrayInput = props => {
   const [value, setValue] = useState(instanceRef.current[property] ? instanceRef.current[property] : []);
   const [data, setData] = useState({});
   const [undoCache, setUndoCache] = useState();
-  const propertyFormattedName = titleCase(property).split("_").join(" ");
+  const propertyFormattedName = prettyTitle(propertyInfo.title || property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
   const beginInsertItem = (val = {}) => {
