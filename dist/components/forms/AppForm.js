@@ -5,6 +5,7 @@ import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
+import AppFormInteger from './AppFormInteger';
 
 const LockedField = ({
   property,
@@ -162,6 +163,16 @@ const AppForm = props => {
 
     if (propertyType === "boolean") {
       return /*#__PURE__*/React.createElement(AppFormToggle, {
+        instanceRef: instanceRef,
+        propertyInfo: refPropertyInfo,
+        property: property,
+        onChange: handleInputReceived,
+        key: property
+      });
+    }
+
+    if (propertyType === "integer" || propertyType === "number") {
+      return /*#__PURE__*/React.createElement(AppFormInteger, {
         instanceRef: instanceRef,
         propertyInfo: refPropertyInfo,
         property: property,

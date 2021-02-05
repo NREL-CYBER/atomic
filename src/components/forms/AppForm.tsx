@@ -17,6 +17,7 @@ import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
+import AppFormInteger from './AppFormInteger';
 
 export interface propertyKeyValue {
     property: string,
@@ -191,6 +192,16 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 key={property}
             />
         }
+        if (propertyType === "integer" || propertyType === "number") {
+            return <AppFormInteger
+                instanceRef={instanceRef}
+                propertyInfo={refPropertyInfo}
+                property={property}
+                onChange={handleInputReceived}
+                key={property}
+            />
+        }
+
 
         if (propertyType === "array") {
             return <AppFormArrayInput
