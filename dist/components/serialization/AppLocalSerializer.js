@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from "react";
-import useLocalSerialization from "../../hooks/useLocalSerialization";
+import useIndexDBStorage from "../../hooks/useLocalSerialization";
 
 const AppLocalSerializer = ({
   cache
@@ -7,14 +7,16 @@ const AppLocalSerializer = ({
   const {
     index
   } = cache;
-  const synchronizeWithLocalStorage = useLocalSerialization(x => x.synchronize);
+  const {
+    synchronize
+  } = useIndexDBStorage();
   useEffect(() => {
     Object.entries(index).forEach(([namespace, collections]) => {
       Object.values(collections).forEach(storeAPI => {
-        synchronizeWithLocalStorage(namespace, storeAPI.getState);
+        synchronize(namespace, storeAPI.getState, "anonymous");
       });
     });
-  }, [index, synchronizeWithLocalStorage]);
+  }, [index, synchronize]);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 
