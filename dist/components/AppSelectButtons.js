@@ -2,6 +2,8 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 import React from 'react';
 import AppButton from './AppButton';
+import AppList from './AppList';
+import { AppItem } from '.';
 
 /**
  * Component for a select interface via buttons
@@ -10,9 +12,10 @@ const AppSelectButtons = ({
   selected,
   buttons,
   onSelectionChange,
-  multi
+  multi,
+  display = "row"
 }) => {
-  return /*#__PURE__*/React.createElement(React.Fragment, null, buttons.map(button => /*#__PURE__*/React.createElement(AppButton, _extends({
+  const selectButtons = buttons.map(button => /*#__PURE__*/React.createElement(AppButton, _extends({
     fill: selected.includes(button.value) ? "solid" : "outline",
     children: button.text
   }, button, {
@@ -24,7 +27,8 @@ const AppSelectButtons = ({
         onSelectionChange([button.value]);
       }
     }
-  }))));
+  })));
+  return display === "row" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : /*#__PURE__*/React.createElement(AppList, null, selectButtons.map(button => /*#__PURE__*/React.createElement(AppItem, null, button)));
 };
 
 export default AppSelectButtons;

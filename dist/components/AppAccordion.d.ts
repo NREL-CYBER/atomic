@@ -1,8 +1,8 @@
-import { FC } from "react";
+import React, { FC } from "react";
 import { AppColor } from "..";
 declare type accordionItem = {
-    toolbarContent: FC;
-    innerContent: FC;
+    toolbarContent: React.FC;
+    innerContent: React.FC;
 };
 export interface accordionProps {
     items: accordionItem[];

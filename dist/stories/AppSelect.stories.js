@@ -11,6 +11,7 @@ const Template = args => /*#__PURE__*/React.createElement(AppSelectButtons, args
 export const SelectButtonsExample = Template.bind({});
 SelectButtonsExample.args = {
   selected: ["nist_800_36"],
+  display: "column",
   buttons: [{
     value: "nist_800_36",
     color: "danger",

@@ -14,6 +14,7 @@ const Template: Story<selectButtonsProps> = (args) => <AppSelectButtons {...args
 export const SelectButtonsExample = Template.bind({});
 SelectButtonsExample.args = {
     selected: ["nist_800_36"],
+    display: "column",
     buttons: [
         { value: "nist_800_36", color: "danger", text: "HIGH" }, { value: "nist_800_37", color: "success", text: "LOW" }
     ],

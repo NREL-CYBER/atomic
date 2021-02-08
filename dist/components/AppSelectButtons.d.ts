@@ -11,6 +11,7 @@ export interface selectButtonsProps {
     onSelectionChange: (values: string[]) => void;
     selected: string[];
     multi?: boolean;
+    display?: "column" | "row";
 }
 /**
  * Component for a select interface via buttons
