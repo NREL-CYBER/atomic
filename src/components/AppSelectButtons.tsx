@@ -14,13 +14,13 @@ export interface selectButtonsProps {
     onSelectionChange: (values: string[]) => void
     selected: string[]
     multi?: boolean
-    display?: "column" | "row"
+    display?: "horizontal" | "vertical"
 }
 
 /**
  * Component for a select interface via buttons
  */
-const AppSelectButtons: React.FC<selectButtonsProps> = ({ selected, buttons, onSelectionChange, multi, display = "row" }) => {
+const AppSelectButtons: React.FC<selectButtonsProps> = ({ selected, buttons, onSelectionChange, multi, display = "horizontal" }) => {
 
     const selectButtons =
         buttons.map(button => <AppButton
@@ -37,7 +37,7 @@ const AppSelectButtons: React.FC<selectButtonsProps> = ({ selected, buttons, onS
 
 
 
-    return display === "row" ? <>{selectButtons}</> : <AppList>
+    return display === "horizontal" ? <>{selectButtons}</> : <AppList>
         {selectButtons.map(button =>
             <AppItem>
                 {button}
