@@ -78,4 +78,4 @@ const AppLogin = ({
   }))), status === "authenticating" && /*#__PURE__*/React.createElement(AppSpinner, null));
 };
 
-export default memo(AppLogin);
+export default /*#__PURE__*/memo(AppLogin);

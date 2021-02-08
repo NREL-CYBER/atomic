@@ -17,23 +17,22 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, { useEffect, memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Route } from 'react-router';
+import { AppContent, AppPage } from '.';
 import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
+import AppChip from './AppChip';
+import AppLogin from './AppLogin';
 import AppRouter from './AppRouter';
+import AppTitle from './AppTitle';
 import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
-import AppTopToolbar from './global/AppTopToolbar';
-import useDarkMode from '../hooks/useDarkMode';
-import AppSerializer from './serialization/AppLocalSerializer';
 import AppNotifications from './global/AppNotifications';
-import AppCloudSerializer from './serialization/AppCloudSerializer';
-import { AppPage, AppContent } from '.';
-import AppLogin from './AppLogin';
+import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
-import AppTitle from './AppTitle';
-import AppChip from './AppChip';
+import AppCloudSerializer from './serialization/AppCloudSerializer';
+import AppSerializer from './serialization/AppLocalSerializer';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -53,7 +52,13 @@ const AppRoot = ({
   const {
     initialize
   } = useAppLayout();
-  useDarkMode(darkMode ? darkMode : false);
+  useEffect(() => {
+    const className = darkMode ? 'dark-theme' : "light-theme";
+    const oldClassName = darkMode ? 'light-theme' : "dark-theme";
+    const element = window.document.body;
+    element.classList.remove(oldClassName);
+    element.classList.add(className);
+  }, [darkMode]);
   useEffect(() => {
     initialize(routes);
   }, [initialize, routes]);
@@ -96,4 +101,4 @@ const AppRoot = ({
   }, route))), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null)));
 };
 
-export default memo(AppRoot);
+export default /*#__PURE__*/memo(AppRoot);

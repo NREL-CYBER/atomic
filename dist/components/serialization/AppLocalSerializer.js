@@ -18,4 +18,4 @@ const AppLocalSerializer = ({
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 
-export default memo(AppLocalSerializer);
+export default /*#__PURE__*/memo(AppLocalSerializer);

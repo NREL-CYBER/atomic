@@ -1,13 +1,10 @@
-import React from "react";
-import AppModal from "../AppModal";
-import { useGuidance, AppText, AppCard, AppButtons } from "../..";
-import AppToolbar from "../AppToolbar";
-import AppBackButton from "../AppBackButton";
-import AppIcon from "../AppIcon";
 import { closeOutline } from "ionicons/icons";
+import React from "react";
+import { AppButtons, AppCard, AppText, useGuidance } from "../..";
 import AppButton from "../AppButton";
+import AppIcon from "../AppIcon";
 import AppItem from "../AppItem";
-import { AppNextButton } from "../global/AppNextButton";
+import AppModal from "../AppModal";
 import AppTitle from "../AppTitle";
 
 const AppGuidance: React.FC = () => {

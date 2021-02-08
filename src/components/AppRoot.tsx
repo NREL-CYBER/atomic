@@ -12,24 +12,23 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, { useEffect, memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Route } from 'react-router';
+import { AppContent, AppPage } from '.';
 import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
+import AppChip from './AppChip';
+import AppLogin from './AppLogin';
 import AppRouter from './AppRouter';
+import AppTitle from './AppTitle';
 import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
-import AppTopToolbar from './global/AppTopToolbar';
-import useDarkMode from '../hooks/useDarkMode';
-import AppSerializer from './serialization/AppLocalSerializer';
 import AppNotifications from './global/AppNotifications';
-import AppCloudSerializer from './serialization/AppCloudSerializer';
-import { AppPage, AppContent } from '.';
-import AppLogin from './AppLogin';
+import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
-import AppTitle from './AppTitle';
-import AppChip from './AppChip';
+import AppCloudSerializer from './serialization/AppCloudSerializer';
+import AppSerializer from './serialization/AppLocalSerializer';
 
 
 /**
@@ -43,7 +42,16 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
 
     const { initialize } = useAppLayout();
 
-    useDarkMode(darkMode ? darkMode : false);
+    useEffect(
+        () => {
+            const className = darkMode ? 'dark-theme' : "light-theme";
+            const oldClassName = darkMode ? 'light-theme' : "dark-theme";
+            const element = window.document.body;
+            element.classList.remove(oldClassName);
+            element.classList.add(className);
+        },
+        [darkMode]
+    );
 
     useEffect(() => {
         initialize(routes);

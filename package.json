@@ -5,17 +5,14 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.12.12",
-    "@babel/preset-typescript": "^7.12.7",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "@babel/plugin-transform-react-jsx": "^7.12.13",
+    "@babel/preset-react": "^7.12.13",
     "@capacitor/core": "2.4.5",
     "@ionic/react": "^5.5.2",
     "@ionic/react-router": "^5.5.2",
     "@storybook/addons": "^6.1.14",
     "@storybook/theming": "^6.1.14",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^8.0.3",
-    "@types/jest": "^24.0.25",
     "@types/lodash": "^4.14.168",
     "@types/node": "^12.12.24",
     "@types/react": "^16.9.17",
@@ -23,7 +20,7 @@
     "@types/react-router": "^5.1.4",
     "@types/react-router-dom": "^5.1.3",
     "@types/uuid": "^8.3.0",
-    "babel": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
     "firebase": "^8.2.4",
     "ionicons": "^5.0.0",
     "react": "^16.13.0",
@@ -60,6 +57,10 @@
     ]
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.13",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.13",
+    "@babel/preset-typescript": "^7.12.13",
     "@capacitor/cli": "2.4.5",
     "@storybook/addon-actions": "^6.1.11",
     "@storybook/addon-essentials": "^6.1.11",
@@ -67,14 +68,13 @@
     "@storybook/node-logger": "^6.1.11",
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.11",
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "@babel/preset-typescript": "^7.12.7",
     "@types/jest": "^26.0.19",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.4.4",
     "typescript": "^4.1.3"
   },
-  "description": "Atomic:A Framework Component Library for Ionic/Electron Apps"
+  "description": "Atomic:A Framework Component Library for Ionic/Electron Apps",
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  }
 }

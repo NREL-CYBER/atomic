@@ -90,7 +90,7 @@ function useFirebaseStorage(cloud: AppCloudConfig) {
             if (!itemIndex) {
                 throw new Error("bad Item index in insert document")
             }
-            Object.keys(document).forEach(key => (document as any)[key] === undefined || (document as any)[key] === [] && delete (document as any)[key])
+            Object.keys(document).forEach(key => (document as any)[key] === undefined || ((document as any)[key] === [] && delete (document as any)[key]))
             db.collection("data").doc(uid).collection(store().collection).doc(itemIndex).set(document);
         },
         removeDocument<T>(store: () => Store<T>, itemIndex: string, uid: string) {

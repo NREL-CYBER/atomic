@@ -23,4 +23,4 @@ const AppCloudSerializer = ({
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 
-export default memo(AppCloudSerializer);
+export default /*#__PURE__*/memo(AppCloudSerializer);

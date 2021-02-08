@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "atom",
+  "appId": "nrel.atomic.io",
+  "appName": "atomic",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
