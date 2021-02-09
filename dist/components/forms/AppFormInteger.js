@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AppItem, AppLabel, AppText } from '..';
-import { titleCase } from '../..';
 import AppInput from '../AppInput';
+import { titleCase } from '../../util';
 const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",

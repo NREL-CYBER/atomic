@@ -30,7 +30,6 @@ import AppGuidance from './guidance/AppGuidance';
 import AppCloudSerializer from './serialization/AppCloudSerializer';
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 
-
 /**
  * Component that stores the root of the application and control current theme
  */

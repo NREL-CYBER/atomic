@@ -1,6 +1,7 @@
 import { closeOutline } from "ionicons/icons";
 import React from "react";
-import { AppButtons, AppCard, AppText, useGuidance } from "../..";
+import { AppButtons, AppCard, AppText } from "..";
+import { useGuidance } from "../../hooks";
 import AppButton from "../AppButton";
 import AppIcon from "../AppIcon";
 import AppItem from "../AppItem";

@@ -12,21 +12,23 @@ const useIndexDBStorage = create(() => ({
 
   async synchronize(namespace, store, uid) {
     const collection_key = namespace + "-" + store().collection;
-    const collection_partial_key = collection_key + "-partial";
-    const entries = await get(collection_key);
-    const partial = await get(collection_partial_key);
-    store().setPartial(partialDraft => {
-      Object.entries(partial).forEach(([key, value]) => {
-        partialDraft[key] = value;
+    const collection_workspace_key = collection_key + "-workspace";
+    const entries_string = await get(collection_key);
+    const entries = JSON.parse(entries_string);
+    const workspace_string = await get(collection_workspace_key);
+    const workspace = workspace_string && JSON.parse(workspace_string);
+    store().setWorkspace(workspaceDraft => {
+      workspace && Object.entries(workspace).forEach(([key, value]) => {
+        workspaceDraft[key] = value;
       });
     });
-    entries.forEach(entry => {
+    entries && entries.forEach(entry => {
       store().insert(entry);
     });
     store().addListener((_, data, status) => {
       switch (status) {
-        case "partial-update":
-          set(collection_partial_key, data);
+        case "workspace-update":
+          set(collection_workspace_key, data);
           break;
 
         case "inserting":

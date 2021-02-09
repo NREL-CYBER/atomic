@@ -60,6 +60,7 @@ const AppFormInput = props => {
     position: "stacked",
     color: statusColor
   }, propertyFormattedName), input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ? /*#__PURE__*/React.createElement(AppInput, {
+    color: "dark",
     type: inputMode,
     value: value,
     placeholder: propertyFormattedName,
@@ -67,6 +68,7 @@ const AppFormInput = props => {
       setValue(val);
     }
   }) : /*#__PURE__*/React.createElement(AppTextArea, {
+    color: "dark",
     inputMode: inputMode,
     value: value,
     onTextChange: val => {

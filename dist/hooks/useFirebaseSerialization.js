@@ -37,10 +37,10 @@ function useFirebaseStorage(cloud) {
       const db = firebase.firestore();
       db.collection("data").doc(uid).collection(store().collection).get().then(serverCollection => {
         serverCollection.docs.forEach(doc => {
-          if (doc.id === "partial") {
-            store().setPartial(partialDraft => {
+          if (doc.id === "workspace") {
+            store().setWorkspace(workspaceDraft => {
               Object.entries(doc.data()).forEach(([key, value]) => {
-                partialDraft[key] = value;
+                workspaceDraft[key] = value;
               });
             });
           } else {
@@ -52,7 +52,7 @@ function useFirebaseStorage(cloud) {
         console.log("listener active", index, data, status);
 
         switch (status) {
-          case "partial-update":
+          case "workspace-update":
             cloudStorage().insertDocument(store, data, index, uid);
             break;
 

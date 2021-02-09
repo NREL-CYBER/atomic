@@ -1,12 +1,22 @@
 import React from 'react';
-import { AppButton, AppButtons, AppCard, AppContent, AppItem, AppPage } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppPage } from '../components';
 
 const Home = () => {
-  return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppCard, {
+  return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
+    center: true
+  }, /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "light",
-    titleColor: "primary",
-    title: "Welcome to Atomic!"
-  }, "Check out the examples to get started", /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    headerColor: "primary",
+    title: "Welcome to atomic"
+  }, /*#__PURE__*/React.createElement(AppChip, {
+    color: "success"
+  }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppButton, {
+    routerLink: "/uploader",
+    color: "primary",
+    fill: "solid"
+  }, "Uploader Example")), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     routerLink: "/form",

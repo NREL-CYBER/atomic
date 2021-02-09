@@ -13,6 +13,7 @@ const ExampleForm = () => {
     locality,
     region
   }) => /*#__PURE__*/React.createElement(AppChip, null, " ", country_name + " " + locality + " " + region)), /*#__PURE__*/React.createElement(AppForm, {
+    title: "form",
     requiredOnly: true,
     onSubmit: insert,
     data: {},

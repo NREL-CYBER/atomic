@@ -104,7 +104,10 @@ transition: all 0.3s;
 ion-list{
 transition: all 0.3s;
 }
-
+input{
+--color:blue;
+}
+  
 
 
 

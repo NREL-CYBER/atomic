@@ -21,17 +21,18 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
     async synchronize<T>(namespace: string, store: () => Store<T>, uid: string) {
         const collection_key = namespace + "-" + store().collection;
         const collection_workspace_key = collection_key + "-workspace";
-
-        const entries = await get(collection_key) as [];
-        const workspace = await get(collection_workspace_key)
-
+        const entries_string = await get(collection_key);
+        const entries = JSON.parse(entries_string) as [];
+        const workspace_string = await get(collection_workspace_key)
+        const workspace = workspace_string && JSON.parse(workspace_string);
         store().setWorkspace((workspaceDraft) => {
-            Object.entries(workspace).forEach(([key, value]) => {
+
+            workspace && Object.entries(workspace).forEach(([key, value]) => {
                 (workspaceDraft as any)[key] = value;
             })
         });
 
-        entries.forEach(entry => {
+        entries && entries.forEach(entry => {
             store().insert(entry);
         })
         store().addListener((_, data, status) => {

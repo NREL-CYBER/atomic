@@ -1,7 +1,8 @@
 import { checkmark } from "ionicons/icons";
 import React, { FC } from "react";
-import { AppRoute, useCompletion } from "../..";
 import { AppCard, AppList, AppItem, AppButtons, AppIcon, AppTitle } from "..";
+import { AppRoute } from "../../core/routing";
+import { useCompletion } from "../../hooks";
 
 const AppRouteCard: FC<AppRoute> = ({ path, icon, title }) => {
     const { pathStatusColor, isUnlocked, isValid } = useCompletion();

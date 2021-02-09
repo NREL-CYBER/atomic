@@ -1,6 +1,6 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-import { IonApp } from '@ionic/react';
+import { IonApp, IonFooter } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 
 import "@ionic/react/css/core.css";
@@ -32,7 +32,7 @@ import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
 import AppCloudSerializer from './serialization/AppCloudSerializer';
-import AppSerializer from './serialization/AppLocalSerializer';
+import AppLocalSerializer from './serialization/AppLocalSerializer';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -84,7 +84,7 @@ const AppRoot = ({
 
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
-  }, serialization && serialization.mode === "local" && /*#__PURE__*/React.createElement(AppSerializer, {
+  }, serialization && serialization.mode === "local" && /*#__PURE__*/React.createElement(AppLocalSerializer, {
     cache: cache
   }), serialization && serialization.mode === "cloud" && serialization.cloud && uid && /*#__PURE__*/React.createElement(AppCloudSerializer, {
     uid: uid,
@@ -98,7 +98,7 @@ const AppRoot = ({
     topBar
   } : /*#__PURE__*/React.createElement(AppTopToolbar, null), children, routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
-  }, route))), bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null)));
+  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, bottomBar ? bottomBar : /*#__PURE__*/React.createElement(AppBottomToolbar, null))));
 };
 
 export default /*#__PURE__*/memo(AppRoot);

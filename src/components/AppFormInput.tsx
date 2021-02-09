@@ -69,10 +69,10 @@ const AppFormInput = (props: formInputProps<any>) => {
                 {propertyFormattedName}
             </AppLabel>
             {input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
-                <AppInput type={inputMode} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
+                <AppInput color="dark" type={inputMode} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
                     setValue(val)
                 }} />
-                : <AppTextArea inputMode={inputMode} value={value} onTextChange={(val) => {
+                : <AppTextArea color="dark" inputMode={inputMode} value={value} onTextChange={(val) => {
                     console.log(val);
                     setValue(val);
                 }} />}

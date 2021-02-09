@@ -15,7 +15,8 @@ const AppSelectButtons = ({
   multi,
   display = "horizontal"
 }) => {
-  const selectButtons = buttons.map(button => /*#__PURE__*/React.createElement(AppButton, _extends({
+  const selectButtons = buttons.map((button, i) => /*#__PURE__*/React.createElement(AppButton, _extends({
+    key: i,
     fill: selected.includes(button.value) ? "solid" : "outline",
     children: button.text
   }, button, {
@@ -28,7 +29,9 @@ const AppSelectButtons = ({
       }
     }
   })));
-  return display === "horizontal" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : /*#__PURE__*/React.createElement(AppList, null, selectButtons.map(button => /*#__PURE__*/React.createElement(AppItem, null, button)));
+  return display === "horizontal" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : /*#__PURE__*/React.createElement(AppList, null, selectButtons.map((button, i) => /*#__PURE__*/React.createElement(AppItem, {
+    key: i
+  }, button)));
 };
 
 export default AppSelectButtons;

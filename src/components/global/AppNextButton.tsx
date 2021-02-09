@@ -4,8 +4,8 @@
 
 import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
-import { useAppLayout, useCompletion } from "../..";
 import { AppToolbar, AppButtons, AppButton, AppIcon, AppItemDivider } from "..";
+import { useAppLayout, useCompletion } from "../../hooks";
 
 export const AppNextButton: React.FC = () => {
     const next = useAppLayout(x => x.nextPage);

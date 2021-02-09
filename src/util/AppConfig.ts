@@ -1,5 +1,5 @@
-import { AppRoute } from "..";
 import { AppCacheIndex } from "../state/AppCacheIndex";
+import { AppRoute } from "../core/routing";
 
 export interface AppCloudConfig {
     provider: {

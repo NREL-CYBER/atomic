@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,9 +23,11 @@
     "babel-preset-react": "^6.24.1",
     "firebase": "^8.2.4",
     "idb-keyval": "^5.0.2",
+    "immer": "^8.0.1",
     "ionicons": "^5.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-dropzone-uploader": "^2.11.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
@@ -39,8 +41,8 @@
   "scripts": {
     "build:types": "tsc --emitDeclarationOnly ",
     "build:components": "babel src --out-dir dist --extensions .ts,.tsx",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -63,13 +65,14 @@
     "@babel/preset-env": "^7.12.13",
     "@babel/preset-typescript": "^7.12.13",
     "@capacitor/cli": "2.4.5",
-    "@storybook/addon-actions": "^6.1.11",
-    "@storybook/addon-essentials": "^6.1.11",
-    "@storybook/addon-links": "^6.1.11",
-    "@storybook/node-logger": "^6.1.11",
-    "@storybook/preset-create-react-app": "^3.1.5",
-    "@storybook/react": "^6.1.11",
+    "@storybook/addon-actions": "^6.1.17",
+    "@storybook/addon-essentials": "^6.1.17",
+    "@storybook/addon-links": "^6.1.17",
+    "@storybook/node-logger": "6.1.11",
+    "@storybook/preset-create-react-app": "3.1.5",
+    "@storybook/react": "^6.1.17",
     "@types/jest": "^26.0.19",
+    "babel-loader": "^8.2.2",
     "typescript": "^4.1.3"
   },
   "description": "Atomic:A Framework Component Library for Ionic/Electron Apps",

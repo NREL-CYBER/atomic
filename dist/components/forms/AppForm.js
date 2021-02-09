@@ -269,6 +269,7 @@ const AppForm = props => {
 
   const OptionalFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, optionalFields.map(property => {
     if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+      key: property,
       property: property,
       value: instance.current[property]
     });
@@ -311,6 +312,7 @@ const AppForm = props => {
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppText, {
+    key: "error",
     color: "danger"
   }, error))), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"

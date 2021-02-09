@@ -1,19 +1,17 @@
 import React from 'react';
-import { AppColor } from '../..';
+import { IFileWithMeta, IUploadParams } from 'react-dropzone-uploader';
+import 'react-dropzone-uploader/dist/styles.css';
 export declare type AppFill = "clear" | "outline" | "solid" | "default" | undefined;
-export interface buttonProps {
-    expand?: "full" | "block";
-    routerLink?: string;
-    color?: AppColor;
-    onClick?: () => void;
-    fill?: AppFill;
-    disabled?: boolean;
-    routerDirection?: "forward" | "back" | "none" | "root";
-    onMouseEnter?: () => void;
-    onMouseExit?: () => void;
+export interface uploaderProps {
+    title: string;
+    description: string;
+    file?: File;
+    onFileReceived: (file: IFileWithMeta) => void;
+    accept: string;
+    uploadParams?: (fileWithMeta: IFileWithMeta) => IUploadParams;
 }
 /**
- * Button Component
+ * Upload Component
  */
-declare const AppButton: React.FC<buttonProps>;
-export default AppButton;
+declare const AppUploader: React.FC<uploaderProps>;
+export default AppUploader;

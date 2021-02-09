@@ -15,7 +15,10 @@
   -o-animation: fadein 1s;
   /* Opera */
 }
-
+ion-input{
+  --color:blue;
+  }
+  
 
  input:-webkit-autofill,
  input:-webkit-autofill:hover,

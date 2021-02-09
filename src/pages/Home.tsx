@@ -1,12 +1,19 @@
 import React from 'react';
-import { AppButton, AppButtons, AppCard, AppContent, AppItem, AppPage } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppPage } from '../components';
 
 const Home: React.FC = () => {
   return <AppPage >
-    <AppContent>
-      <AppCard contentColor={"light"} titleColor="primary" title={"Welcome to Atomic!"}>
-        Check out the examples to get started
+    <AppContent center>
+      <AppCard contentColor={"light"} headerColor="primary" title="Welcome to atomic">
+        <AppChip color="success">
+          Check out the examples to get started
+        </AppChip>
         <AppItem>
+          <AppButtons slot="start">
+            <AppButton routerLink={"/uploader"} color="primary" fill="solid">
+              Uploader Example
+            </AppButton>
+          </AppButtons>
           <AppButtons slot="end">
             <AppButton routerLink={"/form"} color="favorite" fill="solid">
               Form Example

@@ -1,9 +1,10 @@
 import React, { MutableRefObject, useEffect, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppItem, AppLabel, AppText } from '..';
-import { AppColor, titleCase } from '../..';
 import AppInput from '../AppInput';
 import { formFieldChangeEvent } from './AppForm';
+import { AppColor } from '../../theme';
+import { titleCase } from '../../util';
 
 
 interface formInputProps<T> {

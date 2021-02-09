@@ -4,7 +4,6 @@ import { AppCacheIndex } from "../state/AppCacheIndex";
 
 
 /**
- * Type that defines what the useNotifications hook can do
  */
 type CacheService = {
     index?: AppCacheIndex

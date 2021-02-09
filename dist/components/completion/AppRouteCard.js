@@ -1,7 +1,7 @@
 import { checkmark } from "ionicons/icons";
 import React from "react";
-import { useCompletion } from "../..";
 import { AppCard, AppList, AppItem, AppButtons, AppIcon, AppTitle } from "..";
+import { useCompletion } from "../../hooks";
 
 const AppRouteCard = ({
   path,

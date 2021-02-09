@@ -30,7 +30,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
-    const [value, setValue] = useState<any>(instanceRef.current[property] ? instanceRef.current[property] : {})
+    const [value, setValue] = useState<Record<string, any>>(instanceRef.current[property] ? instanceRef.current[property] : {})
     const [data, setData] = useState<any>({})
     const [activeIndex, setActiveIndex] = useState<string | undefined>(undefined);
     const propertyFormattedName = titleCase(property).replace("-", " ");
@@ -72,7 +72,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                         validator={validator}
                         data={{ ...data }}
                         onSubmit={(item: any) => {
-                            const newValue = produce(value, (draftValue) => {
+                            const newValue = produce(value, (draftValue: { [x: string]: any; }) => {
                                 draftValue[activeIndex ? activeIndex : v4()] = item;
                             });
                             const [validationStatus, errors] = onChange(property, newValue);
