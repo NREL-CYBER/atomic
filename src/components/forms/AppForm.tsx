@@ -283,9 +283,9 @@ const AppForm: React.FC<formComposerProps> = (props) => {
 
 
     const OptionalFormFields: React.FC = () => <>{
-        optionalFields.map(property => {
+        optionalFields.map((property) => {
             if (lockedFields && lockedFields.includes(property))
-                return <LockedField property={property} value={instance.current[property]} />
+                return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
                 return <Fragment key={property}></Fragment>
 
@@ -330,7 +330,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
 
             <AppToolbar color="clear">
                 <AppButtons slot="start">
-                    {errors.slice(0, 1).map(error => <AppText color='danger'>
+                    {errors.slice(0, 1).map(error => <AppText key={"error"} color='danger'>
                         {error}
                     </AppText>)}
                 </AppButtons>

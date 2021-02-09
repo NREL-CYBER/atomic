@@ -1,4 +1,4 @@
-import { IonApp } from '@ionic/react';
+import { IonApp, IonFooter } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/display.css";
@@ -90,9 +90,11 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
             {routes.map(route =>
                 <Route key={route.path} {...route} />
             )}
-            {bottomBar ? bottomBar : <AppBottomToolbar />}
             <AppNotifications />
             <AppGuidance />
+            <IonFooter>
+                {bottomBar ? bottomBar : <AppBottomToolbar />}
+            </IonFooter>
         </AppRouter>
     </IonApp>
 }
