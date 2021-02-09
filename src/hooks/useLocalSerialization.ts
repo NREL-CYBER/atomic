@@ -20,14 +20,14 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
     },
     async synchronize<T>(namespace: string, store: () => Store<T>, uid: string) {
         const collection_key = namespace + "-" + store().collection;
-        const collection_partial_key = collection_key + "-partial";
+        const collection_workspace_key = collection_key + "-workspace";
 
         const entries = await get(collection_key) as [];
-        const partial = await get(collection_partial_key)
+        const workspace = await get(collection_workspace_key)
 
-        store().setPartial((partialDraft) => {
-            Object.entries(partial).forEach(([key, value]) => {
-                (partialDraft as any)[key] = value;
+        store().setWorkspace((workspaceDraft) => {
+            Object.entries(workspace).forEach(([key, value]) => {
+                (workspaceDraft as any)[key] = value;
             })
         });
 
@@ -36,8 +36,8 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
         })
         store().addListener((_, data, status) => {
             switch (status) {
-                case "partial-update":
-                    set(collection_partial_key, data);
+                case "workspace-update":
+                    set(collection_workspace_key, data);
                     break;
                 case "inserting":
                 case "removing":

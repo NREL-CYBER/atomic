@@ -28,7 +28,7 @@ import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
 import AppCloudSerializer from './serialization/AppCloudSerializer';
-import AppSerializer from './serialization/AppLocalSerializer';
+import AppLocalSerializer from './serialization/AppLocalSerializer';
 
 
 /**
@@ -80,7 +80,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     }
 
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
-        {serialization && serialization.mode === "local" && <AppSerializer cache={cache} />}
+        {serialization && serialization.mode === "local" && <AppLocalSerializer cache={cache} />}
         {serialization && serialization.mode === "cloud" && serialization.cloud && uid &&
             <AppCloudSerializer uid={uid} cloud={serialization.cloud} cache={cache} />}
         <AppRouter id={"root"}>
