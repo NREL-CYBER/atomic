@@ -2,15 +2,15 @@ import { arrowBackOutline } from 'ionicons/icons';
 import React, { memo, useState } from 'react';
 import Validator from 'validator';
 import { AppTitle } from '.';
+import { useNotifications } from '../hooks';
 import useFirebaseStorage from '../hooks/useFirebaseSerialization';
 import AppButton from './AppButton';
 import AppCard from './AppCard';
 import AppIcon from './AppIcon';
-import AppSelectButtons from './AppSelectButtons';
-import AppForm from './forms/AppForm';
-import { useNotifications } from '../hooks';
 import AppItemDivider from './AppItemDivider';
 import AppProgress from './AppProgress';
+import AppSelectButtons from './AppSelectButtons';
+import AppForm from './forms/AppForm';
 const credentialSchema = {
   "$id": "user",
   "$schema": "http://json-schema.org/draft-07/schema#",

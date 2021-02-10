@@ -1,17 +1,17 @@
 import { arrowBackOutline } from 'ionicons/icons';
 import React, { memo, useState } from 'react';
 import Validator from 'validator';
-import { AppSpinner, AppCol, AppText, AppTitle } from '.';
+import { AppTitle } from '.';
+import { useNotifications } from '../hooks';
 import useFirebaseStorage from '../hooks/useFirebaseSerialization';
 import { AppCloudConfig } from '../util/AppConfig';
 import AppButton from './AppButton';
 import AppCard from './AppCard';
 import AppIcon from './AppIcon';
+import AppItemDivider from './AppItemDivider';
+import AppProgress from './AppProgress';
 import AppSelectButtons from './AppSelectButtons';
 import AppForm from './forms/AppForm';
-import { useNotifications } from '../hooks';
-import AppItemDivider from './AppItemDivider';
-import AppProgress, { AppIndeterminateProgress } from './AppProgress';
 
 
 const credentialSchema = {

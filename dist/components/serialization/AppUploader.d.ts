@@ -6,8 +6,9 @@ export interface uploaderProps {
     title: string;
     description: string;
     file?: File;
-    onFileReceived: (file: IFileWithMeta) => void;
+    onFileReceived: (file: IFileWithMeta, uri: string) => void;
     accept: string;
+    identifier: string;
     uploadParams?: (fileWithMeta: IFileWithMeta) => IUploadParams;
 }
 /**

@@ -1,4 +1,4 @@
-import { AppRoute, AppPath } from "..";
+import { AppRoute, AppPath } from "../core/routing";
 /**
  * Type that defines what the useApplayout hook will be capable of
  */

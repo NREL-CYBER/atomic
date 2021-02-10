@@ -28,7 +28,6 @@ import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
 import AppCloudSerializer from './serialization/AppCloudSerializer';
-import AppFileSerializer from './serialization/AppFileSerializer';
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 
 /**
@@ -93,8 +92,6 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
         {/* Cloud Serializer*/}
         {serialization && serialization.mode === "cloud" && serialization.cloud && uid &&
             <AppCloudSerializer serializtion={serialization} uid={uid} cloud={serialization.cloud} cache={cache} />}
-        {/*File Serializer*/}
-        {serialization && <AppFileSerializer cache={cache} serializtion={serialization} />}
 
         <AppRouter id={"root"}>
             {/**Side Menu  */}

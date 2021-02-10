@@ -32,7 +32,6 @@ import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
 import AppCloudSerializer from './serialization/AppCloudSerializer';
-import AppFileSerializer from './serialization/AppFileSerializer';
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 /**
  * Component that stores the root of the application and control current theme
@@ -98,9 +97,6 @@ const AppRoot = ({
     uid: uid,
     cloud: serialization.cloud,
     cache: cache
-  }), serialization && /*#__PURE__*/React.createElement(AppFileSerializer, {
-    cache: cache,
-    serializtion: serialization
   }), /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {

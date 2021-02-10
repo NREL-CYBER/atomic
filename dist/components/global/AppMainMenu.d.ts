@@ -1,10 +1,7 @@
 import React from 'react';
-import { AppRoute } from '../..';
+import { AppRoute } from '../../core/routing';
 interface MenuProps {
     sections: Record<string, AppRoute[]>;
 }
-/**
- * @param sections  a key value object containing all sections of routes
- */
-declare const AppMainMenu: React.FC<MenuProps>;
-export default AppMainMenu;
+declare const _default: React.NamedExoticComponent<MenuProps>;
+export default _default;
