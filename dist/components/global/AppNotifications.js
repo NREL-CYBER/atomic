@@ -15,7 +15,7 @@ const AppNotifications = () => {
     // Throttle the first five seconds of notifications
     // this way we only get notifications when something happens in realtime,
     enable();
-  }, 5000);
+  }, 1000);
   return /*#__PURE__*/React.createElement(React.Fragment, null, notices && notices.map(notice => /*#__PURE__*/React.createElement(AppToast, _extends({
     key: notice.id
   }, notice, {

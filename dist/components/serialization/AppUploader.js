@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
 import { AppCard } from '..';
+import { useFileStorage } from '../../hooks';
+import { v4 } from 'uuid';
 
 /**
  * Upload Component 
@@ -13,13 +15,17 @@ const AppUploader = ({
   children,
   onFileReceived,
   uploadParams,
+  identifier,
   file
 }) => {
   const [status, setStatus] = useState("ready");
   const successStatus = ["done"];
   const errorStatus = ["error_file_size", "error_upload", "error_upload_params", "error_validation", "aborted", "rejected_file_type"];
   const normalStatus = ["ready", "preparing", "getting_upload_params"];
-  const statusColor = normalStatus.includes(status) ? "primary" : successStatus.includes(status) ? "success" : errorStatus.includes(status) ? "danger" : "clear"; // called every time a file's `status` changes
+  const statusColor = normalStatus.includes(status) ? "primary" : successStatus.includes(status) ? "success" : errorStatus.includes(status) ? "danger" : "clear";
+  const {
+    insert
+  } = useFileStorage(); // called every time a file's `status` changes
 
   const handleChangeStatus = ({
     meta,
@@ -29,14 +35,18 @@ const AppUploader = ({
   };
 
   const handleSubmit = (files, allFiles) => {
-    allFiles.forEach(file => {
-      onFileReceived(file);
+    allFiles.forEach(fileWithMeta => {
+      const {
+        file
+      } = fileWithMeta;
+      const URI = "/" + identifier + v4();
+      insert(file, URI);
+      onFileReceived(fileWithMeta, URI);
     });
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
-    contentColor: "light",
-    headerColor: statusColor,
+    titleColor: statusColor,
     title: title,
     subTitle: description
   }, /*#__PURE__*/React.createElement(Dropzone, {

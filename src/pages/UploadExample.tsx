@@ -6,7 +6,7 @@ const UploadExample: React.FC = () => {
 
     return <AppPage >
         <AppContent>
-            <AppUploader title=" A Test Upload" description="Drop it like its sub-atomic and emiting radiation" accept="image/*" onFileReceived={() => {
+            <AppUploader identifier="awesome_image" title=" A Test Upload" description="Drop it like its sub-atomic and emiting radiation" accept="image/*" onFileReceived={() => {
                 alert("file recevied");
             }} />
         </AppContent>

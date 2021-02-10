@@ -40,7 +40,8 @@ import AppUuidGenerator from './AppUuidGenerator';
 import AppRouteCard from './completion/AppRouteCard';
 import AppForm from './forms/AppForm';
 import AppSerializer from './serialization/AppLocalSerializer';
+import AppUploader from './serialization/AppUploader';
 
 export * from "./AppCard";
-export { AppSelectButtons, AppSerializer, AppRouteCard, AppSequence, AppSearchBar, AppAccordion, AppForm, AppRouterOutlet, AppItemDivider, AppSelectOption, AppSelect, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
+export { AppUploader, AppSelectButtons, AppSerializer, AppRouteCard, AppSequence, AppSearchBar, AppAccordion, AppForm, AppRouterOutlet, AppItemDivider, AppSelectOption, AppSelect, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
 

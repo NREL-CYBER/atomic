@@ -15,7 +15,7 @@ import "@ionic/react/css/typography.css";
 import React, { memo, useEffect, useState } from 'react';
 import { Route } from 'react-router';
 import { AppContent, AppPage } from '.';
-import { useAppLayout } from '../hooks';
+import { useAppLayout, useFileStorage } from '../hooks';
 import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
 import AppChip from './AppChip';
@@ -28,6 +28,7 @@ import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
 import AppCloudSerializer from './serialization/AppCloudSerializer';
+import AppFileSerializer from './serialization/AppFileSerializer';
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 
 /**
@@ -40,7 +41,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     serialization, cache, title, version }) => {
 
     const { initialize } = useAppLayout();
-
+    const { configure } = useFileStorage();
     useEffect(
         () => {
             const className = darkMode ? 'dark-theme' : "light-theme";
@@ -53,17 +54,24 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     );
 
     useEffect(() => {
+
         initialize(routes);
-    }, [initialize, routes])
+    }, [configure, initialize, routes, serialization])
 
     const [uid, setUid] = useState<string | undefined>()
 
-    const needs_authentication = serialization && serialization.cloud &&
-        serialization.cloud.provider.authentication.required && !uid;
+    const cloudSerializationAndNotLoggedIn = (serialization && serialization.cloud &&
+        serialization.cloud.provider.authentication.required && !uid);
+
+    const localSerializationWithEncryptionAndNotLoggedIn = (!uid && serialization && serialization.encryption === "RSA");
+
+    const needs_authentication = cloudSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
+
     if (needs_authentication && serialization && serialization.cloud && typeof uid === "undefined") {
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
             <AppPage>
                 <AppContent center>
+                    <AppNotifications />
                     <AppTitle color="tertiary">
                         {title}
                         <AppChip color="primary">
@@ -79,10 +87,17 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     }
 
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
-        {serialization && serialization.mode === "local" && <AppLocalSerializer cache={cache} />}
+
+        {/* Local Serializer*/}
+        {serialization && serialization.mode === "local" && <AppLocalSerializer serializtion={serialization} cache={cache} />}
+        {/* Cloud Serializer*/}
         {serialization && serialization.mode === "cloud" && serialization.cloud && uid &&
-            <AppCloudSerializer uid={uid} cloud={serialization.cloud} cache={cache} />}
+            <AppCloudSerializer serializtion={serialization} uid={uid} cloud={serialization.cloud} cache={cache} />}
+        {/*File Serializer*/}
+        {serialization && <AppFileSerializer cache={cache} serializtion={serialization} />}
+
         <AppRouter id={"root"}>
+            {/**Side Menu  */}
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar />}
             {children}

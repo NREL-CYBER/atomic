@@ -1,13 +1,16 @@
 import { arrowBackOutline } from 'ionicons/icons';
 import React, { memo, useState } from 'react';
 import Validator from 'validator';
-import { AppSpinner } from '.';
+import { AppTitle } from '.';
 import useFirebaseStorage from '../hooks/useFirebaseSerialization';
 import AppButton from './AppButton';
 import AppCard from './AppCard';
 import AppIcon from './AppIcon';
 import AppSelectButtons from './AppSelectButtons';
 import AppForm from './forms/AppForm';
+import { useNotifications } from '../hooks';
+import AppItemDivider from './AppItemDivider';
+import AppProgress from './AppProgress';
 const credentialSchema = {
   "$id": "user",
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -41,10 +44,14 @@ const AppLogin = ({
   const {
     authenticate
   } = cloudSerializer();
+  const {
+    post
+  } = useNotifications();
   const [validator] = useState(new Validator(credentialSchema));
   return /*#__PURE__*/React.createElement(AppCard, {
+    titleColor: "medium",
     title: "Please Authenticate"
-  }, status === "idle" && /*#__PURE__*/React.createElement(AppSelectButtons, {
+  }, /*#__PURE__*/React.createElement(AppItemDivider, null), "     ", status === "idle" && /*#__PURE__*/React.createElement(AppSelectButtons, {
     selected: [],
     onSelectionChange: values => {
       if (values.includes("login")) {
@@ -69,13 +76,28 @@ const AppLogin = ({
       email,
       password
     }) => {
-      authenticate(email, password, status, onLoginSuccess);
+      setStatus("authenticating");
+      authenticate(email, password, status, result => {
+        onLoginSuccess(result);
+      }, () => {
+        post({
+          color: "danger",
+          id: "login-failure",
+          message: "Failed to Authenticate"
+        });
+        setStatus("idle");
+      });
     }
   }, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => setStatus("idle")
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: arrowBackOutline
-  }))), status === "authenticating" && /*#__PURE__*/React.createElement(AppSpinner, null));
+  }))), status === "authenticating" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, {
+    color: "tertiary"
+  }, "Authenticating"), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppProgress, {
+    type: "indeterminate",
+    color: "tertiary"
+  })));
 };
 
 export default /*#__PURE__*/memo(AppLogin);

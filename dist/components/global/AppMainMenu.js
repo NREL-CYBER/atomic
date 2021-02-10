@@ -1,6 +1,6 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { memo } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
+import { useAppLayout } from '../../hooks';
 
 /**
  * @param sections  a key value object containing all sections of routes 
@@ -9,8 +9,8 @@ const AppMainMenu = ({
   sections
 }) => {
   const {
-    pathname
-  } = useLocation();
+    path
+  } = useAppLayout();
 
   function renderlistItems(list) {
     return list.filter(route => !!route.path).map(p => /*#__PURE__*/React.createElement(AppMenuToggle, {
@@ -19,7 +19,7 @@ const AppMainMenu = ({
     }, /*#__PURE__*/React.createElement(AppItem, {
       detail: false,
       routerLink: p.path,
-      color: pathname.startsWith(p.path) ? 'tertiary' : undefined
+      color: path.startsWith(p.path) ? 'tertiary' : undefined
     }, /*#__PURE__*/React.createElement(AppIcon, {
       slot: "start",
       icon: p.icon
@@ -40,4 +40,4 @@ const AppMainMenu = ({
   }, mainMenu());
 };
 
-export default AppMainMenu;
+export default /*#__PURE__*/memo(AppMainMenu);

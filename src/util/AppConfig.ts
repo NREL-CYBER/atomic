@@ -16,10 +16,17 @@ export interface AppCloudConfig {
         }
         authentication: {
             required: boolean,
-            provider: "phone" | "email",
+            provider: "email",
         }
     }
 }
+export interface AppSerializationConfig {
+    mode: "cloud" | "local"
+    encryption: "plaintext" | "RSA"
+    cloud?: AppCloudConfig
+}
+
+
 
 export interface AppConfig {
     title: string
@@ -29,10 +36,6 @@ export interface AppConfig {
     routes: AppRoute[],
     cache: AppCacheIndex
     bottomBar?: React.FC,
-    serialization?: {
-        mode: "cloud" | "local"
-        encryption: "plaintext" | "RSA"
-        cloud?: AppCloudConfig
-    }
+    serialization?: AppSerializationConfig
     darkMode?: boolean
 }

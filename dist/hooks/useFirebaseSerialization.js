@@ -6,30 +6,41 @@ import create from "zustand";
 /**
  * Observe an Entity collection in cloud storage
  */
-function useFirebaseStorage(cloud) {
+function useFirebaseSerialization(cloud) {
+  if (!cloud.provider.firebase) {
+    throw Error("Only firebase support for now, if another cloud provider is needed, implement it here");
+  }
+
   firebase.apps.length === 0 && firebase.initializeApp(cloud.provider.firebase);
   return create((set, cloudStorage) => ({
-    authenticate: (email, password, action, onLoginSuccess) => {
+    authenticate: (email, password, action, onLoginSuccess, onLoginFail) => {
       action === "login" && firebase.auth().signInWithEmailAndPassword(email, password).then(userCredential => {
         console.log(userCredential); // Signed in
 
         var user = userCredential.user; // ...
 
         user && console.log(user.uid);
-        user && onLoginSuccess(user.uid);
-      }).catch(error => {// var errorCode = error.code;
+        user ? onLoginSuccess(user.uid) : onLoginFail();
+      }).catch(error => {
+        // var errorCode = error.code;
         // var errorMessage = error.message;
         // notify({ id: errorCode, message: errorMessage, color: "danger" })
+        var errorMessage = error.message;
+        console.log(errorMessage);
+        onLoginFail();
       });
       action === "create" && firebase.auth().createUserWithEmailAndPassword(email, password).then(userCredential => {
         // Signed in
         var user = userCredential.user;
         user && console.log(user.uid);
-        user && onLoginSuccess(user.uid); // ...
-      }).catch(error => {// var errorCode = error.code;
-        // var errorMessage = error.message;
-        // notify({ id: errorCode, message: errorMessage, color: "danger" })
+        user ? onLoginSuccess(user.uid) : onLoginFail(); // ...
+      }).catch(error => {
+        // var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage); // notify({ id: errorCode, message: errorMessage, color: "danger" })
         // ..
+
+        onLoginFail();
       });
     },
 
@@ -92,4 +103,4 @@ function useFirebaseStorage(cloud) {
   }));
 }
 
-export default useFirebaseStorage;
+export default useFirebaseSerialization;

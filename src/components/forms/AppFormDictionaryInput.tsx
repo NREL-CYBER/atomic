@@ -6,7 +6,7 @@ import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { titleCase } from "../../util";
 import AppForm, { formFieldChangeEvent } from './AppForm';
-import { AppColor } from "../..";
+import { AppColor } from "../../theme/AppColor";
 
 
 interface formInputProps<T> {

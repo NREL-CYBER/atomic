@@ -1,5 +1,5 @@
 import create from "zustand";
-import { AppRoute, AppPath } from "..";
+import { AppRoute, AppPath } from "../core/routing";
 
 const EmptyRoute: AppRoute = { icon: "", path: "", title: "", }
 /**

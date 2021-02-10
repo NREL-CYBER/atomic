@@ -10,7 +10,7 @@ import { AppCloudConfig } from '../util/AppConfig';
 
 
 export type cloudSynchronizationContext = {
-    authenticate(email: string, password: string, action: "login" | "create", onLoginSuccess: (uid: string) => void): void;
+    authenticate(email: string, password: string, action: "login" | "create", onLoginSuccess: (uid: string) => void, onLoginFail: () => void): void;
     synchronize<T>(store: () => Store<T>, uid: string): void;
     insertDocument<T>(store: () => Store<T>, document: T, itemIndex: string, uid: string): void
     removeDocument<T>(store: () => Store<T>, itemIndex: string, uid: string): void
@@ -20,10 +20,14 @@ export type cloudSynchronizationContext = {
 /**
  * Observe an Entity collection in cloud storage
  */
-function useFirebaseStorage(cloud: AppCloudConfig) {
+function useFirebaseSerialization(cloud: AppCloudConfig) {
+    if (!cloud.provider.firebase) {
+        throw Error("Only firebase support for now, if another cloud provider is needed, implement it here");
+    }
+
     firebase.apps.length === 0 && firebase.initializeApp(cloud.provider.firebase);
     return create<cloudSynchronizationContext>((set, cloudStorage) => ({
-        authenticate: (email: string, password: string, action, onLoginSuccess: (uid: string) => void) => {
+        authenticate: (email, password, action, onLoginSuccess, onLoginFail) => {
             action === "login" && firebase.auth().signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     console.log(userCredential);
@@ -31,12 +35,15 @@ function useFirebaseStorage(cloud: AppCloudConfig) {
                     var user = userCredential.user;
                     // ...
                     user && console.log(user.uid);
-                    user && onLoginSuccess(user.uid);
+                    user ? onLoginSuccess(user.uid) : onLoginFail();
                 })
                 .catch((error) => {
                     // var errorCode = error.code;
                     // var errorMessage = error.message;
                     // notify({ id: errorCode, message: errorMessage, color: "danger" })
+                    var errorMessage = error.message;
+                    console.log(errorMessage);
+                    onLoginFail()
                 });
 
             action === "create" && firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -45,14 +52,16 @@ function useFirebaseStorage(cloud: AppCloudConfig) {
                     // Signed in
                     var user = userCredential.user;
                     user && console.log(user.uid);
-                    user && onLoginSuccess(user.uid);
+                    user ? onLoginSuccess(user.uid) : onLoginFail();
                     // ...
                 })
                 .catch((error) => {
                     // var errorCode = error.code;
-                    // var errorMessage = error.message;
+                    var errorMessage = error.message;
+                    console.log(errorMessage);
                     // notify({ id: errorCode, message: errorMessage, color: "danger" })
                     // ..
+                    onLoginFail()
                 });
         },
         synchronize<T>(store: () => Store<T>, uid: string) {
@@ -107,4 +116,4 @@ function useFirebaseStorage(cloud: AppCloudConfig) {
 }
 
 
-export default useFirebaseStorage;
+export default useFirebaseSerialization;

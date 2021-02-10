@@ -2,7 +2,8 @@ import React, { memo, useEffect } from "react";
 import useIndexDBStorage from "../../hooks/useLocalSerialization";
 
 const AppLocalSerializer = ({
-  cache
+  cache,
+  serializtion
 }) => {
   const {
     synchronize

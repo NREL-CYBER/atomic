@@ -1,7 +1,7 @@
 import { arrowBackOutline } from 'ionicons/icons';
 import React, { memo, useState } from 'react';
 import Validator from 'validator';
-import { AppSpinner } from '.';
+import { AppSpinner, AppCol, AppText, AppTitle } from '.';
 import useFirebaseStorage from '../hooks/useFirebaseSerialization';
 import { AppCloudConfig } from '../util/AppConfig';
 import AppButton from './AppButton';
@@ -9,6 +9,9 @@ import AppCard from './AppCard';
 import AppIcon from './AppIcon';
 import AppSelectButtons from './AppSelectButtons';
 import AppForm from './forms/AppForm';
+import { useNotifications } from '../hooks';
+import AppItemDivider from './AppItemDivider';
+import AppProgress, { AppIndeterminateProgress } from './AppProgress';
 
 
 const credentialSchema = {
@@ -43,10 +46,11 @@ const AppLogin: React.FC<{ onLoginSuccess: (uid: string) => void, cloud: AppClou
     const [status, setStatus] = useState<"idle" | "login" | "create" | "authenticating">("idle")
     const cloudSerializer = useFirebaseStorage(cloud)
     const { authenticate } = cloudSerializer();
+    const { post } = useNotifications();
 
     const [validator] = useState<Validator<credential>>(new Validator<credential>(credentialSchema));
-    return <AppCard title="Please Authenticate">
-        {status === "idle" && <AppSelectButtons selected={[]} onSelectionChange={(values) => {
+    return <AppCard titleColor="medium" title="Please Authenticate">
+        <AppItemDivider />     {status === "idle" && <AppSelectButtons selected={[]} onSelectionChange={(values) => {
             if (values.includes("login")) {
                 setStatus("login");
             } else if (values.includes("create")) {
@@ -59,13 +63,25 @@ const AppLogin: React.FC<{ onLoginSuccess: (uid: string) => void, cloud: AppClou
         {status !== "idle" && status !== "authenticating" && <AppForm
             customSubmit={<>{status}</>}
             title={"Account " + status} data={{}} validator={validator} onSubmit={({ email, password }) => {
-                authenticate(email, password, status, onLoginSuccess);
+                setStatus("authenticating");
+                authenticate(email, password, status, (result) => {
+                    onLoginSuccess(result);
+                }, () => {
+                    post({ color: "danger", id: "login-failure", message: "Failed to Authenticate" });
+                    setStatus("idle")
+                });
             }} >
             <AppButton onClick={() => setStatus("idle")}>
                 <AppIcon icon={arrowBackOutline} />
             </AppButton>
         </AppForm>}
-        {status === "authenticating" && <AppSpinner />}
+        {status === "authenticating" && <>
+            <AppTitle color="tertiary">
+                Authenticating
+            </AppTitle>
+            <AppItemDivider />
+            <AppProgress type="indeterminate" color="tertiary" />
+        </>}
     </AppCard>
 };
 export default memo(AppLogin);

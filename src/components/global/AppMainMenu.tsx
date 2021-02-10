@@ -1,7 +1,7 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { memo } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
-import { AppRoute } from '../..';
+import { useAppLayout } from '../../hooks';
+import { AppRoute } from '../../core/routing';
 
 
 
@@ -13,13 +13,13 @@ interface MenuProps {
  * @param sections  a key value object containing all sections of routes 
  */
 const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
-  const { pathname } = useLocation();
+  const { path } = useAppLayout();
   function renderlistItems(list: AppRoute[]) {
     return list
       .filter(route => !!route.path)
       .map(p => (
         <AppMenuToggle key={p.title} auto-hide="false">
-          <AppItem detail={false} routerLink={p.path} color={pathname.startsWith(p.path) ? 'tertiary' : undefined}>
+          <AppItem detail={false} routerLink={p.path} color={path.startsWith(p.path) ? 'tertiary' : undefined}>
             <AppIcon slot="start" icon={p.icon} />
             <AppLabel>{p.title}</AppLabel>
           </AppItem>
@@ -43,4 +43,4 @@ const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
   </AppMenu >
   );
 };
-export default AppMainMenu;
+export default memo(AppMainMenu);
