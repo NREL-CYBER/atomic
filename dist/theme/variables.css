@@ -6,20 +6,6 @@
  */
 
 
- ion-toast{
-  animation: fadein 1s;
-  -moz-animation: fadein 1s;
-  /* Firefox */
-  -webkit-animation: fadein 1s;
-  /* Safari and Chrome */
-  -o-animation: fadein 1s;
-  /* Opera */
-}
-ion-input{
-  --color:blue;
-  }
-  
-
  input:-webkit-autofill,
  input:-webkit-autofill:hover,
  input:-webkit-autofill:focus,
@@ -85,6 +71,16 @@ ion-modal{
 }
 
 
+ion-toast{
+  animation: fadein 1s;
+  -moz-animation: fadein 1s;
+  /* Firefox */
+  -webkit-animation: fadein 1s;
+  /* Safari and Chrome */
+  -o-animation: fadein 1s;
+  /* Opera */
+}
+
 ion-card{
   animation: fadein 1s;
   -moz-animation: fadein 1s;
@@ -96,19 +92,38 @@ ion-card{
 }
 
 ion-item{
-animation: growin 0.3s;
--moz-animation: growin 0.3s;
+animation: fadein 0.3s;
+-moz-animation: fadein 0.3s;
 /* Firefox */
--webkit-animation: growin 0.3s;
+-webkit-animation: fadein 0.3s;
 /* Safari and Chrome */
--o-animation: growin 0.3s;
+-o-animation: fadein 0.3s;
 /* Opera */
 transition: all 0.3s;
 }
 ion-list{
 transition: all 0.3s;
+animation: fadein 0.3s;
+-moz-animation: fadein 0.3s;
+/* Firefox */
+-webkit-animation: fadein 0.3s;
+/* Safari and Chrome */
+-o-animation: fadein 0.3s;
+/* Opera */
 }
+input{
+--color:blue;
+}
+ion-title{
+  animation: slidein 0.3s;
+-moz-animation: slidein 0.3s;
+/* Firefox */
+-webkit-animation: slidein 0.3s;
+/* Safari and Chrome */
+-o-animation: slidein 0.3s;
+/* Opera */
 
+}  
 
 
 
