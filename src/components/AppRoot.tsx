@@ -15,7 +15,7 @@ import "@ionic/react/css/typography.css";
 import React, { memo, useEffect, useState } from 'react';
 import { Route } from 'react-router';
 import { AppContent, AppPage } from '.';
-import { useAppLayout, useFileStorage } from '../hooks';
+import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
 import AppChip from './AppChip';
@@ -40,7 +40,6 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     serialization, cache, title, version }) => {
 
     const { initialize } = useAppLayout();
-    const { configure } = useFileStorage();
     useEffect(
         () => {
             const className = darkMode ? 'dark-theme' : "light-theme";
@@ -55,7 +54,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     useEffect(() => {
 
         initialize(routes);
-    }, [configure, initialize, routes, serialization])
+    }, [initialize, routes, serialization])
 
     const [uid, setUid] = useState<string | undefined>()
 

@@ -20,7 +20,7 @@ import "@ionic/react/css/typography.css";
 import React, { memo, useEffect, useState } from 'react';
 import { Route } from 'react-router';
 import { AppContent, AppPage } from '.';
-import { useAppLayout, useFileStorage } from '../hooks';
+import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
 import AppChip from './AppChip';
 import AppLogin from './AppLogin';
@@ -52,9 +52,6 @@ const AppRoot = ({
   const {
     initialize
   } = useAppLayout();
-  const {
-    configure
-  } = useFileStorage();
   useEffect(() => {
     const className = darkMode ? 'dark-theme' : "light-theme";
     const oldClassName = darkMode ? 'light-theme' : "dark-theme";
@@ -64,7 +61,7 @@ const AppRoot = ({
   }, [darkMode]);
   useEffect(() => {
     initialize(routes);
-  }, [configure, initialize, routes, serialization]);
+  }, [initialize, routes, serialization]);
   const [uid, setUid] = useState();
   const cloudSerializationAndNotLoggedIn = serialization && serialization.cloud && serialization.cloud.provider.authentication.required && !uid;
   const localSerializationWithEncryptionAndNotLoggedIn = !uid && serialization && serialization.encryption === "RSA";
