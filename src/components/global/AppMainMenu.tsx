@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
 import { useAppLayout } from '../../hooks';
 import { AppRoute } from '../../core/routing';
+import { useState } from 'react';
 
 
 
@@ -14,6 +15,8 @@ interface MenuProps {
  */
 const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
   const { path } = useAppLayout();
+  const [pageEections, setSections] = useState(Object.entries(sections));
+
   function renderlistItems(list: AppRoute[]) {
     return list
       .filter(route => !!route.path)
@@ -26,20 +29,15 @@ const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
         </AppMenuToggle>
       ));
   }
-  function mainMenu() {
-    return < >
-      {Object.entries(sections).map(([section, routes]) =>
-        <AppList lines="none" key={section}>
-          <AppListHeader>{section}</AppListHeader>
-          {renderlistItems(routes)}
-        </AppList>
-      )}
-    </>
-  }
 
 
-  return (<AppMenu type='push' side='start' contentId="main" >
-    {mainMenu()}
+  return (<AppMenu type='overlay' side='start' contentId="main" >
+    {pageEections.map(([section, routes]) =>
+      <AppList lines="none" key={section}>
+        <AppListHeader>{section}</AppListHeader>
+        {renderlistItems(routes)}
+      </AppList>
+    )}
   </AppMenu >
   );
 };
