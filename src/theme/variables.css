@@ -69,7 +69,10 @@ ion-modal{
 --height: 90%!important;
 --border-radius: 0;
 }
-
+.dzu-dropzone{
+  border-color:rgba(0.5,0.5,0.5,0.5);
+  border-radius: 5px;
+}
 
 ion-toast{
   animation: fadein 1s;
