@@ -1,7 +1,8 @@
-import React from "react";
-import { AppChip, AppForm, AppPage, AppButton, AppContent, AppCard, AppItem } from "../components";
+import React, { useState } from "react";
+import { AppButton, AppCard, AppContent, AppForm, AppItem, AppLabel, AppPage, AppTitle, AppAvatar } from "../components";
 import { useAddress } from "./ExampleConfig";
-import { useState } from "react";
+import { binaryToFileUri } from "../util";
+import AppBinaryImg from "../components/AppBinaryImg";
 
 const ExampleForm: React.FC = () => {
     const { validator, insert, all } = useAddress()
@@ -9,13 +10,33 @@ const ExampleForm: React.FC = () => {
     return <AppPage>
         <AppContent center>
             {status === "editing" ? <AppForm title={"form"} requiredOnly onSubmit={(data) => { insert(data); setStatus("idle") }} data={{}} validator={validator} /> :
-                <AppCard contentColor="light" headerColor="primary" title="Addresses">{all().map(({ country_name, locality, region }, i) => <AppChip key={i} > {country_name + " " + locality + " " + region}</AppChip>)}
+                <AppCard contentColor="light" headerColor="primary" title="Addresses">{all().map(({ street_address, country_name, street_view, region }, i) => {
+
+                    const file_uri = binaryToFileUri(street_view, "image/png")
+                    return <AppCard>
+                        <AppLabel key={i} position="floating" color="primary" >
+                            Address
+                        </AppLabel>
+                        <AppTitle color="medium">
+                            {country_name}-{street_address}
+                        </AppTitle>
+                        <AppLabel key={i} position="floating" color="primary" >
+                            Street View
+                        </AppLabel>
+                        <AppTitle>
+                            <AppAvatar>
+                                <AppBinaryImg height="100" alt="Street View" binary={street_view} />
+                            </AppAvatar>
+                        </AppTitle>
+                    </AppCard >
+                })}
                     <AppItem>
                         <AppButton onClick={() => { setStatus("editing") }} >
                             Add Address
                         </AppButton>
                     </AppItem>
-                </AppCard>}
+                </AppCard>
+            }
         </AppContent>
     </AppPage>
 }
