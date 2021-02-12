@@ -12,6 +12,10 @@
         "extended_address": {
             "type": "string"
         },
+        "street_view": {
+            "type": "string",
+            "contentMediaType": "image/png"
+        },
         "street_address": {
             "type": "string"
         },
@@ -25,5 +29,10 @@
             "type": "string"
         }
     },
-    "required": ["post_office_address", "region", "country_name"]
+    "required": [
+        "post_office_address",
+        "region",
+        "street_view",
+        "country_name"
+    ]
 }
