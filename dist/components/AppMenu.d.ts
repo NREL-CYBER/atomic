@@ -4,7 +4,7 @@ interface appMenuProps {
     color?: AppColor;
     side: "start" | "end";
     contentId: string;
-    type?: "push";
+    type?: "push" | "overlay" | "reveal";
 }
 /**
  * Component for Side Drawer Menus

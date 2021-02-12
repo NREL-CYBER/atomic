@@ -7,12 +7,12 @@ interface appMenuProps {
     color?: AppColor
     side: "start" | "end"
     contentId: string
-    type?:"push"
+    type?: "push"|"overlay"|"reveal"
 }
 
 /**
  * Component for Side Drawer Menus
  */
-const AppMenu: React.FC<appMenuProps> = (props) => <IonMenu {...props} />
+const AppMenu: React.FC<appMenuProps> = (props) => <IonMenu type="" {...props} />
 
 export default AppMenu;
