@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { IonInput } from '@ionic/react';
 import React from 'react';
-import { AppColor } from '..';
+import { AppColor } from '../theme/AppColor';
 
 export type stringFormat = "number" | "time" | "text" | "date" | "email" | "password" | "search" | "tel" | "url" | "week" | "month" | "datetime-local" | undefined;
 

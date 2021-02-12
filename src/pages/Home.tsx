@@ -9,11 +9,6 @@ const Home: React.FC = () => {
           Check out the examples to get started
         </AppChip>
         <AppItem>
-          <AppButtons slot="start">
-            <AppButton routerLink={"/uploader"} color="primary" fill="solid">
-              Uploader Example
-            </AppButton>
-          </AppButtons>
           <AppButtons slot="end">
             <AppButton routerLink={"/form"} color="favorite" fill="solid">
               Form Example

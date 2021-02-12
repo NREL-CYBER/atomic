@@ -7,7 +7,7 @@ import { AppButton, AppRow } from '.';
 import AppGrid from './AppGrid';
 import { MapRoutes } from './AppRouterOutlet';
 import AppToolbar from './AppToolbar';
-import { AppRoute } from '..';
+import { AppRoute } from '../core/routing';
 
 
 

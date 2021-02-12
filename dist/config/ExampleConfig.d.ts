@@ -5,6 +5,7 @@ declare type Address = {
     locality: string;
     region: string;
     country_name: string;
+    street_view: string;
 };
 declare const useAddress: import("zustand").UseStore<import("store").Store<Address>>;
 export { useAddress };

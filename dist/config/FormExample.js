@@ -1,7 +1,8 @@
-import React from "react";
-import { AppChip, AppForm, AppPage, AppButton, AppContent, AppCard, AppItem } from "../components";
+import React, { useState } from "react";
+import { AppButton, AppCard, AppContent, AppForm, AppItem, AppLabel, AppPage, AppTitle, AppAvatar } from "../components";
 import { useAddress } from "./ExampleConfig";
-import { useState } from "react";
+import { binaryToFileUri } from "../util";
+import AppBinaryImg from "../components/AppBinaryImg";
 
 const ExampleForm = () => {
   const {
@@ -26,12 +27,28 @@ const ExampleForm = () => {
     headerColor: "primary",
     title: "Addresses"
   }, all().map(({
+    street_address,
     country_name,
-    locality,
+    street_view,
     region
-  }, i) => /*#__PURE__*/React.createElement(AppChip, {
-    key: i
-  }, " ", country_name + " " + locality + " " + region)), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButton, {
+  }, i) => {
+    const file_uri = binaryToFileUri(street_view, "image/png");
+    return /*#__PURE__*/React.createElement(AppCard, null, /*#__PURE__*/React.createElement(AppLabel, {
+      key: i,
+      position: "floating",
+      color: "primary"
+    }, "Address"), /*#__PURE__*/React.createElement(AppTitle, {
+      color: "medium"
+    }, country_name, "-", street_address), /*#__PURE__*/React.createElement(AppLabel, {
+      key: i,
+      position: "floating",
+      color: "primary"
+    }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, /*#__PURE__*/React.createElement(AppAvatar, null, /*#__PURE__*/React.createElement(AppBinaryImg, {
+      height: "100",
+      alt: "Street View",
+      binary: street_view
+    }))));
+  }), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setStatus("editing");
     }

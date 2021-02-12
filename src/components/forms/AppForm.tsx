@@ -18,6 +18,7 @@ import AppFormToggle from '../AppFormToggle';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
+import AppUploader from '../serialization/AppUploader';
 
 export interface propertyKeyValue {
     property: string,
@@ -181,6 +182,14 @@ const AppForm: React.FC<formComposerProps> = (props) => {
             return <AppLastModifiedGenerator
                 instanceRef={instanceRef} />
         }
+        if ((propertyInfo as any)["contentMediaType"]) {
+            return <AppUploader accept={(propertyInfo as any)["contentMediaType"]}
+                description={propertyInfo.description || ""} title={propertyInfo.title || property}
+                onFileReceived={(meta, uri) => {
+                    handleInputReceived(property, uri);
+                }} />
+        }
+
         if (customComponentMap && customComponentMap[property]) {
             return customComponentMap[property]({ instanceRef, onChange: handleInputReceived, property, propertyInfo, children })
         }

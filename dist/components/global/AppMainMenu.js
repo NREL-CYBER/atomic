@@ -1,6 +1,7 @@
 import React, { memo } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
 import { useAppLayout } from '../../hooks';
+import { useState } from 'react';
 
 /**
  * @param sections  a key value object containing all sections of routes 
@@ -11,6 +12,7 @@ const AppMainMenu = ({
   const {
     path
   } = useAppLayout();
+  const [pageEections, setSections] = useState(Object.entries(sections));
 
   function renderlistItems(list) {
     return list.filter(route => !!route.path).map(p => /*#__PURE__*/React.createElement(AppMenuToggle, {
@@ -26,18 +28,14 @@ const AppMainMenu = ({
     }), /*#__PURE__*/React.createElement(AppLabel, null, p.title))));
   }
 
-  function mainMenu() {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, Object.entries(sections).map(([section, routes]) => /*#__PURE__*/React.createElement(AppList, {
-      lines: "none",
-      key: section
-    }, /*#__PURE__*/React.createElement(AppListHeader, null, section), renderlistItems(routes))));
-  }
-
   return /*#__PURE__*/React.createElement(AppMenu, {
-    type: "push",
+    type: "overlay",
     side: "start",
     contentId: "main"
-  }, mainMenu());
+  }, pageEections.map(([section, routes]) => /*#__PURE__*/React.createElement(AppList, {
+    lines: "none",
+    key: section
+  }, /*#__PURE__*/React.createElement(AppListHeader, null, section), renderlistItems(routes))));
 };
 
 export default /*#__PURE__*/memo(AppMainMenu);

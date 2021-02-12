@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 import { AppItem } from ".";
-import { AppColor } from "..";
 import AppList from "./AppList";
+import { AppColor } from "../theme/AppColor";
 
 type accordionItem = {
     toolbarContent: React.FC,

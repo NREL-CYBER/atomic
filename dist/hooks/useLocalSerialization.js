@@ -46,6 +46,7 @@ const useIndexDBStorage = create(() => ({
 
         case "inserting":
         case "removing":
+          console.log(store().all());
           set(collection_key, store().export());
           break;
       }

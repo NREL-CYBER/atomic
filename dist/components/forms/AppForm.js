@@ -6,6 +6,7 @@ import AppFormToggle from '../AppFormToggle';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
+import AppUploader from '../serialization/AppUploader';
 
 const LockedField = ({
   property,
@@ -150,6 +151,17 @@ const AppForm = props => {
     if (property === "last_modified") {
       return /*#__PURE__*/React.createElement(AppLastModifiedGenerator, {
         instanceRef: instanceRef
+      });
+    }
+
+    if (propertyInfo["contentMediaType"]) {
+      return /*#__PURE__*/React.createElement(AppUploader, {
+        accept: propertyInfo["contentMediaType"],
+        description: propertyInfo.description || "",
+        title: propertyInfo.title || property,
+        onFileReceived: (meta, uri) => {
+          handleInputReceived(property, uri);
+        }
       });
     }
 

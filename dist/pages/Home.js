@@ -11,12 +11,6 @@ const Home = () => {
   }, /*#__PURE__*/React.createElement(AppChip, {
     color: "success"
   }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "start"
-  }, /*#__PURE__*/React.createElement(AppButton, {
-    routerLink: "/uploader",
-    color: "primary",
-    fill: "solid"
-  }, "Uploader Example")), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     routerLink: "/form",
