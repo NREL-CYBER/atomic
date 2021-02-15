@@ -6,23 +6,26 @@ import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
 import { AppToolbar, AppButtons, AppButton, AppIcon, AppItemDivider } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
+import { useEffect } from "react";
 
 export const AppNextButton: React.FC = () => {
     const next = useAppLayout(x => x.nextPage);
-    const { isUnlocked, pathStatusColor } = useCompletion();
-    const color = pathStatusColor(next.path);
-
-    const nextButtonVisible = isUnlocked(next.path);
+    const { isUnlocked, pathStatusColor, latestUnockedPath } = useCompletion();
+    const statusColor = pathStatusColor(next.path);
+    const nextButtonUnlocked = isUnlocked(next.path);
+    useEffect(() => {
+        console.log(latestUnockedPath);
+    }, [latestUnockedPath])
     return <>
         <AppToolbar color="clear">
             {<AppButtons slot="end">
-                {nextButtonVisible && <AppButton
-                    fill='solid' color={color}
+                <AppButton disabled={!nextButtonUnlocked}
+                    fill='solid' color={statusColor}
                     routerDirection='forward' routerLink={next.path} >
                     <AppIcon icon={next.icon} />
                     {next.title}
                     <AppIcon icon={arrowForwardOutline} />
-                </AppButton>}
+                </AppButton>
             </AppButtons>}
         </AppToolbar>
         <AppItemDivider />
