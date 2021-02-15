@@ -4,6 +4,7 @@ import { AppButton, AppButtons, AppIcon, AppToolbar } from '..';
 import useCompletion from '../../hooks/useCompletion';
 import useGuidance from '../../hooks/useGuidance';
 import AppProgress from '../AppProgress';
+import { AppNextButton } from './AppNextButton';
 /**
  * Completion aware bottom toolbar
  */
@@ -24,9 +25,9 @@ const AppCompletionToolbar = ({
     onClick: () => show()
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: helpCircleOutline
-  }))), /*#__PURE__*/React.createElement(AppButtons, {
+  }))), children, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, children)));
+  }, /*#__PURE__*/React.createElement(AppNextButton, null))));
 };
 
 export default AppCompletionToolbar;

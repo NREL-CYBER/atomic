@@ -4,6 +4,7 @@ import { AppButton, AppButtons, AppIcon, AppToolbar } from '..';
 import useCompletion from '../../hooks/useCompletion';
 import useGuidance from '../../hooks/useGuidance';
 import AppProgress from '../AppProgress';
+import { AppNextButton } from './AppNextButton';
 
 /**
  * Completion aware bottom toolbar
@@ -21,8 +22,9 @@ const AppCompletionToolbar: React.FC = ({ children }) => {
                     <AppIcon icon={helpCircleOutline} />
                 </AppButton>
             </AppButtons>
+            {children}
             <AppButtons slot="end" >
-                {children}
+                <AppNextButton />
             </AppButtons>
         </AppToolbar>
         }</>

@@ -26,6 +26,7 @@ const calculateNextPage = (allPageRoutes: AppRoute[], routeOrder: AppPath[], pat
  * Type that defines what the useApplayout hook will be capable of
  */
 type AppLayout = {
+    status: "booting" | "idle",
     id: string,
     title: string,
     allRoutesFlattened: AppRoute[]
@@ -46,6 +47,7 @@ type AppLayout = {
  *  and knowing the nested page and determining the next page.
  */
 const useAppLayout = create<AppLayout>((set, store) => ({
+    status: "booting",
     initialize: (routes) => {
         const allPageRoutes = routes;
         const allRoutesFlattened = routes
@@ -57,7 +59,7 @@ const useAppLayout = create<AppLayout>((set, store) => ({
             ]));
         const rootRoute = routes.find(x => x.path === "/");
         const order = allRoutesFlattened.map(x => x.path);
-        set({ rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
+        set({ status: "idle", rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
     },
     id: "",
     path: "",

@@ -1,4 +1,4 @@
-import { IonApp, IonFooter } from '@ionic/react';
+import { IonApp, IonFooter, IonLoading } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/display.css";
@@ -39,7 +39,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     sections, bottomBar, topBar, darkMode, children,
     serialization, cache, title, version }) => {
 
-    const { initialize } = useAppLayout();
+    const { initialize, status } = useAppLayout();
     useEffect(
         () => {
             const className = darkMode ? 'dark-theme' : "light-theme";
@@ -83,9 +83,12 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
             </AppPage>
         </IonApp>
     }
-
+    if (status === "booting") {
+        return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
+            <IonLoading isOpen={status === "booting"} />
+        </IonApp>
+    }
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
-
         {/* Local Serializer*/}
         {serialization && serialization.mode === "local" && <AppLocalSerializer serializtion={serialization} cache={cache} />}
         {/* Cloud Serializer*/}
@@ -96,7 +99,6 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
             {/**Side Menu  */}
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar />}
-            {children}
             {routes.map(route =>
                 <Route key={route.path} {...route} />
             )}
@@ -105,6 +107,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
             <IonFooter>
                 {bottomBar ? bottomBar : <AppBottomToolbar />}
             </IonFooter>
+            {children}
         </AppRouter>
     </IonApp>
 }

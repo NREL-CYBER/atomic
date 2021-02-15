@@ -3,6 +3,7 @@ import { AppRoute, AppPath } from "../core/routing";
  * Type that defines what the useApplayout hook will be capable of
  */
 declare type AppLayout = {
+    status: "booting" | "idle";
     id: string;
     title: string;
     allRoutesFlattened: AppRoute[];
