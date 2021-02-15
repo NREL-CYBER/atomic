@@ -11,13 +11,13 @@ export const AppNextButton = () => {
   const {
     isUnlocked,
     pathStatusColor,
-    latestUnockedPath
+    paths
   } = useCompletion();
   const statusColor = pathStatusColor(next.path);
   const nextButtonUnlocked = isUnlocked(next.path);
   useEffect(() => {
-    console.log(latestUnockedPath);
-  }, [latestUnockedPath]);
+    console.log(next, paths[next.path]);
+  }, [next, paths]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
