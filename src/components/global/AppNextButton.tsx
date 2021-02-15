@@ -10,12 +10,10 @@ import { useEffect } from "react";
 
 export const AppNextButton: React.FC = () => {
     const next = useAppLayout(x => x.nextPage);
-    const { isUnlocked, pathStatusColor, paths } = useCompletion();
+    const { isUnlocked, pathStatusColor } = useCompletion();
     const statusColor = pathStatusColor(next.path);
     const nextButtonUnlocked = isUnlocked(next.path);
-    useEffect(() => {
-        console.log(next, paths[next.path]);
-    }, [next, paths])
+
     return <>
         <AppToolbar color="clear">
             {<AppButtons slot="end">

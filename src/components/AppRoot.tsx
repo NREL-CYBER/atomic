@@ -1,4 +1,4 @@
-import { IonApp, IonFooter, IonLoading } from '@ionic/react';
+import { IonApp, IonFooter } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/display.css";
@@ -39,7 +39,7 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     sections, bottomBar, topBar, darkMode, children,
     serialization, cache, title, version }) => {
 
-    const { initialize, status } = useAppLayout();
+    const { initialize } = useAppLayout();
     useEffect(
         () => {
             const className = darkMode ? 'dark-theme' : "light-theme";
@@ -81,11 +81,6 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
                     }} />
                 </AppContent>
             </AppPage>
-        </IonApp>
-    }
-    if (status === "booting") {
-        return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
-            <IonLoading isOpen={status === "booting"} />
         </IonApp>
     }
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>

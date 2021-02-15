@@ -1,6 +1,6 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-import { IonApp, IonFooter, IonLoading } from '@ionic/react';
+import { IonApp, IonFooter } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 
 import "@ionic/react/css/core.css";
@@ -50,8 +50,7 @@ const AppRoot = ({
   version
 }) => {
   const {
-    initialize,
-    status
+    initialize
   } = useAppLayout();
   useEffect(() => {
     const className = darkMode ? 'dark-theme' : "light-theme";
@@ -83,14 +82,6 @@ const AppRoot = ({
         setUid(uidCredential);
       }
     }))));
-  }
-
-  if (status === "booting") {
-    return /*#__PURE__*/React.createElement(IonApp, {
-      className: darkMode ? "dark-theme" : "light-theme"
-    }, /*#__PURE__*/React.createElement(IonLoading, {
-      isOpen: status === "booting"
-    }));
   }
 
   return /*#__PURE__*/React.createElement(IonApp, {

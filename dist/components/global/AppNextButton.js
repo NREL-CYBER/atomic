@@ -5,19 +5,14 @@ import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
 import { AppToolbar, AppButtons, AppButton, AppIcon, AppItemDivider } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
-import { useEffect } from "react";
 export const AppNextButton = () => {
   const next = useAppLayout(x => x.nextPage);
   const {
     isUnlocked,
-    pathStatusColor,
-    paths
+    pathStatusColor
   } = useCompletion();
   const statusColor = pathStatusColor(next.path);
   const nextButtonUnlocked = isUnlocked(next.path);
-  useEffect(() => {
-    console.log(next, paths[next.path]);
-  }, [next, paths]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {

@@ -3,6 +3,7 @@ import { homeOutline } from 'ionicons/icons';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
+import { useCompletion } from '../../hooks';
 /**
  * Self aware top toolbar
  */
@@ -14,13 +15,16 @@ const AppTopToolbar = ({
     pathname
   } = useLocation();
   const {
+    paths
+  } = useCompletion();
+  const {
     update
   } = useAppLayout();
   const breadcrumbs = useAppLayout(x => x.breadCrumbs);
   const isHome = pathname === '/';
   useEffect(() => {
     update(pathname);
-  }, [pathname, update]);
+  }, [pathname, update, paths]);
   return /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppMenuButton, null), /*#__PURE__*/React.createElement(AppButton, {

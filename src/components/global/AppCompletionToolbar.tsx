@@ -22,9 +22,8 @@ const AppCompletionToolbar: React.FC = ({ children }) => {
                     <AppIcon icon={helpCircleOutline} />
                 </AppButton>
             </AppButtons>
-            {children}
             <AppButtons slot="end" >
-                <AppNextButton />
+                {children}
             </AppButtons>
         </AppToolbar>
         }</>
