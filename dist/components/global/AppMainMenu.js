@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
-import { useAppLayout } from '../../hooks';
+import { useAppLayout, useCompletion } from '../../hooks';
 import { useState } from 'react';
 
 /**
@@ -12,20 +12,33 @@ const AppMainMenu = ({
   const {
     path
   } = useAppLayout();
-  const [pageEections, setSections] = useState(Object.entries(sections));
+  const [pageEections] = useState(Object.entries(sections));
+  const {
+    pathStatusColor,
+    isUnlocked
+  } = useCompletion();
 
   function renderlistItems(list) {
-    return list.filter(route => !!route.path).map(p => /*#__PURE__*/React.createElement(AppMenuToggle, {
-      key: p.title,
-      "auto-hide": "false"
-    }, /*#__PURE__*/React.createElement(AppItem, {
-      detail: false,
-      routerLink: p.path,
-      color: path.startsWith(p.path) ? 'tertiary' : undefined
-    }, /*#__PURE__*/React.createElement(AppIcon, {
-      slot: "start",
-      icon: p.icon
-    }), /*#__PURE__*/React.createElement(AppLabel, null, p.title))));
+    return list.filter(route => !!route.path).map(r => {
+      const pathColor = pathStatusColor(r.path);
+      const isLocked = !isUnlocked(r.path);
+      const isOnPath = path.startsWith(r.path);
+      return /*#__PURE__*/React.createElement(AppMenuToggle, {
+        key: r.title,
+        "auto-hide": "false"
+      }, /*#__PURE__*/React.createElement(AppItem, {
+        disabled: isLocked,
+        detail: false,
+        routerLink: r.path,
+        color: isOnPath ? 'tertiary' : undefined
+      }, /*#__PURE__*/React.createElement(AppIcon, {
+        color: isOnPath ? "medium" : pathColor,
+        slot: "start",
+        icon: r.icon
+      }), /*#__PURE__*/React.createElement(AppLabel, {
+        color: isOnPath ? "medium" : pathColor
+      }, r.title)));
+    });
   }
 
   return /*#__PURE__*/React.createElement(AppMenu, {

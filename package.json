@@ -1,9 +1,9 @@
 {
   "name": "atomic",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/entry.js",
+  "types": "dist/entry.d.ts",
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@babel/plugin-transform-react-jsx": "^7.12.13",
