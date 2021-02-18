@@ -1,8 +1,8 @@
-import React, { FC, memo, useEffect } from "react";
+import React, { FC, memo } from "react";
+import useTimeout from "use-timeout";
+import useIndexDBStorage from "../../hooks/useLocalSerialization";
 import { AppCacheIndex } from "../../state/AppCacheIndex";
 import { AppSerializationConfig } from "../../util/AppConfig";
-import useIndexDBStorage from "../../hooks/useLocalSerialization";
-import useTimeout from "use-timeout";
 
 export interface appLocalSerializerProps {
     cache: AppCacheIndex
@@ -20,7 +20,8 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization 
                 synchronize(namespace, storeAPI.getState, "anon");
             })
         })
-    }, 1000);
+        console.log("Cache in Sync");
+    }, 333);
 
     return <></>
 }

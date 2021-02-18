@@ -8,6 +8,9 @@ export { useAddress };
 const ExampleConfig = {
   title: "Atomic Example",
   version: "0.4.4",
+  sections: {
+    nice: routes
+  },
   routes,
   cache: {
     atomic_example: {

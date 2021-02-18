@@ -1,6 +1,6 @@
 import React, { memo } from "react";
-import useIndexDBStorage from "../../hooks/useLocalSerialization";
 import useTimeout from "use-timeout";
+import useIndexDBStorage from "../../hooks/useLocalSerialization";
 
 const AppLocalSerializer = ({
   cache,
@@ -17,7 +17,8 @@ const AppLocalSerializer = ({
         synchronize(namespace, storeAPI.getState, "anon");
       });
     });
-  }, 1000);
+    console.log("Cache in Sync");
+  }, 333);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 

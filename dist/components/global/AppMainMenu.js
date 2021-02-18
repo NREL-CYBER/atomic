@@ -20,9 +20,9 @@ const AppMainMenu = ({
 
   function renderlistItems(list) {
     return list.filter(route => !!route.path).map(r => {
-      const pathColor = pathStatusColor(r.path);
+      const pathColor = pathStatusColor(r.path) || "medium";
       const isLocked = !isUnlocked(r.path);
-      const isOnPath = path.startsWith(r.path);
+      const isOnPath = path === r.path;
       return /*#__PURE__*/React.createElement(AppMenuToggle, {
         key: r.title,
         "auto-hide": "false"
@@ -30,7 +30,7 @@ const AppMainMenu = ({
         disabled: isLocked,
         detail: false,
         routerLink: r.path,
-        color: isOnPath ? 'tertiary' : undefined
+        color: isOnPath ? 'tertiary' : "clear"
       }, /*#__PURE__*/React.createElement(AppIcon, {
         color: isOnPath ? "medium" : pathColor,
         slot: "start",

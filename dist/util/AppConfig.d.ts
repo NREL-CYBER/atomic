@@ -1,6 +1,7 @@
 /// <reference types="react" />
 import { AppCacheIndex } from "../state/AppCacheIndex";
 import { AppRoute } from "../core/routing";
+import { CompletionStatus } from "../hooks/useCompletion";
 export interface AppCloudConfig {
     provider: {
         firebase: {
@@ -26,6 +27,9 @@ export interface AppSerializationConfig {
 }
 export interface AppConfig {
     title: string;
+    completion?: {
+        default: CompletionStatus;
+    };
     version: string;
     topBar?: React.FC;
     sections?: Record<string, AppRoute[]>;

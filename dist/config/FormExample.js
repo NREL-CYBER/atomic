@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { AppButton, AppCard, AppContent, AppForm, AppItem, AppLabel, AppPage, AppTitle, AppAvatar } from "../components";
 import { useAddress } from "./ExampleConfig";
-import { binaryToFileUri } from "../util";
 import AppBinaryImg from "../components/AppBinaryImg";
+import { useCompletion } from "../hooks";
+import { useEffect } from "react";
 
 const ExampleForm = () => {
   const {
@@ -10,6 +11,13 @@ const ExampleForm = () => {
     insert,
     all
   } = useAddress();
+  const {
+    setPathState
+  } = useCompletion();
+  useEffect(() => {
+    setPathState("/Form", "valid");
+    setPathState("/", "valid");
+  }, [setPathState]);
   const [status, setStatus] = useState("idle");
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     center: true
@@ -32,14 +40,13 @@ const ExampleForm = () => {
     street_view,
     region
   }, i) => {
-    const file_uri = binaryToFileUri(street_view, "image/png");
     return /*#__PURE__*/React.createElement(AppCard, null, /*#__PURE__*/React.createElement(AppLabel, {
       key: i,
       position: "floating",
       color: "primary"
     }, "Address"), /*#__PURE__*/React.createElement(AppTitle, {
       color: "medium"
-    }, country_name, "-", street_address), /*#__PURE__*/React.createElement(AppLabel, {
+    }, country_name, "-", street_address, " ", region), /*#__PURE__*/React.createElement(AppLabel, {
       key: i,
       position: "floating",
       color: "primary"

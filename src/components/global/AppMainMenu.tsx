@@ -22,12 +22,12 @@ const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
     return list
       .filter(route => !!route.path)
       .map(r => {
-        const pathColor = pathStatusColor(r.path);
+        const pathColor = pathStatusColor(r.path) || "medium";
         const isLocked = !isUnlocked(r.path);
-        const isOnPath = path.startsWith(r.path);
+        const isOnPath = path === r.path;
         return (
           <AppMenuToggle key={r.title} auto-hide="false">
-            <AppItem disabled={isLocked} detail={false} routerLink={r.path} color={isOnPath ? 'tertiary' : undefined}>
+            <AppItem disabled={isLocked} detail={false} routerLink={r.path} color={isOnPath ? 'tertiary' : "clear"}>
               <AppIcon color={isOnPath ? "medium" : pathColor} slot="start" icon={r.icon} />
               <AppLabel color={isOnPath ? "medium" : pathColor}>{r.title}</AppLabel>
             </AppItem>
