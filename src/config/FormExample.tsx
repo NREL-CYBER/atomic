@@ -9,7 +9,7 @@ const ExampleForm: React.FC = () => {
     const [status, setStatus] = useState<"idle" | "editing">("idle")
     return <AppPage>
         <AppContent center>
-            {status === "editing" ? <AppForm title={"form"} requiredOnly onSubmit={(data) => { insert(data); setStatus("idle") }} data={{}} validator={validator} /> :
+            {status === "editing" ? <AppForm title={"form"} requiredOnly onSubmit={(data) => { insert(data); setStatus("idle") }} data={{}} validator={validator()} /> :
                 <AppCard contentColor="light" headerColor="primary" title="Addresses">{all().map(({ street_address, country_name, street_view, region }, i) => {
 
                     const file_uri = binaryToFileUri(street_view, "image/png")

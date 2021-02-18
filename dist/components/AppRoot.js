@@ -87,10 +87,10 @@ const AppRoot = ({
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
   }, serialization && serialization.mode === "local" && /*#__PURE__*/React.createElement(AppLocalSerializer, {
-    serializtion: serialization,
+    serialization: serialization,
     cache: cache
   }), serialization && serialization.mode === "cloud" && serialization.cloud && uid && /*#__PURE__*/React.createElement(AppCloudSerializer, {
-    serializtion: serialization,
+    serialization: serialization,
     uid: uid,
     cloud: serialization.cloud,
     cache: cache

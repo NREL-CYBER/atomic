@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import useFirebaseStorage from "../../hooks/useFirebaseSerialization";
+import useTimeout from "use-timeout";
 
 const AppCloudSerializer = ({
   cache,
@@ -10,16 +11,17 @@ const AppCloudSerializer = ({
   const {
     synchronize
   } = cloudSerializer();
+  useTimeout(() => {
+    if (uid === undefined) {
+      return;
+    }
 
-  if (uid === undefined) {
-    return /*#__PURE__*/React.createElement(React.Fragment, null);
-  }
-
-  Object.entries(cache).forEach(([namespace, collections]) => {
-    Object.values(collections).forEach(storeAPI => {
-      synchronize(storeAPI.getState, uid);
+    Object.entries(cache).forEach(([namespace, collections]) => {
+      Object.values(collections).forEach(storeAPI => {
+        synchronize(storeAPI.getState, uid);
+      });
     });
-  });
+  }, 500);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 

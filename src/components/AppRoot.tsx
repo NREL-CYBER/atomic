@@ -85,10 +85,10 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     }
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
         {/* Local Serializer*/}
-        {serialization && serialization.mode === "local" && <AppLocalSerializer serializtion={serialization} cache={cache} />}
+        {serialization && serialization.mode === "local" && <AppLocalSerializer serialization={serialization} cache={cache} />}
         {/* Cloud Serializer*/}
         {serialization && serialization.mode === "cloud" && serialization.cloud && uid &&
-            <AppCloudSerializer serializtion={serialization} uid={uid} cloud={serialization.cloud} cache={cache} />}
+            <AppCloudSerializer serialization={serialization} uid={uid} cloud={serialization.cloud} cache={cache} />}
 
         <AppRouter id={"root"}>
             {/**Side Menu  */}

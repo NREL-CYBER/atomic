@@ -1,20 +1,23 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
 import useIndexDBStorage from "../../hooks/useLocalSerialization";
+import useTimeout from "use-timeout";
 
 const AppLocalSerializer = ({
   cache,
-  serializtion
+  serialization
 }) => {
+  //TODO implement encryption
   const {
     synchronize
   } = useIndexDBStorage();
-  useEffect(() => {
+  useTimeout(() => {
+    console.log("Begin Cache Synchronization");
     Object.entries(cache).forEach(([namespace, collections]) => {
       Object.values(collections).forEach(storeAPI => {
         synchronize(namespace, storeAPI.getState, "anon");
       });
     });
-  }, [cache, synchronize]);
+  }, 1000);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 
