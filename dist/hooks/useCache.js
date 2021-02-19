@@ -4,9 +4,10 @@ import create from "zustand";
 *  Application Cache
 */
 const useCache = create((set, cache) => ({
-  register: index => {
+  synchronized: false,
+  ready: () => {
     set({
-      index
+      synchronized: true
     });
   }
 }));

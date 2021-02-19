@@ -1,7 +1,8 @@
 import React, { memo, useState } from "react";
 import useTimeout from "use-timeout";
 import useIndexDBStorage from "../../hooks/useLocalSerialization";
-import { useEffect } from "@storybook/addons";
+import { useEffect } from "react";
+import useCache from "../../hooks/useCache";
 
 const AppLocalSerializer = ({
   cache,
@@ -12,7 +13,10 @@ const AppLocalSerializer = ({
     synchronize
   } = useIndexDBStorage();
   const [booting, setIsBooting] = useState(true);
-  const [synchronized, setSynchronized] = useState(false);
+  const {
+    synchronized,
+    ready
+  } = useCache();
   useTimeout(() => {
     setIsBooting(false);
   }, 500);
@@ -26,8 +30,8 @@ const AppLocalSerializer = ({
         synchronize(namespace, storeAPI.getState, "anon");
       });
     });
-    setSynchronized(true);
-  }, [booting, cache, synchronize, synchronized]);
+    ready();
+  }, [booting, cache, ready, synchronize, synchronized]);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 

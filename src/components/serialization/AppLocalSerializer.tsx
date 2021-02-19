@@ -3,7 +3,8 @@ import useTimeout from "use-timeout";
 import useIndexDBStorage from "../../hooks/useLocalSerialization";
 import { AppCacheIndex } from "../../state/AppCacheIndex";
 import { AppSerializationConfig } from "../../util/AppConfig";
-import { useEffect } from "@storybook/addons";
+import { useEffect } from "react";
+import useCache from "../../hooks/useCache";
 
 export interface appLocalSerializerProps {
     cache: AppCacheIndex
@@ -15,7 +16,7 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization 
     //TODO implement encryption
     const { synchronize } = useIndexDBStorage();
     const [booting, setIsBooting] = useState(true);
-    const [synchronized, setSynchronized] = useState(false);
+    const { synchronized, ready } = useCache();
     useTimeout(() => {
         setIsBooting(false);
     }, 500);
@@ -29,8 +30,8 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization 
                 synchronize(namespace, storeAPI.getState, "anon");
             })
         })
-        setSynchronized(true);
-    }, [booting, cache, synchronize, synchronized])
+        ready();
+    }, [booting, cache, ready, synchronize, synchronized])
     return <></>
 }
 
