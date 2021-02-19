@@ -1,9 +1,8 @@
-import { AppCacheIndex } from "../state/AppCacheIndex";
 /**
  */
 declare type CacheService = {
-    index?: AppCacheIndex;
-    register: (index: AppCacheIndex) => void;
+    synchronized: boolean;
+    ready: () => void;
 };
 /**
 *  Application Cache
