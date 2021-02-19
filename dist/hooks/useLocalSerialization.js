@@ -17,9 +17,7 @@ const useIndexDBStorage = create(() => ({
 
     try {
       const store_records = JSON.parse(serialized_store_string);
-      store_records && Object.entries(store_records).forEach(([key, value]) => {
-        store().insert(value, key);
-      });
+      store().import(store_records);
     } catch (error) {
       console.log(error, serialized_store_string);
     }
@@ -29,13 +27,7 @@ const useIndexDBStorage = create(() => ({
     try {
       const store_workspace = workspace_string && JSON.parse(workspace_string);
       ;
-      store().setWorkspace(workspaceDraft => {
-        store_workspace && Object.entries(store_workspace).forEach(([key, value]) => {
-          console.log(key, value);
-          console.log(collection_key);
-          workspaceDraft[key] = value;
-        });
-      });
+      store().setWorkspaceInstance(store_workspace);
     } catch (error) {
       console.log(error, workspace_string);
     }
