@@ -1,5 +1,6 @@
 import create from "zustand";
 import { AppRoute, AppPath } from "../core/routing";
+import { AppConfig } from "../util";
 
 const EmptyRoute: AppRoute = { icon: "", path: "", title: "", }
 /**
@@ -28,7 +29,9 @@ const calculateNextPage = (allPageRoutes: AppRoute[], routeOrder: AppPath[], pat
 type AppLayout = {
     status: "booting" | "idle",
     id: string,
+    appTitle: string,
     title: string,
+    version: string,
     allRoutesFlattened: AppRoute[]
     allPageRoutes: AppRoute[]
     rootRoute: AppRoute
@@ -38,7 +41,7 @@ type AppLayout = {
     path: string
     nextPage: AppRoute
     update: (pathname: string) => void
-    initialize: (routes: AppRoute[]) => void
+    initialize: (config: AppConfig) => void
 }
 
 /**
@@ -48,7 +51,9 @@ type AppLayout = {
  */
 const useAppLayout = create<AppLayout>((set, store) => ({
     status: "booting",
-    initialize: (routes) => {
+    version: "",
+    appTitle: "",
+    initialize: ({ routes, title, version }) => {
         const allPageRoutes = routes;
         const allRoutesFlattened = routes
             .map(route => route.nested ?
@@ -59,7 +64,8 @@ const useAppLayout = create<AppLayout>((set, store) => ({
             ]));
         const rootRoute = routes.find(x => x.path === "/");
         const order = allRoutesFlattened.map(x => x.path);
-        set({ status: "idle", rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
+        const appTitle = title;
+        set({ appTitle, title, version, status: "idle", rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
     },
     id: "",
     path: "",

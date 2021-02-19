@@ -31,6 +31,8 @@ const useIndexDBStorage = create(() => ({
       ;
       store().setWorkspace(workspaceDraft => {
         store_workspace && Object.entries(store_workspace).forEach(([key, value]) => {
+          console.log(key, value);
+          console.log(collection_key);
           workspaceDraft[key] = value;
         });
       });

@@ -1,11 +1,14 @@
 import { AppRoute, AppPath } from "../core/routing";
+import { AppConfig } from "../util";
 /**
  * Type that defines what the useApplayout hook will be capable of
  */
 declare type AppLayout = {
     status: "booting" | "idle";
     id: string;
+    appTitle: string;
     title: string;
+    version: string;
     allRoutesFlattened: AppRoute[];
     allPageRoutes: AppRoute[];
     rootRoute: AppRoute;
@@ -15,7 +18,7 @@ declare type AppLayout = {
     path: string;
     nextPage: AppRoute;
     update: (pathname: string) => void;
-    initialize: (routes: AppRoute[]) => void;
+    initialize: (config: AppConfig) => void;
 };
 /**
  *  Hook for Responsible for the current page title

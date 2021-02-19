@@ -35,10 +35,10 @@ import AppLocalSerializer from './serialization/AppLocalSerializer';
  */
 
 
-const AppRoot: React.FC<AppConfig> = ({ routes,
-    sections, bottomBar, topBar, darkMode, children,
-    serialization, cache, title, version }) => {
-
+const AppRoot: React.FC<AppConfig> = (config) => {
+    const { routes,
+        sections, bottomBar, topBar, darkMode, children,
+        serialization, cache, title, version } = config;
     const { initialize } = useAppLayout();
     useEffect(
         () => {
@@ -52,9 +52,8 @@ const AppRoot: React.FC<AppConfig> = ({ routes,
     );
 
     useEffect(() => {
-
-        initialize(routes);
-    }, [initialize, routes, serialization])
+        initialize(config);
+    }, [config, initialize])
 
     const [uid, setUid] = useState<string | undefined>()
 

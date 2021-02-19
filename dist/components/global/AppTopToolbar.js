@@ -2,7 +2,7 @@ import useAppLayout from '../../hooks/useAppLayout';
 import { homeOutline } from 'ionicons/icons';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
+import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, AppChip } from '..';
 import { useCompletion } from '../../hooks';
 /**
  * Self aware top toolbar
@@ -18,7 +18,9 @@ const AppTopToolbar = ({
     paths
   } = useCompletion();
   const {
-    update
+    update,
+    appTitle,
+    version
   } = useAppLayout();
   const breadcrumbs = useAppLayout(x => x.breadCrumbs);
   const isHome = pathname === '/';
@@ -43,7 +45,13 @@ const AppTopToolbar = ({
     color: breadCrumb.path === pathname ? "tertiary" : "dark"
   }, breadCrumb.title, " "), "  ", /*#__PURE__*/React.createElement(AppIcon, {
     icon: breadCrumb.icon
-  }))), children));
+  }))), children), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  }, /*#__PURE__*/React.createElement(AppTitle, {
+    color: "tertiary"
+  }, appTitle, /*#__PURE__*/React.createElement(AppChip, {
+    color: "primary"
+  }, version))));
 };
 
 export default AppTopToolbar;

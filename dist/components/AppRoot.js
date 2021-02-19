@@ -37,18 +37,19 @@ import AppLocalSerializer from './serialization/AppLocalSerializer';
  * Component that stores the root of the application and control current theme
  */
 
-const AppRoot = ({
-  routes,
-  sections,
-  bottomBar,
-  topBar,
-  darkMode,
-  children,
-  serialization,
-  cache,
-  title,
-  version
-}) => {
+const AppRoot = config => {
+  const {
+    routes,
+    sections,
+    bottomBar,
+    topBar,
+    darkMode,
+    children,
+    serialization,
+    cache,
+    title,
+    version
+  } = config;
   const {
     initialize
   } = useAppLayout();
@@ -60,8 +61,8 @@ const AppRoot = ({
     element.classList.add(className);
   }, [darkMode]);
   useEffect(() => {
-    initialize(routes);
-  }, [initialize, routes, serialization]);
+    initialize(config);
+  }, [config, initialize]);
   const [uid, setUid] = useState();
   const cloudSerializationAndNotLoggedIn = serialization && serialization.cloud && serialization.cloud.provider.authentication.required && !uid;
   const localSerializationWithEncryptionAndNotLoggedIn = !uid && serialization && serialization.encryption === "RSA";

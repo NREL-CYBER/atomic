@@ -2,7 +2,7 @@ import useAppLayout from '../../hooks/useAppLayout';
 import { homeOutline } from 'ionicons/icons';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
-import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
+import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, AppChip } from '..';
 import { useCompletion } from '../../hooks';
 
 
@@ -15,7 +15,7 @@ import { useCompletion } from '../../hooks';
 const AppTopToolbar: React.FC = ({ children }) => {
     const { pathname } = useLocation();
     const { paths } = useCompletion();
-    const { update } = useAppLayout();
+    const { update, appTitle, version } = useAppLayout();
     const breadcrumbs = useAppLayout(x => x.breadCrumbs);
     const isHome = pathname === '/';
     useEffect(() => {
@@ -31,6 +31,14 @@ const AppTopToolbar: React.FC = ({ children }) => {
                 <AppTitle color={breadCrumb.path === pathname ? "tertiary" : "dark"}>{breadCrumb.title} </AppTitle>  <AppIcon icon={breadCrumb.icon} />
             </AppButton>)}
             {children}
+        </AppButtons>
+        <AppButtons slot='end'>
+            <AppTitle color="tertiary">
+                {appTitle}
+                <AppChip color="primary">
+                    {version}
+                </AppChip>
+            </AppTitle>
         </AppButtons>
     </AppToolbar >
     );

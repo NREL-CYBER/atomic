@@ -36,6 +36,8 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
             const store_workspace = workspace_string && JSON.parse(workspace_string) as Record<string, any>;;
             store().setWorkspace((workspaceDraft) => {
                 store_workspace && Object.entries(store_workspace).forEach(([key, value]) => {
+                    console.log(key, value);
+                    console.log(collection_key);
                     (workspaceDraft as any)[key] = value;
                 })
             });

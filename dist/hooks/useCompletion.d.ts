@@ -1,10 +1,5 @@
-import { AppCacheIndex } from "../state/AppCacheIndex";
 import { AppColor } from "../theme/AppColor";
-export interface CompletionConfiguration {
-    conditions: Record<string, CompletionCondition>;
-}
 export declare type CompletionStatus = "valid" | "unlocked" | "hidden" | "locked";
-export declare type CompletionCondition = <CacheLayout>(cache: AppCacheIndex) => CompletionStatus;
 declare type CompletionService = {
     paths: Record<string, CompletionStatus>;
     setPathState: (pathName: string, status: CompletionStatus) => void;
