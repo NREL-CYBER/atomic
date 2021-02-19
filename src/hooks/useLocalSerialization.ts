@@ -24,7 +24,7 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
         const serialized_store_string = await get(collection_key);
         try {
             const store_records = JSON.parse(serialized_store_string) as Record<string, any>;
-            store().import(store_records);
+            store().import(store_records, false);
 
         } catch (error) {
             console.log(error, serialized_store_string);

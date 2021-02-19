@@ -17,7 +17,7 @@ const useIndexDBStorage = create(() => ({
 
     try {
       const store_records = JSON.parse(serialized_store_string);
-      store().import(store_records);
+      store().import(store_records, false);
     } catch (error) {
       console.log(error, serialized_store_string);
     }
