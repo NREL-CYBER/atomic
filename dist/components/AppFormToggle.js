@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { AppButtons, AppToggle } from '.';
+import { AppButtons } from '.';
 import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
+import AppSelectButtons from './AppSelectButtons';
 export const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -30,14 +31,24 @@ const AppFormToggle = props => {
   }, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: inputStatusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppToggle, {
-    checked: checked,
-    onToggleChange: isChecked => {
-      setChecked(isChecked);
+  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelectButtons, {
+    selected: typeof checked === "undefined" ? [] : checked ? ["true"] : ["false"],
+    onSelectionChange: selection => {
+      const isChecked = selection.includes("true");
+      selection.length > 0 && setChecked(isChecked);
       const [validationStatus, validationErrors] = onChange(property, isChecked);
       setInputStatus(validationStatus);
       setErrors(validationErrors);
-    }
+    },
+    buttons: [{
+      color: "success",
+      text: "True",
+      value: "true"
+    }, {
+      color: "danger",
+      text: "False",
+      value: "false"
+    }]
   })), /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"

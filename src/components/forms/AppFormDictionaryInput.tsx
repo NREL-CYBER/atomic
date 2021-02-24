@@ -43,7 +43,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
     };
 
     return <AppRow>
-        <AppToolbar>
+        <AppToolbar color="clear">
             <AppButtons slot='start'>
                 <AppButton fill="clear" onClick={() => {
                     beginInsertItem()

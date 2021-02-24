@@ -1,12 +1,13 @@
-import { saveOutline } from 'ionicons/icons';
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppUploader from '../serialization/AppUploader';
+import AppItemDivider from '../AppItemDivider';
 
 const LockedField = ({
   property,
@@ -277,7 +278,8 @@ const AppForm = props => {
       instanceRef: instance,
       property: property
     });
-  }));
+  })); // eslint-disable-next-line react-hooks/exhaustive-deps
+
 
   const OptionalFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, optionalFields.map(property => {
     if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
@@ -306,7 +308,11 @@ const AppForm = props => {
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
     }, title ? title : titleCase(schema.title || "")))))
-  }, /*#__PURE__*/React.createElement(AppList, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
+  }, /*#__PURE__*/React.createElement(AppList, {
+    color: "clear"
+  }, /*#__PURE__*/React.createElement(AppItem, {
+    color: "clear"
+  }, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
   }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     propertyInfo: schema,
@@ -315,29 +321,29 @@ const AppForm = props => {
     instanceRef: instance,
     onChange: handleInputReceived
   }))), /*#__PURE__*/React.createElement(AppList, {
+    color: "medium"
+  }, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear"
-  }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppChip, {
+  }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppButton, {
+    color: showOptional ? "favorite" : "primary",
+    fill: showOptional ? "solid" : "outline",
     onClick: () => setShowOptional(x => !x),
     color: "medium"
-  }, "Optional Fields"), useMemo(() => showOptional ? /*#__PURE__*/React.createElement(OptionalFormFields, null) : /*#__PURE__*/React.createElement(React.Fragment, null), [showOptional])), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(() => showOptional ? /*#__PURE__*/React.createElement(OptionalFormFields, null) : /*#__PURE__*/React.createElement(React.Fragment, null), [showOptional])), /*#__PURE__*/React.createElement(AppItemDivider, {
     color: "clear"
-  }, /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "start"
+  }), /*#__PURE__*/React.createElement(AppToolbar, {
+    color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppText, {
     key: "error",
     color: "danger"
-  }, error))), /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "end"
-  }, useMemo(() => !autoSubmit ? /*#__PURE__*/React.createElement(AppButton, {
+  }, error)), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
+    expand: "full",
     fill: "solid",
     color: isValid ? "favorite" : "primary",
-    disabled: !isValid,
     onClick: () => {
       onSubmit(instance.current);
     }
-  }, !customSubmit ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppLabel, null, "Save"), /*#__PURE__*/React.createElement(AppIcon, {
-    icon: saveOutline
-  })) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit])))));
+  }, !customSubmit ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, null, "Save ", title)) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit]))));
 };
 
 export default AppForm;

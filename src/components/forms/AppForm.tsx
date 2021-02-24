@@ -1,4 +1,4 @@
-import { saveOutline } from 'ionicons/icons';
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useMemo, useRef, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import {
@@ -7,7 +7,7 @@ import {
     AppContent,
 
     AppFormArrayInput, AppFormInput, AppFormSelect,
-    AppIcon, AppItem, AppLabel,
+    AppItem, AppLabel,
     AppList,
     AppModal,
     AppText,
@@ -15,10 +15,11 @@ import {
 } from '..';
 import { titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
-import AppLastModifiedGenerator from './AppLastModifiedGenerator';
+import AppItemDivider from '../AppItemDivider';
+import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
-import AppUploader from '../serialization/AppUploader';
+import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
 export interface propertyKeyValue {
     property: string,
@@ -291,7 +292,8 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         })}</>
 
 
-    const OptionalFormFields: React.FC = () => <>{
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const OptionalFormFields = () => <>{
         optionalFields.map((property) => {
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField key={property} property={property} value={instance.current[property]} />
@@ -314,8 +316,8 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 </AppButtons>
             </AppToolbar>
         </>}>
-            <AppList>
-                <AppItem>
+            <AppList color="clear">
+                <AppItem color="clear">
                     <AppText color="medium">
                         {description ? description : schema.description}
                     </AppText>
@@ -330,30 +332,30 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 /></>}
             </AppList>
 
-            {<AppList color={"clear"}>
-                {!requiredOnly && optionalFields.length > 0 && <AppChip onClick={() => setShowOptional(x => !x)} color="medium">
-                    Optional Fields
-                </AppChip>}
+            {<AppList color={"medium"}>
+                <AppItem color="clear">
+                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={showOptional ? "favorite" : "primary"} fill={showOptional ? "solid" : "outline"} onClick={() => setShowOptional(x => !x)} >
+                        {!showOptional ? "Enter" : ""} Optional info
+                    </AppButton>}
+                </AppItem>
                 {useMemo(() => showOptional ? <OptionalFormFields /> : <></>, [showOptional])}
             </AppList>}
 
+            <AppItemDivider color="clear" />
             <AppToolbar color="clear">
-                <AppButtons slot="start">
-                    {errors.slice(0, 1).map(error => <AppText key={"error"} color='danger'>
-                        {error}
-                    </AppText>)}
-                </AppButtons>
-                <AppButtons slot="end">
-                    {useMemo(() => !autoSubmit ? <AppButton fill="solid" color={isValid ? "favorite" : "primary"} disabled={!isValid} onClick={() => {
-                        onSubmit(instance.current);
-                    }}>
-                        {!customSubmit ? <>
-                            <AppLabel>
-                                Save
-                        </AppLabel>
-                            <AppIcon icon={saveOutline} /></> : customSubmit}
-                    </AppButton> : <></>, [autoSubmit, customSubmit, isValid, onSubmit])}
-                </AppButtons>
+                {errors.slice(0, 1).map(error => <AppText key={"error"} color='danger'>
+                    {error}
+                </AppText>)}
+
+                {useMemo(() => !autoSubmit && isValid ? <AppButton expand="full" fill={"solid"} color={isValid ? "favorite" : "primary"} onClick={() => {
+                    onSubmit(instance.current);
+                }}>
+                    {!customSubmit ? <>
+                        <AppTitle>
+                            Save {title}
+                        </AppTitle>
+                    </> : customSubmit}
+                </AppButton> : <></>, [autoSubmit, customSubmit, isValid, onSubmit])}
             </AppToolbar>
 
         </AppCard >

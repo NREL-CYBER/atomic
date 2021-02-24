@@ -42,7 +42,9 @@ const AppFormDictionaryInput = props => {
     setIsInsertingItem(true);
   };
 
-  return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+  return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, {
+    color: "clear"
+  }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",

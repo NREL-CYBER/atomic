@@ -1,10 +1,11 @@
 import React, { MutableRefObject, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
-import { AppButtons, AppToggle } from '.';
+import { AppButtons } from '.';
 import { AppColor } from '../theme/AppColor';
 import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
+import AppSelectButtons from './AppSelectButtons';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
 
@@ -37,13 +38,19 @@ const AppFormToggle = (props: formToggleProps<any>) => {
             <AppLabel position="stacked" color={inputStatusColor} >
                 {propertyFormattedName}
             </AppLabel>
-            <AppToggle checked={checked} onToggleChange={(isChecked) => {
-                setChecked(isChecked);
+            <AppSelectButtons selected={typeof checked === "undefined" ? [] : checked ? ["true"] : ["false"]} onSelectionChange={(selection) => {
+                const isChecked = selection.includes("true");
+                selection.length > 0 && setChecked(isChecked);
                 const [validationStatus, validationErrors] = onChange(property, isChecked);
                 setInputStatus(validationStatus);
                 setErrors(validationErrors);
-            }}>
-            </AppToggle>
+            }} buttons={[{
+                color: "success",
+                text: "True", value: "true"
+            }, {
+                color: "danger",
+                text: "False", value: "false"
+            }]} />
         </AppButtons>
         <AppLabel position='stacked' color='danger'>
             {errors && errors.map(error => <AppText>
