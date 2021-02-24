@@ -3,8 +3,8 @@ import { AppButtons } from '.';
 import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
-import AppText from './AppText';
 import AppSelectButtons from './AppSelectButtons';
+import AppText from './AppText';
 export const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
