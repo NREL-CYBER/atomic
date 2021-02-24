@@ -96,8 +96,9 @@ const AppForm = props => {
     return inline ? /*#__PURE__*/React.createElement(AppForm, {
       data: instanceRef.current[property],
       validator: validator.makeReferenceValidator(propertyInfo),
-      requiredOnly: true,
+      requiredOnly: requiredOnly,
       autoSubmit: true,
+      customComponentMap: customComponentMap,
       onSubmit: nestedObjectValue => {
         setNestedFormStatus("valid");
         onChange(property, nestedObjectValue);
@@ -325,8 +326,8 @@ const AppForm = props => {
   }, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear"
   }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppButton, {
-    color: showOptional ? "favorite" : "primary",
-    fill: showOptional ? "solid" : "outline",
+    color: showOptional ? "tertiary" : "primary",
+    fill: "outline",
     onClick: () => setShowOptional(x => !x)
   }, !showOptional ? "Enter" : "", " Optional info")), useMemo(() => showOptional ? /*#__PURE__*/React.createElement(OptionalFormFields, null) : /*#__PURE__*/React.createElement(React.Fragment, null), [showOptional])), /*#__PURE__*/React.createElement(AppItemDivider, {
     color: "clear"

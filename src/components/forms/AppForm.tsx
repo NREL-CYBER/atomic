@@ -132,8 +132,9 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         return inline ? <AppForm
             data={instanceRef.current[property]}
             validator={validator.makeReferenceValidator(propertyInfo)}
-            requiredOnly
+            requiredOnly={requiredOnly}
             autoSubmit={true}
+            customComponentMap={customComponentMap}
             onSubmit={(nestedObjectValue) => {
                 setNestedFormStatus("valid");
                 onChange(property, nestedObjectValue);
@@ -334,7 +335,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
 
             {<AppList color={"medium"}>
                 <AppItem color="clear">
-                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={showOptional ? "favorite" : "primary"} fill={showOptional ? "solid" : "outline"} onClick={() => setShowOptional(x => !x)} >
+                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={showOptional ? "tertiary" : "primary"} fill={"outline"} onClick={() => setShowOptional(x => !x)} >
                         {!showOptional ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>

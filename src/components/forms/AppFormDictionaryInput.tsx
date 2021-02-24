@@ -4,7 +4,7 @@ import React, { MutableRefObject, useState } from 'react';
 import { v4 } from 'uuid';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
-import { titleCase } from "../../util";
+import { titleCase, prettyTitle } from "../../util";
 import AppForm, { formFieldChangeEvent } from './AppForm';
 import { AppColor } from "../../theme/AppColor";
 
@@ -26,14 +26,15 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, onChange } = props;
+    const { property, instanceRef, validator, onChange, propertyInfo } = props;
+    const { title } = propertyInfo;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<Record<string, any>>(instanceRef.current[property] ? instanceRef.current[property] : {})
     const [data, setData] = useState<any>({})
     const [activeIndex, setActiveIndex] = useState<string | undefined>(undefined);
-    const propertyFormattedName = titleCase(property).replace("-", " ");
+    const propertyFormattedName = prettyTitle(title || property)
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (index: string = v4(), val: any = {}) => {
         setActiveIndex(index);

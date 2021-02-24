@@ -3,7 +3,7 @@ import { addOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { v4 } from 'uuid';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
-import { titleCase } from "../../util";
+import { prettyTitle } from "../../util";
 import AppForm from './AppForm';
 const inputStatusColorMap = {
   empty: "dark",
@@ -19,15 +19,19 @@ const AppFormDictionaryInput = props => {
     property,
     instanceRef,
     validator,
-    onChange
+    onChange,
+    propertyInfo
   } = props;
+  const {
+    title
+  } = propertyInfo;
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   const [isInsertingItem, setIsInsertingItem] = useState(false);
   const [value, setValue] = useState(instanceRef.current[property] ? instanceRef.current[property] : {});
   const [data, setData] = useState({});
   const [activeIndex, setActiveIndex] = useState(undefined);
-  const propertyFormattedName = titleCase(property).replace("-", " ");
+  const propertyFormattedName = prettyTitle(title || property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
   const beginInsertItem = (index = v4(), val = {}) => {
