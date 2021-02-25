@@ -6,7 +6,7 @@ import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, App
 import { AppColor } from '../theme/AppColor';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
-import FormComposer, { formFieldChangeEvent } from './forms/AppForm';
+import FormComposer, { formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
 
 
 interface formInputProps<T> {
@@ -15,7 +15,8 @@ interface formInputProps<T> {
     propertyInfo: PropertyDefinitionRef
     instanceRef: MutableRefObject<any>
     validator: Validator<T>
-    onChange: formFieldChangeEvent
+    onChange: formFieldChangeEvent,
+    customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
 type InputStatus = "empty" | "invalid" | "valid";
@@ -26,7 +27,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormArrayInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, onChange, propertyInfo } = props;
+    const { property, instanceRef, validator, onChange, propertyInfo, customComponentMap } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
@@ -71,6 +72,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
                     {isInsertingItem && <FormComposer
+                        customComponentMap={customComponentMap}
                         validator={validator}
                         data={{ ...data }}
                         onSubmit={(item) => {

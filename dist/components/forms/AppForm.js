@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
-import { titleCase } from '../../util';
+import { titleCase, prettyTitle } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppItemDivider from '../AppItemDivider';
 import AppUploader from '../serialization/AppUploader';
@@ -308,7 +308,7 @@ const AppForm = props => {
       slot: "start"
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
-    }, title ? title : titleCase(schema.title || "")))))
+    }, prettyTitle(title || schema.title)))))
   }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppItem, {

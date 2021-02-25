@@ -13,7 +13,7 @@ import {
     AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
-import { titleCase } from '../../util';
+import { titleCase, prettyTitle } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppItemDivider from '../AppItemDivider';
 import AppUploader from '../serialization/AppUploader';
@@ -57,7 +57,7 @@ interface formElementProps {
     onChange: formFieldChangeEvent
 }
 
-interface nestedFormProps {
+export interface nestedFormProps {
     property: string
     inline?: boolean
     instanceRef: MutableRefObject<any>
@@ -312,7 +312,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 <AppButtons slot="start">
                     {children}
                     {<AppTitle color={isValid ? "favorite" : "tertiary"}>
-                        {title ? title : titleCase(schema.title || "")}
+                        {prettyTitle(title || schema.title)}
                     </AppTitle>}
                 </AppButtons>
             </AppToolbar>

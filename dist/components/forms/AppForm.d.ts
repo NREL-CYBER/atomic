@@ -26,7 +26,7 @@ export interface formComposerProps {
 }
 export declare type formFieldValidationStatus = [formFieldStatus, string[] | undefined];
 export declare type formFieldChangeEvent = (property: string, value: any) => formFieldValidationStatus;
-interface nestedFormProps {
+export interface nestedFormProps {
     property: string;
     inline?: boolean;
     instanceRef: MutableRefObject<any>;

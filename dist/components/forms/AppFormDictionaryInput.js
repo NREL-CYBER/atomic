@@ -20,7 +20,8 @@ const AppFormDictionaryInput = props => {
     instanceRef,
     validator,
     onChange,
-    propertyInfo
+    propertyInfo,
+    customComponentMap
   } = props;
   const {
     title
@@ -77,6 +78,7 @@ const AppFormDictionaryInput = props => {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppForm, {
+    customComponentMap: customComponentMap,
     validator: validator,
     data: { ...data
     },

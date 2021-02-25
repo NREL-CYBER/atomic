@@ -20,7 +20,8 @@ const AppFormArrayInput = props => {
     instanceRef,
     validator,
     onChange,
-    propertyInfo
+    propertyInfo,
+    customComponentMap
   } = props;
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
@@ -75,6 +76,7 @@ const AppFormArrayInput = props => {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(FormComposer, {
+    customComponentMap: customComponentMap,
     validator: validator,
     data: { ...data
     },

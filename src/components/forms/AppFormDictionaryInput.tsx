@@ -4,9 +4,9 @@ import React, { MutableRefObject, useState } from 'react';
 import { v4 } from 'uuid';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
-import { titleCase, prettyTitle } from "../../util";
-import AppForm, { formFieldChangeEvent } from './AppForm';
 import { AppColor } from "../../theme/AppColor";
+import { prettyTitle } from "../../util";
+import AppForm, { formFieldChangeEvent, nestedFormProps } from './AppForm';
 
 
 interface formInputProps<T> {
@@ -15,7 +15,8 @@ interface formInputProps<T> {
     propertyInfo: PropertyDefinitionRef
     instanceRef: MutableRefObject<any>
     validator: Validator<T>
-    onChange: formFieldChangeEvent
+    onChange: formFieldChangeEvent,
+    customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
 type InputStatus = "empty" | "invalid" | "valid";
@@ -26,7 +27,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, onChange, propertyInfo } = props;
+    const { property, instanceRef, validator, onChange, propertyInfo, customComponentMap } = props;
     const { title } = propertyInfo;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
@@ -70,6 +71,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
             <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
                     {isInsertingItem && <AppForm
+                        customComponentMap={customComponentMap}
                         validator={validator}
                         data={{ ...data }}
                         onSubmit={(item: any) => {

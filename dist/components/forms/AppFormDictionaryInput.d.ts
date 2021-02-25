@@ -1,6 +1,6 @@
-import { MutableRefObject } from 'react';
+import React, { MutableRefObject } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
-import { formFieldChangeEvent } from './AppForm';
+import { formFieldChangeEvent, nestedFormProps } from './AppForm';
 interface formInputProps<T> {
     inline?: boolean;
     property: string;
@@ -8,6 +8,7 @@ interface formInputProps<T> {
     instanceRef: MutableRefObject<any>;
     validator: Validator<T>;
     onChange: formFieldChangeEvent;
+    customComponentMap?: Record<string, React.FC<nestedFormProps>>;
 }
 /**
  * Component for input that displays validation errors
