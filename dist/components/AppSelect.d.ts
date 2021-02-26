@@ -3,6 +3,7 @@ interface selectProps {
     interface?: "popover" | "alert" | "action-sheet";
     placeholder?: string;
     value?: string;
+    multiple?: boolean;
     onSelectionChange?: (value: string) => void;
 }
 /**

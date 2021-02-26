@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { AppItem } from ".";
+import { AppItem, AppRow } from ".";
 import AppList from "./AppList";
 import { AppColor } from "../theme/AppColor";
 
@@ -30,9 +30,9 @@ const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor, exp
         }}>
             <accordionItem.toolbarContent />
         </AppItem>
-            {((unlockedIndex === i) || expand) && <AppItem lines={"none"} className="accordion-item">
+            {((unlockedIndex === i) || expand) && <AppRow>
                 <accordionItem.innerContent />
-            </AppItem>}
+            </AppRow>}
         </React.Fragment >
     )}</AppList>
 }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppItem } from ".";
+import { AppItem, AppRow } from ".";
 import AppList from "./AppList";
 
 /**
@@ -24,10 +24,7 @@ const AppAccordion = ({
         setUnlockedIndex(i);
       }
     }
-  }, /*#__PURE__*/React.createElement(accordionItem.toolbarContent, null)), (unlockedIndex === i || expand) && /*#__PURE__*/React.createElement(AppItem, {
-    lines: "none",
-    className: "accordion-item"
-  }, /*#__PURE__*/React.createElement(accordionItem.innerContent, null)))));
+  }, /*#__PURE__*/React.createElement(accordionItem.toolbarContent, null)), (unlockedIndex === i || expand) && /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(accordionItem.innerContent, null)))));
 };
 
 export default AppAccordion;
