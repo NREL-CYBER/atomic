@@ -7,7 +7,7 @@ declare type Address = {
     country_name: string;
     street_view: string;
 };
-declare const useAddress: import("zustand").UseStore<import("store").Store<Address>>;
+declare const useAddress: import("zustand").StoreApi<import("store").Store<Address>>;
 export { useAddress };
 declare const ExampleConfig: AppConfig;
 export default ExampleConfig;

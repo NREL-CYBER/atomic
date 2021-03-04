@@ -40,7 +40,7 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
 
         store().addListener((_, data, status) => {
             switch (status) {
-                case "workspace-update":
+                case "workspacing":
                     set(collection_workspace_key, store().exportWorkspace());
                     break;
                 case "inserting":
