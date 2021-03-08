@@ -13,14 +13,13 @@ import {
     AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
-import { titleCase, prettyTitle } from '../../util';
+import { prettyTitle, titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppItemDivider from '../AppItemDivider';
 import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
-import AppListHeader from '../AppListHeader';
 
 export interface propertyKeyValue {
     property: string,

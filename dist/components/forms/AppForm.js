@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
-import { titleCase, prettyTitle } from '../../util';
+import { prettyTitle, titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppItemDivider from '../AppItemDivider';
 import AppUploader from '../serialization/AppUploader';

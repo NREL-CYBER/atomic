@@ -82,7 +82,7 @@ function useFirebaseSerialization(cloud: AppCloudConfig) {
             store().addListener((index, data, status) => {
                 console.log("listener active", index, data, status);
                 switch (status) {
-                    case "workspace-update":
+                    case "workspacing":
                         cloudStorage().insertDocument(store, data as T, index, uid);
                         break;
                     case "inserting":
