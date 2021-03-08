@@ -3,7 +3,7 @@
  */
 import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
-import { AppButton, AppButtons, AppIcon, AppItemDivider, AppToolbar } from "..";
+import { AppButton, AppButtons, AppIcon, AppToolbar } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 export const AppNextButton = () => {
   const next = useAppLayout(x => x.nextPage);
@@ -27,5 +27,5 @@ export const AppNextButton = () => {
     icon: next.icon
   }), next.title, /*#__PURE__*/React.createElement(AppIcon, {
     icon: arrowForwardOutline
-  })))), /*#__PURE__*/React.createElement(AppItemDivider, null));
+  })))));
 };

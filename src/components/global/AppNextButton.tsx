@@ -4,7 +4,7 @@
 
 import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
-import { AppButton, AppButtons, AppIcon, AppItemDivider, AppToolbar } from "..";
+import { AppButton, AppButtons, AppIcon, AppToolbar } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 
 export const AppNextButton: React.FC = () => {
@@ -25,6 +25,5 @@ export const AppNextButton: React.FC = () => {
                 </AppButton>
             </AppButtons>}
         </AppToolbar>
-        <AppItemDivider />
     </>
 }

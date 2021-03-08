@@ -322,7 +322,6 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                     {description ? description : schema.description}
                 </AppText>
             </AppItem>
-            <AppItemDivider />
             <AppList color="clear">
                 {useMemo(() => <RequiredFormFields />, [])}
                 {schema.type === "string" && <><AppFormInput
@@ -343,7 +342,6 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 {useMemo(() => showOptional ? <OptionalFormFields /> : <></>, [showOptional])}
             </AppList>}
 
-            <AppItemDivider />
             <AppToolbar color="clear">
                 {errors.slice(0, 1).map(error => <AppChip key={"error"} color='danger'>
                     {title} {error.split('_').join('-')}
