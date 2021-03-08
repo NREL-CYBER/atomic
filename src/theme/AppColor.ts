@@ -1,1 +1,1 @@
-export type AppColor = "success" | "primary" | "secondary" | "favorite" | "tertiary" | "light" | "medium" | "dark" | "clear" | "warning" | "danger" | undefined
+export type AppColor = "success" | "primary" | "secondary" | "favorite" | "tertiary" | "light" | "paper" | "medium" | "dark" | "clear" | "warning" | "danger" | undefined

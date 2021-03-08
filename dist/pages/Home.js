@@ -5,8 +5,8 @@ const Home = () => {
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     center: true
   }, /*#__PURE__*/React.createElement(AppCard, {
-    contentColor: "light",
     headerColor: "primary",
+    titleColor: "secondary",
     title: "Welcome to atomic"
   }, /*#__PURE__*/React.createElement(AppChip, {
     color: "success"

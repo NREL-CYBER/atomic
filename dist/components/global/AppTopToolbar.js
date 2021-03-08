@@ -39,19 +39,17 @@ const AppTopToolbar = ({
   }), " ")), !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(AppButton, {
     key: breadCrumb.path,
     color: breadCrumb.path === pathname ? "tertiary" : undefined,
-    fill: breadCrumb.path === pathname ? "outline" : "clear",
+    fill: breadCrumb.path === pathname ? "solid" : "clear",
     routerLink: breadCrumb.path
-  }, /*#__PURE__*/React.createElement(AppTitle, {
-    color: breadCrumb.path === pathname ? "tertiary" : "dark"
-  }, breadCrumb.title, " "), "  ", /*#__PURE__*/React.createElement(AppIcon, {
+  }, /*#__PURE__*/React.createElement(AppTitle, null, breadCrumb.title, " "), "  ", /*#__PURE__*/React.createElement(AppIcon, {
     icon: breadCrumb.icon
   }))), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppTitle, {
     color: "tertiary"
-  }, appTitle, /*#__PURE__*/React.createElement(AppChip, {
-    color: "primary"
-  }, version))));
+  }, appTitle), /*#__PURE__*/React.createElement(AppChip, {
+    color: "tertiary"
+  }, version)));
 };
 
 export default AppTopToolbar;

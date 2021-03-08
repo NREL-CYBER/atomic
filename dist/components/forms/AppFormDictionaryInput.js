@@ -70,7 +70,7 @@ const AppFormDictionaryInput = props => {
     onClick: () => {
       beginInsertItem(v4());
     },
-    fill: "outline",
+    fill: "solid",
     color: "primary"
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: addOutline

@@ -6,7 +6,7 @@ import { useCompletion } from "../hooks";
 import { useEffect } from "react";
 
 const ExampleForm: React.FC = () => {
-    const { validator, insert, all } = useAddress()
+    const { validator, insert, all } = useAddress.getState();
     const { setPathState } = useCompletion();
     useEffect(() => {
         setPathState("/Form", "valid");
@@ -15,10 +15,10 @@ const ExampleForm: React.FC = () => {
     const [status, setStatus] = useState<"idle" | "editing">("idle")
     return <AppPage>
         <AppContent center>
-            {status === "editing" ? <AppForm title={"form"} requiredOnly onSubmit={(data) => { insert(data); setStatus("idle") }} data={{}} validator={validator()} /> :
-                <AppCard contentColor="light" headerColor="primary" title="Addresses">{all().map(({ street_address, country_name, street_view, region }, i) => {
+            {status === "editing" ? <AppForm title={"Address"} requiredOnly onSubmit={(data) => { insert(data); setStatus("idle") }} data={{}} validator={validator()} /> :
+                <AppCard contentColor="paper" titleColor="secondary" headerColor="primary" title="Addresses">{all().map(({ street_address, country_name, street_view, region }, i) => {
 
-                    return <AppCard>
+                    return <AppCard contentColor="light">
                         <AppLabel key={i} position="floating" color="primary" >
                             Address
                         </AppLabel>
@@ -30,7 +30,7 @@ const ExampleForm: React.FC = () => {
                         </AppLabel>
                         <AppTitle>
                             <AppAvatar>
-                                <AppBinaryImg height="100" alt="Street View" binary={street_view} />
+                                <AppBinaryImg height="100" alt="Street View" binary={atob(street_view)} />
                             </AppAvatar>
                         </AppTitle>
                     </AppCard >

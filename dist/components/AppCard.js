@@ -1,5 +1,6 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
 import React from 'react';
+import AppTitle from './AppTitle';
 
 /**
  * Provides an area with padding, and title
@@ -12,7 +13,7 @@ const AppCard = ({
   titleColor,
   subTitle,
   subTitleColor,
-  contentColor,
+  contentColor = "paper",
   headerColor
 }) => {
   return /*#__PURE__*/React.createElement(IonCard, {
@@ -20,9 +21,9 @@ const AppCard = ({
     onClick: onClick
   }, /*#__PURE__*/React.createElement(IonCardHeader, {
     color: headerColor
-  }, title && /*#__PURE__*/React.createElement(IonCardTitle, {
+  }, typeof title === "string" ? /*#__PURE__*/React.createElement(IonCardTitle, null, /*#__PURE__*/React.createElement(AppTitle, {
     color: titleColor
-  }, title), subTitle && /*#__PURE__*/React.createElement(IonCardSubtitle, {
+  }, title), " ") : title, subTitle && /*#__PURE__*/React.createElement(IonCardSubtitle, {
     color: subTitleColor
   }, subTitle)), /*#__PURE__*/React.createElement(IonCardContent, null, children));
 };

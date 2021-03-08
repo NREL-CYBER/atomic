@@ -4,7 +4,7 @@ import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppPage }
 const Home: React.FC = () => {
   return <AppPage >
     <AppContent center>
-      <AppCard contentColor={"light"} headerColor="primary" title="Welcome to atomic">
+      <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic">
         <AppChip color="success">
           Check out the examples to get started
         </AppChip>

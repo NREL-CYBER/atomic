@@ -13,7 +13,7 @@ import { formFieldChangeEvent } from './forms/AppForm';
 interface formInputProps<T> {
     propertyInfo: PropertyDefinitionRef
     property: string
-    instanceRef: MutableRefObject<any>
+    instanceRef: MutableRefObject<T>
     input: "line" | "text"
     onChange: formFieldChangeEvent
 }

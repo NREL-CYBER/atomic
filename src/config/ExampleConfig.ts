@@ -31,7 +31,7 @@ const ExampleConfig: AppConfig = {
             addresses: useAddress
         }
     },
-    darkMode: true,
+    darkMode: false,
     serialization: {
         mode: "local",
         encryption: "plaintext",

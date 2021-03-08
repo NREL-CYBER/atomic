@@ -67,7 +67,7 @@ const AppForm = props => {
     const allErrors = validator.validate.errors || [];
     console.log(allErrors);
     const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
-    setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""));
+    setErrors(allErrors.map(x => x.message || ""));
 
     if (allErrors.length === 0) {
       autoSubmit && onSubmit(instance.current);
@@ -309,34 +309,30 @@ const AppForm = props => {
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
     }, prettyTitle(title || schema.title)))))
-  }, /*#__PURE__*/React.createElement(AppList, {
-    color: "clear"
-  }, /*#__PURE__*/React.createElement(AppItem, {
-    color: "clear"
-  }, /*#__PURE__*/React.createElement(AppText, {
+  }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
+  }, description ? description : schema.description)), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppList, {
+    color: "clear"
+  }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     propertyInfo: schema,
     property: schema.title || "",
     input: "line",
     instanceRef: instance,
     onChange: handleInputReceived
   }))), /*#__PURE__*/React.createElement(AppList, {
-    color: "medium"
+    color: "clear"
   }, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear"
   }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppButton, {
     color: showOptional ? "tertiary" : "primary",
     fill: "outline",
     onClick: () => setShowOptional(x => !x)
-  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(() => showOptional ? /*#__PURE__*/React.createElement(OptionalFormFields, null) : /*#__PURE__*/React.createElement(React.Fragment, null), [showOptional])), /*#__PURE__*/React.createElement(AppItemDivider, {
+  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(() => showOptional ? /*#__PURE__*/React.createElement(OptionalFormFields, null) : /*#__PURE__*/React.createElement(React.Fragment, null), [showOptional])), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
-  }), /*#__PURE__*/React.createElement(AppToolbar, {
-    color: "clear"
-  }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppText, {
+  }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",
     color: "danger"
-  }, error)), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
+  }, title, " ", error.split('_').join('-'))), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
     fill: "solid",
     color: isValid ? "favorite" : "primary",

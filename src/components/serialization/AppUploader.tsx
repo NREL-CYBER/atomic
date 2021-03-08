@@ -50,21 +50,25 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
         onFileReceived(meta, btoa(binary));
     }
     return <>
-        <AppItem color="clear" lines="none">
+        <AppItem>
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
         </AppItem>
-        <AppText>{description}</AppText>
-        <Dropzone
-            initialFiles={file ? [file] : undefined}
-            maxFiles={1}
-            multiple={false}
-            getUploadParams={uploadParams}
-            autoUpload={true}
-            onChangeStatus={handleChangeStatus}
-            accept={accept}
-        />
+        <AppItem>
+            <AppText>{description}</AppText>
+        </AppItem>
+        <AppItem>
+            <Dropzone    
+                initialFiles={file ? [file] : undefined}
+                maxFiles={1}
+                multiple={false}
+                getUploadParams={uploadParams}
+                autoUpload={true}
+                onChangeStatus={handleChangeStatus}
+                accept={accept}
+            />
+        </AppItem>
     </>
 };
 

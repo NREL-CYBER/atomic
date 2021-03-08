@@ -8,7 +8,7 @@ import React from 'react';
  */
 const AppItemDivider = props => {
   return /*#__PURE__*/React.createElement(IonItemDivider, _extends({
-    color: props.color ? props.color : "clear"
+    color: props.color ? props.color : "paper"
   }, props));
 };
 

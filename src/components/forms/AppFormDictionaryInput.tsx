@@ -64,7 +64,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                 })}
             </AppButtons>
             <AppButtons slot="end">
-                <AppButton onClick={() => { beginInsertItem(v4()) }} fill='outline' color={"primary"} >
+                <AppButton onClick={() => { beginInsertItem(v4()) }} fill='solid' color={"primary"} >
                     <AppIcon icon={addOutline} />
                 </AppButton>
             </AppButtons>

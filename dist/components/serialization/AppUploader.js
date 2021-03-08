@@ -48,13 +48,10 @@ const AppUploader = ({
     onFileReceived(meta, btoa(binary));
   };
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
-    color: "clear",
-    lines: "none"
-  }, /*#__PURE__*/React.createElement(AppLabel, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: statusColor
-  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppText, null, description), /*#__PURE__*/React.createElement(Dropzone, {
+  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, null, description)), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(Dropzone, {
     initialFiles: file ? [file] : undefined,
     maxFiles: 1,
     multiple: false,
@@ -62,7 +59,7 @@ const AppUploader = ({
     autoUpload: true,
     onChangeStatus: handleChangeStatus,
     accept: accept
-  }));
+  })));
 }; // receives array of files that are done uploading when submit button is clicked
 
 

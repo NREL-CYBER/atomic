@@ -68,7 +68,7 @@ const AppFormArrayInput = props => {
     onClick: () => {
       beginInsertItem();
     },
-    fill: "outline",
+    fill: "solid",
     color: "primary"
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: addOutline

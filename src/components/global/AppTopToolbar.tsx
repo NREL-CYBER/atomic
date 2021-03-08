@@ -27,18 +27,18 @@ const AppTopToolbar: React.FC = ({ children }) => {
             <AppButton expand='full' routerLink={"/"}>
                 <AppTitle color={isHome ? "tertiary" : undefined}><AppIcon icon={homeOutline} /> </AppTitle>
             </AppButton>
-            {!isHome && breadcrumbs.map(breadCrumb => <AppButton key={breadCrumb.path} color={breadCrumb.path === pathname ? "tertiary" : undefined} fill={breadCrumb.path === pathname ? "outline" : "clear"} routerLink={breadCrumb.path}>
-                <AppTitle color={breadCrumb.path === pathname ? "tertiary" : "dark"}>{breadCrumb.title} </AppTitle>  <AppIcon icon={breadCrumb.icon} />
+            {!isHome && breadcrumbs.map(breadCrumb => <AppButton key={breadCrumb.path} color={breadCrumb.path === pathname ? "tertiary" : undefined} fill={breadCrumb.path === pathname ? "solid" : "clear"} routerLink={breadCrumb.path}>
+                <AppTitle>{breadCrumb.title} </AppTitle>  <AppIcon icon={breadCrumb.icon} />
             </AppButton>)}
             {children}
         </AppButtons>
         <AppButtons slot='end'>
             <AppTitle color="tertiary">
                 {appTitle}
-                <AppChip color="primary">
-                    {version}
-                </AppChip>
             </AppTitle>
+            <AppChip color="tertiary">
+                {version}
+            </AppChip>
         </AppButtons>
     </AppToolbar >
     );

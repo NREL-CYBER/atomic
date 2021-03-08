@@ -20,6 +20,7 @@ import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
+import AppListHeader from '../AppListHeader';
 
 export interface propertyKeyValue {
     property: string,
@@ -113,7 +114,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         const allErrors = validator.validate.errors || []
         console.log(allErrors);
         const propertyErrors = allErrors.filter(error => error.dataPath.includes(property)).map(x => x.message || "");
-        setErrors(allErrors.map(x => x.schemaPath + " " + x.keyword + " " + x.dataPath + " " + x.message || ""))
+        setErrors(allErrors.map(x => x.message || ""))
         if (allErrors.length === 0) {
             autoSubmit && onSubmit(instance.current);
         }
@@ -317,12 +318,13 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 </AppButtons>
             </AppToolbar>
         </>}>
+            <AppItem>
+                <AppText color="medium">
+                    {description ? description : schema.description}
+                </AppText>
+            </AppItem>
+            <AppItemDivider />
             <AppList color="clear">
-                <AppItem color="clear">
-                    <AppText color="medium">
-                        {description ? description : schema.description}
-                    </AppText>
-                </AppItem>
                 {useMemo(() => <RequiredFormFields />, [])}
                 {schema.type === "string" && <><AppFormInput
                     propertyInfo={schema as PropertyDefinitionRef}
@@ -333,7 +335,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 /></>}
             </AppList>
 
-            {<AppList color={"medium"}>
+            {<AppList color={"clear"}>
                 <AppItem color="clear">
                     {!requiredOnly && optionalFields.length > 0 && <AppButton color={showOptional ? "tertiary" : "primary"} fill={"outline"} onClick={() => setShowOptional(x => !x)} >
                         {!showOptional ? "Enter" : ""} Optional info
@@ -342,11 +344,11 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 {useMemo(() => showOptional ? <OptionalFormFields /> : <></>, [showOptional])}
             </AppList>}
 
-            <AppItemDivider color="clear" />
+            <AppItemDivider />
             <AppToolbar color="clear">
-                {errors.slice(0, 1).map(error => <AppText key={"error"} color='danger'>
-                    {error}
-                </AppText>)}
+                {errors.slice(0, 1).map(error => <AppChip key={"error"} color='danger'>
+                    {title} {error.split('_').join('-')}
+                </AppChip>)}
 
                 {useMemo(() => !autoSubmit && isValid ? <AppButton expand="full" fill={"solid"} color={isValid ? "favorite" : "primary"} onClick={() => {
                     onSubmit(instance.current);

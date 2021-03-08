@@ -10,7 +10,7 @@ const ExampleForm = () => {
     validator,
     insert,
     all
-  } = useAddress();
+  } = useAddress.getState();
   const {
     setPathState
   } = useCompletion();
@@ -22,7 +22,7 @@ const ExampleForm = () => {
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     center: true
   }, status === "editing" ? /*#__PURE__*/React.createElement(AppForm, {
-    title: "form",
+    title: "Address",
     requiredOnly: true,
     onSubmit: data => {
       insert(data);
@@ -31,7 +31,8 @@ const ExampleForm = () => {
     data: {},
     validator: validator()
   }) : /*#__PURE__*/React.createElement(AppCard, {
-    contentColor: "light",
+    contentColor: "paper",
+    titleColor: "secondary",
     headerColor: "primary",
     title: "Addresses"
   }, all().map(({
@@ -40,7 +41,9 @@ const ExampleForm = () => {
     street_view,
     region
   }, i) => {
-    return /*#__PURE__*/React.createElement(AppCard, null, /*#__PURE__*/React.createElement(AppLabel, {
+    return /*#__PURE__*/React.createElement(AppCard, {
+      contentColor: "light"
+    }, /*#__PURE__*/React.createElement(AppLabel, {
       key: i,
       position: "floating",
       color: "primary"
@@ -53,7 +56,7 @@ const ExampleForm = () => {
     }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, /*#__PURE__*/React.createElement(AppAvatar, null, /*#__PURE__*/React.createElement(AppBinaryImg, {
       height: "100",
       alt: "Street View",
-      binary: street_view
+      binary: atob(street_view)
     }))));
   }), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {

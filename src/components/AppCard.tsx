@@ -1,6 +1,7 @@
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCardSubtitle } from '@ionic/react';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
 import React, { ReactFragment } from 'react';
 import { AppColor } from '../theme/AppColor';
+import AppTitle from './AppTitle';
 
 interface cardProps {
     title?: ReactFragment
@@ -17,12 +18,10 @@ interface cardProps {
  * Provides an area with padding, and title
  * put anything and everything in cards for continuity
  */
-const AppCard: React.FC<cardProps> = ({ onClick, children, title, titleColor, subTitle, subTitleColor, contentColor, headerColor }) => {
+const AppCard: React.FC<cardProps> = ({ onClick, children, title, titleColor, subTitle, subTitleColor, contentColor = "paper", headerColor }) => {
     return <IonCard color={contentColor} onClick={onClick}>
         <IonCardHeader color={headerColor}>
-            {title && <IonCardTitle color={titleColor}>
-                {title}
-            </IonCardTitle>}
+            {typeof title === "string" ? <IonCardTitle><AppTitle color={titleColor}>{title}</AppTitle> </IonCardTitle> : title}
             {subTitle && <IonCardSubtitle color={subTitleColor}>
                 {subTitle}
             </IonCardSubtitle>}
