@@ -39,6 +39,7 @@ const AppForm = props => {
   const {
     schema
   } = validator;
+  console.log(schema.properties);
   const instance = useRef(schema.type === "object" ? { ...data
   } : schema.type === "array" ? [...data] : undefined);
   const [isValid, setIsValid] = useState(false);
@@ -138,10 +139,6 @@ const AppForm = props => {
 
     const refPropertyInfo = validator.getReferenceInformation(propertyInfo);
     const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
-
-    if (property.includes("import")) {
-      return /*#__PURE__*/React.createElement(React.Fragment, null);
-    }
 
     if (property === "uuid") {
       return /*#__PURE__*/React.createElement(AppUuidGenerator, {
@@ -270,7 +267,7 @@ const AppForm = props => {
     });
     if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
       key: property
-    });
+    }, property, "t");
     return /*#__PURE__*/React.createElement(FormElement, {
       key: property,
       onChange: handleInputReceived,

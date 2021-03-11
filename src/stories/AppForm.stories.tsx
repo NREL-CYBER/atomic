@@ -106,2946 +106,2784 @@ const veggieSchema = {
 const validator = new Validator(addressSchema);
 const veggieValidator = new Validator(veggieSchema);
 
-
-const sspSchema = {
+const sapSchema = {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://csrc.nist.gov/ns/oscal/1.0_schema.json",
-    "$comment": "OSCAL System Security Plan (SSP) Model: JSON Schema",
+    "$id": "http://csrc.nist.gov/ns/oscal/1.0-schema.json",
+    "$comment": "OSCAL Assessment Plan Model: JSON Schema",
     "type": "object",
-    "definitions": {
-        "metadata": {
+    "definitions":
+    {
+        "part":
+        {
+            "title": "Part",
+            "description": "A partition of a control's definition or a child of another part.",
+            "$id": "#/definitions/part",
+            "type": "object",
+            "properties":
+            {
+                "id":
+                {
+                    "title": "Part Identifier",
+                    "description": "A unique identifier for a specific part instance. This identifier's uniqueness is document scoped and is intended to be consistent for the same part across minor revisions of the document.",
+                    "type": "string"
+                },
+                "name":
+                {
+                    "title": "Part Name",
+                    "description": "A textual label that uniquely identifies the part's semantic type.",
+                    "type": "string"
+                },
+                "ns":
+                {
+                    "title": "Part Namespace",
+                    "description": "A namespace qualifying the part's name. This allows different organizations to associate distinct semantics with the same name.",
+                    "type": "string",
+                    "format": "uri"
+                },
+                "class":
+                {
+                    "title": "Part Class",
+                    "description": "A textual label that provides a sub-type or characterization of the part's name. This can be used to further distinguish or discriminate between the semantics of multiple parts of the same control with the same name and ns.",
+                    "type": "string"
+                },
+                "title":
+                {
+                    "title": "Part Title",
+                    "description": "A name given to the part, which may be used by a tool for display and navigation.",
+                    "type": "string"
+                },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "prose":
+                {
+                    "title": "Part Text",
+                    "description": "Permits multiple paragraphs, lists, tables etc.",
+                    "type": "string"
+                },
+                "parts":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/part" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                }
+            },
+            "required":
+                ["name"],
+            "additionalProperties": true
+        },
+        "metadata":
+        {
             "title": "Publication metadata",
             "description": "Provides information about the publication and availability of the containing document.",
             "$id": "#/definitions/metadata",
             "type": "object",
-            "properties": {
-                "title": {
+            "properties":
+            {
+                "title":
+                {
                     "title": "Document Title",
                     "description": "A name given to the document, which may be used by a tool for display and navigation.",
-
                     "type": "string"
                 },
-                "published": {
-                    "title": "Publication Timestamp",
-                    "description": "The date and time the document was published. The date-time value must be formatted according to RFC 3339 with full time and time zone included.",
-                    "type": "string",
-                    "format": "date-time",
-                    "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
-                },
-                "last_modified": {
-                    "title": "Last Modified Timestamp",
-                    "description": "The date and time the document was last modified. The date-time value must be formatted according to RFC 3339 with full time and time zone included.",
-                    "type": "string",
-                    "format": "date-time",
-                    "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
-                },
-                "version": {
-                    "title": "Document Version",
-                    "description": "A string used to distinguish the current version of the document from other previous (and future) versions.",
-
-                    "type": "string"
-                },
-                "oscal_version": {
-                    "title": "OSCAL version",
-                    "description": "The OSCAL model version the document was authored against.",
-
-                    "type": "string"
-                },
-                "revisions": {
+                "published":
+                    { "$ref": "#/definitions/oscal-metadata-published" },
+                "last-modified":
+                    { "$ref": "#/definitions/oscal-metadata-last-modified" },
+                "version":
+                    { "$ref": "#/definitions/oscal-metadata-version" },
+                "oscal-version":
+                    { "$ref": "#/definitions/oscal-metadata-oscal-version" },
+                "revisions":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Revision History Entry",
-                        "description": "An entry in a sequential list of revisions to the containing document in reverse chronological order (i.e., most recent previous revision first).",
-                        "$id": "#/definitions/revision",
-                        "type": "object",
-                        "properties": {
-                            "title": {
-                                "title": "Document Title",
-                                "description": "A name given to the document revision, which may be used by a tool for display and navigation.",
-
-                                "type": "string"
-                            },
-                            "published": {
-                                "title": "Publication Timestamp",
-                                "description": "The date and time the document was published. The date-time value must be formatted according to RFC 3339 with full time and time zone included.",
-                                "type": "string",
-                                "format": "date-time",
-                                "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
-                            },
-                            "last_modified": {
-                                "title": "Last Modified Timestamp",
-                                "description": "The date and time the document was last modified. The date-time value must be formatted according to RFC 3339 with full time and time zone included.",
-                                "type": "string",
-                                "format": "date-time",
-                                "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
-                            },
-                            "version": {
-                                "title": "Document Version",
-                                "description": "A string used to distinguish the current version of the document from other previous (and future) versions.",
-                                "type": "string"
-                            },
-                            "oscal_version": {
-                                "title": "OSCAL version",
-                                "description": "The OSCAL model version the document was authored against.",
-
-                                "type": "string"
-                            },
-                            "props": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/property"
-                                }
-                            },
-                            "annotations": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/annotation"
-                                }
-                            },
-                            "links": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/link"
-                                }
-                            },
-                            "remarks": {
-                                "$ref": "#/definitions/remarks"
-                            }
-                        },
-                        "additionalProperties": false
-                    }
+                    "items":
+                        { "$ref": "#/definitions/oscal-metadata-revision" }
                 },
-                "document_ids": {
+                "document-ids":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Document Identifier",
-                        "description": "A document identifier qualified by an identifier type.",
-                        "$id": "#/definitions/document_id",
-                        "type": "object",
-                        "properties": {
-                            "scheme": {
-                                "title": "Document Identification Scheme",
-                                "description": "Qualifies the kind of document identifier.",
-                                "type": "string",
-                                "format": "uri"
-                            },
-                            "identifier": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "identifier",
-                            "scheme"
-                        ],
-                        "additionalProperties": false
-                    }
+                    "items":
+                        { "$ref": "#/definitions/oscal-metadata-document-id" }
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "roles": {
+                "roles":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/role"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/role" }
                 },
-                "locations": {
+                "locations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/location"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/location" }
                 },
-                "parties": {
+                "parties":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/party"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/party" }
                 },
-                "responsible_parties": {
+                "responsible-parties":
+                {
                     "type": "object",
                     "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/responsible_party"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
+                    "additionalProperties":
+                    {
+                        "allOf":
+                            [
+                                { "$ref": "#/definitions/responsible-party" },
+
+                                {
+                                    "not":
+                                        { "type": "string" }
+                                }]
                     }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "title",
-                "last_modified",
-                "version",
-                "oscal_version"
-            ],
+            "required":
+                ["title",
+                    "last-modified",
+                    "version",
+                    "oscal-version"],
             "additionalProperties": false
         },
-        "location": {
+        "oscal-metadata-revision":
+        {
+            "title": "Revision History Entry",
+            "description": "An entry in a sequential list of revisions to the containing document in reverse chronological order (i.e., most recent previous revision first).",
+            "$id": "#/definitions/oscal-metadata-revision",
+            "type": "object",
+            "properties":
+            {
+                "title":
+                {
+                    "title": "Document Title",
+                    "description": "A name given to the document revision, which may be used by a tool for display and navigation.",
+                    "type": "string"
+                },
+                "published":
+                    { "$ref": "#/definitions/oscal-metadata-published" },
+                "last-modified":
+                    { "$ref": "#/definitions/oscal-metadata-last-modified" },
+                "version":
+                    { "$ref": "#/definitions/oscal-metadata-version" },
+                "oscal-version":
+                    { "$ref": "#/definitions/oscal-metadata-oscal-version" },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                },
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
+            },
+            "additionalProperties": false
+        },
+        "location":
+        {
             "title": "Location",
             "description": "A location, with associated metadata that can be referenced.",
             "$id": "#/definitions/location",
             "type": "object",
-            "properties": {
-                "uuid": {
+            "properties":
+            {
+                "uuid":
+                {
                     "title": "Location Universally Unique Identifier",
                     "description": "A unique identifier that can be used to reference this defined location elsewhere in an OSCAL document. A UUID should be consistantly used for a given location across revisions of the document.",
                     "type": "string",
                     "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                 },
-                "title": {
+                "title":
+                {
                     "title": "Location Title",
                     "description": "A name given to the location, which may be used by a tool for display and navigation.",
-
                     "type": "string"
                 },
-                "address": {
-                    "title": "Address",
-                    "description": "A postal address for the location.",
-
-                    "type": "object",
-                    "properties": {
-                        "type": {
-                            "title": "Address Type",
-                            "description": "Indicates the type of address.",
-                            "type": "string"
-                        },
-                        "addr_lines": {
-                            "type": "array",
-                            "minItems": 1,
-                            "items": {
-                                "title": "Address line",
-                                "description": "A single line of an address.",
-
-                                "type": "string"
-                            }
-                        },
-                        "city": {
-                            "title": "City",
-                            "description": "City, town or geographical region for the mailing address.",
-
-                            "type": "string"
-                        },
-                        "state": {
-                            "title": "State",
-                            "description": "State, province or analogous geographical region for mailing address",
-
-                            "type": "string"
-                        },
-                        "postal_code": {
-                            "title": "Postal Code",
-                            "description": "Postal or ZIP code for mailing address",
-
-                            "type": "string"
-                        },
-                        "country": {
-                            "title": "Country Code",
-                            "description": "The ISO 3166_1 alpha_2 country code for the mailing address.",
-                            "type": "string"
-                        }
-                    },
-                    "additionalProperties": false
-                },
-                "email_addresses": {
+                "address":
+                    { "$ref": "#/definitions/oscal-metadata-address" },
+                "email-addresses":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Email Address",
-                        "description": "An email address as defined by RFC 5322 Section 3.4.1.",
-                        "type": "string",
-                        "format": "email",
-                        "pattern": "^.+@.+"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/oscal-metadata-email-address" }
                 },
-                "telephone_numbers": {
+                "telephone-numbers":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Telephone Number",
-                        "description": "Contact number by telephone.",
-
-                        "type": "object",
-                        "properties": {
-                            "type": {
-                                "title": "type flag",
-                                "description": "Indicates the type of phone number.",
-                                "type": "string"
-                            },
-                            "number": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "number"
-                        ],
-                        "additionalProperties": false
-                    }
+                    "items":
+                        { "$ref": "#/definitions/oscal-metadata-telephone-number" }
                 },
-                "urls": {
+                "urls":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
+                    "items":
+                    {
                         "title": "Location URL",
                         "description": "The uniform resource locator (URL) for a web site or Internet presence associated with the location.",
-                        "$id": "#/definitions/url",
                         "type": "string",
                         "format": "uri"
                     }
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "uuid",
-                "address"
-            ],
+            "required":
+                ["uuid",
+                    "address"],
             "additionalProperties": false
         },
-        "location_uuid": {
+        "location-uuid":
+        {
             "title": "Location Reference",
             "description": "References a location defined in metadata.",
-            "$id": "#/definitions/location_uuid",
+            "$id": "#/definitions/location-uuid",
             "type": "string",
             "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
         },
-        "party": {
+        "party":
+        {
             "title": "Party (organization or person)",
             "description": "A responsible entity which is either a person or an organization.",
             "$id": "#/definitions/party",
             "type": "object",
-            "properties": {
-                "uuid": {
+            "properties":
+            {
+                "uuid":
+                {
                     "title": "Party Universally Unique Identifier",
                     "description": "A unique identifier that can be used to reference this defined location elsewhere in an OSCAL document. A UUID should be consistantly used for a given party across revisions of the document.",
                     "type": "string",
                     "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                 },
-                "type": {
+                "type":
+                {
                     "title": "Party Type",
                     "description": "A category describing the kind of party the object describes.",
                     "type": "string",
-                    "enum": [
-                        "person",
-                        "organization"
-                    ]
+                    "enum":
+                        ["person",
+                            "organization"]
                 },
-                "name": {
+                "name":
+                {
                     "title": "Party Name",
                     "description": "The full name of the party. This is typically the legal name associated with the party.",
-                    "$id": "#/definitions/name",
                     "type": "string"
                 },
-                "short_name": {
+                "short-name":
+                {
                     "title": "Party Short Name",
                     "description": "A short common name, abbreviation, or acronym for the party.",
                     "type": "string"
                 },
-                "external_ids": {
+                "external-ids":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
+                    "items":
+                    {
                         "title": "Party External Identifier",
                         "description": "An identifier for a person or organization using a designated scheme. e.g. an Open Researcher and Contributor ID (ORCID)",
-                        "$id": "#/definitions/external_id",
                         "type": "object",
-                        "properties": {
-                            "scheme": {
+                        "properties":
+                        {
+                            "scheme":
+                            {
                                 "title": "External Identifier Schema",
                                 "description": "Indicates the type of external identifier.",
                                 "type": "string",
                                 "format": "uri"
                             },
-                            "id": {
-                                "type": "string"
-                            }
+                            "id":
+                                { "type": "string" }
                         },
-                        "required": [
-                            "id",
-                            "scheme"
-                        ],
+                        "required":
+                            ["id",
+                                "scheme"],
                         "additionalProperties": false
                     }
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "email_addresses": {
+                "email-addresses":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Email Address",
-                        "description": "An email address as defined by RFC 5322 Section 3.4.1.",
-                        "type": "string",
-                        "format": "email",
-                        "pattern": "^.+@.+"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/oscal-metadata-email-address" }
                 },
-                "telephone_numbers": {
+                "telephone-numbers":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Telephone Number",
-                        "description": "Contact number by telephone.",
-
-                        "type": "object",
-                        "properties": {
-                            "type": {
-                                "title": "type flag",
-                                "description": "Indicates the type of phone number.",
-                                "type": "string"
-                            },
-                            "number": {
-                                "type": "string"
-                            }
-                        },
-                        "required": [
-                            "number"
-                        ],
-                        "additionalProperties": false
-                    }
+                    "items":
+                        { "$ref": "#/definitions/oscal-metadata-telephone-number" }
                 },
-                "addresses": {
+                "addresses":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Address",
-                        "description": "A postal address for the location.",
-
-                        "type": "object",
-                        "properties": {
-                            "type": {
-                                "title": "Address Type",
-                                "description": "Indicates the type of address.",
-                                "type": "string"
-                            },
-                            "addr_lines": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "title": "Address line",
-                                    "description": "A single line of an address.",
-
-                                    "type": "string"
-                                }
-                            },
-                            "city": {
-                                "title": "City",
-                                "description": "City, town or geographical region for the mailing address.",
-
-                                "type": "string"
-                            },
-                            "state": {
-                                "title": "State",
-                                "description": "State, province or analogous geographical region for mailing address",
-
-                                "type": "string"
-                            },
-                            "postal_code": {
-                                "title": "Postal Code",
-                                "description": "Postal or ZIP code for mailing address",
-
-                                "type": "string"
-                            },
-                            "country": {
-                                "title": "Country Code",
-                                "description": "The ISO 3166_1 alpha_2 country code for the mailing address.",
-                                "type": "string"
-                            }
-                        },
-                        "additionalProperties": false
-                    }
+                    "items":
+                        { "$ref": "#/definitions/oscal-metadata-address" }
                 },
-                "location_uuids": {
+                "location-uuids":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/location_uuid"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/location-uuid" }
                 },
-                "member_of_organizations": {
+                "member-of-organizations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
+                    "items":
+                    {
                         "title": "Organizational Affiliation",
                         "description": "Identifies that the party object is a member of the organization associated with the provided UUID.",
-                        "$id": "#/definitions/member_of_organization",
                         "type": "string",
                         "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                     }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "uuid",
-                "type"
-            ],
+            "required":
+                ["uuid",
+                    "type"],
             "additionalProperties": false
         },
-        "party_uuid": {
+        "party-uuid":
+        {
             "title": "Party Reference",
             "description": "References a party defined in metadata.",
-            "$id": "#/definitions/party_uuid",
+            "$id": "#/definitions/party-uuid",
             "type": "string",
             "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
         },
-        "role": {
+        "role":
+        {
             "title": "Role",
             "description": "Defines a function assumed or expected to be assumed by a party in a specific situation.",
             "$id": "#/definitions/role",
             "type": "object",
-            "properties": {
-                "id": {
+            "properties":
+            {
+                "id":
+                {
                     "title": "Role Identifier",
                     "description": "A unique identifier for a specific role instance. This identifier's uniqueness is document scoped and is intended to be consistent for the same role across minor revisions of the document.",
                     "type": "string"
                 },
-                "title": {
+                "title":
+                {
                     "title": "Role Title",
                     "description": "A name given to the role, which may be used by a tool for display and navigation.",
-
                     "type": "string"
                 },
-                "short_name": {
+                "short-name":
+                {
                     "title": "Role Short Name",
                     "description": "A short common name, abbreviation, or acronym for the role.",
                     "type": "string"
                 },
-                "description": {
+                "description":
+                {
                     "title": "Role Description",
                     "description": "A summary of the role's purpose and associated responsibilities.",
                     "type": "string"
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "id",
-                "title"
-            ],
+            "required":
+                ["id",
+                    "title"],
             "additionalProperties": false
         },
-        "role_id": {
+        "role-id":
+        {
             "title": "Role Identifier Reference",
             "description": "A reference to the roles served by the user.",
-            "$id": "#/definitions/role_id",
+            "$id": "#/definitions/role-id",
             "type": "string"
         },
-        "back_matter": {
+        "back-matter":
+        {
             "title": "Back matter",
             "description": "A collection of resources, which may be included directly or by reference.",
-            "$id": "#/definitions/back_matter",
+            "$id": "#/definitions/back-matter",
             "type": "object",
-            "properties": {
-                "resources": {
+            "properties":
+            {
+                "resources":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
+                    "items":
+                    {
                         "title": "Resource",
                         "description": "A resource associated with content in the containing document. A resource may be directly included in the document base64 encoded or may point to one or more equavalent internet resources.",
-                        "$id": "#/definitions/resource",
                         "type": "object",
-                        "properties": {
-                            "uuid": {
+                        "properties":
+                        {
+                            "uuid":
+                            {
                                 "title": "Resource Universally Unique Identifier",
                                 "description": "A globally unique identifier that can be used to reference this defined resource elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
                                 "type": "string",
                                 "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                             },
-                            "title": {
+                            "title":
+                            {
                                 "title": "Resource Title",
                                 "description": "A name given to the resource, which may be used by a tool for display and navigation.",
-
                                 "type": "string"
                             },
-                            "description": {
+                            "description":
+                            {
                                 "title": "Resource Description",
                                 "description": "A short summary of the resource used to indicate the purpose of the resource.",
                                 "type": "string"
                             },
-                            "props": {
+                            "props":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/property"
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/property" }
                             },
-                            "annotations": {
+                            "annotations":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/annotation"
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/annotation" }
                             },
-                            "document_ids": {
+                            "document-ids":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "title": "Document Identifier",
-                                    "description": "A document identifier qualified by an identifier type.",
-                                    "type": "object",
-                                    "properties": {
-                                        "scheme": {
-                                            "title": "Document Identification Scheme",
-                                            "description": "Qualifies the kind of document identifier.",
-                                            "type": "string",
-                                            "format": "uri"
-                                        },
-                                        "identifier": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "required": [
-                                        "identifier",
-                                        "scheme"
-                                    ],
-                                    "additionalProperties": false
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/oscal-metadata-document-id" }
                             },
-                            "citation": {
+                            "citation":
+                            {
                                 "title": "Citation",
                                 "description": "A citation consisting of end note text and optional structured bibliographic data.",
-                                "$id": "#/definitions/citation",
                                 "type": "object",
-                                "properties": {
-                                    "text": {
+                                "properties":
+                                {
+                                    "text":
+                                    {
                                         "title": "Citation Text",
                                         "description": "A line of citation text.",
-
                                         "type": "string"
                                     },
-                                    "props": {
+                                    "props":
+                                    {
                                         "type": "array",
                                         "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/property"
-                                        }
+                                        "items":
+                                            { "$ref": "#/definitions/property" }
                                     },
-                                    "annotations": {
+                                    "annotations":
+                                    {
                                         "type": "array",
                                         "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/annotation"
-                                        }
+                                        "items":
+                                            { "$ref": "#/definitions/annotation" }
                                     },
-                                    "biblio": {
+                                    "biblio":
+                                    {
                                         "title": "Bibliographic Definition",
                                         "description": "A container for structured bibliographic information. The model of this information is undefined by OSCAL.",
-                                        "$id": "#/definitions/biblio",
                                         "type": "object",
-                                        "additionalProperties": false
+                                        "additionalProperties": true
                                     }
                                 },
-                                "required": [
-                                    "text"
-                                ],
+                                "required":
+                                    ["text"],
                                 "additionalProperties": false
                             },
-                            "rlinks": {
+                            "rlinks":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
+                                "items":
+                                {
                                     "title": "Resource link",
                                     "description": "A pointer to an external resource with an optional hash for verification and change detection.",
-                                    "$id": "#/definitions/rlink",
                                     "type": "object",
-                                    "properties": {
-                                        "href": {
+                                    "properties":
+                                    {
+                                        "href":
+                                        {
                                             "title": "Hypertext Reference",
                                             "description": "A resolvable URI reference to a resource.",
                                             "type": "string",
                                             "format": "uri-reference"
                                         },
-                                        "media_type": {
+                                        "media-type":
+                                        {
                                             "title": "Media Type",
                                             "description": "Specifies a media type as defined by the Internet Assigned Numbers Authority (IANA) Media Types Registry.",
                                             "type": "string"
                                         },
-                                        "hashes": {
+                                        "hashes":
+                                        {
                                             "type": "array",
                                             "minItems": 1,
-                                            "items": {
-                                                "$ref": "#/definitions/hash"
-                                            }
+                                            "items":
+                                                { "$ref": "#/definitions/hash" }
                                         }
                                     },
-                                    "required": [
-                                        "href"
-                                    ],
+                                    "required":
+                                        ["href"],
                                     "additionalProperties": false
                                 }
                             },
-                            "base64": {
+                            "base64":
+                            {
                                 "title": "Base64",
-                                "description": "The Base64 alphabet in RFC 2045 _ aligned with XSD.",
-                                "$id": "#/definitions/base64",
+                                "description": "The Base64 alphabet in RFC 2045 - aligned with XSD.",
                                 "type": "object",
-                                "properties": {
-                                    "filename": {
+                                "properties":
+                                {
+                                    "filename":
+                                    {
                                         "title": "File Name",
                                         "description": "Name of the file before it was encoded as Base64 to be embedded in a resource. This is the name that will be assigned to the file when the file is decoded.",
                                         "type": "string",
                                         "format": "uri-reference"
                                     },
-                                    "media_type": {
+                                    "media-type":
+                                    {
                                         "title": "Media Type",
                                         "description": "Specifies a media type as defined by the Internet Assigned Numbers Authority (IANA) Media Types Registry.",
                                         "type": "string"
                                     },
-                                    "value": {
-                                        "type": "string"
-                                    }
+                                    "value":
+                                        { "type": "string" }
                                 },
-                                "required": [
-                                    "value"
-                                ],
+                                "required":
+                                    ["value"],
                                 "additionalProperties": false
                             },
-                            "remarks": {
-                                "$ref": "#/definitions/remarks"
-                            }
+                            "remarks":
+                                { "$ref": "#/definitions/remarks" }
                         },
-                        "required": [
-                            "uuid"
-                        ],
-                        "additionalProperties": false
+                        "required":
+                            ["uuid"],
+                        "additionalProperties": true
                     }
                 }
             },
             "additionalProperties": false
         },
-        "property": {
+        "property":
+        {
             "title": "Property",
             "description": "An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair. The value of a property is a simple scalar value, which may be expressed as a list of values in some OSCAL formats.",
             "$id": "#/definitions/property",
             "type": "object",
-            "properties": {
-                "uuid": {
+            "properties":
+            {
+                "uuid":
+                {
                     "title": "Property Universally Unique Identifier",
                     "description": "A unique identifier that can be used to reference this property elsewhere in an OSCAL document. A UUID should be consistantly used for a given location across revisions of the document.",
                     "type": "string",
                     "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                 },
-                "name": {
+                "name":
+                {
                     "title": "Property Name",
                     "description": "A textual label that uniquely identifies a specific attribute, characteristic, or quality of the property's containing object.",
                     "type": "string"
                 },
-                "ns": {
+                "ns":
+                {
                     "title": "Property Namespace",
                     "description": "A namespace qualifying the property's name. This allows different organizations to associate distinct semantics with the same name.",
                     "type": "string",
                     "format": "uri"
                 },
-                "class": {
+                "class":
+                {
                     "title": "Property Class",
-                    "description": "A textual label that provides a sub_type or characterization of the property's name. This can be used to further distinguish or discriminate between the semantics of multiple properties of the same object with the same name and ns.",
+                    "description": "A textual label that provides a sub-type or characterization of the property's name. This can be used to further distinguish or discriminate between the semantics of multiple properties of the same object with the same name and ns.",
                     "type": "string"
                 },
-                "value": {
-                    "type": "string"
-                }
+                "value":
+                    { "type": "string" }
             },
-            "required": [
-                "value",
-                "name"
-            ],
+            "required":
+                ["value",
+                    "name"],
             "additionalProperties": false
         },
-        "annotation": {
+        "annotation":
+        {
             "title": "Annotated Property",
             "description": "An attribute, characteristic, or quality of the containing object expressed as a namespace qualified name/value pair with optional explanatory remarks. The value of an annotated property is a simple scalar value.",
             "$id": "#/definitions/annotation",
             "type": "object",
-            "properties": {
-                "name": {
+            "properties":
+            {
+                "name":
+                {
                     "title": "Annotated Property Name",
                     "description": "A textual label that uniquely identifies a specific attribute, characteristic, or quality of the annotated property's containing object.",
                     "type": "string"
                 },
-                "uuid": {
+                "uuid":
+                {
                     "title": "Annotated Property Universally Unique Identifier",
                     "description": "A unique identifier that can be used to reference this annotated property elsewhere in an OSCAL document. A UUID should be consistantly used for a given location across revisions of the document.",
                     "type": "string",
                     "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                 },
-                "ns": {
+                "ns":
+                {
                     "title": "Annotated Property Namespace",
                     "description": "A namespace qualifying the annotated property's name. This allows different organizations to associate distinct semantics with the same name.",
                     "type": "string",
                     "format": "uri"
                 },
-                "value": {
+                "value":
+                {
                     "title": "Annotated Property Value",
                     "description": "Indicates the value of the attribute, characteristic, or quality.",
                     "type": "string"
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "name",
-                "value"
-            ],
+            "required":
+                ["name",
+                    "value"],
             "additionalProperties": false
         },
-        "link": {
+        "link":
+        {
             "title": "Link",
             "description": "A reference to a local or remote resource",
             "$id": "#/definitions/link",
             "type": "object",
-            "properties": {
-                "href": {
+            "properties":
+            {
+                "href":
+                {
                     "title": "Hypertext Reference",
                     "description": "A resolvable URL reference to a resource.",
                     "type": "string",
                     "format": "uri-reference"
                 },
-                "rel": {
+                "rel":
+                {
                     "title": "Relation",
                     "description": "Describes the type of relationship provided by the link. This can be an indicator of the link's purpose.",
                     "type": "string"
                 },
-                "media_type": {
+                "media-type":
+                {
                     "title": "Media Type",
                     "description": "Specifies a media type as defined by the Internet Assigned Numbers Authority (IANA) Media Types Registry.",
                     "type": "string"
                 },
-                "text": {
+                "text":
+                {
                     "title": "Link Text",
                     "description": "A textual label to associate with the link, which may be used for presentation in a tool.",
-
                     "type": "string"
                 }
             },
-            "required": [
-                "href"
-            ],
+            "required":
+                ["href"],
             "additionalProperties": false
         },
-        "responsible_party": {
+        "responsible-party":
+        {
             "title": "Responsible Party",
             "description": "A reference to a set of organizations or persons that have responsibility for performing a referenced role in the context of the containing object.",
-            "$id": "#/definitions/responsible_party",
+            "$id": "#/definitions/responsible-party",
             "type": "object",
-            "properties": {
-                "party_uuids": {
+            "properties":
+            {
+                "party-uuids":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/party_uuid"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/party-uuid" }
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "party_uuids"
-            ],
+            "required":
+                ["party-uuids"],
             "additionalProperties": false
         },
-        "responsible_role": {
+        "responsible-role":
+        {
             "title": "Responsible Role",
             "description": "A reference to one or more roles with responsibility for performing a function relative to the containing object.",
-            "$id": "#/definitions/responsible_role",
+            "$id": "#/definitions/responsible-role",
             "type": "object",
-            "properties": {
-                "props": {
+            "properties":
+            {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "party_uuids": {
+                "party-uuids":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/party_uuid"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/party-uuid" }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
             "additionalProperties": false
         },
-        "hash": {
+        "hash":
+        {
             "title": "Hash",
             "description": "A representation of a cryptographic digest generated over a resource using a specified hash algorithm.",
             "$id": "#/definitions/hash",
             "type": "object",
-            "properties": {
-                "algorithm": {
+            "properties":
+            {
+                "algorithm":
+                {
                     "title": "Hash algorithm",
                     "description": "Method by which a hash is derived",
                     "type": "string"
                 },
-                "value": {
-                    "type": "string"
-                }
+                "value":
+                    { "type": "string" }
             },
-            "required": [
-                "value",
-                "algorithm"
-            ],
+            "required":
+                ["value",
+                    "algorithm"],
             "additionalProperties": false
         },
-        "remarks": {
+        "remarks":
+        {
             "title": "Remarks",
             "description": "Additional commentary on the containing object.",
             "$id": "#/definitions/remarks",
             "type": "string"
         },
-        "system_component": {
+        "oscal-metadata-published":
+        {
+            "title": "Publication Timestamp",
+            "description": "The date and time the document was published. The date-time value must be formatted according to RFC 3339 with full time and time zone included.",
+            "$id": "#/definitions/oscal-metadata-published",
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
+        },
+        "oscal-metadata-last-modified":
+        {
+            "title": "Last Modified Timestamp",
+            "description": "The date and time the document was last modified. The date-time value must be formatted according to RFC 3339 with full time and time zone included.",
+            "$id": "#/definitions/oscal-metadata-last-modified",
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
+        },
+        "oscal-metadata-version":
+        {
+            "title": "Document Version",
+            "description": "A string used to distinguish the current version of the document from other previous (and future) versions.",
+            "$id": "#/definitions/oscal-metadata-version",
+            "type": "string"
+        },
+        "oscal-metadata-oscal-version":
+        {
+            "title": "OSCAL version",
+            "description": "The OSCAL model version the document was authored against.",
+            "$id": "#/definitions/oscal-metadata-oscal-version",
+            "type": "string"
+        },
+        "oscal-metadata-email-address":
+        {
+            "title": "Email Address",
+            "description": "An email address as defined by RFC 5322 Section 3.4.1.",
+            "$id": "#/definitions/oscal-metadata-email-address",
+            "type": "string",
+            "format": "email",
+            "pattern": "^.+@.+"
+        },
+        "oscal-metadata-telephone-number":
+        {
+            "title": "Telephone Number",
+            "description": "Contact number by telephone.",
+            "$id": "#/definitions/oscal-metadata-telephone-number",
+            "type": "object",
+            "properties":
+            {
+                "type":
+                {
+                    "title": "type flag",
+                    "description": "Indicates the type of phone number.",
+                    "type": "string"
+                },
+                "number":
+                    { "type": "string" }
+            },
+            "required":
+                ["number"],
+            "additionalProperties": false
+        },
+        "oscal-metadata-address":
+        {
+            "title": "Address",
+            "description": "A postal address for the location.",
+            "$id": "#/definitions/oscal-metadata-address",
+            "type": "object",
+            "properties":
+            {
+                "type":
+                    { "type": "string" },
+                "addr-lines":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/oscal-metadata-addr-line" }
+                },
+                "city":
+                {
+                    "title": "City",
+                    "description": "City, town or geographical region for the mailing address.",
+                    "type": "string"
+                },
+                "state":
+                {
+                    "title": "State",
+                    "description": "State, province or analogous geographical region for mailing address",
+                    "type": "string"
+                },
+                "postal-code":
+                {
+                    "title": "Postal Code",
+                    "description": "Postal or ZIP code for mailing address",
+                    "type": "string"
+                },
+                "country":
+                {
+                    "title": "Country Code",
+                    "description": "The ISO 3166-1 alpha-2 country code for the mailing address.",
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "oscal-metadata-addr-line":
+        {
+            "title": "Address line",
+            "description": "A single line of an address.",
+            "$id": "#/definitions/oscal-metadata-addr-line",
+            "type": "string"
+        },
+        "oscal-metadata-document-id":
+        {
+            "title": "Document Identifier",
+            "description": "A document identifier qualified by an identifier type.",
+            "$id": "#/definitions/oscal-metadata-document-id",
+            "type": "object",
+            "properties":
+            {
+                "scheme":
+                {
+                    "title": "Document Identification Scheme",
+                    "description": "Qualifies the kind of document identifier.",
+                    "type": "string",
+                    "format": "uri"
+                },
+                "identifier":
+                    { "type": "string" }
+            },
+            "required":
+                ["identifier",
+                    "scheme"],
+            "additionalProperties": false
+        },
+        "system-component":
+        {
             "title": "Component",
             "description": "A defined component that can be part of an implemented system.",
-            "$id": "#/definitions/system_component",
+            "$id": "#/definitions/system-component",
             "type": "object",
-            "properties": {
-                "type": {
+            "properties":
+            {
+                "type":
+                {
                     "title": "Component Type",
                     "description": "A category describing the purpose of the component.",
                     "type": "string"
                 },
-                "title": {
+                "title":
+                {
                     "title": "Component Title",
                     "description": "A human readable name for the system component.",
-
                     "type": "string"
                 },
-                "description": {
+                "description":
+                {
                     "title": "Component Description",
                     "description": "A description of the component, including information about its function.",
                     "type": "string"
                 },
-                "purpose": {
+                "purpose":
+                {
                     "title": "Purpose",
                     "description": "A summary of the technological or business purpose of the component.",
-                    "$id": "#/definitions/purpose",
                     "type": "string"
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "status": {
+                "status":
+                {
                     "title": "Status",
                     "description": "Describes the operational status of the system component.",
                     "type": "object",
-                    "properties": {
-                        "state": {
+                    "properties":
+                    {
+                        "state":
+                        {
                             "title": "State",
                             "description": "The operational status.",
                             "type": "string",
-                            "enum": [
-                                "under_development",
-                                "operational",
-                                "disposition",
-                                "other"
-                            ]
+                            "enum":
+                                ["under-development",
+                                    "operational",
+                                    "disposition",
+                                    "other"]
                         },
-                        "remarks": {
-                            "$ref": "#/definitions/remarks"
-                        }
+                        "remarks":
+                            { "$ref": "#/definitions/remarks" }
                     },
-                    "required": [
-                        "state"
-                    ],
+                    "required":
+                        ["state"],
                     "additionalProperties": false
                 },
-                "responsible_roles": {
+                "responsible-roles":
+                {
                     "type": "object",
                     "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/responsible_role"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
+                    "additionalProperties":
+                    {
+                        "allOf":
+                            [
+                                { "$ref": "#/definitions/responsible-role" },
+
+                                {
+                                    "not":
+                                        { "type": "string" }
+                                }]
                     }
                 },
-                "protocols": {
+                "protocols":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/protocol"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/protocol" }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "type",
-                "title",
-                "description",
-                "status"
-            ],
+            "required":
+                ["type",
+                    "title",
+                    "description",
+                    "status"],
             "additionalProperties": false
         },
-        "protocol": {
+        "protocol":
+        {
             "title": "Service Protocol Information",
             "description": "Information about the protocol used to provide a service.",
             "$id": "#/definitions/protocol",
             "type": "object",
-            "properties": {
-                "uuid": {
+            "properties":
+            {
+                "uuid":
+                {
                     "title": "Service Protocol Information Universally Unique Identifier",
                     "description": "A globally unique identifier that can be used to reference this service protocol entry elsewhere in an OSCAL document. A UUID should be consistently used for a given resource across revisions of the document.",
                     "type": "string",
                     "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                 },
-                "name": {
+                "name":
+                {
                     "title": "Protocol Name",
                     "description": "The common name of the protocol, which should be the appropriate \"service name\" from the IANA Service Name and Transport Protocol Port Number Registry.",
                     "type": "string"
                 },
-                "title": {
+                "title":
+                {
                     "title": "title field",
                     "description": "A human readable name for the protocol (e.g., Transport Layer Security).",
-
                     "type": "string"
                 },
-                "port_ranges": {
+                "port-ranges":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/port_range"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/port-range" }
                 }
             },
-            "required": [
-                "name"
-            ],
+            "required":
+                ["name"],
             "additionalProperties": false
         },
-        "port_range": {
+        "port-range":
+        {
             "title": "Port Range",
             "description": "Where applicable this is the IPv4 port range on which the service operates.",
-            "$id": "#/definitions/port_range",
+            "$id": "#/definitions/port-range",
             "type": "object",
-            "properties": {
-                "start": {
+            "properties":
+            {
+                "start":
+                {
                     "title": "Start",
                     "description": "Indicates the starting port number in a port range",
                     "type": "integer",
                     "multipleOf": 1,
                     "minimum": 0
                 },
-                "end": {
+                "end":
+                {
                     "title": "End",
                     "description": "Indicates the ending port number in a port range",
                     "type": "integer",
                     "multipleOf": 1,
                     "minimum": 0
                 },
-                "transport": {
+                "transport":
+                {
                     "title": "Transport",
                     "description": "Indicates the transport type.",
                     "type": "string",
-                    "enum": [
-                        "TCP",
-                        "UDP"
-                    ]
+                    "enum":
+                        ["TCP",
+                            "UDP"]
                 }
             },
             "additionalProperties": false
         },
-        "system_user": {
+        "system-user":
+        {
             "title": "System User",
             "description": "A type of user that interacts with the system based on an associated role.",
-            "$id": "#/definitions/system_user",
+            "$id": "#/definitions/system-user",
             "type": "object",
-            "properties": {
-                "title": {
+            "properties":
+            {
+                "title":
+                {
                     "title": "User Title",
                     "description": "A name given to the user, which may be used by a tool for display and navigation.",
-
                     "type": "string"
                 },
-                "short_name": {
+                "short-name":
+                {
                     "title": "User Short Name",
                     "description": "A short common name, abbreviation, or acronym for the user.",
                     "type": "string"
                 },
-                "description": {
+                "description":
+                {
                     "title": "User Description",
                     "description": "A summary of the user's purpose within the system.",
                     "type": "string"
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "role_ids": {
+                "role-ids":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/role_id"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/role-id" }
                 },
-                "authorized_privileges": {
+                "authorized-privileges":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/authorized_privilege"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/authorized-privilege" }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
             "additionalProperties": false
         },
-        "authorized_privilege": {
+        "authorized-privilege":
+        {
             "title": "Privilege",
             "description": "Identifies a specific system privilege held by the user, along with an associated description and/or rationale for the privilege.",
-            "$id": "#/definitions/authorized_privilege",
+            "$id": "#/definitions/authorized-privilege",
             "type": "object",
-            "properties": {
-                "title": {
+            "properties":
+            {
+                "title":
+                {
                     "title": "title field",
                     "description": "A human readable name for the privilege.",
-
                     "type": "string"
                 },
-                "description": {
+                "description":
+                {
                     "title": "Privilege Description",
                     "description": "A summary of the privilege's purpose within the system.",
                     "type": "string"
                 },
-                "functions_performed": {
+                "functions-performed":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/function_performed"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/function-performed" }
                 }
             },
-            "required": [
-                "title",
-                "functions_performed"
-            ],
+            "required":
+                ["title",
+                    "functions-performed"],
             "additionalProperties": false
         },
-        "function_performed": {
+        "function-performed":
+        {
             "title": "Functions Performed",
             "description": "Describes a function performed for a given authorized privilege by this user class.",
-            "$id": "#/definitions/function_performed",
+            "$id": "#/definitions/function-performed",
             "type": "string"
         },
-        "inventory_item": {
+        "inventory-item":
+        {
             "title": "Inventory Item",
             "description": "A single managed inventory item within the system.",
-            "$id": "#/definitions/inventory_item",
+            "$id": "#/definitions/inventory-item",
             "type": "object",
-            "properties": {
-                "uuid": {
+            "properties":
+            {
+                "uuid":
+                {
                     "title": "Inventory Item Universally Unique Identifier",
                     "description": "A globally unique identifier that can be used to reference this inventory item entry elsewhere in an OSCAL document. A UUID should be consistently used for a given resource across revisions of the document.",
                     "type": "string",
                     "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                 },
-                "description": {
+                "description":
+                {
                     "title": "Inventory Item Description",
                     "description": "A summary of the inventory item stating its purpose within the system.",
                     "type": "string"
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/link" }
                 },
-                "responsible_parties": {
+                "responsible-parties":
+                {
                     "type": "object",
                     "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/responsible_party"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
+                    "additionalProperties":
+                    {
+                        "allOf":
+                            [
+                                { "$ref": "#/definitions/responsible-party" },
+
+                                {
+                                    "not":
+                                        { "type": "string" }
+                                }]
                     }
                 },
-                "implemented_components": {
+                "implemented-components":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
+                    "items":
+                    {
                         "title": "Implemented Component",
                         "description": "The set of components that are implemented in a given system inventory item.",
-                        "$id": "#/definitions/implemented_component",
                         "type": "object",
-                        "properties": {
-                            "component_uuid": {
+                        "properties":
+                        {
+                            "component-uuid":
+                            {
                                 "title": "Component Universally Unique Identifier Reference",
                                 "description": "A reference to a component that is implemented as part of an inventory item.",
                                 "type": "string",
                                 "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                             },
-                            "props": {
+                            "props":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/property"
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/property" }
                             },
-                            "annotations": {
+                            "annotations":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/annotation"
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/annotation" }
                             },
-                            "links": {
+                            "links":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/link"
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/link" }
                             },
-                            "responsible_parties": {
+                            "responsible-parties":
+                            {
                                 "type": "object",
                                 "minProperties": 1,
-                                "additionalProperties": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/definitions/responsible_party"
-                                        },
-                                        {
-                                            "not": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    ]
+                                "additionalProperties":
+                                {
+                                    "allOf":
+                                        [
+                                            { "$ref": "#/definitions/responsible-party" },
+
+                                            {
+                                                "not":
+                                                    { "type": "string" }
+                                            }]
                                 }
                             },
-                            "remarks": {
-                                "$ref": "#/definitions/remarks"
-                            }
+                            "remarks":
+                                { "$ref": "#/definitions/remarks" }
                         },
-                        "required": [
-                            "component_uuid"
-                        ],
+                        "required":
+                            ["component-uuid"],
                         "additionalProperties": false
                     }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "uuid",
-                "description"
-            ],
+            "required":
+                ["uuid",
+                    "description"],
             "additionalProperties": false
         },
-        "set_parameter": {
-            "title": "Set Parameter Value",
-            "description": "Identifies the parameter that will be set by the enclosed value.",
-            "$id": "#/definitions/set_parameter",
+        "import-ssp":
+        {
+            "title": "Import System Security Plan",
+            "description": "Used by the assessment plan and POA&M to import information about the system.",
+            "$id": "#/definitions/import-ssp",
             "type": "object",
-            "properties": {
-                "values": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "title": "Parameter Value",
-                        "description": "A parameter value or set of values.",
-                        "$id": "#/definitions/parameter_value",
-                        "type": "string"
-                    }
-                }
-            },
-            "required": [
-                "values"
-            ],
-            "additionalProperties": false
-        },
-        "system_id": {
-            "title": "System Identification",
-            "description": "A unique identifier for the system described by this system security plan.",
-            "$id": "#/definitions/system_id",
-            "type": "object",
-            "properties": {
-                "identifier_type": {
-                    "title": "Identification System Type",
-                    "description": "Identifies the identification system from which the provided identifier was assigned.",
-                    "type": "string",
-                    "format": "uri"
-                },
-                "id": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "id"
-            ],
-            "additionalProperties": false
-        },
-        "system_security_plan": {
-            "title": "System Security Plan (SSP)",
-            "description": "A system security plan, such as those described in NIST SP 800_18",
-            "$id": "#/definitions/system_security_plan",
-            "type": "object",
-            "properties": {
-                "uuid": {
-                    "title": "System Security Plan Universally Unique Identifier",
-                    "description": "A globally unique identifier for this catalog instance. This UUID should be changed when this document is revised.",
-                    "type": "string",
-                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                },
-                "metadata": {
-                    "$ref": "#/definitions/metadata"
-                },
-                "import_profile": {
-                    "$ref": "#/definitions/import_profile"
-                },
-                "system_characteristics": {
-                    "$ref": "#/definitions/system_characteristics"
-                },
-                "system_implementation": {
-                    "$ref": "#/definitions/system_implementation"
-                },
-                "control_implementation": {
-                    "$ref": "#/definitions/control_implementation"
-                },
-                "back_matter": {
-                    "$ref": "#/definitions/back_matter"
-                }
-            },
-            "required": [
-                "uuid",
-                "metadata",
-                "import_profile",
-                "system_characteristics",
-                "system_implementation",
-                "control_implementation"
-            ],
-            "additionalProperties": false
-        },
-        "import_profile": {
-            "title": "Import Profile",
-            "description": "Used to import the OSCAL profile representing the system's control baseline.",
-            "$id": "#/definitions/import_profile",
-            "type": "object",
-            "properties": {
-                "href": {
-                    "title": "Profile Reference",
-                    "description": "A resolvable URL reference to the profile to use as the system's control baseline.",
+            "properties":
+            {
+                "href":
+                {
+                    "title": "System Security Plan Reference",
+                    "description": ">A resolvable URL reference to the system security plan for the system being assessed.",
                     "type": "string",
                     "format": "uri-reference"
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
             },
-            "required": [
-                "href"
-            ],
+            "required":
+                ["href"],
             "additionalProperties": false
         },
-        "system_characteristics": {
-            "title": "System Characteristics",
-            "description": "Contains the characteristics of the system, such as its name, purpose, and security impact level.",
-            "$id": "#/definitions/system_characteristics",
+        "local-objective":
+        {
+            "title": "Assessment-Specific Control Objective",
+            "description": "A local definition of a control objective for this assessment. Uses catalog syntax for control objective and assessment actions.",
+            "$id": "#/definitions/local-objective",
             "type": "object",
-            "properties": {
-                "system_ids": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/system_id"
-                    }
-                },
-                "system_name": {
-                    "title": "System Name _ Full",
-                    "description": "The full name of the system.",
-                    "$id": "#/definitions/system_name",
-                    "type": "string"
-                },
-                "system_name_short": {
-                    "title": "System Name _ Short",
-                    "description": "A short name for the system, such as an acronym, that is suitable for display in a data table or summary list.",
-                    "$id": "#/definitions/system_name_short",
-                    "type": "string"
-                },
-                "description": {
-                    "title": "System Description",
-                    "description": "A summary of the system.",
-                    "type": "string"
-                },
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "date_authorized": {
-                    "title": "System Authorization Date",
-                    "description": "The date the system received its authorization.",
-                    "type": "string",
-                    "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))(Z|[+-][0-9]{2}:[0-9]{2})?$"
-                },
-                "security_sensitivity_level": {
-                    "title": "Security Sensitivity Level",
-                    "description": "The overall information system sensitivity categorization, such as defined by FIPS_199.",
-                    "$id": "#/definitions/security_sensitivity_level",
-                    "type": "string"
-                },
-                "system_information": {
-                    "$ref": "#/definitions/system_information"
-                },
-                "security_impact_level": {
-                    "$ref": "#/definitions/security_impact_level"
-                },
-                "status": {
-                    "title": "Status",
-                    "description": "Describes the operational status of the system.",
-                    "type": "object",
-                    "properties": {
-                        "state": {
-                            "title": "State",
-                            "description": "The current operating status.",
-                            "type": "string",
-                            "enum": [
-                                "operational",
-                                "under_development",
-                                "under_major_modification",
-                                "disposition",
-                                "other"
-                            ]
-                        },
-                        "remarks": {
-                            "$ref": "#/definitions/remarks"
-                        }
-                    },
-                    "required": [
-                        "state"
-                    ],
-                    "additionalProperties": false
-                },
-                "authorization_boundary": {
-                    "$ref": "#/definitions/authorization_boundary"
-                },
-                "network_architecture": {
-                    "$ref": "#/definitions/network_architecture"
-                },
-                "data_flow": {
-                    "$ref": "#/definitions/data_flow"
-                },
-                "responsible_parties": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/responsible_party"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
-            },
-            "required": [
-                "system_ids",
-                "system_name",
-                "description",
-                "security_sensitivity_level",
-                "system_information",
-                "security_impact_level",
-                "status",
-                "authorization_boundary"
-            ],
-            "additionalProperties": false
-        },
-        "system_information": {
-            "title": "System Information",
-            "description": "Contains details about all information types that are stored, processed, or transmitted by the system, such as privacy information, and those defined in NIST SP 800_60.",
-            "$id": "#/definitions/system_information",
-            "type": "object",
-            "properties": {
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "information_types": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "title": "Information Type",
-                        "description": "Contains details about one information type that is stored, processed, or transmitted by the system, such as privacy information, and those defined in NIST SP 800_60.",
-                        "$id": "#/definitions/information_type",
-                        "type": "object",
-                        "properties": {
-                            "uuid": {
-                                "title": "Information Type Universally Unique Identifier",
-                                "description": "A globally unique identifier that can be used to reference this information type entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
-                                "type": "string",
-                                "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                            },
-                            "title": {
-                                "title": "title field",
-                                "description": "A human readable name for the information type. This title should be meaningful within the context of the system.",
-
-                                "type": "string"
-                            },
-                            "description": {
-                                "title": "Information Type Description",
-                                "description": "A summary of how this information type is used within the system.",
-                                "type": "string"
-                            },
-                            "categorizations": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "title": "Information Type Categorization",
-                                    "description": "A set of information type identifiers qualified by the given identification system used, such as NIST SP 800_60.",
-                                    "type": "object",
-                                    "properties": {
-                                        "system": {
-                                            "title": "Information Type Identification System",
-                                            "description": "Specifies the information type identification system used.",
-                                            "type": "string",
-                                            "format": "uri"
-                                        },
-                                        "information_type_ids": {
-                                            "type": "array",
-                                            "minItems": 1,
-                                            "items": {
-                                                "title": "Information Type Systemized Identifier",
-                                                "description": "An identifier qualified by the given identification system used, such as NIST SP 800_60.",
-                                                "type": "string"
-                                            }
-                                        }
-                                    },
-                                    "required": [
-                                        "system"
-                                    ],
-                                    "additionalProperties": false
-                                }
-                            },
-                            "props": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/property"
-                                }
-                            },
-                            "annotations": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/annotation"
-                                }
-                            },
-                            "links": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/link"
-                                }
-                            },
-                            "confidentiality_impact": {
-                                "title": "Confidentiality Impact Level",
-                                "description": "The expected level of impact resulting from the unauthorized disclosure of the described information.",
-                                "type": "object",
-                                "properties": {
-                                    "props": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/property"
-                                        }
-                                    },
-                                    "annotations": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/annotation"
-                                        }
-                                    },
-                                    "links": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/link"
-                                        }
-                                    },
-                                    "base": {
-                                        "title": "Base Level (Confidentiality, Integrity, or Availability)",
-                                        "description": "The prescribed base (Confidentiality, Integrity, or Availability) security impact level.",
-                                        "type": "string"
-                                    },
-                                    "selected": {
-                                        "title": "Selected Level (Confidentiality, Integrity, or Availability)",
-                                        "description": "The selected (Confidentiality, Integrity, or Availability) security impact level.",
-                                        "type": "string"
-                                    },
-                                    "adjustment_justification": {
-                                        "title": "Adjustment Justification",
-                                        "description": "If the selected security level is different from the base security level, this contains the justification for the change.",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "base"
-                                ],
-                                "additionalProperties": false
-                            },
-                            "integrity_impact": {
-                                "title": "Integrity Impact Level",
-                                "description": "The expected level of impact resulting from the unauthorized modification of the described information.",
-                                "type": "object",
-                                "properties": {
-                                    "props": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/property"
-                                        }
-                                    },
-                                    "annotations": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/annotation"
-                                        }
-                                    },
-                                    "links": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/link"
-                                        }
-                                    },
-                                    "base": {
-                                        "title": "Base Level (Confidentiality, Integrity, or Availability)",
-                                        "description": "The prescribed base (Confidentiality, Integrity, or Availability) security impact level.",
-                                        "type": "string"
-                                    },
-                                    "selected": {
-                                        "title": "Selected Level (Confidentiality, Integrity, or Availability)",
-                                        "description": "The selected (Confidentiality, Integrity, or Availability) security impact level.",
-                                        "type": "string"
-                                    },
-                                    "adjustment_justification": {
-                                        "title": "Adjustment Justification",
-                                        "description": "If the selected security level is different from the base security level, this contains the justification for the change.",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "base"
-                                ],
-                                "additionalProperties": false
-                            },
-                            "availability_impact": {
-                                "title": "Availability Impact Level",
-                                "description": "The expected level of impact resulting from the disruption of access to or use of the described information or the information system.",
-                                "type": "object",
-                                "properties": {
-                                    "props": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/property"
-                                        }
-                                    },
-                                    "annotations": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/annotation"
-                                        }
-                                    },
-                                    "links": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/link"
-                                        }
-                                    },
-                                    "base": {
-                                        "title": "Base Level (Confidentiality, Integrity, or Availability)",
-                                        "description": "The prescribed base (Confidentiality, Integrity, or Availability) security impact level.",
-                                        "type": "string"
-                                    },
-                                    "selected": {
-                                        "title": "Selected Level (Confidentiality, Integrity, or Availability)",
-                                        "description": "The selected (Confidentiality, Integrity, or Availability) security impact level.",
-                                        "type": "string"
-                                    },
-                                    "adjustment_justification": {
-                                        "title": "Adjustment Justification",
-                                        "description": "If the selected security level is different from the base security level, this contains the justification for the change.",
-                                        "type": "string"
-                                    }
-                                },
-                                "required": [
-                                    "base"
-                                ],
-                                "additionalProperties": false
-                            }
-                        },
-                        "required": [
-                            "title",
-                            "description",
-                            "confidentiality_impact",
-                            "integrity_impact",
-                            "availability_impact"
-                        ],
-                        "additionalProperties": false
-                    }
-                }
-            },
-            "required": [
-                "information_types"
-            ],
-            "additionalProperties": false
-        },
-        "security_impact_level": {
-            "title": "Security Impact Level",
-            "description": "The overall level of expected impact resulting from unauthorized disclosure, modification, or loss of access to information.",
-            "$id": "#/definitions/security_impact_level",
-            "type": "object",
-            "properties": {
-                "security_objective_confidentiality": {
-                    "title": "Security Objective: Confidentiality",
-                    "description": "A target_level of confidentiality for the system, based on the sensitivity of information within the system.",
-                    "$id": "#/definitions/security_objective_confidentiality",
-                    "type": "string"
-                },
-                "security_objective_integrity": {
-                    "title": "Security Objective: Integrity",
-                    "description": "A target_level of integrity for the system, based on the sensitivity of information within the system.",
-                    "$id": "#/definitions/security_objective_integrity",
-                    "type": "string"
-                },
-                "security_objective_availability": {
-                    "title": "Security Objective: Availability",
-                    "description": "A target_level of availability for the system, based on the sensitivity of information within the system.",
-                    "$id": "#/definitions/security_objective_availability",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "security_objective_confidentiality",
-                "security_objective_integrity",
-                "security_objective_availability"
-            ],
-            "additionalProperties": false
-        },
-        "authorization_boundary": {
-            "title": "Authorization Boundary",
-            "description": "A description of this system's authorization boundary, optionally supplemented by diagrams that illustrate the authorization boundary.",
-            "$id": "#/definitions/authorization_boundary",
-            "type": "object",
-            "properties": {
-                "description": {
-                    "title": "Authorization Boundary Description",
-                    "description": "A summary of the system's authorization boundary.",
-                    "type": "string"
-                },
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "diagrams": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/diagram"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "remarks": {
-                    "title": "remarks field",
-                    "description": "Commentary about the system's authorization boundary that enhances the diagram.",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "description"
-            ],
-            "additionalProperties": false
-        },
-        "diagram": {
-            "title": "Diagram",
-            "description": "A graphic that provides a visual representation the system, or some aspect of it.",
-            "$id": "#/definitions/diagram",
-            "type": "object",
-            "properties": {
-                "description": {
-                    "title": "Diagram Description",
-                    "description": "A summary of the diagram.",
-                    "type": "string"
-                },
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "caption": {
-                    "title": "Caption",
-                    "description": "A brief caption to annotate the diagram.",
-                    "$id": "#/definitions/caption",
-                    "type": "string"
-                },
-                "remarks": {
-                    "title": "remarks field",
-                    "description": "Commentary about the diagram that enhances it.",
-                    "type": "string"
-                }
-            },
-            "additionalProperties": false
-        },
-        "network_architecture": {
-            "title": "Network Architecture",
-            "description": "A description of the system's network architecture, optionally supplemented by diagrams that illustrate the network architecture.",
-            "$id": "#/definitions/network_architecture",
-            "type": "object",
-            "properties": {
-                "description": {
-                    "title": "Network Architecture Description",
-                    "description": "A summary of the system's network architecture.",
-                    "type": "string"
-                },
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "diagrams": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/diagram"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
-            },
-            "required": [
-                "description"
-            ],
-            "additionalProperties": false
-        },
-        "data_flow": {
-            "title": "Data Flow",
-            "description": "A description of the logical flow of information within the system and across its boundaries, optionally supplemented by diagrams that illustrate these flows.",
-            "$id": "#/definitions/data_flow",
-            "type": "object",
-            "properties": {
-                "description": {
-                    "title": "Data Flow Description",
-                    "description": "A summary of the system's data flow.",
-                    "type": "string"
-                },
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "diagrams": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/diagram"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
-            },
-            "required": [
-                "description"
-            ],
-            "additionalProperties": false
-        },
-        "system_implementation": {
-            "title": "System Implementation",
-            "description": "Provides information as to how the system is implemented.",
-            "$id": "#/definitions/system_implementation",
-            "type": "object",
-            "properties": {
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "leveraged_authorizations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "title": "Leveraged Authorization",
-                        "description": "A description of another authorized system from which this system inherits capabilities that satisfy security requirements. Another term for this concept is a common control provider.",
-                        "$id": "#/definitions/leveraged_authorization",
-                        "type": "object",
-                        "properties": {
-                            "uuid": {
-                                "title": "Leveraged Authorization Universally Unique Identifier",
-                                "description": "A globally unique identifier that can be used to reference this leveraged authorization entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
-                                "type": "string",
-                                "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                            },
-                            "title": {
-                                "title": "title field",
-                                "description": "A human readable name for the leveraged authorization in the context of the system.",
-
-                                "type": "string"
-                            },
-                            "props": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/property"
-                                }
-                            },
-                            "annotations": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/annotation"
-                                }
-                            },
-                            "links": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/link"
-                                }
-                            },
-                            "party_uuid": {
-                                "title": "party_uuid field",
-                                "description": "A reference to the party that manages the leveraged system.",
-                                "type": "string",
-                                "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                            },
-                            "date_authorized": {
-                                "title": "System Authorization Date",
-                                "description": "The date the system received its authorization.",
-                                "type": "string",
-                                "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))(Z|[+-][0-9]{2}:[0-9]{2})?$"
-                            },
-                            "remarks": {
-                                "$ref": "#/definitions/remarks"
-                            }
-                        },
-                        "required": [
-                            "uuid",
-                            "title",
-                            "party_uuid",
-                            "date_authorized"
-                        ],
-                        "additionalProperties": false
-                    }
-                },
-                "users": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/system_user"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "components": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/system_component"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "inventory_items": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/inventory_item"
-                    }
-                },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
-            },
-            "required": [
-                "users",
-                "components"
-            ],
-            "additionalProperties": false
-        },
-        "control_implementation": {
-            "title": "Control Implementation",
-            "description": "Describes how the system satisfies a set of controls.",
-            "$id": "#/definitions/control_implementation",
-            "type": "object",
-            "properties": {
-                "description": {
-                    "title": "Control Implementation Description",
-                    "description": "A statement describing important things to know about how this set of control satisfaction documentation is approached.",
-                    "type": "string"
-                },
-                "implemented_requirements": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/implemented_requirement"
-                    }
-                }
-            },
-            "required": [
-                "description",
-                "implemented_requirements"
-            ],
-            "additionalProperties": false
-        },
-        "implemented_requirement": {
-            "title": "Control_based Requirement",
-            "description": "Describes how the system satisfies an individual control.",
-            "$id": "#/definitions/implemented_requirement",
-            "type": "object",
-            "properties": {
-                "uuid": {
-                    "title": "Control Requirement Universally Unique Identifier",
-                    "description": "A globally unique identifier that can be used to reference this control requirement entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
-                    "type": "string",
-                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                },
-                "control_id": {
+            "properties":
+            {
+                "control-id":
+                {
                     "title": "Control Identifier Reference",
                     "description": "A reference to a control identifier.",
                     "type": "string"
                 },
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "parameter_settings": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/set_parameter"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "responsible_roles": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/responsible_role"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "by_components": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/by_component"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "statements": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/statement"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
-            },
-            "required": [
-                "uuid",
-                "control_id"
-            ],
-            "additionalProperties": false
-        },
-        "statement": {
-            "title": "Specific Control Statement",
-            "description": "Identifies which statements within a control are addressed.",
-            "$id": "#/definitions/statement",
-            "type": "object",
-            "properties": {
-                "uuid": {
-                    "title": "Control Statement Reference Universally Unique Identifier",
-                    "description": "A globally unique identifier that can be used to reference this control statement entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
-                    "type": "string",
-                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                },
-                "props": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
-                },
-                "annotations": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
-                },
-                "links": {
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
-                    }
-                },
-                "by_components": {
-                    "type": "object",
-                    "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/by_component"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
-                    }
-                },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
-                }
-            },
-            "required": [
-                "uuid"
-            ],
-            "additionalProperties": false
-        },
-        "by_component": {
-            "title": "Component Control Implementation",
-            "description": "Defines how the referenced component implements a set of controls.",
-            "$id": "#/definitions/by_component",
-            "type": "object",
-            "properties": {
-                "uuid": {
-                    "title": "By_Component Universally Unique Identifier",
-                    "description": "A globally unique identifier that can be used to reference this by_component entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
-                    "type": "string",
-                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                },
-                "description": {
-                    "title": "Control Implementation Description",
-                    "description": "An implementation statement that describes how a control or a control statement is implemented within the referenced system component.",
+                "description":
+                {
+                    "title": "Objective Description",
+                    "description": "A human-readable description of this control objective.",
                     "type": "string"
                 },
-                "props": {
+                "props":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/property"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/property" }
                 },
-                "annotations": {
+                "annotations":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/annotation"
-                    }
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
                 },
-                "links": {
+                "links":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/link"
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                },
+                "parts":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/part" }
+                },
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
+            },
+            "required":
+                ["control-id",
+                    "parts"],
+            "additionalProperties": false
+        },
+        "activity":
+        {
+            "title": "Activity",
+            "description": "Identifies an assessment or related process that can be performed. In the assessment plan, this is an intended activity which may be associated with an assessment task. In the assessment results, this an activity that was actually performed as part of an assessement.",
+            "$id": "#/definitions/activity",
+            "type": "object",
+            "properties":
+            {
+                "uuid":
+                {
+                    "title": "Assessment Activity Universally Unique Identifier",
+                    "description": "Uniquely identifies this assessment activity. This UUID may be referenced elsewhere in an OSCAL document when refering to this information. A UUID should be consistantly used for a given included activity across revisions of the document.",
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                },
+                "title":
+                {
+                    "title": "Included Activity Title",
+                    "description": "The title for this included activity.",
+                    "type": "string"
+                },
+                "description":
+                {
+                    "title": "Included Activity Description",
+                    "description": "A human-readable description of this included activity.",
+                    "type": "string"
+                },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                },
+                "actions":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                    {
+                        "title": "Action",
+                        "description": "Identifies an individual actions, such as test steps or examination procedures.",
+                        "type": "object",
+                        "properties":
+                        {
+                            "uuid":
+                            {
+                                "title": "Action Universally Unique Identifier",
+                                "description": "Uniquely identifies this defined action. This UUID may be referenced elsewhere in an OSCAL document when refering to this information. A UUID should be consistantly used for a given test step across revisions of the document.",
+                                "type": "string",
+                                "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                            },
+                            "title":
+                            {
+                                "title": "Action Title",
+                                "description": "The title for this action.",
+                                "type": "string"
+                            },
+                            "description":
+                            {
+                                "title": "Action Description",
+                                "description": "A human-readable description of this action.",
+                                "type": "string"
+                            },
+                            "props":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/property" }
+                            },
+                            "annotations":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/annotation" }
+                            },
+                            "links":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/link" }
+                            },
+                            "reviewed-controls":
+                                { "$ref": "#/definitions/reviewed-controls" },
+                            "responsible-roles":
+                            {
+                                "type": "object",
+                                "minProperties": 1,
+                                "additionalProperties":
+                                {
+                                    "allOf":
+                                        [
+                                            { "$ref": "#/definitions/responsible-role" },
+
+                                            {
+                                                "not":
+                                                    { "type": "string" }
+                                            }]
+                                }
+                            },
+                            "remarks":
+                                { "$ref": "#/definitions/remarks" }
+                        },
+                        "required":
+                            ["uuid",
+                                "description"],
+                        "additionalProperties": false
                     }
                 },
-                "parameter_settings": {
+                "related-controls":
+                    { "$ref": "#/definitions/reviewed-controls" },
+                "responsible-roles":
+                {
                     "type": "object",
                     "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/set_parameter"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
+                    "additionalProperties":
+                    {
+                        "allOf":
+                            [
+                                { "$ref": "#/definitions/responsible-role" },
+
+                                {
+                                    "not":
+                                        { "type": "string" }
+                                }]
                     }
                 },
-                "export": {
-                    "title": "Export",
-                    "description": "Identifies content intended for external consumption, such as with leveraged organizations.",
-                    "$id": "#/definitions/export",
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
+            },
+            "required":
+                ["uuid",
+                    "description"],
+            "additionalProperties": false
+        },
+        "task":
+        {
+            "title": "Task",
+            "description": "Represents a scheduled event or milestone, which may be associated with a series of assessment actions.",
+            "$id": "#/definitions/task",
+            "type": "object",
+            "properties":
+            {
+                "uuid":
+                {
+                    "title": "Task Universally Unique Identifier",
+                    "description": "Uniquely identifies this assessment task.",
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                },
+                "type":
+                {
+                    "title": "Task Type",
+                    "description": "The type of task.",
+                    "type": "string"
+                },
+                "title":
+                {
+                    "title": "Task Title",
+                    "description": "The title for this task.",
+                    "type": "string"
+                },
+                "description":
+                {
+                    "title": "Task Description",
+                    "description": "A human-readable description of this task.",
+                    "type": "string"
+                },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                },
+                "timing":
+                {
+                    "title": "Event Timing",
+                    "description": "The timing under which the task is intended to occur.",
                     "type": "object",
-                    "properties": {
-                        "description": {
-                            "title": "Control Implementation Export Description",
-                            "description": "An implementation statement that describes the aspects of the control or control statement implementation that can be available to another system leveraging this system.",
-                            "type": "string"
+                    "properties":
+                    {
+                        "on-date":
+                        {
+                            "title": "On Date Condition",
+                            "description": "The task is intended to occur on the specified date.",
+                            "type": "object",
+                            "properties":
+                            {
+                                "date":
+                                {
+                                    "title": "On Date Condition",
+                                    "description": "The task must occur on the specified date.",
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
+                                }
+                            },
+                            "required":
+                                ["date"],
+                            "additionalProperties": false
                         },
-                        "props": {
-                            "type": "array",
-                            "minItems": 1,
-                            "items": {
-                                "$ref": "#/definitions/property"
-                            }
-                        },
-                        "annotations": {
-                            "type": "array",
-                            "minItems": 1,
-                            "items": {
-                                "$ref": "#/definitions/annotation"
-                            }
-                        },
-                        "links": {
-                            "type": "array",
-                            "minItems": 1,
-                            "items": {
-                                "$ref": "#/definitions/link"
-                            }
-                        },
-                        "provided": {
-                            "type": "array",
-                            "minItems": 1,
-                            "items": {
-                                "title": "Provided Control Implementation",
-                                "description": "Describes a capability which may be inherited by a leveraging system.",
-                                "$id": "#/definitions/provided",
-                                "type": "object",
-                                "properties": {
-                                    "uuid": {
-                                        "title": "Provided Universally Unique Identifier",
-                                        "description": "A globally unique identifier that can be used to reference this provided entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
-                                        "type": "string",
-                                        "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                                    },
-                                    "description": {
-                                        "title": "Provided Control Implementation Description",
-                                        "description": "An implementation statement that describes the aspects of the control or control statement implementation that can be provided to another system leveraging this system.",
-                                        "type": "string"
-                                    },
-                                    "props": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/property"
-                                        }
-                                    },
-                                    "annotations": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/annotation"
-                                        }
-                                    },
-                                    "links": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/link"
-                                        }
-                                    },
-                                    "responsible_roles": {
-                                        "type": "object",
-                                        "minProperties": 1,
-                                        "additionalProperties": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/responsible_role"
-                                                },
-                                                {
-                                                    "not": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    "remarks": {
-                                        "$ref": "#/definitions/remarks"
-                                    }
+                        "within-date-range":
+                        {
+                            "title": "On Date Range Condition",
+                            "description": "The task is intended to occur within the specified date range.",
+                            "type": "object",
+                            "properties":
+                            {
+                                "start":
+                                {
+                                    "title": "Start Date Condition",
+                                    "description": "The task must occur on or after the specified date.",
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
                                 },
-                                "required": [
-                                    "uuid",
-                                    "description"
-                                ],
-                                "additionalProperties": false
-                            }
+                                "end":
+                                {
+                                    "title": "End Date Condition",
+                                    "description": "The task must occur on or before the specified date.",
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "pattern": "^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))-02-29)|(((19|2[0-9])[0-9]{2})-02-(0[1-9]|1[0-9]|2[0-8]))|(((19|2[0-9])[0-9]{2})-(0[13578]|10|12)-(0[1-9]|[12][0-9]|3[01]))|(((19|2[0-9])[0-9]{2})-(0[469]|11)-(0[1-9]|[12][0-9]|30))T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
+                                }
+                            },
+                            "required":
+                                ["start",
+                                    "end"],
+                            "additionalProperties": false
                         },
-                        "responsibilities": {
-                            "type": "array",
-                            "minItems": 1,
-                            "items": {
-                                "title": "Control Implementation Responsibility",
-                                "description": "Describes a control implementation responsibiity imposed on a leveraging system.",
-                                "$id": "#/definitions/responsibility",
-                                "type": "object",
-                                "properties": {
-                                    "uuid": {
-                                        "title": "Responsibility Universally Unique Identifier",
-                                        "description": "A globally unique identifier that can be used to reference this responsibility entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
-                                        "type": "string",
-                                        "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                                    },
-                                    "provided_uuid": {
-                                        "title": "Provided UUID",
-                                        "description": "Identifies a 'provided' assembly associated with this assembly.",
-                                        "type": "string",
-                                        "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                                    },
-                                    "description": {
-                                        "title": "Control Implementation Responsibility Description",
-                                        "description": "An implementation statement that describes the aspects of the control or control statement implementation that a leveraging system must implement to satisfy the control provided by a leveraged system.",
-                                        "type": "string"
-                                    },
-                                    "props": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/property"
-                                        }
-                                    },
-                                    "annotations": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/annotation"
-                                        }
-                                    },
-                                    "links": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/link"
-                                        }
-                                    },
-                                    "responsible_roles": {
-                                        "type": "object",
-                                        "minProperties": 1,
-                                        "additionalProperties": {
-                                            "allOf": [
-                                                {
-                                                    "$ref": "#/definitions/responsible_role"
-                                                },
-                                                {
-                                                    "not": {
-                                                        "type": "string"
-                                                    }
-                                                }
-                                            ]
-                                        }
-                                    },
-                                    "remarks": {
-                                        "$ref": "#/definitions/remarks"
-                                    }
+                        "at-frequency":
+                        {
+                            "title": "Frequency Condition",
+                            "description": "The task is intended to occur at the specified frequency.",
+                            "type": "object",
+                            "properties":
+                            {
+                                "period":
+                                {
+                                    "title": "Period",
+                                    "description": "The task must occur after the specified period has elapsed.",
+                                    "type": "integer",
+                                    "multipleOf": 1,
+                                    "minimum": 1
                                 },
-                                "required": [
-                                    "uuid",
-                                    "description"
-                                ],
-                                "additionalProperties": false
-                            }
-                        },
-                        "remarks": {
-                            "$ref": "#/definitions/remarks"
+                                "unit":
+                                {
+                                    "title": "Time Unit",
+                                    "description": "The unit of time for the period.",
+                                    "type": "string",
+                                    "enum":
+                                        ["seconds",
+                                            "minutes",
+                                            "hours",
+                                            "days",
+                                            "months",
+                                            "years"]
+                                }
+                            },
+                            "required":
+                                ["period",
+                                    "unit"],
+                            "additionalProperties": false
                         }
                     },
                     "additionalProperties": false
                 },
-                "inherited": {
+                "dependencies":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Inherited Control Implementation",
-                        "description": "Describes a control implementation inherited by a leveraging system.",
-                        "$id": "#/definitions/inherited",
+                    "items":
+                    {
+                        "title": "Task Dependency",
+                        "description": "Used to indicate that a task is dependant on another task.",
                         "type": "object",
-                        "properties": {
-                            "uuid": {
-                                "title": "Inherited Universally Unique Identifier",
-                                "description": "A globally unique identifier that can be used to reference this inherited entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
+                        "properties":
+                        {
+                            "task-uuid":
+                            {
+                                "title": "Task Universally Unique Identifier Reference",
+                                "description": "References a unique task by UUID.",
                                 "type": "string",
                                 "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                             },
-                            "provided_uuid": {
-                                "title": "Provided UUID",
-                                "description": "Identifies a 'provided' assembly associated with this assembly.",
-                                "type": "string",
-                                "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                            },
-                            "description": {
-                                "title": "Inherited Control Implementation Description",
-                                "description": "An implementation statement that describes the aspects of a control or control statement implementation that a leveraging system is inheriting from a leveraged system.",
-                                "type": "string"
-                            },
-                            "props": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/property"
-                                }
-                            },
-                            "annotations": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/annotation"
-                                }
-                            },
-                            "links": {
-                                "type": "array",
-                                "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/link"
-                                }
-                            },
-                            "responsible_roles": {
-                                "type": "object",
-                                "minProperties": 1,
-                                "additionalProperties": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/definitions/responsible_role"
-                                        },
-                                        {
-                                            "not": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    ]
-                                }
-                            }
+                            "remarks":
+                                { "$ref": "#/definitions/remarks" }
                         },
-                        "required": [
-                            "uuid",
-                            "description"
-                        ],
+                        "required":
+                            ["task-uuid"],
                         "additionalProperties": false
                     }
                 },
-                "satisfied": {
+                "tasks":
+                {
                     "type": "array",
                     "minItems": 1,
-                    "items": {
-                        "title": "Satisfied Control Implementation Responsibility",
-                        "description": "Describes how this system satisfies a responsibiity imposed by a leveraged system.",
-                        "$id": "#/definitions/satisfied",
+                    "items":
+                        { "$ref": "#/definitions/task" }
+                },
+                "associated-activities":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                    {
+                        "title": "Associated Activity",
+                        "description": "Identifies an individual activity to be performed as part of an action.",
                         "type": "object",
-                        "properties": {
-                            "uuid": {
-                                "title": "Satisfied Universally Unique Identifier",
-                                "description": "A globally unique identifier that can be used to reference this satisfied entry elsewhere in an OSCAL document. A UUID should be consistantly used for a given resource across revisions of the document.",
+                        "properties":
+                        {
+                            "activity-uuid":
+                            {
+                                "title": "Activity Universally Unique Identifier Reference",
+                                "description": "References an activity defined in the list of activities.",
                                 "type": "string",
                                 "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
                             },
-                            "responsibility_uuid": {
-                                "title": "Provided UUID",
-                                "description": "Identifies a 'provided' assembly associated with this assembly.",
-                                "type": "string",
-                                "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
-                            },
-                            "description": {
-                                "title": "Satisfied Control Implementation Responsibility Description",
-                                "description": "An implementation statement that describes the aspects of a control or control statement implementation that a leveraging system is implementing based on a requirement from a leveraged system.",
-                                "type": "string"
-                            },
-                            "props": {
+                            "props":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/property"
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/property" }
                             },
-                            "annotations": {
+                            "annotations":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/annotation"
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/annotation" }
                             },
-                            "links": {
+                            "links":
+                            {
                                 "type": "array",
                                 "minItems": 1,
-                                "items": {
-                                    "$ref": "#/definitions/link"
-                                }
+                                "items":
+                                    { "$ref": "#/definitions/link" }
                             },
-                            "responsible_roles": {
+                            "responsible-roles":
+                            {
                                 "type": "object",
                                 "minProperties": 1,
-                                "additionalProperties": {
-                                    "allOf": [
-                                        {
-                                            "$ref": "#/definitions/responsible_role"
-                                        },
-                                        {
-                                            "not": {
-                                                "type": "string"
-                                            }
-                                        }
-                                    ]
+                                "additionalProperties":
+                                {
+                                    "allOf":
+                                        [
+                                            { "$ref": "#/definitions/responsible-role" },
+
+                                            {
+                                                "not":
+                                                    { "type": "string" }
+                                            }]
                                 }
                             },
-                            "remarks": {
-                                "$ref": "#/definitions/remarks"
-                            }
+                            "subjects":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/assessment-subject" }
+                            },
+                            "subject-placeholder":
+                                { "$ref": "#/definitions/assessment-subject-placeholder" },
+                            "remarks":
+                                { "$ref": "#/definitions/remarks" }
                         },
-                        "required": [
-                            "uuid",
-                            "description"
-                        ],
+                        "required":
+                            ["activity-uuid"],
                         "additionalProperties": false
                     }
                 },
-                "responsible_roles": {
+                "subjects":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/assessment-subject" }
+                },
+                "responsible-roles":
+                {
                     "type": "object",
                     "minProperties": 1,
-                    "additionalProperties": {
-                        "allOf": [
-                            {
-                                "$ref": "#/definitions/responsible_role"
-                            },
-                            {
-                                "not": {
-                                    "type": "string"
-                                }
-                            }
-                        ]
+                    "additionalProperties":
+                    {
+                        "allOf":
+                            [
+                                { "$ref": "#/definitions/responsible-role" },
+
+                                {
+                                    "not":
+                                        { "type": "string" }
+                                }]
                     }
                 },
-                "remarks": {
-                    "$ref": "#/definitions/remarks"
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
+            },
+            "required":
+                ["uuid",
+                    "type",
+                    "title"],
+            "additionalProperties": false
+        },
+        "reviewed-controls":
+        {
+            "title": "Reviewed Controls and Control Objectives",
+            "description": "Identifies the controls being assessed and their control objectives.",
+            "$id": "#/definitions/reviewed-controls",
+            "type": "object",
+            "properties":
+            {
+                "description":
+                {
+                    "title": "Control Objective Description",
+                    "description": "A human-readable description of control objectives.",
+                    "type": "string"
+                },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                },
+                "control-selections":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                    {
+                        "title": "Assessed Controls",
+                        "description": "Identifies the controls being assessed. In the assessment plan, these are the planned controls. In the assessment results, these are the actual controls, and reflects any changes from the plan.",
+                        "type": "object",
+                        "properties":
+                        {
+                            "description":
+                            {
+                                "title": "Assessed Controls Description",
+                                "description": "A human-readable description of in-scope controls specified for assessment.",
+                                "type": "string"
+                            },
+                            "props":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/property" }
+                            },
+                            "annotations":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/annotation" }
+                            },
+                            "links":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/link" }
+                            },
+                            "include-all":
+                            {
+                                "title": "All",
+                                "description": "A key word to indicate all.",
+                                "type": "object",
+                                "additionalProperties": false
+                            },
+                            "include-controls":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/oscal-assessment-common-select-control-by-id" }
+                            },
+                            "exclude-controls":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/oscal-assessment-common-select-control-by-id" }
+                            },
+                            "remarks":
+                                { "$ref": "#/definitions/remarks" }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "control-objective-selections":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                    {
+                        "title": "Referened Control Objectives",
+                        "description": "Identifies the control objectives of the assessment. In the assessment plan, these are the planned objectives. In the assessment results, these are the assessed objectives, and reflects any changes from the plan.",
+                        "type": "object",
+                        "properties":
+                        {
+                            "description":
+                            {
+                                "title": "Control Ojectives Description",
+                                "description": "A human-readable description of this collection of control objectives.",
+                                "type": "string"
+                            },
+                            "props":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/property" }
+                            },
+                            "annotations":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/annotation" }
+                            },
+                            "links":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/link" }
+                            },
+                            "include-all":
+                            {
+                                "title": "All",
+                                "description": "A key word to indicate all.",
+                                "type": "object",
+                                "additionalProperties": false
+                            },
+                            "include-objectives":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/select-objective-by-id" }
+                            },
+                            "exclude-objectives":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/select-objective-by-id" }
+                            },
+                            "remarks":
+                                { "$ref": "#/definitions/remarks" }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
+            },
+            "required":
+                ["control-selections"],
+            "additionalProperties": false
+        },
+        "oscal-assessment-common-select-control-by-id":
+        {
+            "title": "Select Control",
+            "description": "Used to select a control for inclusion/exclusion based on one or more control identifiers. A set of statement identifiers can be used to target the inclusion/exclusion to only specific control statements providing more granularity over the specific statements that are within the asessment scope.",
+            "$id": "#/definitions/oscal-assessment-common-select-control-by-id",
+            "type": "object",
+            "properties":
+            {
+                "control-id":
+                {
+                    "title": "Control Identifier Reference",
+                    "description": "A reference to a control identifier.",
+                    "type": "string"
+                },
+                "statement-ids":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                    {
+                        "title": "Include Specific Statements",
+                        "description": "Used to constrain the selection to only specificly identified statements.",
+                        "type": "string"
+                    }
                 }
             },
-            "required": [
-                "uuid",
-                "description"
-            ],
+            "required":
+                ["control-id"],
+            "additionalProperties": false
+        },
+        "select-objective-by-id":
+        {
+            "title": "Select Objective",
+            "description": "Used to select a control objective for inclusion/exclusion based on the control objective's identifier.",
+            "$id": "#/definitions/select-objective-by-id",
+            "type": "object",
+            "properties":
+            {
+                "":
+                    { "type": "string" }
+            },
+            "additionalProperties": false
+        },
+        "assessment-subject-placeholder":
+        {
+            "title": "Assessment Subject Placeholder",
+            "description": "Used when the assessment subjects will be determined as part of one or more other assessment activities. These assessment subjects will be recorded in the assessment results in the assessment log.",
+            "$id": "#/definitions/assessment-subject-placeholder",
+            "type": "object",
+            "properties":
+            {
+                "uuid":
+                {
+                    "title": "Assessment Subject Placeholder Universally Unique Identifier",
+                    "description": "Uniquely identifies a set of assessment subjects that will be identified by a task or an activity that is part of a task.",
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                },
+                "description":
+                {
+                    "title": "Assessment Subject Placeholder Description",
+                    "description": "A human-readable description of intent of this assessment subject placeholder.",
+                    "type": "string"
+                },
+                "sources":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                    {
+                        "title": "Assessment Subject Source",
+                        "description": "Assessment subjects will be identified while conducting the referenced activity-instance.",
+                        "type": "object",
+                        "properties":
+                        {
+                            "task-uuid":
+                            {
+                                "title": "Task Universally Unique Identifier",
+                                "description": "Uniquely identifies an assessment activity to be performed as part of the event. This UUID may be referenced elsewhere in an OSCAL document when refering to this information. A UUID should be consistantly used for this schedule across revisions of the document.",
+                                "type": "string",
+                                "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                            }
+                        },
+                        "required":
+                            ["task-uuid"],
+                        "additionalProperties": false
+                    }
+                },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                },
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
+            },
+            "required":
+                ["uuid",
+                    "sources"],
+            "additionalProperties": false
+        },
+        "assessment-subject":
+        {
+            "title": "Subject of Assessment",
+            "description": "Identifies system elements being assessed, such as components, inventory items, and locations. In the assessment plan, this identifies a planned assessment subject. In the assessment results this is an actual assessment subject, and reflects any changes from the plan. exactly what will be the focus of this assessment. Any subjects not identified in this way are out-of-scope.",
+            "$id": "#/definitions/assessment-subject",
+            "type": "object",
+            "properties":
+            {
+                "type":
+                {
+                    "title": "Subject Type",
+                    "description": "Indicates the type of assessment subject, such as a component, inventory, item, location, or party represented by this selection statement.",
+                    "type": "string"
+                },
+                "description":
+                {
+                    "title": "Include Subjects Description",
+                    "description": "A human-readable description of the collection of subjects being included in this assessment.",
+                    "type": "string"
+                },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                },
+                "include-all":
+                {
+                    "title": "All",
+                    "description": "A key word to indicate all.",
+                    "type": "object",
+                    "additionalProperties": false
+                },
+                "include-subjects":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/select-subject-by-id" }
+                },
+                "exclude-subjects":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/select-subject-by-id" }
+                },
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
+            },
+            "required":
+                ["type"],
+            "additionalProperties": false
+        },
+        "select-subject-by-id":
+        {
+            "title": "Select Assessment Subject",
+            "description": "Identifies a set of assessment subjects to include/exclude by UUID.",
+            "$id": "#/definitions/select-subject-by-id",
+            "type": "object",
+            "properties":
+            {
+                "uuid-ref":
+                {
+                    "title": "UUID Reference",
+                    "description": "A pointer to a component, inventory-item, location, party, user, or resource using it's UUID.",
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                },
+                "remarks":
+                    { "$ref": "#/definitions/remarks" }
+            },
+            "required":
+                ["uuid-ref"],
+            "additionalProperties": false
+        },
+        "assessment-assets":
+        {
+            "title": "Assessment Assets",
+            "description": "Identifies the assets used to perform this assessment, such as the assessment team, scanning tools, and assumptions.",
+            "$id": "#/definitions/assessment-assets",
+            "type": "object",
+            "properties":
+            {
+                "components":
+                {
+                    "type": "object",
+                    "minProperties": 1,
+                    "additionalProperties":
+                    {
+                        "allOf":
+                            [
+                                { "$ref": "#/definitions/system-component" },
+
+                                {
+                                    "not":
+                                        { "type": "string" }
+                                }]
+                    }
+                },
+                "assessment-platforms":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                    {
+                        "title": "Assessment Platform",
+                        "description": "Used to represent the toolset used to perform aspects of the assessment.",
+                        "type": "object",
+                        "properties":
+                        {
+                            "uuid":
+                            {
+                                "title": "Assessment Platform Universally Unique Identifier",
+                                "description": "Uniquely identifies this assessment Platform.",
+                                "type": "string",
+                                "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                            },
+                            "title":
+                            {
+                                "title": "Assessment Platform Title",
+                                "description": "The title or name for the assessment platform.",
+                                "type": "string"
+                            },
+                            "props":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/property" }
+                            },
+                            "annotations":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/annotation" }
+                            },
+                            "links":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                    { "$ref": "#/definitions/link" }
+                            },
+                            "uses-components":
+                            {
+                                "type": "array",
+                                "minItems": 1,
+                                "items":
+                                {
+                                    "title": "Uses Component",
+                                    "description": "The set of components that are used by the assessment platform.",
+                                    "type": "object",
+                                    "properties":
+                                    {
+                                        "component-uuid":
+                                        {
+                                            "title": "Component Universally Unique Identifier Reference",
+                                            "description": "A reference to a component that is implemented as part of an inventory item.",
+                                            "type": "string",
+                                            "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                                        },
+                                        "props":
+                                        {
+                                            "type": "array",
+                                            "minItems": 1,
+                                            "items":
+                                                { "$ref": "#/definitions/property" }
+                                        },
+                                        "annotations":
+                                        {
+                                            "type": "array",
+                                            "minItems": 1,
+                                            "items":
+                                                { "$ref": "#/definitions/annotation" }
+                                        },
+                                        "links":
+                                        {
+                                            "type": "array",
+                                            "minItems": 1,
+                                            "items":
+                                                { "$ref": "#/definitions/link" }
+                                        },
+                                        "responsible-parties":
+                                        {
+                                            "type": "object",
+                                            "minProperties": 1,
+                                            "additionalProperties":
+                                            {
+                                                "allOf":
+                                                    [
+                                                        { "$ref": "#/definitions/responsible-party" },
+
+                                                        {
+                                                            "not":
+                                                                { "type": "string" }
+                                                        }]
+                                            }
+                                        },
+                                        "remarks":
+                                            { "$ref": "#/definitions/remarks" }
+                                    },
+                                    "required":
+                                        ["component-uuid"],
+                                    "additionalProperties": false
+                                }
+                            },
+                            "remarks":
+                                { "$ref": "#/definitions/remarks" }
+                        },
+                        "required":
+                            ["uuid"],
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "required":
+                ["assessment-platforms"],
+            "additionalProperties": false
+        },
+        "assessment-part":
+        {
+            "title": "Assessment Part",
+            "description": "A partition of an assessment plan or results or a child of another part.",
+            "$id": "#/definitions/assessment-part",
+            "type": "object",
+            "properties":
+            {
+                "uuid":
+                {
+                    "title": "Part Identifier",
+                    "description": "A unique identifier for a specific part instance. This identifier's uniqueness is document scoped and is intended to be consistent for the same part across minor revisions of the document.",
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                },
+                "name":
+                {
+                    "title": "Part Name",
+                    "description": "A textual label that uniquely identifies the part's semantic type.",
+                    "type": "string"
+                },
+                "ns":
+                {
+                    "title": "Part Namespace",
+                    "description": "A namespace qualifying the part's name. This allows different organizations to associate distinct semantics with the same name.",
+                    "type": "string",
+                    "format": "uri"
+                },
+                "class":
+                {
+                    "title": "Part Class",
+                    "description": "A textual label that provides a sub-type or characterization of the part's name. This can be used to further distinguish or discriminate between the semantics of multiple parts of the same control with the same name and ns.",
+                    "type": "string"
+                },
+                "title":
+                {
+                    "title": "Part Title",
+                    "description": "A name given to the part, which may be used by a tool for display and navigation.",
+                    "type": "string"
+                },
+                "props":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/property" }
+                },
+                "annotations":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/annotation" }
+                },
+                "prose":
+                {
+                    "title": "Part Text",
+                    "description": "Permits multiple paragraphs, lists, tables etc.",
+                    "type": "string"
+                },
+                "parts":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/assessment-part" }
+                },
+                "links":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/link" }
+                }
+            },
+            "required":
+                ["name"],
+            "additionalProperties": true
+        },
+        "assessment-plan":
+        {
+            "title": "Security Assessment Plan (SAP)",
+            "description": "An assessment plan, such as those provided by a FedRAMP assessor.",
+            "$id": "#/definitions/assessment-plan",
+            "type": "object",
+            "properties":
+            {
+                "uuid":
+                {
+                    "title": "Assessment Plan Universally Unique Identifier",
+                    "description": "Uniquely identifies this assessment plan. This UUID must be changed each time the content of the plan changes.",
+                    "type": "string",
+                    "pattern": "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-4[0-9A-Fa-f]{3}-[89ABab][0-9A-Fa-f]{3}-[0-9A-Fa-f]{12}$"
+                },
+                "metadata":
+                    { "$ref": "#/definitions/metadata" },
+                "import-ssp":
+                    { "$ref": "#/definitions/import-ssp" },
+                "local-definitions":
+                {
+                    "title": "Local Definitions",
+                    "description": "Used to define data objects that are used in the assessment plan, that do not appear in the referenced SSP.",
+                    "type": "object",
+                    "properties":
+                    {
+                        "components":
+                        {
+                            "type": "object",
+                            "minProperties": 1,
+                            "additionalProperties":
+                            {
+                                "allOf":
+                                    [
+                                        { "$ref": "#/definitions/system-component" },
+
+                                        {
+                                            "not":
+                                                { "type": "string" }
+                                        }]
+                            }
+                        },
+                        "inventory-items":
+                        {
+                            "type": "array",
+                            "minItems": 1,
+                            "items":
+                                { "$ref": "#/definitions/inventory-item" }
+                        },
+                        "users":
+                        {
+                            "type": "object",
+                            "minProperties": 1,
+                            "additionalProperties":
+                            {
+                                "allOf":
+                                    [
+                                        { "$ref": "#/definitions/system-user" },
+
+                                        {
+                                            "not":
+                                                { "type": "string" }
+                                        }]
+                            }
+                        },
+                        "objectives-and-methods":
+                        {
+                            "type": "array",
+                            "minItems": 1,
+                            "items":
+                                { "$ref": "#/definitions/local-objective" }
+                        },
+                        "activities":
+                        {
+                            "type": "array",
+                            "minItems": 1,
+                            "items":
+                                { "$ref": "#/definitions/activity" }
+                        },
+                        "remarks":
+                            { "$ref": "#/definitions/remarks" }
+                    },
+                    "additionalProperties": false
+                },
+                "terms-and-conditions":
+                {
+                    "title": "Assessment Plan Terms and Conditions",
+                    "description": "Used to define various terms and conditions under which an assessment, described by the plan, can be performed. Each child part defines a different type of term or condition.",
+                    "type": "object",
+                    "properties":
+                    {
+                        "parts":
+                        {
+                            "type": "array",
+                            "minItems": 1,
+                            "items":
+                                { "$ref": "#/definitions/assessment-part" }
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "reviewed-controls":
+                    { "$ref": "#/definitions/reviewed-controls" },
+                "assessment-subjects":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/assessment-subject" }
+                },
+                "assessment-assets":
+                    { "$ref": "#/definitions/assessment-assets" },
+                "tasks":
+                {
+                    "type": "array",
+                    "minItems": 1,
+                    "items":
+                        { "$ref": "#/definitions/task" }
+                },
+                "back-matter":
+                    { "$ref": "#/definitions/back-matter" }
+            },
+            "required":
+                ["uuid",
+                    "metadata",
+                    "import-ssp",
+                    "reviewed-controls"],
             "additionalProperties": false
         }
     },
-    "properties": {
-        "system_security_plan": {
-            "$ref": "#/definitions/system_security_plan"
-        }
+    "properties":
+    {
+        "assessment-plan":
+            { "$ref": "#/definitions/assessment-plan" }
     },
-    "required": [
-        "system_security_plan"
-    ],
+    "required":
+        ["assessment-plan"],
     "additionalProperties": false,
     "maxProperties": 1
 }
 
-const sspValidator = new Validator(sspSchema, "system_component");
-
+const sapValidator = new Validator(sapSchema, "assessment-plan");
+console.log("ok");
 
 export const AddressExample = Template.bind({});
 AddressExample.args = {
@@ -3064,9 +2902,8 @@ VeggieExample.args = {
 }
 export const ComplexExample = Template.bind({});
 ComplexExample.args = {
-    inlineFields: ["status"],
     data: {},
-    validator: sspValidator,
+    validator: sapValidator,
     onSubmit,
 }
 

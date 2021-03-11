@@ -21,6 +21,7 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
     async synchronize<T>(namespace: string, store: () => Store<T>, uid: string) {
         const collection_key = namespace + "-" + store().collection;
         const collection_workspace_key = collection_key + "-workspace";
+        const collection_active_key = collection_key + "-active";
         const serialized_store_string = await get(collection_key);
         try {
             const store_records = JSON.parse(serialized_store_string) as Record<string, any>;
@@ -46,6 +47,9 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
                 case "inserting":
                 case "removing":
                     set(collection_key, store().export());
+                    break;
+                case "activating":
+                    set(collection_active_key, store().active)
                     break;
             }
 

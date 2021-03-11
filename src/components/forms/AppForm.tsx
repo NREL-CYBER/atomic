@@ -15,7 +15,6 @@ import {
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
-import AppItemDivider from '../AppItemDivider';
 import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
@@ -93,6 +92,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         description, title, requiredOnly, calculatedFields, showFields,
         customSubmit, autoSubmit, customComponentMap, inlineFields } = props
     const { schema } = validator;
+    console.log(schema.properties);
     const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
@@ -173,9 +173,6 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         }
         const refPropertyInfo = validator.getReferenceInformation(propertyInfo) as PropertyDefinitionRef;
         const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
-        if (property.includes("import")) {
-            return <></>
-        }
         if (property === "uuid") {
             return <AppUuidGenerator
                 instanceRef={instanceRef} />
@@ -279,6 +276,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
 
     const [schemaProperties] = useState<string[]>(Object.keys({ ...schema.properties }));
     const requiredProperties = schema.required || [];
+
     const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
     let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = showFields ? [...requiredFields, ...showFields] : requiredFields;
@@ -288,7 +286,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
-                return <Fragment key={property}></Fragment>
+                return <Fragment key={property}>{property}t</Fragment>
             return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
         })}</>
 

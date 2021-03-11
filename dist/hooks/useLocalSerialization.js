@@ -13,6 +13,7 @@ const useIndexDBStorage = create(() => ({
   async synchronize(namespace, store, uid) {
     const collection_key = namespace + "-" + store().collection;
     const collection_workspace_key = collection_key + "-workspace";
+    const collection_active_key = collection_key + "-active";
     const serialized_store_string = await get(collection_key);
 
     try {
@@ -41,6 +42,10 @@ const useIndexDBStorage = create(() => ({
         case "inserting":
         case "removing":
           set(collection_key, store().export());
+          break;
+
+        case "activating":
+          set(collection_active_key, store().active);
           break;
       }
     });
