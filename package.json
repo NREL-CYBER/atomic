@@ -1,16 +1,12 @@
 {
   "name": "atomic",
-  "version": "0.8.9",
+  "version": "0.9.0",
   "private": true,
   "main": "dist/entry.js",
   "types": "dist/entry.d.ts",
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.12.13",
-    "@babel/plugin-transform-react-jsx": "^7.12.13",
-    "@babel/preset-react": "^7.12.13",
-    "@capacitor/core": "2.4.5",
-    "@ionic/react": "^5.5.2",
-    "@ionic/react-router": "^5.5.2",
+    "@ionic/react": "^5.6.0",
+    "@ionic/react-router": "^5.6.0",
     "@storybook/addons": "^6.1.14",
     "@storybook/theming": "^6.1.14",
     "@types/lodash": "^4.14.168",
@@ -62,9 +58,13 @@
   "devDependencies": {
     "@babel/cli": "^7.12.13",
     "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "@babel/plugin-transform-react-jsx": "^7.12.13",
     "@babel/preset-env": "^7.12.13",
+    "@babel/preset-react": "^7.12.13",
     "@babel/preset-typescript": "^7.12.13",
-    "@capacitor/cli": "2.4.5",
+    "@capacitor/cli": "2.4.7",
+    "@capacitor/core": "2.4.7",
     "@storybook/addon-actions": "^6.1.17",
     "@storybook/addon-essentials": "^6.1.17",
     "@storybook/addon-links": "^6.1.17",
@@ -73,7 +73,7 @@
     "@storybook/react": "^6.1.17",
     "@types/jest": "^26.0.19",
     "babel-loader": "^8.2.2",
-    "typescript": "^4.1.3"
+    "typescript": "^4.2.3"
   },
   "description": "Atomic: A Framework Component Library for Ionic/Electron Apps",
   "babel": {
