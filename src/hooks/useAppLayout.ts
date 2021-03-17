@@ -62,7 +62,10 @@ const useAppLayout = create<AppLayout>((set, store) => ({
             .reduce((flatRoutes, moreFlatRoutes) => ([
                 ...flatRoutes, ...moreFlatRoutes
             ]));
-        const rootRoute = routes.find(x => x.path === "/");
+        const rootRoute = routes.find(x => x.path === "/")!;
+        if (!rootRoute) { 
+            throw new Error("Missing Root route");
+        }
         const order = allRoutesFlattened.map(x => x.path);
         const appTitle = title;
         set({ appTitle, title, version, status: "idle", rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });

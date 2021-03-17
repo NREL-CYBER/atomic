@@ -30,8 +30,8 @@ import AppBottomToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
-import AppGuidance from './guidance/AppGuidance';
-import AppCloudSerializer from './serialization/AppCloudSerializer';
+import AppGuidance from './guidance/AppGuidance'; //import AppCloudSerializer from './serialization/AppCloudSerializer';
+
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 /**
  * Component that stores the root of the application and control current theme
@@ -89,11 +89,6 @@ const AppRoot = config => {
     className: darkMode ? "dark-theme" : "light-theme"
   }, serialization && serialization.mode === "local" && /*#__PURE__*/React.createElement(AppLocalSerializer, {
     serialization: serialization,
-    cache: cache
-  }), serialization && serialization.mode === "cloud" && serialization.cloud && uid && /*#__PURE__*/React.createElement(AppCloudSerializer, {
-    serialization: serialization,
-    uid: uid,
-    cloud: serialization.cloud,
     cache: cache
   }), /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"

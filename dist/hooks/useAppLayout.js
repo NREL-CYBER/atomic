@@ -47,6 +47,11 @@ const useAppLayout = create((set, store) => ({
     const allPageRoutes = routes;
     const allRoutesFlattened = routes.map(route => route.nested ? [route, ...route.nested] : [route]).reduce((flatRoutes, moreFlatRoutes) => [...flatRoutes, ...moreFlatRoutes]);
     const rootRoute = routes.find(x => x.path === "/");
+
+    if (!rootRoute) {
+      throw new Error("Missing Root route");
+    }
+
     const order = allRoutesFlattened.map(x => x.path);
     const appTitle = title;
     set({

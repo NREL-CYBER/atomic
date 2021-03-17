@@ -21,7 +21,6 @@
     "@types/react-router-dom": "^5.1.3",
     "@types/uuid": "^8.3.0",
     "ajv": "^7.1.1",
-    "babel-preset-react": "^6.24.1",
     "firebase": "^8.2.4",
     "idb-keyval": "^5.0.2",
     "immer": "^8.0.1",
@@ -33,7 +32,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^4.0.2",
     "store": "git://github.nrel.gov/CyberSecurity/store.git",
-    "typescript": "3.8.3",
+    "typescript": "4.2.3",
     "use-timeout": "^1.1.0",
     "uuid": "^8.3.2",
     "validator": "git://github.nrel.gov/CyberSecurity/validator.git",
@@ -76,7 +75,7 @@
     "babel-loader": "^8.2.2",
     "typescript": "^4.1.3"
   },
-  "description": "Atomic:A Framework Component Library for Ionic/Electron Apps",
+  "description": "Atomic: A Framework Component Library for Ionic/Electron Apps",
   "babel": {
     "presets": [
       "@babel/preset-react"
