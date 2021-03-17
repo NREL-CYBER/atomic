@@ -287,7 +287,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
-                return <Fragment key={property}>{property}t</Fragment>
+                return <Fragment key={property}></Fragment>
             return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
         })}</>
 

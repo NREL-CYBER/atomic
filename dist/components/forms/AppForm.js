@@ -267,7 +267,7 @@ const AppForm = props => {
     });
     if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
       key: property
-    }, property, "t");
+    });
     return /*#__PURE__*/React.createElement(FormElement, {
       key: property,
       onChange: handleInputReceived,
