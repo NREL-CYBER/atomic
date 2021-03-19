@@ -1,11 +1,11 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, ReactFragment } from "react";
 import { AppItem, AppRow } from ".";
 import AppList from "./AppList";
 import { AppColor } from "../theme/AppColor";
 
 type accordionItem = {
-    toolbarContent: React.FC,
-    innerContent: React.FC
+    toolbarContent: ReactFragment,
+    innerContent: ReactFragment
 }
 export interface accordionProps {
     items: accordionItem[]
@@ -28,10 +28,10 @@ const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor, exp
                 setUnlockedIndex(i)
             }
         }}>
-            <accordionItem.toolbarContent />
+            {accordionItem.toolbarContent}
         </AppItem>
             {((unlockedIndex === i) || expand) && <AppRow>
-                <accordionItem.innerContent />
+                {accordionItem.innerContent}
             </AppRow>}
         </React.Fragment >
     )}</AppList>

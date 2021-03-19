@@ -13,13 +13,13 @@ AccordionExample.args = {
   itemColor: "light",
   selectedColor: "tertiary",
   items: [{
-    toolbarContent: () => /*#__PURE__*/React.createElement(React.Fragment, null, "reeds"),
-    innerContent: () => /*#__PURE__*/React.createElement(React.Fragment, null, "the thing that makes sound")
+    toolbarContent: /*#__PURE__*/React.createElement(React.Fragment, null, "reeds"),
+    innerContent: /*#__PURE__*/React.createElement(React.Fragment, null, "the thing that makes sound")
   }, {
-    toolbarContent: () => /*#__PURE__*/React.createElement(React.Fragment, null, "bellows"),
-    innerContent: () => /*#__PURE__*/React.createElement(React.Fragment, null, "the thing that has air in it")
+    toolbarContent: /*#__PURE__*/React.createElement(React.Fragment, null, "bellows"),
+    innerContent: /*#__PURE__*/React.createElement(React.Fragment, null, "the thing that has air in it")
   }, {
-    toolbarContent: () => /*#__PURE__*/React.createElement(React.Fragment, null, "keys"),
-    innerContent: () => /*#__PURE__*/React.createElement(React.Fragment, null, "the things for melody")
+    toolbarContent: /*#__PURE__*/React.createElement(React.Fragment, null, "keys"),
+    innerContent: /*#__PURE__*/React.createElement(React.Fragment, null, "the things for melody")
   }]
 };

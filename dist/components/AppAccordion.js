@@ -24,7 +24,7 @@ const AppAccordion = ({
         setUnlockedIndex(i);
       }
     }
-  }, /*#__PURE__*/React.createElement(accordionItem.toolbarContent, null)), (unlockedIndex === i || expand) && /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(accordionItem.innerContent, null)))));
+  }, accordionItem.toolbarContent), (unlockedIndex === i || expand) && /*#__PURE__*/React.createElement(AppRow, null, accordionItem.innerContent))));
 };
 
 export default AppAccordion;

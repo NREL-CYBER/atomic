@@ -17,16 +17,16 @@ AccordionExample.args = {
     selectedColor: "tertiary",
     items: [
         {
-            toolbarContent: () => <>reeds</>,
-            innerContent: () => <>the thing that makes sound</>
+            toolbarContent: <>reeds</>,
+            innerContent: <>the thing that makes sound</>
         },
         {
-            toolbarContent: () => <>bellows</>,
-            innerContent: () => <>the thing that has air in it</>
+            toolbarContent: <>bellows</>,
+            innerContent: <>the thing that has air in it</>
         },
         {
-            toolbarContent: () => <>keys</>,
-            innerContent: () => <>the things for melody</>
+            toolbarContent: <>keys</>,
+            innerContent: <>the things for melody</>
         }
     ]
 }
