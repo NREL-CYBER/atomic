@@ -31,6 +31,7 @@ export interface nestedFormProps {
     inline?: boolean;
     instanceRef: MutableRefObject<any>;
     propertyInfo: PropertyDefinitionRef;
+    customComponentMap?: Record<string, React.FC<nestedFormProps>>;
     onChange: formFieldChangeEvent;
 }
 export declare type formFieldStatus = "valid" | "invalid" | "empty";

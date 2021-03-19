@@ -61,6 +61,7 @@ export interface nestedFormProps {
     inline?: boolean
     instanceRef: MutableRefObject<any>
     propertyInfo: PropertyDefinitionRef
+    customComponentMap?: Record<string, React.FC<nestedFormProps>>,
     onChange: formFieldChangeEvent
 }
 
@@ -125,7 +126,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         }
     }, [autoSubmit, calculatedFields, onSubmit, schema.type, validator]);
 
-    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ propertyInfo, property, inline, instanceRef, onChange }) => {
+    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ customComponentMap, propertyInfo, property, inline, instanceRef, onChange }) => {
         const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
         const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>("empty");
@@ -152,6 +153,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                     <AppContent>
                         {showNestedForm && <AppForm
                             data={instanceRef.current[property]}
+                            customComponentMap={customComponentMap}
                             validator={validator.makeReferenceValidator(propertyInfo)}
                             onSubmit={(nestedObjectValue) => {
                                 setNestedFormStatus("valid");
@@ -191,7 +193,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         }
 
         if (customComponentMap && customComponentMap[property]) {
-            return customComponentMap[property]({ instanceRef, onChange: handleInputReceived, property, propertyInfo, children })
+            return customComponentMap[property]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children })
         }
 
 
@@ -231,6 +233,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 instanceRef={instanceRef}
                 propertyInfo={propertyInfo}
                 property={property}
+                customComponentMap={customComponentMap}
                 validator={validator.makeReferenceValidator(propertyInfo)}
                 key={property}
             />
@@ -240,6 +243,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
             return <AppFormDictionaryInput
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
+                customComponentMap={customComponentMap}
                 propertyInfo={propertyInfo}
                 property={property}
                 validator={validator.makeReferenceValidator(refPropertyInfo)}
@@ -266,6 +270,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
             return < ComposeNestedFormElement
                 inline={inlineFields && inlineFields.includes(property)}
                 onChange={handleInputReceived}
+                customComponentMap={customComponentMap}
                 instanceRef={instanceRef}
                 property={property}
                 propertyInfo={propertyInfo}
@@ -343,7 +348,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
 
             <AppToolbar color="clear">
                 {errors.slice(0, 1).map(error => <AppChip key={"error"} color='danger'>
-                    {title} {error.split('_').join('-')}
+                    {title} {error.split('_').join(' ')}
                 </AppChip>)}
 
                 {useMemo(() => !autoSubmit && isValid ? <AppButton expand="full" fill={"solid"} color={isValid ? "favorite" : "primary"} onClick={() => {

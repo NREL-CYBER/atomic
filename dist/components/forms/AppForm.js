@@ -81,6 +81,7 @@ const AppForm = props => {
   }, [autoSubmit, calculatedFields, onSubmit, schema.type, validator]);
 
   const ComposeNestedFormElement = ({
+    customComponentMap,
     propertyInfo,
     property,
     inline,
@@ -115,6 +116,7 @@ const AppForm = props => {
       isOpen: showNestedForm
     }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppForm, {
       data: instanceRef.current[property],
+      customComponentMap: customComponentMap,
       validator: validator.makeReferenceValidator(propertyInfo),
       onSubmit: nestedObjectValue => {
         setNestedFormStatus("valid");
@@ -166,6 +168,7 @@ const AppForm = props => {
     if (customComponentMap && customComponentMap[property]) {
       return customComponentMap[property]({
         instanceRef,
+        customComponentMap,
         onChange: handleInputReceived,
         property,
         propertyInfo,
@@ -209,6 +212,7 @@ const AppForm = props => {
         instanceRef: instanceRef,
         propertyInfo: propertyInfo,
         property: property,
+        customComponentMap: customComponentMap,
         validator: validator.makeReferenceValidator(propertyInfo),
         key: property
       });
@@ -218,6 +222,7 @@ const AppForm = props => {
       return /*#__PURE__*/React.createElement(AppFormDictionaryInput, {
         onChange: handleInputReceived,
         instanceRef: instanceRef,
+        customComponentMap: customComponentMap,
         propertyInfo: propertyInfo,
         property: property,
         validator: validator.makeReferenceValidator(refPropertyInfo),
@@ -240,6 +245,7 @@ const AppForm = props => {
       return /*#__PURE__*/React.createElement(ComposeNestedFormElement, {
         inline: inlineFields && inlineFields.includes(property),
         onChange: handleInputReceived,
+        customComponentMap: customComponentMap,
         instanceRef: instanceRef,
         property: property,
         propertyInfo: propertyInfo
@@ -328,7 +334,7 @@ const AppForm = props => {
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",
     color: "danger"
-  }, title, " ", error.split('_').join('-'))), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
+  }, title, " ", error.split('_').join(' '))), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
     fill: "solid",
     color: isValid ? "favorite" : "primary",
