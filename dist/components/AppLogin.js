@@ -2,8 +2,8 @@ import { arrowBackOutline } from 'ionicons/icons';
 import React, { memo, useState } from 'react';
 import Validator from 'validator';
 import { AppTitle } from '.';
-import { useNotifications } from '../hooks';
-import useFirebaseStorage from '../hooks/useFirebaseSerialization';
+import { useNotifications } from '../hooks'; //import useFirebaseStorage from '../hooks/useFirebaseSerialization';
+
 import AppButton from './AppButton';
 import AppCard from './AppCard';
 import AppIcon from './AppIcon';
@@ -39,11 +39,11 @@ const AppLogin = ({
   onLoginSuccess,
   cloud
 }) => {
-  const [status, setStatus] = useState("idle");
-  const cloudSerializer = useFirebaseStorage(cloud);
-  const {
-    authenticate
-  } = cloudSerializer();
+  const [status, setStatus] = useState("idle"); //    const cloudSerializer = useFirebaseStorage(cloud)
+  //    const { authenticate } = cloudSerializer();
+
+  const authenticate = (...arg) => {};
+
   const {
     post
   } = useNotifications();

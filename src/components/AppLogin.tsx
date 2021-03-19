@@ -3,7 +3,7 @@ import React, { memo, useState } from 'react';
 import Validator from 'validator';
 import { AppTitle } from '.';
 import { useNotifications } from '../hooks';
-import useFirebaseStorage from '../hooks/useFirebaseSerialization';
+//import useFirebaseStorage from '../hooks/useFirebaseSerialization';
 import { AppCloudConfig } from '../util/AppConfig';
 import AppButton from './AppButton';
 import AppCard from './AppCard';
@@ -44,8 +44,11 @@ interface credential { email: string, password: string };
  */
 const AppLogin: React.FC<{ onLoginSuccess: (uid: string) => void, cloud: AppCloudConfig }> = ({ onLoginSuccess, cloud }) => {
     const [status, setStatus] = useState<"idle" | "login" | "create" | "authenticating">("idle")
-    const cloudSerializer = useFirebaseStorage(cloud)
-    const { authenticate } = cloudSerializer();
+//    const cloudSerializer = useFirebaseStorage(cloud)
+    //    const { authenticate } = cloudSerializer();
+    const authenticate = (...arg:any) => {
+
+    }
     const { post } = useNotifications();
 
     const [validator] = useState<Validator<credential>>(new Validator<credential>(credentialSchema));
@@ -64,7 +67,7 @@ const AppLogin: React.FC<{ onLoginSuccess: (uid: string) => void, cloud: AppClou
             customSubmit={<>{status}</>}
             title={"Account " + status} data={{}} validator={validator} onSubmit={({ email, password }) => {
                 setStatus("authenticating");
-                authenticate(email, password, status, (result) => {
+                authenticate(email, password, status, (result: string) => {
                     onLoginSuccess(result);
                 }, () => {
                     post({ color: "danger", id: "login-failure", message: "Failed to Authenticate" });
