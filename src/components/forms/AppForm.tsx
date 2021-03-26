@@ -101,12 +101,12 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         if (schema.type === "string" || schema.type === "array") {
             instance.current = value;
         } else if (schema.type === "object") {
-            instance.current[property] = value === "" ? undefined : value;
+            instance.current = { ...instance.current, [property]: value === "" ? undefined : value };
             const calculateProperties = calculatedFields && calculatedFields.map[property];
             if (calculateProperties) {
                 const calculatedFieldValue = calculateProperties({ property, value });
                 if (calculatedFieldValue.value) {
-                    instance.current[calculatedFieldValue.property] = calculatedFieldValue.value;
+                    instance.current = { ...instance.current, [calculatedFieldValue.property]: calculatedFieldValue.value };
                 }
             }
         }
