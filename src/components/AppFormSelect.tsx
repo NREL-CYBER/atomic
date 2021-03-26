@@ -28,7 +28,6 @@ const AppFormSelect = (props: formInputProps<any>) => {
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const value = instanceRef.current && (instanceRef.current as any)[property]
-    console.log(value);
     const propertyFormattedName = titleCase(propertyInfo.title || property || "");
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
@@ -37,6 +36,9 @@ const AppFormSelect = (props: formInputProps<any>) => {
             {propertyFormattedName}
         </AppLabel>
         <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
+            if (typeof val === "undefined") {
+                return;
+            }
             const [validationStatus, validationErrors] = onChange(property, val);
             setInputStatus(validationStatus);
             setErrors(validationErrors);

@@ -24,7 +24,6 @@ const AppFormSelect = props => {
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   const value = instanceRef.current && instanceRef.current[property];
-  console.log(value);
   const propertyFormattedName = titleCase(propertyInfo.title || property || "");
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
@@ -35,6 +34,10 @@ const AppFormSelect = props => {
     value: value,
     placeholder: propertyFormattedName,
     onSelectionChange: val => {
+      if (typeof val === "undefined") {
+        return;
+      }
+
       const [validationStatus, validationErrors] = onChange(property, val);
       setInputStatus(validationStatus);
       setErrors(validationErrors);
