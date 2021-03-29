@@ -31,7 +31,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const instanceValue = instanceRef.current ? (instanceRef.current as any)[property] : ""
     const [value, setValue] = useState<string>(instanceValue);
-    const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
+    const propertyFormattedName = prettyTitle(propertyInfo.title);
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
     return <AppItem>
@@ -39,12 +39,13 @@ const AppFormSelect = (props: formInputProps<any>) => {
             {propertyFormattedName}
         </AppLabel>
         <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
+            if (val === "") {
+                return;
+            }
             const [validationStatus, validationErrors] = onChange(property, val);
             setInputStatus(validationStatus);
             setErrors(validationErrors);
-            setTimeout(() => {
-                setValue(value);
-            }, 0);
+            setValue(value);
         }}>
             {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
         </AppSelect>
