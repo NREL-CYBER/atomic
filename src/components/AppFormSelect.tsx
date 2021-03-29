@@ -29,9 +29,12 @@ const AppFormSelect = (props: formInputProps<any>) => {
     const { propertyInfo, instanceRef, onChange, property } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
-    const instanceValue = instanceRef.current ? (instanceRef.current as any)[property] : ""
+    let instanceValue = instanceRef.current && (instanceRef.current as any)[property];
+    if (typeof instanceValue === "undefined") {
+        instanceRef.current[property] = "";
+    }
     const [value, setValue] = useState<string>(instanceValue);
-    const propertyFormattedName = prettyTitle(propertyInfo.title);
+    const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
     return <AppItem>
