@@ -24,7 +24,7 @@ const AppFormSelect = props => {
   } = props;
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
-  const instanceValue = instanceRef.current && instanceRef.current[property];
+  const instanceValue = instanceRef.current ? instanceRef.current[property] : "";
   const [value, setValue] = useState(instanceValue);
   const propertyFormattedName = prettyTitle(propertyInfo.title || property || "");
   const inputStatusColor = inputStatusColorMap[inputStatus];
@@ -36,14 +36,10 @@ const AppFormSelect = props => {
     value: value,
     placeholder: propertyFormattedName,
     onSelectionChange: val => {
-      if (typeof val === "undefined") {
-        return;
-      }
-
-      setValue(value);
       const [validationStatus, validationErrors] = onChange(property, val);
       setInputStatus(validationStatus);
       setErrors(validationErrors);
+      setValue(value);
     }
   }, propertyInfo.enum.map(enumValue => /*#__PURE__*/React.createElement(AppSelectOption, {
     key: enumValue,
