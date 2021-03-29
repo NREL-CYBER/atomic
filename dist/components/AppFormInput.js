@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import titleCase from '../util/titleCase';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
+import { prettyTitle } from '../util';
 const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",
@@ -25,7 +25,7 @@ const AppFormInput = props => {
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || null);
-  const propertyFormattedName = titleCase(property || "").split("_").join(" ");
+  const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
   const calculateType = () => {
     const accepted_formats = ["email", "date", "time"];
@@ -46,7 +46,6 @@ const AppFormInput = props => {
     }
 
     const formValue = value === "" ? undefined : value;
-    console.log(formValue);
     const [validationStatus, validationErrors] = onChange(property, formValue);
     setInputStatus(validationStatus);
     setErrors(validationErrors || []);

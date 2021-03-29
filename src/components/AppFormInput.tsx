@@ -8,6 +8,7 @@ import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
 import { formFieldChangeEvent } from './forms/AppForm';
+import { prettyTitle } from '../util';
 
 
 interface formInputProps<T> {
@@ -32,7 +33,7 @@ const AppFormInput = (props: formInputProps<any>) => {
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || null)
-    const propertyFormattedName = titleCase(property || "").split("_").join(" ");
+    const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
     const calculateType = () => {
         const accepted_formats = ["email", "date", "time"];
@@ -54,7 +55,6 @@ const AppFormInput = (props: formInputProps<any>) => {
             return;
         }
         const formValue = value === "" ? undefined : value;
-        console.log(formValue);
         const [validationStatus, validationErrors] = onChange(property, formValue);
         setInputStatus(validationStatus);
         setErrors(validationErrors || []);
