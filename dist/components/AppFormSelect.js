@@ -5,6 +5,7 @@ import AppLabel from './AppLabel';
 import AppSelect from './AppSelect';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
+import { prettyTitle } from '../util';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -25,7 +26,7 @@ const AppFormSelect = props => {
   const [inputStatus, setInputStatus] = useState("empty");
   const instanceValue = instanceRef.current && instanceRef.current[property];
   const [value, setValue] = useState(instanceValue);
-  const propertyFormattedName = titleCase(propertyInfo.title || property || "");
+  const propertyFormattedName = prettyTitle(propertyInfo.title || property || "");
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",

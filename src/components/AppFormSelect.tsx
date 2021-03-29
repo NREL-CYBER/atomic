@@ -7,6 +7,7 @@ import AppSelect from './AppSelect';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
+import { prettyTitle } from '../util';
 
 
 interface formInputProps<T> {
@@ -29,7 +30,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const instanceValue = instanceRef.current && (instanceRef.current as any)[property]
     const [value, setValue] = useState<string>(instanceValue);
-    const propertyFormattedName = titleCase(propertyInfo.title || property || "");
+    const propertyFormattedName = prettyTitle(propertyInfo.title || property || "");
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
     return <AppItem>
