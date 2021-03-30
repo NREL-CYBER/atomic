@@ -7,7 +7,7 @@ interface selectProps {
     placeholder?: string
     value?: string
     multiple?: boolean
-    onSelectionChange?: (value: string) => void
+    onSelectionChange?: (value: string | string[]) => void
 }
 
 /**
