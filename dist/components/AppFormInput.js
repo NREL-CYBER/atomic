@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { prettyTitle } from '../util';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
-import { prettyTitle } from '../util';
 const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",
@@ -24,7 +24,8 @@ const AppFormInput = props => {
   } = props;
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
-  const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || null);
+  const instance = instanceRef.current && instanceRef.current[property];
+  const [value, setValue] = useState((input !== "array" ? instance : instance.join("\n")) || null);
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
   const calculateType = () => {
@@ -46,10 +47,10 @@ const AppFormInput = props => {
     }
 
     const formValue = value === "" ? undefined : value;
-    const [validationStatus, validationErrors] = onChange(property, formValue);
+    const [validationStatus, validationErrors] = onChange(property, input === "array" ? formValue?.split("\n") : formValue);
     setInputStatus(validationStatus);
     setErrors(validationErrors || []);
-  }, [onChange, property, value]);
+  }, [input, onChange, property, value]);
   const statusColor = inputStatusColorMap[inputStatus];
   const inputMode = calculateType();
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {

@@ -5,7 +5,7 @@ interface formInputProps<T> {
     propertyInfo: PropertyDefinitionRef;
     property: string;
     instanceRef: MutableRefObject<T>;
-    input: "line" | "text";
+    input: "line" | "text" | "array";
     onChange: formFieldChangeEvent;
 }
 /**

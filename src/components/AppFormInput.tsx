@@ -1,21 +1,20 @@
 import React, { MutableRefObject, useEffect, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppColor } from '../theme/AppColor';
-import titleCase from '../util/titleCase';
+import { prettyTitle } from '../util';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
 import { formFieldChangeEvent } from './forms/AppForm';
-import { prettyTitle } from '../util';
 
 
 interface formInputProps<T> {
     propertyInfo: PropertyDefinitionRef
     property: string
     instanceRef: MutableRefObject<T>
-    input: "line" | "text"
+    input: "line" | "text" | "array"
     onChange: formFieldChangeEvent
 }
 
@@ -32,7 +31,9 @@ const AppFormInput = (props: formInputProps<any>) => {
     const { property, instanceRef, input, onChange, propertyInfo } = props;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
-    const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || null)
+    const instance = instanceRef.current && (instanceRef.current as any)[property];
+
+    const [value, setValue] = useState<string>((input !== "array" ? instance : instance.join("\n")) || null)
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
     const calculateType = () => {
@@ -55,10 +56,10 @@ const AppFormInput = (props: formInputProps<any>) => {
             return;
         }
         const formValue = value === "" ? undefined : value;
-        const [validationStatus, validationErrors] = onChange(property, formValue);
+        const [validationStatus, validationErrors] = onChange(property, input === "array" ? formValue?.split("\n") : formValue);
         setInputStatus(validationStatus);
         setErrors(validationErrors || []);
-    }, [onChange, property, value])
+    }, [input, onChange, property, value])
 
     const statusColor = inputStatusColorMap[inputStatus];
 
