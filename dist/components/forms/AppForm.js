@@ -1,12 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
+import AppFormSelectSingle from '../AppFormSelectSingle';
+import AppFormSelectMultiple from '../AppFormSelectMultiple';
 
 const LockedField = ({
   property,
@@ -185,13 +187,23 @@ const AppForm = props => {
     }
 
     if ("enum" in propertyInfo) {
-      return /*#__PURE__*/React.createElement(AppFormSelect, {
-        instanceRef: instanceRef,
-        propertyInfo: propertyInfo,
-        property: property,
-        onChange: handleInputReceived,
-        key: property
-      });
+      if (propertyInfo["type"] === "array") {
+        return /*#__PURE__*/React.createElement(AppFormSelectMultiple, {
+          instanceRef: instanceRef,
+          propertyInfo: propertyInfo,
+          property: property,
+          onChange: handleInputReceived,
+          key: property
+        });
+      } else {
+        return /*#__PURE__*/React.createElement(AppFormSelectSingle, {
+          instanceRef: instanceRef,
+          propertyInfo: propertyInfo,
+          property: property,
+          onChange: handleInputReceived,
+          key: property
+        });
+      }
     }
 
     if (propertyType === "boolean") {
