@@ -6,12 +6,12 @@ import {
     AppCard, AppChip, AppCol,
     AppContent,
 
-    AppFormArrayInput, AppFormInput, AppFormSelect,
+    AppFormArrayInput, AppFormInput,
     AppItem, AppLabel,
     AppList,
     AppModal,
     AppText,
-    AppTitle, AppToolbar, AppUuidGenerator
+    AppTitle, AppToolbar, AppUuidGenerator, AppFormSelect
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
@@ -19,8 +19,7 @@ import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
-import AppFormSelectSingle from '../AppFormSelect';
-import AppFormSelectMultiple from '../AppFormSelectArray';
+import AppFormSelectArray from '../AppFormSelectArray';
 
 export interface propertyKeyValue {
     property: string,
@@ -207,7 +206,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
 
         if ("enum" in propertyInfo) {
             if ((propertyInfo as any)["type"] === "array") {
-                return <AppFormSelectMultiple
+                return <AppFormSelectArray
                     instanceRef={instanceRef}
                     propertyInfo={propertyInfo}
                     property={property}
@@ -215,7 +214,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                     key={property}
                 />
             } else {
-                return <AppFormSelectSingle
+                return <AppFormSelect
                     instanceRef={instanceRef}
                     propertyInfo={propertyInfo}
                     property={property}

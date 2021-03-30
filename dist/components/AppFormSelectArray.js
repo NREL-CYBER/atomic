@@ -19,7 +19,8 @@ const AppFormSelectArray = props => {
     propertyInfo,
     instanceRef,
     onChange,
-    property
+    property,
+    multiple
   } = props;
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
@@ -36,6 +37,7 @@ const AppFormSelectArray = props => {
     position: "stacked",
     color: inputStatusColor
   }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelectArray, {
+    multiple: multiple,
     value: value,
     placeholder: propertyFormattedName,
     onSelectionChange: val => {

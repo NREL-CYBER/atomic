@@ -10,7 +10,7 @@ import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
 
 
-export interface formInputProps<T> {
+export interface formSelectInputProps {
     property: string,
     propertyInfo: { title: string, description: string, enum: string[] }
     instanceRef: MutableRefObject<any>
@@ -24,7 +24,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppFormSelect = (props: formInputProps<any>) => {
+const AppFormSelect = (props: formSelectInputProps) => {
     const { propertyInfo, instanceRef, onChange, property } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");

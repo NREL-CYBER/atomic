@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import { formFieldChangeEvent } from './forms/AppForm';
-export interface formInputProps<T> {
+export interface formSelectInputProps {
     property: string;
     propertyInfo: {
         title: string;
@@ -13,5 +13,5 @@ export interface formInputProps<T> {
 /**
  * Component for input that displays validation errors
  */
-declare const AppFormSelect: (props: formInputProps<any>) => JSX.Element;
+declare const AppFormSelect: (props: formSelectInputProps) => JSX.Element;
 export default AppFormSelect;

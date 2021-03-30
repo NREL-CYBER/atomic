@@ -1,8 +1,7 @@
-import React, { useState, MutableRefObject } from 'react';
+import React, { MutableRefObject, useState } from 'react';
 import { AppSelectArray } from '.';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
-import { formInputProps } from './AppFormSelect';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
@@ -25,8 +24,8 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppFormSelectArray = (props: formInputProps<any>) => {
-    const { propertyInfo, instanceRef, onChange, property } = props;
+const AppFormSelectArray = (props: formSelectArrayInputProps) => {
+    const { propertyInfo, instanceRef, onChange, property, multiple } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     let instanceValue = instanceRef.current && (instanceRef.current as any)[property];
@@ -41,7 +40,7 @@ const AppFormSelectArray = (props: formInputProps<any>) => {
         <AppLabel position="stacked" color={inputStatusColor} >
             {propertyFormattedName}
         </AppLabel>
-        <AppSelectArray value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
+        <AppSelectArray multiple={multiple} value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
             if (typeof val === "undefined") {
                 val = [];
             }

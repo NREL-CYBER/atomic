@@ -1,14 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator, AppFormSelect } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormToggle from '../AppFormToggle';
 import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
-import AppFormSelectSingle from '../AppFormSelect';
-import AppFormSelectMultiple from '../AppFormSelectArray';
+import AppFormSelectArray from '../AppFormSelectArray';
 
 const LockedField = ({
   property,
@@ -188,7 +187,7 @@ const AppForm = props => {
 
     if ("enum" in propertyInfo) {
       if (propertyInfo["type"] === "array") {
-        return /*#__PURE__*/React.createElement(AppFormSelectMultiple, {
+        return /*#__PURE__*/React.createElement(AppFormSelectArray, {
           instanceRef: instanceRef,
           propertyInfo: propertyInfo,
           property: property,
@@ -196,7 +195,7 @@ const AppForm = props => {
           key: property
         });
       } else {
-        return /*#__PURE__*/React.createElement(AppFormSelectSingle, {
+        return /*#__PURE__*/React.createElement(AppFormSelect, {
           instanceRef: instanceRef,
           propertyInfo: propertyInfo,
           property: property,
