@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { AppSelectArray } from '.';
 import { prettyTitle } from '../util';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
+import { useEffect } from '@storybook/addons';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -25,14 +26,21 @@ const AppFormSelectArray = props => {
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   let instanceValue = instanceRef.current && instanceRef.current[property];
-
-  if (typeof instanceValue === "undefined") {
-    instanceRef.current[property] = [];
-  }
-
   const [value, setValue] = useState(instanceValue);
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
+  const updateSelection = useCallback(val => {
+    if (typeof val === "undefined") {
+      val = [];
+    }
+
+    const [validationStatus, validationErrors] = onChange(property, val);
+    setInputStatus(validationStatus);
+    setErrors(validationErrors);
+  }, [onChange, property]);
+  useEffect(() => {
+    updateSelection(value);
+  }, [updateSelection, value]);
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: inputStatusColor
@@ -40,15 +48,8 @@ const AppFormSelectArray = props => {
     multiple: multiple,
     value: value,
     placeholder: propertyFormattedName,
-    onSelectionChange: val => {
-      if (typeof val === "undefined") {
-        val = [];
-      }
-
-      const [validationStatus, validationErrors] = onChange(property, val);
-      setInputStatus(validationStatus);
-      setErrors(validationErrors);
-      setValue(value);
+    onSelectionChange: selection => {
+      setValue(selection);
     }
   }, propertyInfo.enum.map(enumValue => /*#__PURE__*/React.createElement(AppSelectOption, {
     key: enumValue,

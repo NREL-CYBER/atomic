@@ -1,11 +1,10 @@
 {
   "name": "atomic",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "private": true,
   "main": "dist/entry.js",
   "types": "dist/entry.d.ts",
   "dependencies": {
-    
     "@ionic/react": "^5.6.0",
     "@ionic/react-router": "^5.6.0",
     "@storybook/addons": "^6.1.14",

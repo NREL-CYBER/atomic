@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useState } from 'react';
+import React, { MutableRefObject, useState, useCallback } from 'react';
 import { AppSelectArray } from '.';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
@@ -7,6 +7,7 @@ import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
+import { useEffect } from '@storybook/addons';
 
 
 export interface formSelectArrayInputProps {
@@ -29,25 +30,30 @@ const AppFormSelectArray = (props: formSelectArrayInputProps) => {
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     let instanceValue = instanceRef.current && (instanceRef.current as any)[property];
-    if (typeof instanceValue === "undefined") {
-        instanceRef.current[property] = [];
-    }
     const [value, setValue] = useState<string[]>(instanceValue);
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
-
     const inputStatusColor = inputStatusColorMap[inputStatus];
+
+    const updateSelection = useCallback((val: string[]) => {
+        if (typeof val === "undefined") {
+            val = [];
+        }
+        const [validationStatus, validationErrors] = onChange(property, val);
+        setInputStatus(validationStatus);
+        setErrors(validationErrors);
+    }, [onChange, property])
+
+    useEffect(() => {
+        updateSelection(value)
+    }, [updateSelection, value])
+
+
     return <AppItem>
         <AppLabel position="stacked" color={inputStatusColor} >
             {propertyFormattedName}
         </AppLabel>
-        <AppSelectArray multiple={multiple} value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
-            if (typeof val === "undefined") {
-                val = [];
-            }
-            const [validationStatus, validationErrors] = onChange(property, val);
-            setInputStatus(validationStatus);
-            setErrors(validationErrors);
-            setValue(value);
+        <AppSelectArray multiple={multiple} value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
+            setValue(selection);
         }}>
             {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={prettyTitle(enumValue)} />)}
         </AppSelectArray>
