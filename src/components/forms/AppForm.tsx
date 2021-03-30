@@ -19,8 +19,8 @@ import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
-import AppFormSelectSingle from '../AppFormSelectSingle';
-import AppFormSelectMultiple from '../AppFormSelectMultiple';
+import AppFormSelectSingle from '../AppFormSelect';
+import AppFormSelectMultiple from '../AppFormSelectArray';
 
 export interface propertyKeyValue {
     property: string,

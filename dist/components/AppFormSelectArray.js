@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
+import { AppSelectArray } from '.';
 import { prettyTitle } from '../util';
-import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
-import AppSelectString from './AppSelect';
 import AppText from './AppText';
 const inputStatusColorMap = {
   empty: "dark",
@@ -15,7 +14,7 @@ const inputStatusColorMap = {
  * Component for input that displays validation errors
  */
 
-const AppFormSelect = props => {
+const AppFormSelectArray = props => {
   const {
     propertyInfo,
     instanceRef,
@@ -27,7 +26,7 @@ const AppFormSelect = props => {
   let instanceValue = instanceRef.current && instanceRef.current[property];
 
   if (typeof instanceValue === "undefined") {
-    instanceRef.current[property] = "";
+    instanceRef.current[property] = [];
   }
 
   const [value, setValue] = useState(instanceValue);
@@ -36,13 +35,12 @@ const AppFormSelect = props => {
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: inputStatusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelectString, {
-    interface: "popover",
+  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelectArray, {
     value: value,
     placeholder: propertyFormattedName,
     onSelectionChange: val => {
-      if (val === "") {
-        return;
+      if (typeof val === "undefined") {
+        val = [];
       }
 
       const [validationStatus, validationErrors] = onChange(property, val);
@@ -53,11 +51,11 @@ const AppFormSelect = props => {
   }, propertyInfo.enum.map(enumValue => /*#__PURE__*/React.createElement(AppSelectOption, {
     key: enumValue,
     value: enumValue,
-    children: titleCase(enumValue)
+    children: prettyTitle(enumValue)
   }))), /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
   }, errors && errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error))));
 };
 
-export default AppFormSelect;
+export default AppFormSelectArray;

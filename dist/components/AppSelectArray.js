@@ -4,14 +4,16 @@ import { IonSelect } from '@ionic/react';
 import React from 'react';
 
 /**
- * Component for a select interface for selecting a single string
+ * Component for a select interface
  */
-const AppSelectString = props => {
+const AppSelectMulitple = props => {
   return /*#__PURE__*/React.createElement(IonSelect, _extends({
+    multiple: true,
+    interface: props.multiple ? "alert" : "popover",
     onIonChange: e => {
-      props.onSelectionChange && props.onSelectionChange(e.detail.value);
+      props.onSelectionChange && props.onSelectionChange(props.multiple ? e.detail.value : [e.detail.value]);
     }
   }, props));
 };
 
-export default AppSelectString;
+export default AppSelectMulitple;

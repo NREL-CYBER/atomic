@@ -1,13 +1,12 @@
 import React from 'react';
-interface selectProps {
+interface selectStringProps {
     interface?: "popover" | "alert" | "action-sheet";
     placeholder?: string;
     value?: string;
-    multiple?: boolean;
-    onSelectionChange?: (value: string | string[]) => void;
+    onSelectionChange?: (value: string) => void;
 }
 /**
- * Component for a select interface
+ * Component for a select interface for selecting a single string
  */
-declare const AppSelect: React.FC<selectProps>;
-export default AppSelect;
+declare const AppSelectString: React.FC<selectStringProps>;
+export default AppSelectString;
