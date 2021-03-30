@@ -5,9 +5,10 @@ import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
-import AppSelectString from './AppSelect';
+import AppSelect from './AppSelect';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
+import { useEffect, useCallback } from 'react';
 
 
 export interface formSelectInputProps {
@@ -36,21 +37,32 @@ const AppFormSelect = (props: formSelectInputProps) => {
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
+
+    const updateSelection = useCallback((val: string) => {
+        if (val === "") {
+            return;
+        }
+        const [validationStatus, validationErrors] = onChange(property, val);
+        setInputStatus(validationStatus);
+        setErrors(validationErrors);
+        setValue(value);
+    }, [onChange, property, value]);
+
+    useEffect(() => {
+        updateSelection(value);
+    }, [updateSelection, value])
+
+
+
     return <AppItem>
         <AppLabel position="stacked" color={inputStatusColor} >
             {propertyFormattedName}
         </AppLabel>
-        <AppSelectString interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
-            if (val === "") {
-                return;
-            }
-            const [validationStatus, validationErrors] = onChange(property, val);
-            setInputStatus(validationStatus);
-            setErrors(validationErrors);
-            setValue(value);
+        <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
+            setValue(selection);
         }}>
             {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
-        </AppSelectString>
+        </AppSelect>
         <AppLabel position='stacked' color='danger'>
             {errors && errors.map(error => <AppText>
                 {error}
