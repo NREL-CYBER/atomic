@@ -25,7 +25,12 @@ const AppFormInput = props => {
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
   const instance = instanceRef.current && instanceRef.current[property];
-  const [value, setValue] = useState(input !== "array" ? typeof instance !== "undefined" ? instance.join("\n") : [] : null);
+  const instanceType = typeof instance; // This component supports arrays as input for fields that are simply arrays of strings for multi-line content
+  // If this is confusing, learn more about ternary operators:
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
+  // This is a chained Ternary:
+
+  const [value, setValue] = useState(instanceType === "undefined" ? null : input === "array" ? instance.join("\n") : instance);
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
   const calculateType = () => {
