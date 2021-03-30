@@ -4,8 +4,8 @@ import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
-import AppSelect from './AppSelect';
 import AppSelectOption from './AppSelectOption';
+import AppSelectSingle from './AppSelectSingle';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
 
@@ -24,7 +24,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppFormSelect = (props: formInputProps<any>) => {
+const AppFormSelectSingle = (props: formInputProps<any>) => {
     const { propertyInfo, instanceRef, onChange, property } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
@@ -40,7 +40,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
         <AppLabel position="stacked" color={inputStatusColor} >
             {propertyFormattedName}
         </AppLabel>
-        <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
+        <AppSelectSingle interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
             if (val === "") {
                 return;
             }
@@ -50,7 +50,7 @@ const AppFormSelect = (props: formInputProps<any>) => {
             setValue(value);
         }}>
             {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
-        </AppSelect>
+        </AppSelectSingle>
         <AppLabel position='stacked' color='danger'>
             {errors && errors.map(error => <AppText>
                 {error}
@@ -59,4 +59,4 @@ const AppFormSelect = (props: formInputProps<any>) => {
     </AppItem>
 }
 
-export default AppFormSelect;
+export default AppFormSelectSingle;

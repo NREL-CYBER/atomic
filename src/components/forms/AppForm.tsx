@@ -19,6 +19,8 @@ import AppUploader from '../serialization/AppUploader';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
+import AppFormSelectSingle from '../AppFormSelectSingle';
+import AppFormSelectMultiple from '../AppFormSelectMultiple';
 
 export interface propertyKeyValue {
     property: string,
@@ -204,13 +206,23 @@ const AppForm: React.FC<formComposerProps> = (props) => {
 
 
         if ("enum" in propertyInfo) {
-            return <AppFormSelect
-                instanceRef={instanceRef}
-                propertyInfo={propertyInfo}
-                property={property}
-                onChange={handleInputReceived}
-                key={property}
-            />
+            if ((propertyInfo as any)["type"] === "array") {
+                return <AppFormSelectMultiple
+                    instanceRef={instanceRef}
+                    propertyInfo={propertyInfo}
+                    property={property}
+                    onChange={handleInputReceived}
+                    key={property}
+                />
+            } else {
+                return <AppFormSelectSingle
+                    instanceRef={instanceRef}
+                    propertyInfo={propertyInfo}
+                    property={property}
+                    onChange={handleInputReceived}
+                    key={property}
+                />
+            }
         }
         if (propertyType === "boolean") {
             return <AppFormToggle

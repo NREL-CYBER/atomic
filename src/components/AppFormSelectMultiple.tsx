@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
+import { AppSelectMultiple } from '.';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
-import titleCase from '../util/titleCase';
-import { formInputProps } from './AppFormSelect';
+import { formInputProps } from './AppFormSelectSingle';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
-import AppSelect from './AppSelect';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
 
@@ -18,7 +17,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
 /**
  * Component for input that displays validation errors
  */
-const AppFormMultiSelect = (props: formInputProps<any>) => {
+const AppFormSelectMultiple = (props: formInputProps<any>) => {
     const { propertyInfo, instanceRef, onChange, property } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
@@ -26,7 +25,7 @@ const AppFormMultiSelect = (props: formInputProps<any>) => {
     if (typeof instanceValue === "undefined") {
         instanceRef.current[property] = [];
     }
-    const [value, setValue] = useState<string>(instanceValue);
+    const [value, setValue] = useState<string[]>(instanceValue);
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
@@ -34,7 +33,7 @@ const AppFormMultiSelect = (props: formInputProps<any>) => {
         <AppLabel position="stacked" color={inputStatusColor} >
             {propertyFormattedName}
         </AppLabel>
-        <AppSelect multiple interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
+        <AppSelectMultiple value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
             if (typeof val === "undefined") {
                 val = [];
             }
@@ -44,7 +43,7 @@ const AppFormMultiSelect = (props: formInputProps<any>) => {
             setValue(value);
         }}>
             {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={prettyTitle(enumValue)} />)}
-        </AppSelect>
+        </AppSelectMultiple>
         <AppLabel position='stacked' color='danger'>
             {errors && errors.map(error => <AppText>
                 {error}
@@ -53,4 +52,4 @@ const AppFormMultiSelect = (props: formInputProps<any>) => {
     </AppItem>
 }
 
-export default AppFormMultiSelect;
+export default AppFormSelectMultiple;
