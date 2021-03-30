@@ -56,7 +56,8 @@ const AppFormInput = (props: formInputProps<any>) => {
             return;
         }
         const formValue = value === "" ? undefined : value;
-        const [validationStatus, validationErrors] = onChange(property, input === "array" ? formValue?.split("\n") : formValue);
+        const propertyValue = input === "array" ? (formValue || "").split("\n") : formValue;
+        const [validationStatus, validationErrors] = onChange(property, propertyValue);
         setInputStatus(validationStatus);
         setErrors(validationErrors || []);
     }, [input, onChange, property, value])
