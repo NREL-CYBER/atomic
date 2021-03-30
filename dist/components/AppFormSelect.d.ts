@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import { formFieldChangeEvent } from './forms/AppForm';
-interface formInputProps<T> {
+export interface formInputProps<T> {
     property: string;
     propertyInfo: {
         title: string;
