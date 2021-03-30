@@ -4,8 +4,9 @@ import titleCase from '../util/titleCase';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
-import AppSelectString from './AppSelect';
+import AppSelect from './AppSelect';
 import AppText from './AppText';
+import { useEffect, useCallback } from 'react';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -33,22 +34,28 @@ const AppFormSelect = props => {
   const [value, setValue] = useState(instanceValue);
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
+  const updateSelection = useCallback(val => {
+    if (val === "") {
+      return;
+    }
+
+    const [validationStatus, validationErrors] = onChange(property, val);
+    setInputStatus(validationStatus);
+    setErrors(validationErrors);
+    setValue(value);
+  }, [onChange, property, value]);
+  useEffect(() => {
+    updateSelection(value);
+  }, [updateSelection, value]);
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: inputStatusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelectString, {
+  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelect, {
     interface: "popover",
     value: value,
     placeholder: propertyFormattedName,
-    onSelectionChange: val => {
-      if (val === "") {
-        return;
-      }
-
-      const [validationStatus, validationErrors] = onChange(property, val);
-      setInputStatus(validationStatus);
-      setErrors(validationErrors);
-      setValue(value);
+    onSelectionChange: selection => {
+      setValue(selection);
     }
   }, propertyInfo.enum.map(enumValue => /*#__PURE__*/React.createElement(AppSelectOption, {
     key: enumValue,
