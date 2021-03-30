@@ -25,7 +25,7 @@ const AppFormInput = props => {
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
   const instance = instanceRef.current && instanceRef.current[property];
-  const [value, setValue] = useState((input !== "array" ? instance : instance.join("\n")) || null);
+  const [value, setValue] = useState(input !== "array" ? typeof instance !== "undefined" ? instance.join("\n") : [] : null);
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
   const calculateType = () => {
