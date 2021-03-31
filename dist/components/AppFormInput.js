@@ -47,7 +47,8 @@ const AppFormInput = props => {
   };
 
   useEffect(() => {
-    if (value === null) {
+    if (value === null || "") {
+      setInputStatus("empty");
       return;
     }
 

@@ -35,7 +35,7 @@ const AppFormSelect = props => {
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   const updateSelection = useCallback(val => {
-    if (val === "") {
+    if (val === "" || typeof val === "undefined" || val === null) {
       return;
     }
 

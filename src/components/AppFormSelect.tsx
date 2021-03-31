@@ -39,7 +39,7 @@ const AppFormSelect = (props: formSelectInputProps) => {
     const inputStatusColor = inputStatusColorMap[inputStatus];
 
     const updateSelection = useCallback((val: string) => {
-        if (val === "") {
+        if (val === "" || typeof val === "undefined" || val === null) {
             return;
         }
         const [validationStatus, validationErrors] = onChange(property, val);
