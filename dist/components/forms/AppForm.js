@@ -40,6 +40,12 @@ const AppForm = props => {
   const {
     schema
   } = validator;
+
+  if (typeof schema.type === "undefined") {
+    // eslint-disable-next-line no-throw-literal
+    throw "Schema must have a type";
+  }
+
   const instance = useRef(schema.type === "object" ? { ...data
   } : schema.type === "array" ? [...data] : undefined);
   const [isValid, setIsValid] = useState(false);

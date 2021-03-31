@@ -26,14 +26,15 @@ const AppFormSelectArray = props => {
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   let instanceValue = instanceRef.current && instanceRef.current[property];
-  const [value, setValue] = useState(instanceValue);
+
+  if (typeof instanceValue === "undefined") {
+    instanceRef.current[property] = [];
+  }
+
+  const [value, setValue] = useState(instanceRef.current[property]);
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   const updateSelection = useCallback(val => {
-    if (typeof val === "undefined") {
-      val = [];
-    }
-
     const [validationStatus, validationErrors] = onChange(property, val);
     setInputStatus(validationStatus);
     setErrors(validationErrors);

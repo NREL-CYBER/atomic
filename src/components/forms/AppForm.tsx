@@ -94,6 +94,10 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         description, title, requiredOnly, calculatedFields, showFields,
         customSubmit, autoSubmit, customComponentMap, inlineFields } = props
     const { schema } = validator;
+    if (typeof schema.type === "undefined") {
+        // eslint-disable-next-line no-throw-literal
+        throw "Schema must have a type"
+    }
     const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);

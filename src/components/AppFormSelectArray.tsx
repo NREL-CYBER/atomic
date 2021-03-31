@@ -30,14 +30,14 @@ const AppFormSelectArray = (props: formSelectArrayInputProps) => {
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     let instanceValue = instanceRef.current && (instanceRef.current as any)[property];
-    const [value, setValue] = useState<string[]>(instanceValue);
+    if (typeof instanceValue === "undefined") {
+        instanceRef.current[property] = [];
+    }
+    const [value, setValue] = useState<string[]>(instanceRef.current[property]);
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
 
     const updateSelection = useCallback((val: string[]) => {
-        if (typeof val === "undefined") {
-            val = [];
-        }
         const [validationStatus, validationErrors] = onChange(property, val);
         setInputStatus(validationStatus);
         setErrors(validationErrors);
