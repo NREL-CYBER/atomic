@@ -36,6 +36,7 @@ const AppFormSelect = props => {
   const inputStatusColor = inputStatusColorMap[inputStatus];
   const updateSelection = useCallback(val => {
     if (val === "" || typeof val === "undefined" || val === null) {
+      setInputStatus("empty");
       return;
     }
 

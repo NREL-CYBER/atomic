@@ -40,6 +40,7 @@ const AppFormSelect = (props: formSelectInputProps) => {
 
     const updateSelection = useCallback((val: string) => {
         if (val === "" || typeof val === "undefined" || val === null) {
+            setInputStatus("empty");
             return;
         }
         const [validationStatus, validationErrors] = onChange(property, val);

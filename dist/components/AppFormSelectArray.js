@@ -35,6 +35,11 @@ const AppFormSelectArray = props => {
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   const updateSelection = useCallback(val => {
+    if (typeof val === "undefined" || val === null) {
+      setInputStatus("empty");
+      return;
+    }
+
     const [validationStatus, validationErrors] = onChange(property, val);
     setInputStatus(validationStatus);
     setErrors(validationErrors);
