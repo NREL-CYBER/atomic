@@ -21,7 +21,5 @@ SelectButtonsExample.args = {
     color: "success",
     text: "LOW"
   }],
-  onSelectionChange: values => {
-    console.log(values);
-  }
+  onSelectionChange: values => {}
 };

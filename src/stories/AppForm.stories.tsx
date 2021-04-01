@@ -2883,7 +2883,6 @@ const sapSchema = {
 }
 
 const sapValidator = new Validator(sapSchema, "assessment-plan");
-console.log("ok");
 
 export const AddressExample = Template.bind({});
 AddressExample.args = {

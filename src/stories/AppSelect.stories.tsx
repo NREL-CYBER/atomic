@@ -19,6 +19,5 @@ SelectButtonsExample.args = {
         { value: "nist_800_36", color: "danger", text: "HIGH" }, { value: "nist_800_37", color: "success", text: "LOW" }
     ],
     onSelectionChange: (values) => {
-        console.log(values);
     }
 }

@@ -79,7 +79,6 @@ const AppFormInput = props => {
     inputMode: inputMode,
     value: value,
     onTextChange: val => {
-      console.log(val);
       setValue(val);
     }
   })), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {

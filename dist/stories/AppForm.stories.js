@@ -2546,7 +2546,6 @@ const sapSchema = {
   "maxProperties": 1
 };
 const sapValidator = new Validator(sapSchema, "assessment-plan");
-console.log("ok");
 export const AddressExample = Template.bind({});
 AddressExample.args = {
   title: "Address",

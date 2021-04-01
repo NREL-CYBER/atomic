@@ -86,7 +86,6 @@ const AppFormInput = (props: formInputProps<any>) => {
                     setValue(val)
                 }} />
                 : <AppTextArea color="dark" inputMode={inputMode} value={value} onTextChange={(val) => {
-                    console.log(val);
                     setValue(val);
                 }} />}
         </AppItem>

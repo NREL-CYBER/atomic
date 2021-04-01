@@ -116,13 +116,6 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         }
         setIsValid(validator.validate(instance.current))
         const allErrors = validator.validate.errors || []
-        console.log("A p p F o r m  E r r o r s ....")
-
-        console.log("= = = = = = = = = = = = = = = = =")
-        console.log(allErrors);
-        console.log("= c u r r e n t =====  v a l u e =")
-        console.log(instance.current);
-        console.log("= = = = = = = = = = = = = = = = =")
         const propertyErrors = allErrors.filter(error => error.dataPath.includes(property) || (error.message || "")
             .includes(property)).map(x => x.message || "");
         setErrors(allErrors.map(x => x.dataPath.split("#").join("").split("/").join("") + " " + x.message || ""))
