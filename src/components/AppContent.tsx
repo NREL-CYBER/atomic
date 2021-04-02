@@ -13,9 +13,9 @@ const AppContent: React.FC<{ center?: boolean, next?: boolean }> = (props) =>
         <IonContent>
             <IonGrid>
                 <IonRow>
-                    <IonCol sizeSm="0" sizeXs="0" sizeMd={'2'}>
+                    <IonCol sizeSm="1" sizeXs="0" sizeMd={'4'}>
                     </IonCol>
-                    <IonCol sizeSm="12" sizeXs="12" sizeMd='8'>
+                    <IonCol sizeSm="22" sizeXs="24" sizeMd='16'>
                         {props.children}
                         {props.next && <AppNextButton />}
                     </IonCol>
