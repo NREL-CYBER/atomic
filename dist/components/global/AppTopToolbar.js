@@ -1,5 +1,5 @@
 import useAppLayout from '../../hooks/useAppLayout';
-import { homeOutline } from 'ionicons/icons';
+import { homeOutline, closeOutline } from 'ionicons/icons';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, AppChip } from '..';
@@ -49,7 +49,13 @@ const AppTopToolbar = ({
     color: "tertiary"
   }, appTitle), /*#__PURE__*/React.createElement(AppChip, {
     color: "tertiary"
-  }, version)));
+  }, version), /*#__PURE__*/React.createElement(AppButton, {
+    onClick: () => {
+      window.close();
+    }
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: closeOutline
+  }))));
 };
 
 export default AppTopToolbar;

@@ -1,5 +1,5 @@
 import useAppLayout from '../../hooks/useAppLayout';
-import { homeOutline } from 'ionicons/icons';
+import { homeOutline, closeOutline } from 'ionicons/icons';
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, AppChip } from '..';
@@ -39,7 +39,13 @@ const AppTopToolbar: React.FC = ({ children }) => {
             <AppChip color="tertiary">
                 {version}
             </AppChip>
+            <AppButton onClick={() => {
+                window.close();
+            }}>
+                <AppIcon icon={closeOutline} />
+            </AppButton>
         </AppButtons>
+
     </AppToolbar >
     );
 };
