@@ -92,7 +92,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         <AppRouter id={"root"}>
             {/**Side Menu  */}
             {sections && <AppMainMenu sections={sections} />}
-            {topBar ? { topBar } : <AppTopToolbar />}
+            {topBar ? { topBar } : <AppTopToolbar about={config.about || ""} />}
             {routes.map(route =>
                 <Route key={route.path} {...route} />
             )}

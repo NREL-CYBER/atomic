@@ -32,6 +32,7 @@ const ExampleConfig: AppConfig = {
         }
     },
     darkMode: false,
+    about: "example application information....",
     serialization: {
         mode: "local",
         encryption: "plaintext",

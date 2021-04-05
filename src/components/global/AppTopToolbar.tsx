@@ -1,9 +1,11 @@
 import useAppLayout from '../../hooks/useAppLayout';
 import { homeOutline, closeOutline } from 'ionicons/icons';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, AppChip } from '..';
+import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, AppChip, AppCard } from '..';
 import { useCompletion } from '../../hooks';
+import AppModal from '../AppModal';
+import AppContent from '../AppContent';
 
 
 
@@ -12,7 +14,7 @@ import { useCompletion } from '../../hooks';
  * Self aware top toolbar
  */
 
-const AppTopToolbar: React.FC = ({ children }) => {
+const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, about }) => {
     const { pathname } = useLocation();
     const { paths } = useCompletion();
     const { update, appTitle, version } = useAppLayout();
@@ -21,6 +23,8 @@ const AppTopToolbar: React.FC = ({ children }) => {
     useEffect(() => {
         update(pathname)
     }, [pathname, update, paths])
+    const [showAbout, setShowAbout] = useState(false)
+
     return (<AppToolbar>
         <AppButtons slot='start'>
             <AppMenuButton />
@@ -33,12 +37,19 @@ const AppTopToolbar: React.FC = ({ children }) => {
             {children}
         </AppButtons>
         <AppButtons slot='end'>
-            <AppTitle color="tertiary">
-                {appTitle}
-            </AppTitle>
-            <AppChip color="tertiary">
-                {version}
-            </AppChip>
+            <AppButton color="tertiary" fill="clear" onClick={() => { setShowAbout(x => !x) }}>
+                <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
+                    <AppContent>
+                        {showAbout && about}
+                    </AppContent>
+                </AppModal >
+                <AppTitle color="tertiary">
+                    {appTitle}
+                    <AppChip color="tertiary">
+                        {version}
+                    </AppChip>
+                </AppTitle>
+            </AppButton>
             <AppButton onClick={() => {
                 window.close();
             }}>

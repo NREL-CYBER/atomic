@@ -40,6 +40,7 @@ export interface AppConfig {
     routes: AppRoute[],
     cache: AppCacheIndex
     bottomBar?: React.FC,
+    about?: React.ReactFragment,
     serialization?: AppSerializationConfig
     darkMode?: boolean
 }
