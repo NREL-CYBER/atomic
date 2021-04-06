@@ -6,13 +6,16 @@ import React from "react";
 import { AppButton, AppButtons, AppIcon, AppItemDivider, AppToolbar } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 export const AppContinueButton = () => {
-  const pageRoutes = useAppLayout(x => x.allPageRoutes);
+  const {
+    allPageRoutes,
+    path
+  } = useAppLayout();
   const {
     isUnlocked,
     pathStatusColor,
     isValid
   } = useCompletion();
-  const continueRoute = pageRoutes.find(({
+  const continueRoute = allPageRoutes.find(({
     path
   }) => isUnlocked(path) && !isValid(path));
   const statusColor = continueRoute ? pathStatusColor(continueRoute.path) : "clear";
@@ -20,7 +23,7 @@ export const AppContinueButton = () => {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, continueRoute ? /*#__PURE__*/React.createElement(AppButton, {
+  }, continueRoute && path !== continueRoute.path ? /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
     color: statusColor,
     routerDirection: "forward",

@@ -355,8 +355,7 @@ color: var(--ion-color-primary);
 
 :root {
   --ion-grid-columns:               24;
-
-/** primary **/
+  /** primary **/
 --ion-color-primary: #3880ff;
 --ion-color-primary-rgb: 56, 128, 255;
 --ion-color-primary-contrast: #ffffff;
@@ -608,14 +607,14 @@ ion-app .scroll-content {
   --ion-color-secondary-shade: #46b0e0;
   --ion-color-secondary-tint: #62ceff;
 
-  --ion-color-tertiary: #5DD2FF;
+  --ion-color-tertiary: #9E8EDE;
   --ion-color-tertiary-rgb: 106,100,255;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255,255,255;
   --ion-color-tertiary-shade: #46b0e0;
   --ion-color-tertiary-tint: #62ceff;
 
-  --ion-color-success: #8CC63F;
+  --ion-color-success: #5D9732;
   --ion-color-success-rgb: 47,223,117;
   --ion-color-success-contrast: #000000;
   --ion-color-success-contrast-rgb: 0,0,0;
@@ -638,7 +637,7 @@ ion-app .scroll-content {
 
   --ion-color-dark: #000;
   --ion-color-dark-rgb: 244,245,248;
-  --ion-color-dark-contrast: #000000;
+  --ion-color-dark-contrast: #ddd;
   --ion-color-dark-contrast-rgb: 0,0,0;
   --ion-color-dark-shade: #ccc;
   --ion-color-dark-tint: #eee;
@@ -652,7 +651,7 @@ ion-app .scroll-content {
 
   --ion-color-light: #fff;
   --ion-color-light-rgb: 34,36,40;
-  --ion-color-light-contrast: #ffffff;
+  --ion-color-light-contrast: #333;
   --ion-color-light-contrast-rgb: 255,255,255;
   --ion-color-light-shade: #1e2023;
   --ion-color-light-tint: #383a3e;

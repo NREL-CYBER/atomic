@@ -23,7 +23,7 @@ export { useAddress };
 
 const ExampleConfig: AppConfig = {
     title: "Atomic Example",
-    version: "0.4.4",
+    version: "1.3.0",
     sections: { nice: routes },
     routes,
     cache: {

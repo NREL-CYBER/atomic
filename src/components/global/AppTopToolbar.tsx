@@ -40,7 +40,10 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
             <AppButton color="tertiary" fill="clear" onClick={() => { setShowAbout(x => !x) }}>
                 <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
                     <AppContent>
-                        {showAbout && about}
+                        <AppCard contentColor="light" headerColor="tertiary" title={appTitle + " " + version}>
+                            {showAbout && about}
+                        </AppCard>
+                        <AppButton expand={"full"} fill={"outline"} onClick={() => setShowAbout(false)} >OK </AppButton>
                     </AppContent>
                 </AppModal >
                 <AppTitle color="tertiary">

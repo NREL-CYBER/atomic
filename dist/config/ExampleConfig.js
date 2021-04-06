@@ -7,7 +7,7 @@ const useAddress = composeStore({
 export { useAddress };
 const ExampleConfig = {
   title: "Atomic Example",
-  version: "0.4.4",
+  version: "1.3.0",
   sections: {
     nice: routes
   },
@@ -18,6 +18,7 @@ const ExampleConfig = {
     }
   },
   darkMode: false,
+  about: "example application information....",
   serialization: {
     mode: "local",
     encryption: "plaintext" // cloud: {

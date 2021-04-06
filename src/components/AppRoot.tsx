@@ -99,7 +99,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             <AppNotifications />
             <AppGuidance />
             <IonFooter>
-                {bottomBar ? bottomBar : <AppBottomToolbar />}
+                <AppBottomToolbar children={bottomBar} />
             </IonFooter>
             {children}
         </AppRouter>

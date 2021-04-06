@@ -6,14 +6,20 @@ import { AppNextButton } from './global/AppNextButton';
  * We'll customize the scrollbar here later.
  */
 
-const AppContent = props => props.center ? /*#__PURE__*/React.createElement(IonContent, null, /*#__PURE__*/React.createElement(IonGrid, null, /*#__PURE__*/React.createElement(IonRow, null, /*#__PURE__*/React.createElement(IonCol, {
-  sizeSm: "1",
-  sizeXs: "0",
-  sizeMd: '4'
-}), /*#__PURE__*/React.createElement(IonCol, {
-  sizeSm: "22",
-  sizeXs: "24",
-  sizeMd: "16"
-}, props.children, props.next && /*#__PURE__*/React.createElement(AppNextButton, null))))) : /*#__PURE__*/React.createElement(IonContent, null, props.children, props.next && /*#__PURE__*/React.createElement(AppNextButton, null));
+const AppContent = props => {
+  return props.center ? /*#__PURE__*/React.createElement(IonContent, {
+    style: {
+      "background-color": "orange!important"
+    }
+  }, /*#__PURE__*/React.createElement(IonGrid, null, /*#__PURE__*/React.createElement(IonRow, null, /*#__PURE__*/React.createElement(IonCol, {
+    sizeSm: "1",
+    sizeXs: "0",
+    sizeMd: '4'
+  }), /*#__PURE__*/React.createElement(IonCol, {
+    sizeSm: "22",
+    sizeXs: "24",
+    sizeMd: "16"
+  }, props.children, props.next && /*#__PURE__*/React.createElement(AppNextButton, null))))) : /*#__PURE__*/React.createElement(IonContent, null, props.children, props.next && /*#__PURE__*/React.createElement(AppNextButton, null));
+};
 
 export default AppContent;

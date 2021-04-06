@@ -1,7 +1,6 @@
 import React from 'react';
 import { AppButtons, AppToolbar } from '..';
 import useCompletion from '../../hooks/useCompletion';
-import useGuidance from '../../hooks/useGuidance';
 import AppProgress from '../AppProgress';
 import { AppContinueButton } from './AppContinueButton';
 
