@@ -49,12 +49,6 @@ const AppTopToolbar = ({
     icon: breadCrumb.icon
   }))), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, /*#__PURE__*/React.createElement(AppButton, {
-    color: "tertiary",
-    fill: "clear",
-    onClick: () => {
-      setShowAbout(x => !x);
-    }
   }, /*#__PURE__*/React.createElement(AppModal, {
     onDismiss: () => {
       setShowAbout(false);
@@ -67,8 +61,16 @@ const AppTopToolbar = ({
   }, showAbout && about), /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
     fill: "outline",
-    onClick: () => setShowAbout(false)
-  }, "OK "))), /*#__PURE__*/React.createElement(AppTitle, {
+    onClick: () => {
+      setShowAbout(false);
+    }
+  }, "OK "))), /*#__PURE__*/React.createElement(AppButton, {
+    color: "tertiary",
+    fill: "clear",
+    onClick: () => {
+      setShowAbout(x => !x);
+    }
+  }, /*#__PURE__*/React.createElement(AppTitle, {
     color: "tertiary"
   }, appTitle, /*#__PURE__*/React.createElement(AppChip, {
     color: "tertiary"

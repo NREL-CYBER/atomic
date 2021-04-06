@@ -23,7 +23,7 @@ export const AppContinueButton = () => {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, continueRoute && path !== continueRoute.path ? /*#__PURE__*/React.createElement(AppButton, {
+  }, continueRoute && !continueRoute.path.includes(path) ? /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
     color: statusColor,
     routerDirection: "forward",

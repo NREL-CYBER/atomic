@@ -15,7 +15,7 @@ export const AppContinueButton: React.FC = () => {
     return <>
         <AppToolbar color="clear">
             {<AppButtons slot="end">
-                {continueRoute && path !== continueRoute.path ? <AppButton
+                {continueRoute && !continueRoute.path.includes(path) ? <AppButton
                     fill='clear' color={statusColor}
                     routerDirection='forward' routerLink={continueRoute.path} >
                     <AppIcon icon={continueRoute.icon} />

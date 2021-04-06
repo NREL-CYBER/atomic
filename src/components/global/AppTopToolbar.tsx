@@ -37,15 +37,16 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
             {children}
         </AppButtons>
         <AppButtons slot='end'>
+            <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
+                <AppContent>
+                    <AppCard contentColor="light" headerColor="tertiary" title={appTitle + " " + version}>
+                        {showAbout && about}
+                    </AppCard>
+                    <AppButton expand={"full"} fill={"outline"} onClick={() => { setShowAbout(false) }} >OK </AppButton>
+                </AppContent>
+            </AppModal >
+
             <AppButton color="tertiary" fill="clear" onClick={() => { setShowAbout(x => !x) }}>
-                <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
-                    <AppContent>
-                        <AppCard contentColor="light" headerColor="tertiary" title={appTitle + " " + version}>
-                            {showAbout && about}
-                        </AppCard>
-                        <AppButton expand={"full"} fill={"outline"} onClick={() => setShowAbout(false)} >OK </AppButton>
-                    </AppContent>
-                </AppModal >
                 <AppTitle color="tertiary">
                     {appTitle}
                     <AppChip color="tertiary">
