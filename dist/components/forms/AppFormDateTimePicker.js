@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AppItem, AppLabel, AppText } from '..';
-import AppInput from '../AppInput';
 import { prettyTitle } from '../../util';
+import { AppDateTime } from '../AppDateTime';
 const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",
@@ -11,7 +11,7 @@ const inputStatusColorMap = {
  * Component for input that displays validation errors
  */
 
-const AppFormInteger = props => {
+const AppFormDateTimePicker = props => {
   const {
     property,
     instanceRef,
@@ -27,8 +27,7 @@ const AppFormInteger = props => {
       return;
     }
 
-    const formValue = value === "" ? "0" : value;
-    const [validationStatus, validationErrors] = onChange(property, formValue ? parseInt(formValue) : 0);
+    const [validationStatus, validationErrors] = onChange(property, value);
     setInputStatus(validationStatus);
     setErrors(validationErrors || []);
   }, [onChange, property, value]);
@@ -39,11 +38,9 @@ const AppFormInteger = props => {
   }, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: statusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppInput, {
-    type: "number",
+  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppDateTime, {
     value: value,
-    placeholder: propertyFormattedName,
-    onInputChange: val => {
+    onDateEntered: val => {
       setValue(val);
     }
   })), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
@@ -54,4 +51,4 @@ const AppFormInteger = props => {
   }, error)))));
 };
 
-export default AppFormInteger;
+export default AppFormDateTimePicker;

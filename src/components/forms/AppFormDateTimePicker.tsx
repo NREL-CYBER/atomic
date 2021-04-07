@@ -5,6 +5,7 @@ import AppInput from '../AppInput';
 import { formFieldChangeEvent } from './AppForm';
 import { AppColor } from '../../theme';
 import { titleCase, prettyTitle } from '../../util';
+import { AppDateTime } from '../AppDateTime';
 
 
 interface formInputProps<T> {
@@ -22,7 +23,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", va
 /**
  * Component for input that displays validation errors
  */
-const AppFormInteger = (props: formInputProps<any>) => {
+const AppFormDateTimePicker = (props: formInputProps<any>) => {
     const { property, instanceRef, onChange, propertyInfo } = props;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
@@ -33,8 +34,7 @@ const AppFormInteger = (props: formInputProps<any>) => {
         if (value === null) {
             return;
         }
-        const formValue = value === "" ? "0" : value;
-        const [validationStatus, validationErrors] = onChange(property, formValue ? parseInt(formValue) : 0);
+        const [validationStatus, validationErrors] = onChange(property, value);
         setInputStatus(validationStatus);
         setErrors(validationErrors || []);
     }, [onChange, property, value])
@@ -46,7 +46,7 @@ const AppFormInteger = (props: formInputProps<any>) => {
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
-            <AppInput type={"number"} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
+            <AppDateTime value={value} onDateEntered={(val) => {
                 setValue(val)
             }} />
         </AppItem>
@@ -61,4 +61,4 @@ const AppFormInteger = (props: formInputProps<any>) => {
     </>
 }
 
-export default AppFormInteger;
+export default AppFormDateTimePicker;

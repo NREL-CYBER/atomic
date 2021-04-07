@@ -8,6 +8,7 @@ import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 import AppFormSelectArray from '../AppFormSelectArray';
+import AppFormDateTimePicker from './AppFormDateTimePicker';
 
 const LockedField = ({
   property,
@@ -207,6 +208,16 @@ const AppForm = props => {
 
     if (propertyType === "boolean") {
       return /*#__PURE__*/React.createElement(AppFormToggle, {
+        instanceRef: instanceRef,
+        propertyInfo: refPropertyInfo,
+        property: property,
+        onChange: handleInputReceived,
+        key: property
+      });
+    }
+
+    if (propertyType === "string" || propertyInfo.format === "date-time") {
+      return /*#__PURE__*/React.createElement(AppFormDateTimePicker, {
         instanceRef: instanceRef,
         propertyInfo: refPropertyInfo,
         property: property,

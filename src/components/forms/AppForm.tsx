@@ -20,6 +20,7 @@ import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 import AppFormSelectArray from '../AppFormSelectArray';
+import AppFormDateTimePicker from './AppFormDateTimePicker';
 
 export interface propertyKeyValue {
     property: string,
@@ -229,6 +230,16 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 key={property}
             />
         }
+        if (propertyType === "string" || propertyInfo.format === "date-time") {
+            return <AppFormDateTimePicker
+                instanceRef={instanceRef}
+                propertyInfo={refPropertyInfo}
+                property={property}
+                onChange={handleInputReceived}
+                key={property}
+            />
+        }
+
         if (propertyType === "integer" || propertyType === "number") {
             return <AppFormInteger
                 instanceRef={instanceRef}
