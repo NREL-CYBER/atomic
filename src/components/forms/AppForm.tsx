@@ -230,7 +230,8 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 key={property}
             />
         }
-        if (propertyType === "string" && propertyInfo.format === "date-time") {
+        console.log(propertyInfo);
+        if (propertyType === "string" && propertyInfo.format?.includes("date")) {
             return <AppFormDateTimePicker
                 format={propertyInfo.format}
                 instanceRef={instanceRef}
@@ -240,17 +241,6 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 key={property}
             />
         }
-        if (propertyType === "string" && propertyInfo.format === "date") {
-            return <AppFormDateTimePicker
-                format={propertyInfo.format}
-                instanceRef={instanceRef}
-                propertyInfo={refPropertyInfo}
-                property={property}
-                onChange={handleInputReceived}
-                key={property}
-            />
-        }
-
 
         if (propertyType === "integer" || propertyType === "number") {
             return <AppFormInteger
