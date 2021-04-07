@@ -216,18 +216,9 @@ const AppForm = props => {
       });
     }
 
-    if (propertyType === "string" && propertyInfo.format === "date-time") {
-      return /*#__PURE__*/React.createElement(AppFormDateTimePicker, {
-        format: propertyInfo.format,
-        instanceRef: instanceRef,
-        propertyInfo: refPropertyInfo,
-        property: property,
-        onChange: handleInputReceived,
-        key: property
-      });
-    }
+    console.log(propertyInfo);
 
-    if (propertyType === "string" && propertyInfo.format === "date") {
+    if (propertyType === "string" && propertyInfo.format?.includes("date")) {
       return /*#__PURE__*/React.createElement(AppFormDateTimePicker, {
         format: propertyInfo.format,
         instanceRef: instanceRef,
