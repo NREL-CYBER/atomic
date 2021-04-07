@@ -23,7 +23,7 @@ export interface selectButtonsProps {
 const AppSelectButtons: React.FC<selectButtonsProps> = ({ selected, buttons, onSelectionChange, multi, display = "horizontal" }) => {
 
     const selectButtons =
-        buttons.map((button,i) => <AppButton key={i}
+        buttons.map((button, i) => <AppButton key={i} 
             fill={selected.includes(button.value) ? "solid" : "outline"}
             children={button.text} {...button}
             onClick={() => {
@@ -38,7 +38,7 @@ const AppSelectButtons: React.FC<selectButtonsProps> = ({ selected, buttons, onS
 
 
     return display === "horizontal" ? <>{selectButtons}</> : <AppList>
-        {selectButtons.map((button,i) =>
+        {selectButtons.map((button, i) =>
             <AppItem key={i}>
                 {button}
             </AppItem>
