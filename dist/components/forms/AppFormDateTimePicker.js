@@ -45,6 +45,7 @@ const AppFormDateTimePicker = props => {
     pickerFormat: dateTimeFormat,
     value: value,
     onDateEntered: val => {
+      console.log(val);
       format === "date-time" ? setValue(val) : setValue(val.split("T")[0]);
     }
   })), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {

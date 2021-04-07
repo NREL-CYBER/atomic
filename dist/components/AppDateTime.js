@@ -4,7 +4,7 @@ import { IonDatetime } from "@ionic/react";
 import React from "react";
 export const AppDateTime = props => /*#__PURE__*/React.createElement(IonDatetime, _extends({
   pickerFormat: "",
-  onChange: e => {
-    props.onDateEntered(new Date(e.timeStamp).toISOString());
+  onIonChange: e => {
+    props.onDateEntered(e.detail.value);
   }
 }, props));

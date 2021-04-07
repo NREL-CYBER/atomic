@@ -13,4 +13,6 @@ interface dateTimeProps {
 }
 
 export const AppDateTime: React.FC<dateTimeProps> = (props) => <IonDatetime pickerFormat=""
-    onChange={e => { props.onDateEntered(new Date(e.timeStamp).toISOString()) }} {...props} />
+    onIonChange={e => {
+        props.onDateEntered(e.detail.value!)
+    }} {...props} />
