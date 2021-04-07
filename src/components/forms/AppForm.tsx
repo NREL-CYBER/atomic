@@ -180,6 +180,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         }
         const refPropertyInfo = validator.getReferenceInformation(propertyInfo) as PropertyDefinitionRef;
         const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
+        const propertyFormat = propertyInfo.format ? propertyInfo.format : refPropertyInfo["format"];
         if (property === "uuid") {
             return <AppUuidGenerator
                 instanceRef={instanceRef} />
@@ -230,10 +231,9 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 key={property}
             />
         }
-        console.log(propertyInfo);
-        if (propertyType === "string" && propertyInfo.format?.includes("date")) {
+        if (propertyType === "string" && propertyFormat?.includes("date")) {
             return <AppFormDateTimePicker
-                format={propertyInfo.format}
+                format={propertyFormat}
                 instanceRef={instanceRef}
                 propertyInfo={refPropertyInfo}
                 property={property}

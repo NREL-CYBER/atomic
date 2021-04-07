@@ -151,6 +151,7 @@ const AppForm = props => {
 
     const refPropertyInfo = validator.getReferenceInformation(propertyInfo);
     const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
+    const propertyFormat = propertyInfo.format ? propertyInfo.format : refPropertyInfo["format"];
 
     if (property === "uuid") {
       return /*#__PURE__*/React.createElement(AppUuidGenerator, {
@@ -216,11 +217,9 @@ const AppForm = props => {
       });
     }
 
-    console.log(propertyInfo);
-
-    if (propertyType === "string" && propertyInfo.format?.includes("date")) {
+    if (propertyType === "string" && propertyFormat?.includes("date")) {
       return /*#__PURE__*/React.createElement(AppFormDateTimePicker, {
-        format: propertyInfo.format,
+        format: propertyFormat,
         instanceRef: instanceRef,
         propertyInfo: refPropertyInfo,
         property: property,
