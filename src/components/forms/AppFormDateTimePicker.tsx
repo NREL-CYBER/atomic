@@ -1,18 +1,17 @@
 import React, { MutableRefObject, useEffect, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppItem, AppLabel, AppText } from '..';
-import AppInput from '../AppInput';
-import { formFieldChangeEvent } from './AppForm';
 import { AppColor } from '../../theme';
-import { titleCase, prettyTitle } from '../../util';
-import { AppDateTime } from '../AppDateTime';
+import { prettyTitle } from '../../util';
+import { AppDateTime, dateTimeFormat } from '../AppDateTime';
+import { formFieldChangeEvent } from './AppForm';
 
-
-interface formInputProps<T> {
+interface formInputProps {
     propertyInfo: PropertyDefinitionRef
     property: string
     instanceRef: MutableRefObject<any>
     onChange: formFieldChangeEvent
+    format?: string
 }
 
 type InputStatus = "empty" | "invalid" | "valid";
@@ -23,8 +22,8 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", va
 /**
  * Component for input that displays validation errors
  */
-const AppFormDateTimePicker = (props: formInputProps<any>) => {
-    const { property, instanceRef, onChange, propertyInfo } = props;
+const AppFormDateTimePicker = (props: formInputProps) => {
+    const { property, instanceRef, onChange, propertyInfo, format = "date" } = props;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || null)
@@ -41,13 +40,15 @@ const AppFormDateTimePicker = (props: formInputProps<any>) => {
 
     const statusColor = inputStatusColorMap[inputStatus];
 
+    const dateTimeFormat: dateTimeFormat = format === "date-time" ? "YYYY-MM-DDTHH:mm:ssTZD" : "YYYY-MM-DD"
     return <>
         <AppItem color="clear" lines="none">
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
-            <AppDateTime value={value} onDateEntered={(val) => {
-                setValue(val)
+            <AppDateTime displayFormat={dateTimeFormat} pickerFormat={dateTimeFormat} value={value} onDateEntered={(val) => {
+                format === "date-time" ?
+                    setValue(val) : setValue(val.split("T")[0])
             }} />
         </AppItem>
 

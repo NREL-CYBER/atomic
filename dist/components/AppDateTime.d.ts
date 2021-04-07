@@ -1,5 +1,5 @@
 import React from "react";
-declare type dateTimeFormat = "MMMM YYYY" | "h:mm a" | "HH:mm" | "DD/MMM/YYYY";
+export declare type dateTimeFormat = "MMMM YYYY" | "h:mm a" | "HH:mm" | "DD/MMM/YYYY" | "YYYY-MM-DDTHH:mm:ssTZD" | "YYYY-MM-DD";
 interface dateTimeProps {
     onDateEntered: (date: string) => void;
     displayFormat?: dateTimeFormat;
