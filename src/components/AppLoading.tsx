@@ -1,4 +1,4 @@
-import { IonSpinner, IonLoading } from '@ionic/react';
+import { IonLoading } from '@ionic/react';
 import React from 'react';
 
 interface loadingProps {
