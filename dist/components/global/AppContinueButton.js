@@ -8,6 +8,8 @@ import { useAppLayout, useCompletion } from "../../hooks";
 export const AppContinueButton = () => {
   const {
     allPageRoutes,
+    currentRootPage,
+    rootRoute,
     path
   } = useAppLayout();
   const {
@@ -23,7 +25,7 @@ export const AppContinueButton = () => {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, continueRoute && !continueRoute.path.includes(path) ? /*#__PURE__*/React.createElement(AppButton, {
+  }, continueRoute && (!continueRoute.path.includes(currentRootPage.path) || path === rootRoute.path) ? /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
     color: statusColor,
     routerDirection: "forward",

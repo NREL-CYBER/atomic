@@ -8,14 +8,14 @@ import { AppButton, AppButtons, AppIcon, AppItemDivider, AppToolbar } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 
 export const AppContinueButton: React.FC = () => {
-    const { allPageRoutes, path } = useAppLayout();
+    const { allPageRoutes, currentRootPage, rootRoute, path } = useAppLayout();
     const { isUnlocked, pathStatusColor, isValid } = useCompletion();
     const continueRoute = allPageRoutes.find(({ path }) => isUnlocked(path) && !isValid(path))
     const statusColor = continueRoute ? pathStatusColor(continueRoute.path) : "clear"
     return <>
         <AppToolbar color="clear">
             {<AppButtons slot="end">
-                {continueRoute && !continueRoute.path.includes(path) ? <AppButton
+                {continueRoute && (!continueRoute.path.includes(currentRootPage.path) || path === rootRoute.path) ? <AppButton
                     fill='clear' color={statusColor}
                     routerDirection='forward' routerLink={continueRoute.path} >
                     <AppIcon icon={continueRoute.icon} />
