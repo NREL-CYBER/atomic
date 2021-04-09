@@ -15,7 +15,7 @@ interface textProps {
  * Component to display text with optional color (onText change debounced by 500ms)
  */
 const AppTextArea: React.FC<textProps> = ({ onTextChange, ...props }) => {
-    return <IonTextarea
+    return <IonTextarea autoGrow
         debounce={500}
         onIonChange={(event) => { onTextChange(event.detail.value!) }} {...props} />
 };
