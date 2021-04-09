@@ -35,7 +35,11 @@ export interface AppConfig {
     sections?: Record<string, AppRoute[]>;
     routes: AppRoute[];
     cache: AppCacheIndex;
-    bottomBar?: React.FC;
+    bottomBar?: {
+        start?: React.FC;
+        end?: React.FC;
+        completion?: boolean;
+    };
     about?: React.ReactFragment;
     serialization?: AppSerializationConfig;
     darkMode?: boolean;

@@ -8,15 +8,17 @@ import { AppContinueButton } from './AppContinueButton';
  * Completion aware bottom toolbar
  */
 
-const AppCompletionToolbar: React.FC = ({ children }) => {
+const AppCompletionToolbar: React.FC<{ start?: React.FC, completion?: boolean, end?: React.FC }> = ({ children, start, end, completion }) => {
 
-    const completion = useCompletion(x => x.completion);
+    const completionValue = useCompletion(x => x.completion);
     return (<>
         {<AppToolbar>
-            <AppProgress color="favorite" value={completion()} />
+            <AppButtons slot="start">
+                {start && start}
+            </AppButtons>
+            {!completion && <AppProgress color="favorite" value={completionValue()} />}
             <AppButtons slot="end" >
-                {children}
-                <AppContinueButton />
+                {end ? end : <AppContinueButton />}
             </AppButtons>
         </AppToolbar>
         }</>

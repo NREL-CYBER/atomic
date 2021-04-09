@@ -8,15 +8,20 @@ import { AppContinueButton } from './AppContinueButton';
  */
 
 const AppCompletionToolbar = ({
-  children
+  children,
+  start,
+  end,
+  completion
 }) => {
-  const completion = useCompletion(x => x.completion);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppProgress, {
+  const completionValue = useCompletion(x => x.completion);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, start && start), !completion && /*#__PURE__*/React.createElement(AppProgress, {
     color: "favorite",
-    value: completion()
+    value: completionValue()
   }), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, children, /*#__PURE__*/React.createElement(AppContinueButton, null))));
+  }, end ? end : /*#__PURE__*/React.createElement(AppContinueButton, null))));
 };
 
 export default AppCompletionToolbar;

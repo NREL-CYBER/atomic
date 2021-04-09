@@ -100,9 +100,7 @@ const AppRoot = config => {
     about: config.about || ""
   }), routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
-  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomToolbar, {
-    children: bottomBar
-  })), children));
+  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomToolbar, bottomBar)), children));
 };
 
 export default /*#__PURE__*/memo(AppRoot);
