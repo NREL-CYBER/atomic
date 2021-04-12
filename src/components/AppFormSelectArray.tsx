@@ -38,19 +38,15 @@ const AppFormSelectArray = (props: formSelectArrayInputProps) => {
     const inputStatusColor = inputStatusColorMap[inputStatus];
 
     const updateSelection = useCallback((val: string[]) => {
+        setValue(val);
         if (typeof val === "undefined" || val === null) {
             setInputStatus("empty");
             return;
         }
-
         const [validationStatus, validationErrors] = onChange(property, val);
         setInputStatus(validationStatus);
         setErrors(validationErrors);
     }, [onChange, property])
-
-    useEffect(() => {
-        updateSelection(value)
-    }, [updateSelection, value])
 
 
     return <AppItem>
@@ -58,7 +54,7 @@ const AppFormSelectArray = (props: formSelectArrayInputProps) => {
             {propertyFormattedName}
         </AppLabel>
         <AppSelectArray multiple={multiple} value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
-            setValue(selection);
+            updateSelection(selection);
         }}>
             {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={prettyTitle(enumValue)} />)}
         </AppSelectArray>

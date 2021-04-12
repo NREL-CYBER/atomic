@@ -5,7 +5,6 @@ import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
-import { useEffect } from 'react';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -35,6 +34,8 @@ const AppFormSelectArray = props => {
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   const updateSelection = useCallback(val => {
+    setValue(val);
+
     if (typeof val === "undefined" || val === null) {
       setInputStatus("empty");
       return;
@@ -44,9 +45,6 @@ const AppFormSelectArray = props => {
     setInputStatus(validationStatus);
     setErrors(validationErrors);
   }, [onChange, property]);
-  useEffect(() => {
-    updateSelection(value);
-  }, [updateSelection, value]);
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: inputStatusColor
@@ -55,7 +53,7 @@ const AppFormSelectArray = props => {
     value: value,
     placeholder: propertyFormattedName,
     onSelectionChange: selection => {
-      setValue(selection);
+      updateSelection(selection);
     }
   }, propertyInfo.enum.map(enumValue => /*#__PURE__*/React.createElement(AppSelectOption, {
     key: enumValue,
