@@ -41,7 +41,8 @@ const AppFormInput = (props: formInputProps<any>) => {
     // This is a chained Ternary:
     const [value, setValue] = useState<string>(
         instanceType === "undefined" ? null :
-            input === "array" ? typeof instance === "object" ? instance.join("\n") : instance : null);
+            input !== "array" ? instance :
+                typeof instance === "object" ? instance.join("\n") : instance);
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
     const calculateType = () => {
