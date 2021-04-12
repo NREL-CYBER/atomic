@@ -41,7 +41,7 @@ const AppFormInput = (props: formInputProps<any>) => {
     // This is a chained Ternary:
     const [value, setValue] = useState<string>(
         instanceType === "undefined" ? null :
-            input === "array" ? instance.join("\n") : instance);
+            input === "array" ? typeof instance === "object" ? instance.join("\n") : instance : null);
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
     const calculateType = () => {
@@ -83,7 +83,7 @@ const AppFormInput = (props: formInputProps<any>) => {
                 <AppInput color="dark" type={inputMode} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
                     setValue(val)
                 }} />
-                : <AppTextArea  color="dark" inputMode={inputMode} value={value} onTextChange={(val) => {
+                : <AppTextArea color="dark" inputMode={inputMode} value={value} onTextChange={(val) => {
                     setValue(val);
                 }} />}
         </AppItem>
