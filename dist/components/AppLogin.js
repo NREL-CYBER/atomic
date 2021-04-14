@@ -37,12 +37,10 @@ const credentialSchema = {
 
 const AppLogin = ({
   onLoginSuccess,
-  cloud
+  authenticate
 }) => {
   const [status, setStatus] = useState("idle"); //    const cloudSerializer = useFirebaseStorage(cloud)
   //    const { authenticate } = cloudSerializer();
-
-  const authenticate = (...arg) => {};
 
   const {
     post
@@ -78,14 +76,16 @@ const AppLogin = ({
     }) => {
       setStatus("authenticating");
       authenticate(email, password, status, result => {
-        onLoginSuccess(result);
-      }, () => {
-        post({
-          color: "danger",
-          id: "login-failure",
-          message: "Failed to Authenticate"
-        });
-        setStatus("idle");
+        if (typeof result !== "undefined") {
+          onLoginSuccess(result);
+        } else {
+          post({
+            color: "danger",
+            id: "login-failure",
+            message: "Failed to Authenticate"
+          });
+          setStatus("idle");
+        }
       });
     }
   }, /*#__PURE__*/React.createElement(AppButton, {

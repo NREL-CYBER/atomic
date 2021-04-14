@@ -33,6 +33,7 @@ import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance'; //import AppCloudSerializer from './serialization/AppCloudSerializer';
 
 import AppLocalSerializer from './serialization/AppLocalSerializer';
+import AppRestSerializer from './serialization/AppRestSerializer';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -64,11 +65,11 @@ const AppRoot = config => {
     initialize(config);
   }, [config, initialize]);
   const [uid, setUid] = useState();
-  const cloudSerializationAndNotLoggedIn = serialization && serialization.cloud && serialization.cloud.provider.authentication.required && !uid;
+  const restSerializationAndNotLoggedIn = serialization && serialization.rest && serialization.rest && !uid;
   const localSerializationWithEncryptionAndNotLoggedIn = !uid && serialization && serialization.encryption === "RSA";
-  const needs_authentication = cloudSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
+  const needs_authentication = restSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
 
-  if (needs_authentication && serialization && serialization.cloud && typeof uid === "undefined") {
+  if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
     return /*#__PURE__*/React.createElement(IonApp, {
       className: darkMode ? "dark-theme" : "light-theme"
     }, /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
@@ -78,7 +79,11 @@ const AppRoot = config => {
     }, title, /*#__PURE__*/React.createElement(AppChip, {
       color: "primary"
     }, version)), /*#__PURE__*/React.createElement(AppLogin, {
-      cloud: serialization.cloud,
+      authenticate: () => {
+        return new Promise(() => {
+          return false;
+        });
+      },
       onLoginSuccess: uidCredential => {
         setUid(uidCredential);
       }
@@ -88,6 +93,9 @@ const AppRoot = config => {
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
   }, serialization && serialization.mode === "local" && /*#__PURE__*/React.createElement(AppLocalSerializer, {
+    serialization: serialization,
+    cache: cache
+  }), serialization && serialization.mode === "rest" && serialization.rest && /*#__PURE__*/React.createElement(AppRestSerializer, {
     serialization: serialization,
     cache: cache
   }), /*#__PURE__*/React.createElement(AppRouter, {
@@ -100,7 +108,9 @@ const AppRoot = config => {
     about: config.about || ""
   }), routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
-  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomToolbar, bottomBar)), children));
+  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomToolbar, _extends({
+    completion: config.completion?.disabled
+  }, bottomBar))), children));
 };
 
 export default /*#__PURE__*/memo(AppRoot);

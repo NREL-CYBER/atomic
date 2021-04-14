@@ -29,6 +29,7 @@ import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
 //import AppCloudSerializer from './serialization/AppCloudSerializer';
 import AppLocalSerializer from './serialization/AppLocalSerializer';
+import AppRestSerializer from './serialization/AppRestSerializer';
 
 /**
  * Component that stores the root of the application and control current theme
@@ -57,14 +58,14 @@ const AppRoot: React.FC<AppConfig> = (config) => {
 
     const [uid, setUid] = useState<string | undefined>()
 
-    const cloudSerializationAndNotLoggedIn = (serialization && serialization.cloud &&
-        serialization.cloud.provider.authentication.required && !uid);
+    const restSerializationAndNotLoggedIn = (serialization && serialization.rest &&
+        serialization.rest && !uid);
 
     const localSerializationWithEncryptionAndNotLoggedIn = (!uid && serialization && serialization.encryption === "RSA");
 
-    const needs_authentication = cloudSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
+    const needs_authentication = restSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
 
-    if (needs_authentication && serialization && serialization.cloud && typeof uid === "undefined") {
+    if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
             <AppPage>
                 <AppContent center>
@@ -75,7 +76,11 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                             {version}
                         </AppChip>
                     </AppTitle>
-                    <AppLogin cloud={serialization.cloud} onLoginSuccess={(uidCredential) => {
+                    <AppLogin authenticate={() => {
+                        return new Promise<string>(() => {
+                            return false;
+                        });
+                    }} onLoginSuccess={(uidCredential) => {
                         setUid(uidCredential);
                     }} />
                 </AppContent>
@@ -85,9 +90,9 @@ const AppRoot: React.FC<AppConfig> = (config) => {
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
         {/* Local Serializer*/}
         {serialization && serialization.mode === "local" && <AppLocalSerializer serialization={serialization} cache={cache} />}
-        {/* Cloud Serializer*/}
-        {/* {serialization && serialization.mode === "cloud" && serialization.cloud && uid &&
-            <AppCloudSerializer serialization={serialization} uid={uid} cloud={serialization.cloud} cache={cache} />} */}
+        {/* Rest Serializer*/}
+        {serialization && serialization.mode === "rest" && serialization.rest &&
+            <AppRestSerializer serialization={serialization} cache={cache} />}
 
         <AppRouter id={"root"}>
             {/**Side Menu  */}
@@ -99,7 +104,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             <AppNotifications />
             <AppGuidance />
             <IonFooter>
-                <AppBottomToolbar {...bottomBar} />
+                <AppBottomToolbar completion={config.completion?.disabled} {...bottomBar} />
             </IonFooter>
             {children}
         </AppRouter>

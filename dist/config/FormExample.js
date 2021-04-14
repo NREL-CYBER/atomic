@@ -29,7 +29,7 @@ const ExampleForm = () => {
       setStatus("idle");
     },
     data: {},
-    validator: validator()
+    validator: validator
   }) : /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "paper",
     titleColor: "secondary",

@@ -2,32 +2,23 @@
 import { AppCacheIndex } from "../state/AppCacheIndex";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
-export interface AppCloudConfig {
+export interface AppRestConfig {
     provider: {
-        firebase: {
-            apiKey?: string;
-            authDomain?: string;
-            databaseURL?: string;
-            projectId?: string;
-            storageBucket?: string;
-            messagingSenderId?: string;
-            appId?: string;
-            measurementId?: string;
-        };
-        authentication: {
-            required: boolean;
+        endpoint: string;
+        authentication?: {
             provider: "email";
         };
     };
 }
 export interface AppSerializationConfig {
-    mode: "cloud" | "local";
+    mode: "rest" | "local";
     encryption: "plaintext" | "RSA";
-    cloud?: AppCloudConfig;
+    rest?: AppRestConfig;
 }
 export interface AppConfig {
     title: string;
     completion?: {
+        disabled?: boolean;
         default: CompletionStatus;
     };
     version: string;
@@ -38,7 +29,6 @@ export interface AppConfig {
     bottomBar?: {
         start?: React.FC;
         end?: React.FC;
-        completion?: boolean;
     };
     about?: React.ReactFragment;
     serialization?: AppSerializationConfig;

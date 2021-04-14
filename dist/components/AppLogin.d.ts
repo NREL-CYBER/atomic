@@ -1,7 +1,6 @@
 import React from 'react';
-import { AppCloudConfig } from '../util/AppConfig';
 declare const _default: React.NamedExoticComponent<{
     onLoginSuccess: (uid: string) => void;
-    cloud: AppCloudConfig;
+    authenticate: (email: string, password: string, operation: "create" | "login", onAuthenticated: (uid: string) => void) => Promise<string>;
 }>;
 export default _default;
