@@ -76,9 +76,10 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                             {version}
                         </AppChip>
                     </AppTitle>
-                    <AppLogin authenticate={() => {
-                        return new Promise<string>(() => {
-                            return false;
+                    <AppLogin authenticate={(username: string, password: string, operation, onAuthenticate) => {
+                        return new Promise<string>((resolve) => {
+                            onAuthenticate("");
+                            resolve("")
                         });
                     }} onLoginSuccess={(uidCredential) => {
                         setUid(uidCredential);

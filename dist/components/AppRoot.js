@@ -79,9 +79,10 @@ const AppRoot = config => {
     }, title, /*#__PURE__*/React.createElement(AppChip, {
       color: "primary"
     }, version)), /*#__PURE__*/React.createElement(AppLogin, {
-      authenticate: () => {
-        return new Promise(() => {
-          return false;
+      authenticate: (username, password, operation, onAuthenticate) => {
+        return new Promise(resolve => {
+          onAuthenticate("");
+          resolve("");
         });
       },
       onLoginSuccess: uidCredential => {
