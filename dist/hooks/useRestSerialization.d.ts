@@ -6,7 +6,6 @@ export declare type restSynchronizationContext = {
     synchronize<T>(namespace: string, store: () => Store<T>, uid: string): void;
 };
 /**
- * Observe an Entity collection in cloud storage
+ * Observe an Entity collection in rest storage
  */
-declare function useRestSerialization(restConfig: AppRestConfig): import("zustand").UseStore<restSynchronizationContext>;
-export default useRestSerialization;
+export declare const useRestSerializeation: (restConfig: AppRestConfig) => restSynchronizationContext;

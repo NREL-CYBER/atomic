@@ -14,68 +14,63 @@ export type restSynchronizationContext = {
 
 
 /**
- * Observe an Entity collection in cloud storage
+ * Observe an Entity collection in rest storage
  */
-function useRestSerialization(restConfig: AppRestConfig) {
-
-    return create<restSynchronizationContext>((set, restStorage) => ({
-        endpoint: restConfig.provider.endpoint,
-        authenticate: (email, password, action, onLoginSuccess, onLoginFail) => {
-        },
-        async synchronize<T>(namespace: string, store: () => Store<T>, uid: string) {
-            const collection_key = namespace + "-" + store().collection;
-            const collection_workspace_key = collection_key + "-workspace";
-            const collection_active_key = collection_key + "-active";
-            const get = (key: string) => {
-                return new Promise<string>((resolve => {
-                    axios.get(restStorage().endpoint + "/get/" + key).then(({ data }) => {
-                        resolve(data)
-                    })
-                }))
-            }
-            const set = (key: string, value: string) => {
-                return new Promise<string>((resolve => {
-                    axios.post(restStorage().endpoint + "/set/" + key, value).then(({ data }) => {
-                        resolve(data)
-                    })
-                }))
-            }
-
-            const serialized_store_string = await get(collection_key);
-            try {
-                const store_records = JSON.parse(serialized_store_string) as Record<string, any>;
-                store().import(store_records, false);
-
-            } catch (error) {
-                console.log(error, serialized_store_string);
-            }
-            const workspace_string = await get(collection_workspace_key)
-            try {
-                const store_workspace: T | "" = workspace_string && JSON.parse(workspace_string) as T;;
-                store_workspace !== "" && store().setWorkspaceInstance(store_workspace);
-
-            } catch (error) {
-                console.log(error, workspace_string);
-            }
-
-            store().addListener((_, data, status) => {
-                switch (status) {
-                    case "workspacing":
-                        set(collection_workspace_key, store().exportWorkspace());
-                        break;
-                    case "inserting":
-                    case "removing":
-                        set(collection_key, store().export());
-                        break;
-                    case "activating":
-                        set(collection_active_key, store().active!)
-                        break;
-                }
-
-
-            });
+export const useRestSerializeation = (restConfig: AppRestConfig) => (create<restSynchronizationContext>((set, restStorage) => ({
+    endpoint: restConfig.provider.endpoint,
+    authenticate: (email, password, action, onLoginSuccess, onLoginFail) => {
+    },
+    async synchronize<T>(namespace: string, store: () => Store<T>, uid: string) {
+        const collection_key = namespace + "-" + store().collection;
+        const collection_workspace_key = collection_key + "-workspace";
+        const collection_active_key = collection_key + "-active";
+        const get = (key: string) => {
+            return new Promise<string>((resolve => {
+                axios.get(restStorage().endpoint + "/get/" + key).then(({ data }) => {
+                    resolve(data)
+                })
+            }))
         }
-    }))
-}
+        const set = (key: string, value: string) => {
+            return new Promise<string>((resolve => {
+                axios.post(restStorage().endpoint + "/set/" + key, value).then(({ data }) => {
+                    resolve(data)
+                })
+            }))
+        }
 
-export default useRestSerialization;
+        const serialized_store_string = await get(collection_key);
+        try {
+            const store_records = JSON.parse(serialized_store_string) as Record<string, any>;
+            store().import(store_records, false);
+
+        } catch (error) {
+            console.log(error, serialized_store_string);
+        }
+        const workspace_string = await get(collection_workspace_key)
+        try {
+            const store_workspace: T | "" = workspace_string && JSON.parse(workspace_string) as T;;
+            store_workspace !== "" && store().setWorkspaceInstance(store_workspace);
+
+        } catch (error) {
+            console.log(error, workspace_string);
+        }
+
+        store().addListener((_, data, status) => {
+            switch (status) {
+                case "workspacing":
+                    set(collection_workspace_key, store().exportWorkspace());
+                    break;
+                case "inserting":
+                case "removing":
+                    set(collection_key, store().export());
+                    break;
+                case "activating":
+                    set(collection_active_key, store().active!)
+                    break;
+            }
+
+
+        });
+    }
+})))()

@@ -1,10 +1,9 @@
-import React, { FC, memo, useState } from "react";
+import React, { FC, memo, useEffect, useState } from "react";
 import useTimeout from "use-timeout";
-import useIndexDBStorage from "../../hooks/useLocalSerialization";
+import useCache from "../../hooks/useCache";
+import { useRestSerializeation } from "../../hooks/useRestSerialization";
 import { AppCacheIndex } from "../../state/AppCacheIndex";
 import { AppSerializationConfig } from "../../util/AppConfig";
-import { useEffect } from "react";
-import useCache from "../../hooks/useCache";
 
 export interface appLocalSerializerProps {
     cache: AppCacheIndex
@@ -13,7 +12,7 @@ export interface appLocalSerializerProps {
 
 const AppRestSerializer: FC<appLocalSerializerProps> = ({ cache, serialization }) => {
 
-    const { synchronize } = useIndexDBStorage();
+    const { synchronize } = useRestSerializeation(serialization.rest!);
     const [booting, setIsBooting] = useState(true);
     const { synchronized, ready } = useCache();
     useTimeout(() => {
@@ -26,7 +25,7 @@ const AppRestSerializer: FC<appLocalSerializerProps> = ({ cache, serialization }
         }
         Object.entries(cache).forEach(([namespace, collections]) => {
             Object.values(collections).forEach((storeAPI) => {
-                synchronize(namespace, storeAPI.getState, "anon");
+                synchronize(namespace, storeAPI.getState, "uid");
             })
         })
         ready();

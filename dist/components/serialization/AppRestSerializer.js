@@ -1,8 +1,7 @@
-import React, { memo, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import useTimeout from "use-timeout";
-import useIndexDBStorage from "../../hooks/useLocalSerialization";
-import { useEffect } from "react";
 import useCache from "../../hooks/useCache";
+import { useRestSerializeation } from "../../hooks/useRestSerialization";
 
 const AppRestSerializer = ({
   cache,
@@ -10,7 +9,7 @@ const AppRestSerializer = ({
 }) => {
   const {
     synchronize
-  } = useIndexDBStorage();
+  } = useRestSerializeation(serialization.rest);
   const [booting, setIsBooting] = useState(true);
   const {
     synchronized,
@@ -26,7 +25,7 @@ const AppRestSerializer = ({
 
     Object.entries(cache).forEach(([namespace, collections]) => {
       Object.values(collections).forEach(storeAPI => {
-        synchronize(namespace, storeAPI.getState, "anon");
+        synchronize(namespace, storeAPI.getState, "uid");
       });
     });
     ready();
