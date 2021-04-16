@@ -26,14 +26,21 @@ export const useRestSerializeation = (restConfig: AppRestConfig) => (create<rest
         const collection_active_key = collection_key + "-active";
         const get = (key: string) => {
             return new Promise<string>((resolve => {
-                axios.get(restStorage().endpoint + "/get/" + key).then(({ data }) => {
+                axios.get(restStorage().endpoint + "/" + collection_key + "/" + key).then(({ data }) => {
                     resolve(data)
                 })
             }))
         }
         const set = (key: string, value: string) => {
             return new Promise<string>((resolve => {
-                axios.post(restStorage().endpoint + "/set/" + key, value).then(({ data }) => {
+                axios.post(restStorage().endpoint + "/" + collection_key + "/", key).then(({ data }) => {
+                    resolve(data)
+                })
+            }))
+        }
+        const remove = (key: string) => {
+            return new Promise<string>((resolve => {
+                axios.delete(restStorage().endpoint + "/" + collection_key + "/" + key).then(({ data }) => {
                     resolve(data)
                 })
             }))
@@ -45,7 +52,7 @@ export const useRestSerializeation = (restConfig: AppRestConfig) => (create<rest
             store().import(store_records, false);
 
         } catch (error) {
-            console.log(error, serialized_store_string);
+            //          console.log(error, serialized_store_string);
         }
         const workspace_string = await get(collection_workspace_key)
         try {
@@ -53,20 +60,33 @@ export const useRestSerializeation = (restConfig: AppRestConfig) => (create<rest
             store_workspace !== "" && store().setWorkspaceInstance(store_workspace);
 
         } catch (error) {
-            console.log(error, workspace_string);
+            //            console.log(error, workspace_string);
         }
 
-        store().addListener((_, data, status) => {
+        store().addListener((key, data, status) => {
             switch (status) {
                 case "workspacing":
-                    set(collection_workspace_key, store().exportWorkspace());
+                    set(collection_workspace_key, store().exportWorkspace()).catch(() => {
+                        store().setStatus("erroring")
+                    })
                     break;
                 case "inserting":
+                    set(key, JSON.stringify(data)).catch(() => {
+                        store().setStatus("erroring")
+                    })
+
+                    break;
                 case "removing":
-                    set(collection_key, store().export());
+                    remove(key).catch(() => {
+                        store().setStatus("erroring")
+                    })
+
                     break;
                 case "activating":
-                    set(collection_active_key, store().active!)
+                    set(collection_active_key, store().active!).catch(() => {
+                        store().setStatus("erroring")
+                    })
+
                     break;
             }
 
