@@ -9,7 +9,7 @@ const AppRestSerializer = ({
 }) => {
   const {
     synchronize
-  } = useRestSerializeation(serialization.rest);
+  } = useRestSerializeation(serialization);
   const [booting, setIsBooting] = useState(true);
   const {
     synchronized,
@@ -17,7 +17,7 @@ const AppRestSerializer = ({
   } = useCache();
   useTimeout(() => {
     setIsBooting(false);
-  }, 500);
+  }, 200);
   useEffect(() => {
     if (booting || synchronized) {
       return;

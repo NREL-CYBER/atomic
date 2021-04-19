@@ -1,23 +1,22 @@
 import React, { useState } from "react";
-import { AppButton, AppCard, AppContent, AppForm, AppItem, AppLabel, AppPage, AppTitle, AppAvatar } from "../components";
-import { useAddress } from "./ExampleConfig";
+import { AppAvatar, AppButton, AppCard, AppContent, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
-import { useCompletion } from "../hooks";
-import { useEffect } from "react";
+import AppFormComposer from "../components/forms/AppFormComposer";
+import { useAddress } from "./ExampleConfig";
 
 const ExampleForm: React.FC = () => {
-    const { validator, insert, all } = useAddress.getState();
-    const { setPathState } = useCompletion();
-    useEffect(() => {
-        setPathState("/Form", "valid");
-        setPathState("/", "valid");
-    }, [setPathState]);
+    const { lazyLoadValidator, insert, all } = useAddress.getState();
     const [status, setStatus] = useState<"idle" | "editing">("idle")
     return <AppPage>
         <AppContent center>
-            {status === "editing" ? <AppForm title={"Address"} requiredOnly onSubmit={(data) => { insert(data); setStatus("idle") }} data={{}} validator={validator!} /> :
+            {status === "editing" ? <AppFormComposer
+                title={"Address"}
+                requiredOnly
+                onSubmit={(data) => {
+                    console.log(data);
+                    insert(data); setStatus("idle")
+                }} data={{}} lazyLoadValidator={lazyLoadValidator} /> :
                 <AppCard contentColor="paper" titleColor="secondary" headerColor="primary" title="Addresses">{all().map(({ street_address, country_name, street_view, region }, i) => {
-
                     return <AppCard contentColor="light">
                         <AppLabel key={i} position="floating" color="primary" >
                             Address

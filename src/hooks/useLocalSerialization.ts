@@ -30,14 +30,23 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
         } catch (error) {
             console.log(error, serialized_store_string);
         }
-        const workspace_string = await get(collection_workspace_key)
+
         try {
+            const workspace_string = await get(collection_workspace_key)
             const store_workspace = workspace_string && JSON.parse(workspace_string) as T;;
             store().setWorkspaceInstance(store_workspace);
 
         } catch (error) {
-            console.log(error, workspace_string);
+            console.log(error);
         }
+        try {
+            const active_string = await get(collection_active_key)
+            active_string && store().setActive(active_string);
+
+        } catch (error) {
+            console.log(error);
+        }
+
 
         store().addListener((_, data, status) => {
             switch (status) {
@@ -46,6 +55,7 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
                     break;
                 case "inserting":
                 case "removing":
+                case "updating":
                     set(collection_key, store().export());
                     break;
                 case "activating":

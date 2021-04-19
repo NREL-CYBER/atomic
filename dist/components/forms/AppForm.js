@@ -76,7 +76,7 @@ const AppForm = props => {
 
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
-    const propertyErrors = allErrors.filter(error => error.dataPath.includes(property) || (error.message || "").includes(property)).map(x => x.message || "");
+    const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
     setErrors(allErrors.map(x => x.dataPath.split("#").join("").split("/").join("") + " " + x.message || ""));
 
     if (allErrors.length === 0) {

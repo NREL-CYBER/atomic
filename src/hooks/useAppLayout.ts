@@ -63,7 +63,7 @@ const useAppLayout = create<AppLayout>((set, store) => ({
                 ...flatRoutes, ...moreFlatRoutes
             ]));
         const rootRoute = routes.find(x => x.path === "/")!;
-        if (!rootRoute) { 
+        if (!rootRoute) {
             throw new Error("Missing Root route");
         }
         const order = allRoutesFlattened.map(x => x.path);

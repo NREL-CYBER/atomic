@@ -1,35 +1,28 @@
 import React, { useState } from "react";
-import { AppButton, AppCard, AppContent, AppForm, AppItem, AppLabel, AppPage, AppTitle, AppAvatar } from "../components";
-import { useAddress } from "./ExampleConfig";
+import { AppAvatar, AppButton, AppCard, AppContent, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
-import { useCompletion } from "../hooks";
-import { useEffect } from "react";
+import AppFormComposer from "../components/forms/AppFormComposer";
+import { useAddress } from "./ExampleConfig";
 
 const ExampleForm = () => {
   const {
-    validator,
+    lazyLoadValidator,
     insert,
     all
   } = useAddress.getState();
-  const {
-    setPathState
-  } = useCompletion();
-  useEffect(() => {
-    setPathState("/Form", "valid");
-    setPathState("/", "valid");
-  }, [setPathState]);
   const [status, setStatus] = useState("idle");
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     center: true
-  }, status === "editing" ? /*#__PURE__*/React.createElement(AppForm, {
+  }, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
     title: "Address",
     requiredOnly: true,
     onSubmit: data => {
+      console.log(data);
       insert(data);
       setStatus("idle");
     },
     data: {},
-    validator: validator
+    lazyLoadValidator: lazyLoadValidator
   }) : /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "paper",
     titleColor: "secondary",

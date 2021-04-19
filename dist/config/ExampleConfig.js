@@ -12,6 +12,10 @@ const ExampleConfig = {
     nice: routes
   },
   routes,
+  completion: {
+    default: "unlocked",
+    disabled: true
+  },
   cache: {
     atomic_example: {
       addresses: useAddress
@@ -20,8 +24,14 @@ const ExampleConfig = {
   darkMode: false,
   about: "example application information....",
   serialization: {
-    mode: "local",
-    encryption: "plaintext" // cloud: {
+    mode: "rest",
+    encryption: "plaintext",
+    authentication: {
+      provider: "email"
+    },
+    rest: {
+      endpoint: "http://1lv11rmadm01:8888/api/v1/"
+    } // cloud: {
     //     provider: {
     //         firebase: {
     //             apiKey: "AIzaSyCpu67xdMKRxZOpN-FGxXH_wmLhqvAUFQM",

@@ -3,16 +3,14 @@ import { AppCacheIndex } from "../state/AppCacheIndex";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
 export interface AppRestConfig {
-    provider: {
-        endpoint: string;
-        authentication?: {
-            provider: "email";
-        };
-    };
+    endpoint: string;
 }
 export interface AppSerializationConfig {
     mode: "rest" | "local";
     encryption: "plaintext" | "RSA";
+    authentication?: {
+        provider: "email";
+    };
     rest?: AppRestConfig;
 }
 export interface AppConfig {

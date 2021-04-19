@@ -7,8 +7,14 @@ export interface propertyKeyValue {
 export interface calculatedPropertyMap {
     map: Record<string, (base: propertyKeyValue) => propertyKeyValue>;
 }
-export interface formComposerProps {
+export interface formComposerProps extends formProps {
+    lazyLoadValidator: () => Promise<Validator<unknown>>;
+    definition?: string;
+}
+export interface formNodeProps extends formProps {
     validator: Validator<unknown>;
+}
+export interface formProps {
     data: any;
     onSubmit: (validData: any) => void;
     children?: ReactFragment;
@@ -35,5 +41,5 @@ export interface nestedFormProps {
     onChange: formFieldChangeEvent;
 }
 export declare type formFieldStatus = "valid" | "invalid" | "empty";
-declare const AppForm: React.FC<formComposerProps>;
+declare const AppForm: React.FC<formNodeProps>;
 export default AppForm;

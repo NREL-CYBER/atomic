@@ -30,8 +30,15 @@ export interface calculatedPropertyMap {
     map: Record<string, (base: propertyKeyValue) => propertyKeyValue>
 }
 
-export interface formComposerProps {
+export interface formComposerProps extends formProps {
+    lazyLoadValidator: () => Promise<Validator<unknown>>
+    definition?: string,
+}
+export interface formNodeProps extends formProps {
     validator: Validator<unknown>
+}
+
+export interface formProps {
     data: any,
     onSubmit: (validData: any) => void,
     children?: ReactFragment,
@@ -57,7 +64,6 @@ interface formElementProps {
     validator: Validator<any>
     onChange: formFieldChangeEvent
 }
-
 export interface nestedFormProps {
     property: string
     inline?: boolean
@@ -90,7 +96,7 @@ export type formFieldStatus = "valid" | "invalid" | "empty";
 
 
 
-const AppForm: React.FC<formComposerProps> = (props) => {
+const AppForm: React.FC<formNodeProps> = (props) => {
     const { validator, data, onSubmit, children, lockedFields, hiddenFields,
         description, title, requiredOnly, calculatedFields, showFields,
         customSubmit, autoSubmit, customComponentMap, inlineFields } = props
@@ -99,6 +105,7 @@ const AppForm: React.FC<formComposerProps> = (props) => {
         // eslint-disable-next-line no-throw-literal
         throw "Schema must have a type"
     }
+
     const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
@@ -115,10 +122,10 @@ const AppForm: React.FC<formComposerProps> = (props) => {
                 }
             }
         }
+
         setIsValid(validator.validate(instance.current))
         const allErrors = validator.validate.errors || []
-        const propertyErrors = allErrors.filter(error => error.dataPath.includes(property) || (error.message || "")
-            .includes(property)).map(x => x.message || "");
+        const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
         setErrors(allErrors.map(x => x.dataPath.split("#").join("").split("/").join("") + " " + x.message || ""))
         if (allErrors.length === 0) {
             autoSubmit && onSubmit(instance.current);

@@ -19,7 +19,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, { memo, useEffect, useState } from 'react';
 import { Route } from 'react-router';
-import { AppContent, AppPage } from '.';
+import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
 import AppChip from './AppChip';
@@ -62,7 +62,11 @@ const AppRoot = config => {
     element.classList.add(className);
   }, [darkMode]);
   useEffect(() => {
-    initialize(config);
+    console.log(config);
+    config && initialize(config);
+    return () => {
+      console.log("Exit");
+    };
   }, [config, initialize]);
   const [uid, setUid] = useState();
   const restSerializationAndNotLoggedIn = serialization && serialization.rest && serialization.rest && !uid;
@@ -72,7 +76,7 @@ const AppRoot = config => {
   if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
     return /*#__PURE__*/React.createElement(IonApp, {
       className: darkMode ? "dark-theme" : "light-theme"
-    }, /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
+    }, /*#__PURE__*/React.createElement(AppContent, {
       center: true
     }, /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppTitle, {
       color: "tertiary"
@@ -88,7 +92,7 @@ const AppRoot = config => {
       onLoginSuccess: uidCredential => {
         setUid(uidCredential);
       }
-    }))));
+    })));
   }
 
   return /*#__PURE__*/React.createElement(IonApp, {
@@ -107,7 +111,7 @@ const AppRoot = config => {
     topBar
   } : /*#__PURE__*/React.createElement(AppTopToolbar, {
     about: config.about || ""
-  }), routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
+  }), routes && routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
   }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomToolbar, _extends({
     completion: config.completion?.disabled

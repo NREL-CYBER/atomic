@@ -1,13 +1,13 @@
-import React from 'react'; // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
-
+// also exported from '@storybook/react' if you can deal with breaking changes in 6.1
+import React from 'react';
 import Validator from 'validator';
-import { AppForm } from '../components';
+import AppFormComposer from '../components/forms/AppFormComposer';
 export default {
-  title: 'atomic/AppForm',
-  component: AppForm
+  title: 'atomic/AppFormComposer',
+  component: AppFormComposer
 };
 
-const Template = args => /*#__PURE__*/React.createElement(AppForm, args);
+const Template = args => /*#__PURE__*/React.createElement(AppFormComposer, args);
 
 const addressSchema = {
   "$id": "https://example.com/address.schema.json",
@@ -86,8 +86,15 @@ const veggieSchema = {
   },
   "required": ["fruits", "vegetables"]
 };
-const validator = new Validator(addressSchema);
-const veggieValidator = new Validator(veggieSchema);
+
+const validator = () => new Promise(resolve => {
+  resolve(new Validator(addressSchema));
+});
+
+const veggieValidator = () => new Promise(resolve => {
+  resolve(new Validator(veggieSchema));
+});
+
 const sapSchema = {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "http://csrc.nist.gov/ns/oscal/1.0-schema.json",
@@ -2545,12 +2552,16 @@ const sapSchema = {
   "additionalProperties": false,
   "maxProperties": 1
 };
-const sapValidator = new Validator(sapSchema, "assessment-plan");
+
+const sapValidator = () => new Promise(resolve => {
+  resolve(new Validator(sapSchema));
+});
+
 export const AddressExample = Template.bind({});
 AddressExample.args = {
   title: "Address",
   data: {},
-  validator,
+  lazyLoadValidator: validator,
   requiredOnly: false,
   onSubmit
 };
@@ -2558,12 +2569,13 @@ export const VeggieExample = Template.bind({});
 VeggieExample.args = {
   title: "Veggie",
   data: {},
-  validator: veggieValidator,
+  lazyLoadValidator: veggieValidator,
   onSubmit
 };
 export const ComplexExample = Template.bind({});
 ComplexExample.args = {
   data: {},
-  validator: sapValidator,
+  definition: "metadata",
+  lazyLoadValidator: sapValidator,
   onSubmit
 };

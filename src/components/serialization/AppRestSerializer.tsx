@@ -12,12 +12,12 @@ export interface appLocalSerializerProps {
 
 const AppRestSerializer: FC<appLocalSerializerProps> = ({ cache, serialization }) => {
 
-    const { synchronize } = useRestSerializeation(serialization.rest!);
+    const { synchronize } = useRestSerializeation(serialization);
     const [booting, setIsBooting] = useState(true);
     const { synchronized, ready } = useCache();
     useTimeout(() => {
         setIsBooting(false);
-    }, 500);
+    }, 200);
 
     useEffect(() => {
         if (booting || synchronized) {

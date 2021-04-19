@@ -1,17 +1,17 @@
-import React from 'react';
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
-import { Story, Meta } from '@storybook/react/types-6-0';
-
+import { Meta, Story } from '@storybook/react/types-6-0';
+import React from 'react';
 import Validator, { RootSchemaObject } from 'validator';
-import { AppForm } from '../components';
 import { formComposerProps } from '../components/forms/AppForm';
+import AppFormComposer from '../components/forms/AppFormComposer';
+
 
 export default {
-    title: 'atomic/AppForm',
-    component: AppForm,
+    title: 'atomic/AppFormComposer',
+    component: AppFormComposer,
 } as Meta;
 
-const Template: Story<formComposerProps> = (args) => <AppForm {...args} />;
+const Template: Story<formComposerProps> = (args) => <AppFormComposer {...args} />;
 
 interface Address {
     "post-office-box": string,
@@ -103,8 +103,13 @@ const veggieSchema = {
         "fruits", "vegetables"
     ]
 }
-const validator = new Validator(addressSchema);
-const veggieValidator = new Validator(veggieSchema);
+const validator = () => new Promise<Validator<any>>((resolve) => {
+    resolve(new Validator(addressSchema))
+});
+const veggieValidator = () => new Promise<Validator<any>>((resolve) => {
+    resolve(new Validator(veggieSchema))
+});
+
 
 const sapSchema = {
     "$schema": "http://json-schema.org/draft-07/schema#",
@@ -2882,13 +2887,15 @@ const sapSchema = {
     "maxProperties": 1
 }
 
-const sapValidator = new Validator(sapSchema, "assessment-plan");
+const sapValidator = () => new Promise<Validator<any>>((resolve) => {
+    resolve(new Validator(sapSchema))
+});
 
 export const AddressExample = Template.bind({});
 AddressExample.args = {
     title: "Address",
     data: {},
-    validator,
+    lazyLoadValidator: validator,
     requiredOnly: false,
     onSubmit,
 }
@@ -2896,13 +2903,14 @@ export const VeggieExample = Template.bind({});
 VeggieExample.args = {
     title: "Veggie",
     data: {},
-    validator: veggieValidator,
+    lazyLoadValidator: veggieValidator,
     onSubmit,
 }
 export const ComplexExample = Template.bind({});
 ComplexExample.args = {
     data: {},
-    validator: sapValidator,
+    definition: "metadata",
+    lazyLoadValidator: sapValidator,
     onSubmit,
 }
 

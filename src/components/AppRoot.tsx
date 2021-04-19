@@ -14,7 +14,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, { memo, useEffect, useState } from 'react';
 import { Route } from 'react-router';
-import { AppContent, AppPage } from '.';
+import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
 import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
@@ -53,7 +53,11 @@ const AppRoot: React.FC<AppConfig> = (config) => {
     );
 
     useEffect(() => {
-        initialize(config);
+        console.log(config);
+        config && initialize(config);
+        return () => {
+            console.log("Exit");
+        }
     }, [config, initialize])
 
     const [uid, setUid] = useState<string | undefined>()
@@ -67,25 +71,23 @@ const AppRoot: React.FC<AppConfig> = (config) => {
 
     if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
-            <AppPage>
-                <AppContent center>
-                    <AppNotifications />
-                    <AppTitle color="tertiary">
-                        {title}
-                        <AppChip color="primary">
-                            {version}
-                        </AppChip>
-                    </AppTitle>
-                    <AppLogin authenticate={(username: string, password: string, operation, onAuthenticate) => {
-                        return new Promise<string>((resolve) => {
-                            onAuthenticate("");
-                            resolve("")
-                        });
-                    }} onLoginSuccess={(uidCredential) => {
-                        setUid(uidCredential);
-                    }} />
-                </AppContent>
-            </AppPage>
+            <AppContent center>
+                <AppNotifications />
+                <AppTitle color="tertiary">
+                    {title}
+                    <AppChip color="primary">
+                        {version}
+                    </AppChip>
+                </AppTitle>
+                <AppLogin authenticate={(username: string, password: string, operation, onAuthenticate) => {
+                    return new Promise<string>((resolve) => {
+                        onAuthenticate("");
+                        resolve("")
+                    });
+                }} onLoginSuccess={(uidCredential) => {
+                    setUid(uidCredential);
+                }} />
+            </AppContent>
         </IonApp>
     }
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
@@ -99,7 +101,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             {/**Side Menu  */}
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar about={config.about || ""} />}
-            {routes.map(route =>
+            {routes && routes.map(route =>
                 <Route key={route.path} {...route} />
             )}
             <AppNotifications />
