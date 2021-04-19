@@ -40,6 +40,8 @@ type AppLayout = {
     breadCrumbs: AppRoute[]
     path: string
     nextPage: AppRoute
+    darkMode: boolean,
+    setDarkMode: (isDark: boolean) => void
     update: (pathname: string) => void
     initialize: (config: AppConfig) => void
 }
@@ -51,7 +53,11 @@ type AppLayout = {
  */
 const useAppLayout = create<AppLayout>((set, store) => ({
     status: "booting",
-    version: "",
+    version: "0.0.0-development",
+    darkMode: true,
+    setDarkMode: (isDark) => {
+        set({ darkMode: isDark })
+    },
     appTitle: "",
     initialize: ({ routes, title, version }) => {
         const allPageRoutes = routes;

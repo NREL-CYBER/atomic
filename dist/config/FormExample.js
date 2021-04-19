@@ -17,7 +17,6 @@ const ExampleForm = () => {
     title: "Address",
     requiredOnly: true,
     onSubmit: data => {
-      console.log(data);
       insert(data).then(() => {
         setStatus("idle");
       });

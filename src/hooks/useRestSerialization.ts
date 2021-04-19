@@ -25,14 +25,16 @@ export const useRestSerializeation = (serializaion: AppSerializationConfig) => (
         const collection_workspace_key = "_workspace_" + uid;
         const collection_active_key = "_active_" + uid;
 
+        const makeRpcPath = (collection_key: string, key?: string) => {
+            return collection_key + "/" + typeof key !== "undefined" && key !== "undefined" ? key : ""
+        }
         // Remote procedure call to rest server
         const rpc = (method: "get" | "delete", key?: string) => {
-            const item_key = collection_key + "/" + key || ""
             return new Promise<string>(((resolve, reject) => {
                 axios({
                     baseURL: endpoint,
                     method,
-                    url: item_key
+                    url: makeRpcPath(collection_key, key)
                 }).then(({ data }) => {
                     resolve(data)
                 }).catch(reject)
@@ -41,13 +43,12 @@ export const useRestSerializeation = (serializaion: AppSerializationConfig) => (
         console.log(endpoint)
         // Remote procedure call to push data to rest server
         const rpcWithData = (method: "put" | "post", data: string, key?: string) => {
-            const item_key = collection_key + "/" + key || ""
             return new Promise<string>(((resolve, reject) => {
                 axios({
                     baseURL: endpoint,
                     method,
                     data,
-                    url: item_key
+                    url: makeRpcPath(collection_key, key)
                 }).then(({ data }) => {
                     resolve(data)
                 }).catch(reject)

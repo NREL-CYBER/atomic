@@ -13,7 +13,6 @@ const ExampleForm: React.FC = () => {
                 title={"Address"}
                 requiredOnly
                 onSubmit={(data) => {
-                    console.log(data);
                     insert(data).then(() => {
                         setStatus("idle");
                     });

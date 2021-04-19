@@ -38,9 +38,13 @@ import AppRestSerializer from './serialization/AppRestSerializer';
 
 const AppRoot: React.FC<AppConfig> = (config) => {
     const { routes,
-        sections, bottomBar, topBar, darkMode, children,
+        sections, bottomBar, topBar, children,
         serialization, cache, title, version } = config;
-    const { initialize } = useAppLayout();
+    const { initialize, darkMode, setDarkMode } = useAppLayout();
+    useEffect(() => {
+        config.darkMode && setDarkMode(config.darkMode)
+    }, [config.darkMode, setDarkMode])
+
     useEffect(
         () => {
             const className = darkMode ? 'dark-theme' : "light-theme";

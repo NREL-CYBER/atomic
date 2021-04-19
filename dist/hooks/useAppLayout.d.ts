@@ -17,6 +17,8 @@ declare type AppLayout = {
     breadCrumbs: AppRoute[];
     path: string;
     nextPage: AppRoute;
+    darkMode: boolean;
+    setDarkMode: (isDark: boolean) => void;
     update: (pathname: string) => void;
     initialize: (config: AppConfig) => void;
 };

@@ -44,7 +44,6 @@ const AppRoot = config => {
     sections,
     bottomBar,
     topBar,
-    darkMode,
     children,
     serialization,
     cache,
@@ -52,8 +51,13 @@ const AppRoot = config => {
     version
   } = config;
   const {
-    initialize
+    initialize,
+    darkMode,
+    setDarkMode
   } = useAppLayout();
+  useEffect(() => {
+    config.darkMode && setDarkMode(config.darkMode);
+  }, [config.darkMode, setDarkMode]);
   useEffect(() => {
     const className = darkMode ? 'dark-theme' : "light-theme";
     const oldClassName = darkMode ? 'light-theme' : "dark-theme";

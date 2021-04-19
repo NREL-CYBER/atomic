@@ -40,9 +40,6 @@ const ExampleConfig: AppConfig = {
     serialization: {
         mode: "rest",
         encryption: "plaintext",
-        authentication: {
-            provider: "email"
-        },
         rest: {
             endpoint: "http://1lv11rmadm01:8888/api/v1/",
         }
