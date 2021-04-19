@@ -56,8 +56,8 @@ const AppLogin: React.FC<{ onLoginSuccess: (uid: string) => void, authenticate: 
                 setStatus("create");
             }
         }} buttons={[
-            { text: "Login", value: "login" },
-            { text: "Sign up", value: "create" }
+            { text: "Login", value: "login", fill: 'solid' },
+            { text: "Sign up", value: "create", fill: "solid" }
         ]} />}
         {status !== "idle" && status !== "authenticating" && <AppForm
             customSubmit={<>{status}</>}

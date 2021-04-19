@@ -7,11 +7,7 @@ import { AppNextButton } from './global/AppNextButton';
  */
 
 const AppContent = props => {
-  return props.center ? /*#__PURE__*/React.createElement(IonContent, {
-    style: {
-      "background-color": "orange!important"
-    }
-  }, /*#__PURE__*/React.createElement(IonGrid, null, /*#__PURE__*/React.createElement(IonRow, null, /*#__PURE__*/React.createElement(IonCol, {
+  return props.center ? /*#__PURE__*/React.createElement(IonContent, null, /*#__PURE__*/React.createElement(IonGrid, null, /*#__PURE__*/React.createElement(IonRow, null, /*#__PURE__*/React.createElement(IonCol, {
     sizeSm: "1",
     sizeXs: "0",
     sizeMd: '4'

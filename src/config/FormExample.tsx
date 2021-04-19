@@ -14,17 +14,19 @@ const ExampleForm: React.FC = () => {
                 requiredOnly
                 onSubmit={(data) => {
                     console.log(data);
-                    insert(data); setStatus("idle")
+                    insert(data).then(() => {
+                        setStatus("idle");
+                    });
                 }} data={{}} lazyLoadValidator={lazyLoadValidator} /> :
                 <AppCard contentColor="paper" titleColor="secondary" headerColor="primary" title="Addresses">{all().map(({ street_address, country_name, street_view, region }, i) => {
-                    return <AppCard contentColor="light">
-                        <AppLabel key={i} position="floating" color="primary" >
+                    return <AppCard key={i} contentColor="light">
+                        <AppLabel position="floating" color="primary" >
                             Address
                         </AppLabel>
                         <AppTitle color="medium">
                             {country_name}-{street_address} {region}
                         </AppTitle>
-                        <AppLabel key={i} position="floating" color="primary" >
+                        <AppLabel position="floating" color="primary" >
                             Street View
                         </AppLabel>
                         <AppTitle>

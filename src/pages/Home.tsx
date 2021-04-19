@@ -21,8 +21,11 @@ const Home: React.FC = () => {
           <AppItem color="tertiary">
             Tertiary
           </AppItem>
-          <AppItem color="favorite">
+          <AppItem color="success">
             Success
+          </AppItem>
+          <AppItem color="favorite">
+            Favorite
           </AppItem>
           <AppItem color="warning">
             Warning

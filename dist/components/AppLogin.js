@@ -60,10 +60,12 @@ const AppLogin = ({
     },
     buttons: [{
       text: "Login",
-      value: "login"
+      value: "login",
+      fill: 'solid'
     }, {
       text: "Sign up",
-      value: "create"
+      value: "create",
+      fill: "solid"
     }]
   }), status !== "idle" && status !== "authenticating" && /*#__PURE__*/React.createElement(AppForm, {
     customSubmit: /*#__PURE__*/React.createElement(React.Fragment, null, status),

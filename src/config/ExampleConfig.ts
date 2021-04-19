@@ -31,11 +31,11 @@ const ExampleConfig: AppConfig = {
         disabled: true
     },
     cache: {
-        atomic_example: {
+        atomic: {
             addresses: useAddress
         }
     },
-    darkMode: false,
+    darkMode: true,
     about: "example application information....",
     serialization: {
         mode: "rest",

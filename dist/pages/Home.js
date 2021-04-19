@@ -15,8 +15,10 @@ const Home = () => {
   }, "Secondary"), /*#__PURE__*/React.createElement(AppItem, {
     color: "tertiary"
   }, "Tertiary"), /*#__PURE__*/React.createElement(AppItem, {
-    color: "favorite"
+    color: "success"
   }, "Success"), /*#__PURE__*/React.createElement(AppItem, {
+    color: "favorite"
+  }, "Favorite"), /*#__PURE__*/React.createElement(AppItem, {
     color: "warning"
   }, "Warning"), /*#__PURE__*/React.createElement(AppItem, {
     color: "danger"

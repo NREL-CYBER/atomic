@@ -26,7 +26,7 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
     const successStatus: StatusValue[] = ["done"];
     const errorStatus: StatusValue[] = ["error_file_size", "error_upload", "error_upload_params", "error_validation", "aborted", "rejected_file_type"]
     const normalStatus: StatusValue[] = ["ready", "preparing", "getting_upload_params"]
-    const statusColor: AppColor = normalStatus.includes(status) ? "primary" : successStatus.includes(status) ? "success" : errorStatus.includes(status) ? "danger" : "clear";
+    const statusColor: AppColor = normalStatus.includes(status) ? "primary" : successStatus.includes(status) ? "favorite" : errorStatus.includes(status) ? "danger" : "clear";
 
     const propertyFormattedName = prettyTitle(title);
 
@@ -59,7 +59,7 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
             <AppText>{description}</AppText>
         </AppItem>
         <AppItem>
-            <Dropzone    
+            <Dropzone
                 initialFiles={file ? [file] : undefined}
                 maxFiles={1}
                 multiple={false}

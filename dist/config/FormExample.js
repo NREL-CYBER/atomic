@@ -18,8 +18,9 @@ const ExampleForm = () => {
     requiredOnly: true,
     onSubmit: data => {
       console.log(data);
-      insert(data);
-      setStatus("idle");
+      insert(data).then(() => {
+        setStatus("idle");
+      });
     },
     data: {},
     lazyLoadValidator: lazyLoadValidator
@@ -35,15 +36,14 @@ const ExampleForm = () => {
     region
   }, i) => {
     return /*#__PURE__*/React.createElement(AppCard, {
+      key: i,
       contentColor: "light"
     }, /*#__PURE__*/React.createElement(AppLabel, {
-      key: i,
       position: "floating",
       color: "primary"
     }, "Address"), /*#__PURE__*/React.createElement(AppTitle, {
       color: "medium"
     }, country_name, "-", street_address, " ", region), /*#__PURE__*/React.createElement(AppLabel, {
-      key: i,
       position: "floating",
       color: "primary"
     }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, /*#__PURE__*/React.createElement(AppAvatar, null, /*#__PURE__*/React.createElement(AppBinaryImg, {

@@ -10,16 +10,17 @@ export const useRestSerializeation = serializaion => create((_, restStorage) => 
 
   async synchronize(namespace, store, uid) {
     const endpoint = serializaion.rest.endpoint;
-    const collection_key = namespace + "-" + store().collection;
-    const collection_workspace_key = "workspace-" + uid;
-    const collection_active_key = "active-" + uid; // Remote procedure call to rest server
+    const collection_key = namespace + "_" + store().collection;
+    const collection_workspace_key = "_workspace_" + uid;
+    const collection_active_key = "_active_" + uid; // Remote procedure call to rest server
 
     const rpc = (method, key) => {
+      const item_key = collection_key + "/" + key || "";
       return new Promise((resolve, reject) => {
         axios({
           baseURL: endpoint,
           method,
-          url: collection_key + key ? "/" + key : ""
+          url: item_key
         }).then(({
           data
         }) => {
@@ -31,12 +32,13 @@ export const useRestSerializeation = serializaion => create((_, restStorage) => 
     console.log(endpoint); // Remote procedure call to push data to rest server
 
     const rpcWithData = (method, data, key) => {
+      const item_key = collection_key + "/" + key || "";
       return new Promise((resolve, reject) => {
         axios({
           baseURL: endpoint,
           method,
           data,
-          url: collection_key + key ? "/" + key : ""
+          url: item_key
         }).then(({
           data
         }) => {
@@ -87,11 +89,13 @@ export const useRestSerializeation = serializaion => create((_, restStorage) => 
     store().addListener((key, data, status) => {
       switch (status) {
         case "workspacing":
+          console.log("update workspace", collection_workspace_key);
           set(collection_workspace_key, store().exportWorkspace());
           break;
 
         case "inserting":
         case "updating":
+          console.log("update workspace", key);
           insert(key, JSON.stringify(data)).catch(() => {
             store().setStatus("erroring");
           });

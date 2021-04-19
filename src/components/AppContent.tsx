@@ -11,7 +11,7 @@ import { AppNextButton } from './global/AppNextButton';
 const AppContent: React.FC<{ center?: boolean, next?: boolean }> = (props) => {
 
     return props.center ?
-        <IonContent style={{ "background-color": "orange!important" }}>
+        <IonContent>
             <IonGrid>
                 <IonRow>
                     <IonCol sizeSm="1" sizeXs="0" sizeMd={'4'}>
