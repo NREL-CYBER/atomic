@@ -129,6 +129,12 @@ ion-title{
 /* Opera */
 
 }  
+ion-textarea {
+  min-height:50px;
+}
+ion-input {
+  min-height:50px;
+}
 
 
 
@@ -607,7 +613,7 @@ ion-app .scroll-content {
   --ion-color-secondary-shade: #46b0e0;
   --ion-color-secondary-tint: #62ceff;
 
-  --ion-color-tertiary: #9E8EDE;
+  --ion-color-tertiary: #0B5E90  ;
   --ion-color-tertiary-rgb: 106,100,255;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255,255,255;
