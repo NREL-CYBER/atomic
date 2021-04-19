@@ -2,59 +2,61 @@ import axios from "axios";
 import create from "zustand";
 import { get, set } from 'idb-keyval';
 
+const makeRpcPath = (collection, key = "") => {
+  const path = collection + "/" + key;
+  return path;
+}; // Remote procedure call to rest server
+
+
+const rpc = (endpoint, collection, method, key) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      baseURL: endpoint,
+      method,
+      url: makeRpcPath(collection, key)
+    }).then(({
+      data
+    }) => {
+      resolve(data);
+    }).catch(reject);
+  });
+}; // Remote procedure call to push data to rest server
+
+
+const rpcWithData = (endpoint, collection, method, data, key) => {
+  return new Promise((resolve, reject) => {
+    axios({
+      baseURL: endpoint,
+      method,
+      data,
+      url: makeRpcPath(collection, key)
+    }).then(({
+      data
+    }) => {
+      resolve(data);
+    }).catch(reject);
+  });
+};
 /**
  * Observe an Entity collection in rest storage
  */
+
+
 export const useRestSerializeation = serializaion => create((_, restStorage) => ({
   authenticate: (email, password, action, onLoginSuccess, onLoginFail) => {},
 
   async synchronize(namespace, store, uid) {
     const endpoint = serializaion.rest.endpoint;
     const collection_key = namespace + "_" + store().collection;
+    console.log(collection_key);
     const collection_workspace_key = "_workspace_" + uid;
     const collection_active_key = "_active_" + uid;
 
-    const makeRpcPath = (collection_key, key) => {
-      return collection_key + "/" + typeof key !== "undefined" && key !== "undefined" ? key : "";
-    }; // Remote procedure call to rest server
+    const insert = (collection, key, value) => rpcWithData(endpoint, collection, "put", value, key);
 
+    const remove = (collection, key) => rpc(endpoint, collection, "delete", key);
 
-    const rpc = (method, key) => {
-      return new Promise((resolve, reject) => {
-        axios({
-          baseURL: endpoint,
-          method,
-          url: makeRpcPath(collection_key, key)
-        }).then(({
-          data
-        }) => {
-          resolve(data);
-        }).catch(reject);
-      });
-    };
-
-    console.log(endpoint); // Remote procedure call to push data to rest server
-
-    const rpcWithData = (method, data, key) => {
-      return new Promise((resolve, reject) => {
-        axios({
-          baseURL: endpoint,
-          method,
-          data,
-          url: makeRpcPath(collection_key, key)
-        }).then(({
-          data
-        }) => {
-          resolve(data);
-        }).catch(reject);
-      });
-    };
-
-    const insert = (key, value) => rpcWithData("put", value, key);
-
-    const remove = key => rpc("delete", key);
-
-    const entries = () => rpc("get");
+    const entries = () => rpc(endpoint, collection_key, "get");
 
     let serialized_store_string = "";
     let store_records = {};
@@ -98,14 +100,14 @@ export const useRestSerializeation = serializaion => create((_, restStorage) => 
 
         case "inserting":
         case "updating":
-          console.log("update workspace", key);
-          insert(key, JSON.stringify(data)).catch(() => {
+          console.log("insert/update", collection_key, key);
+          insert(collection_key, key, JSON.stringify(data)).catch(() => {
             store().setStatus("erroring");
           });
           break;
 
         case "removing":
-          remove(key).catch(() => {
+          remove(collection_key, key).catch(() => {
             store().setStatus("erroring");
           });
           break;

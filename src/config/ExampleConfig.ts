@@ -35,7 +35,7 @@ const ExampleConfig: AppConfig = {
             addresses: useAddress
         }
     },
-    darkMode: true,
+    darkMode: false,
     about: "example application information....",
     serialization: {
         mode: "rest",

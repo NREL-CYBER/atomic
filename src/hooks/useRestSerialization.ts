@@ -13,6 +13,37 @@ export type restSynchronizationContext = {
 }
 
 
+const makeRpcPath = (collection: string, key = "") => {
+    const path = collection + "/" + key
+    return path;
+}
+// Remote procedure call to rest server
+const rpc = (endpoint: string, collection: string, method: "get" | "delete", key?: string) => {
+    return new Promise<string>(((resolve, reject) => {
+        axios({
+            baseURL: endpoint,
+            method,
+            url: makeRpcPath(collection, key)
+        }).then(({ data }) => {
+            resolve(data)
+        }).catch(reject)
+    }))
+}
+// Remote procedure call to push data to rest server
+const rpcWithData = (endpoint: string, collection: string, method: "put" | "post", data: string, key?: string) => {
+    return new Promise<string>(((resolve, reject) => {
+        axios({
+            baseURL: endpoint,
+            method,
+            data,
+            url: makeRpcPath(collection, key)
+        }).then(({ data }) => {
+            resolve(data)
+        }).catch(reject)
+    }))
+}
+
+
 /**
  * Observe an Entity collection in rest storage
  */
@@ -22,42 +53,13 @@ export const useRestSerializeation = (serializaion: AppSerializationConfig) => (
     async synchronize<T>(namespace: string, store: () => Store<T>, uid: string) {
         const endpoint = serializaion.rest!.endpoint;
         const collection_key = namespace + "_" + store().collection;
+        console.log(collection_key);
         const collection_workspace_key = "_workspace_" + uid;
         const collection_active_key = "_active_" + uid;
 
-        const makeRpcPath = (collection_key: string, key?: string) => {
-            return collection_key + "/" + typeof key !== "undefined" && key !== "undefined" ? key : ""
-        }
-        // Remote procedure call to rest server
-        const rpc = (method: "get" | "delete", key?: string) => {
-            return new Promise<string>(((resolve, reject) => {
-                axios({
-                    baseURL: endpoint,
-                    method,
-                    url: makeRpcPath(collection_key, key)
-                }).then(({ data }) => {
-                    resolve(data)
-                }).catch(reject)
-            }))
-        }
-        console.log(endpoint)
-        // Remote procedure call to push data to rest server
-        const rpcWithData = (method: "put" | "post", data: string, key?: string) => {
-            return new Promise<string>(((resolve, reject) => {
-                axios({
-                    baseURL: endpoint,
-                    method,
-                    data,
-                    url: makeRpcPath(collection_key, key)
-                }).then(({ data }) => {
-                    resolve(data)
-                }).catch(reject)
-            }))
-        }
-
-        const insert = (key: string, value: string) => rpcWithData("put", value, key)
-        const remove = (key: string) => rpc("delete", key)
-        const entries = () => rpc("get")
+        const insert = (collection: string, key: string, value: string) => rpcWithData(endpoint, collection, "put", value, key)
+        const remove = (collection: string, key: string) => rpc(endpoint, collection, "delete", key)
+        const entries = () => rpc(endpoint, collection_key, "get")
 
         let serialized_store_string = "";
         let store_records: Record<string, any> = {};
@@ -101,13 +103,13 @@ export const useRestSerializeation = (serializaion: AppSerializationConfig) => (
                     break;
                 case "inserting":
                 case "updating":
-                    console.log("update workspace", key)
-                    insert(key, JSON.stringify(data)).catch(() => {
+                    console.log("insert/update", collection_key, key)
+                    insert(collection_key, key, JSON.stringify(data)).catch(() => {
                         store().setStatus("erroring")
                     })
                     break;
                 case "removing":
-                    remove(key).catch(() => {
+                    remove(collection_key, key).catch(() => {
                         store().setStatus("erroring")
                     })
 
