@@ -40,16 +40,15 @@ const AppFormDateTimePicker = (props: formInputProps) => {
 
     const statusColor = inputStatusColorMap[inputStatus];
 
-    const dateTimeFormat: dateTimeFormat = format === "date-time" ? "YYYY-MM-DDTHH:mm:ssTZD" : "YYYY-MM-DD"
+    const dateTimeFormat: dateTimeFormat = format === "date-time" ? undefined : "YYYY-MM-DD"
     return <>
         <AppItem color="clear" lines="none">
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
             <AppDateTime displayFormat={dateTimeFormat} pickerFormat={dateTimeFormat} value={value} onDateEntered={(val) => {
-                console.log(val)
                 format === "date-time" ?
-                    setValue(val.split(".")[0] + "Z") : setValue(val.split("T")[0])
+                    setValue(val) : setValue(val.split("T")[0])
 
             }} />
         </AppItem>

@@ -33,7 +33,7 @@ const AppFormDateTimePicker = props => {
     setErrors(validationErrors || []);
   }, [onChange, property, value]);
   const statusColor = inputStatusColorMap[inputStatus];
-  const dateTimeFormat = format === "date-time" ? "YYYY-MM-DDTHH:mm:ssTZD" : "YYYY-MM-DD";
+  const dateTimeFormat = format === "date-time" ? undefined : "YYYY-MM-DD";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear",
     lines: "none"
@@ -45,8 +45,7 @@ const AppFormDateTimePicker = props => {
     pickerFormat: dateTimeFormat,
     value: value,
     onDateEntered: val => {
-      console.log(val);
-      format === "date-time" ? setValue(val.split(".")[0] + "Z") : setValue(val.split("T")[0]);
+      format === "date-time" ? setValue(val) : setValue(val.split("T")[0]);
     }
   })), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
