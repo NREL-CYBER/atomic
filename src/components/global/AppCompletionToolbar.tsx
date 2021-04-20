@@ -9,12 +9,13 @@ import AppIcon from '../AppIcon';
 import { settingsOutline } from 'ionicons/icons';
 import AppItem from '../AppItem';
 import AppCard from '../AppCard';
+import { AppCompletionConfig } from '../../util/AppConfig';
 
 /**
  * Completion aware bottom toolbar
  */
 
-const AppCompletionToolbar: React.FC<{ start?: React.FC, completion?: boolean, end?: React.FC }> = ({ children, start, end, completion }) => {
+const AppCompletionToolbar: React.FC<{ start?: React.FC, completion?: AppCompletionConfig, end?: React.FC }> = ({ children, start, end, completion }) => {
     const { setDarkMode, darkMode, title } = useAppLayout()
     const completionValue = useCompletion(x => x.completion);
     const [showSettings, setShowSettings] = useState(false);
@@ -26,7 +27,8 @@ const AppCompletionToolbar: React.FC<{ start?: React.FC, completion?: boolean, e
                 <AppItem>
                     <AppChip>
                         {darkMode ? "Dark Mode" : "Light Mode"}
-                    </AppChip>            <AppToggle checked={darkMode} onToggleChange={(isDark) => {
+                    </AppChip>
+                    <AppToggle checked={darkMode} onToggleChange={(isDark) => {
                         setDarkMode(isDark)
                     }} />
                 </AppItem>
@@ -42,7 +44,7 @@ const AppCompletionToolbar: React.FC<{ start?: React.FC, completion?: boolean, e
                     <AppIcon icon={settingsOutline} />
                 </AppButton>
             </AppButtons>
-            {!completion && <AppProgress color="favorite" value={completionValue()} />}
+            {completion && !completion.disabled && < AppProgress color="favorite" value={completionValue()} />}
             <AppButtons slot="end" >
                 {end ? end : <AppContinueButton />}
             </AppButtons>

@@ -9,10 +9,10 @@ import AppIcon from '../AppIcon';
 import { settingsOutline } from 'ionicons/icons';
 import AppItem from '../AppItem';
 import AppCard from '../AppCard';
+
 /**
  * Completion aware bottom toolbar
  */
-
 const AppCompletionToolbar = ({
   children,
   start,
@@ -34,7 +34,7 @@ const AppCompletionToolbar = ({
   }, /*#__PURE__*/React.createElement(AppCard, {
     title: title + " Settings",
     headerColor: "tertiary"
-  }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, darkMode ? "Dark Mode" : "Light Mode"), "            ", /*#__PURE__*/React.createElement(AppToggle, {
+  }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, darkMode ? "Dark Mode" : "Light Mode"), /*#__PURE__*/React.createElement(AppToggle, {
     checked: darkMode,
     onToggleChange: isDark => {
       setDarkMode(isDark);
@@ -49,7 +49,7 @@ const AppCompletionToolbar = ({
     }
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: settingsOutline
-  }))), !completion && /*#__PURE__*/React.createElement(AppProgress, {
+  }))), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppProgress, {
     color: "favorite",
     value: completionValue()
   }), /*#__PURE__*/React.createElement(AppButtons, {

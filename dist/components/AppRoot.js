@@ -26,7 +26,7 @@ import AppChip from './AppChip';
 import AppLogin from './AppLogin';
 import AppRouter from './AppRouter';
 import AppTitle from './AppTitle';
-import AppBottomToolbar from './global/AppCompletionToolbar';
+import AppCompletionToolbar from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
@@ -117,8 +117,8 @@ const AppRoot = config => {
     about: config.about || ""
   }), routes && routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
-  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomToolbar, _extends({
-    completion: config.completion?.disabled
+  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppCompletionToolbar, _extends({
+    completion: config.completion
   }, bottomBar))), children));
 };
 

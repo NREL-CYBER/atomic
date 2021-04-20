@@ -7,18 +7,23 @@ export interface AppRestConfig {
 }
 export interface AppSerializationConfig {
     mode: "rest" | "local";
+    overide?: {
+        collections: string[];
+        mode: "rest" | "local";
+    };
     encryption: "plaintext" | "RSA";
     authentication?: {
         provider: "email";
     };
     rest?: AppRestConfig;
 }
+export interface AppCompletionConfig {
+    disabled?: boolean;
+    default: CompletionStatus;
+}
 export interface AppConfig {
     title: string;
-    completion?: {
-        disabled?: boolean;
-        default: CompletionStatus;
-    };
+    completion?: AppCompletionConfig;
     version: string;
     topBar?: React.FC;
     sections?: Record<string, AppRoute[]>;
