@@ -46,10 +46,10 @@ const AppFormDateTimePicker = (props: formInputProps) => {
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
-            <AppDateTime   displayFormat={dateTimeFormat} pickerFormat={dateTimeFormat} value={value} onDateEntered={(val) => {
+            <AppDateTime displayFormat={dateTimeFormat} pickerFormat={dateTimeFormat} value={value} onDateEntered={(val) => {
                 console.log(val)
                 format === "date-time" ?
-                    setValue(val) : setValue(val.split("T")[0])
+                    setValue(val.split(".")[0]) : setValue(val.split("T")[0])
 
             }} />
         </AppItem>
