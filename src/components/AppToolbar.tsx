@@ -15,7 +15,7 @@ interface appToolbarProps {
  * This once also works great with the AppButtons Component.
  * We use this on the top bar, but we might have a footer later on as well.
  */
-const AppToolbar: React.FC<appToolbarProps> = (props) => {
-    return <IonToolbar  {...props} />
+const AppToolbar: React.FC<appToolbarProps> = ({ color, ...props }) => {
+    return <IonToolbar color={color ? color : "clear"}  {...props} />
 };
 export default AppToolbar;
