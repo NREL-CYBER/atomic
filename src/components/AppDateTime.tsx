@@ -1,7 +1,7 @@
 import { IonDatetime } from "@ionic/react";
 import React from "react";
 
-export type dateTimeFormat = undefined | "MMMM YYYY" | "h:mm a" | "HH:mm" | "DD/MMM/YYYY" | "YYYY-MM-DDTHH:mm:ssTZD" | "YYYY-MM-DD";
+export type dateTimeFormat = "hh:mm:ss.sTZD" | "MMMM YYYY" | "h:mm a" | "HH:mm" | "DD/MMM/YYYY" | "YYYY-MM-DDTHH:mm:ssTZD" | "YYYY-MM-DD";
 interface dateTimeProps {
     onDateEntered: (date: string) => void
     displayFormat?: dateTimeFormat
