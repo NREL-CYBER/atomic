@@ -49,7 +49,7 @@ const AppFormDateTimePicker = (props: formInputProps) => {
             <AppDateTime displayFormat={dateTimeFormat} pickerFormat={dateTimeFormat} value={value} onDateEntered={(val) => {
                 console.log(val)
                 format === "date-time" ?
-                    setValue(val.split(".")[0]) : setValue(val.split("T")[0])
+                    setValue(val.split(".")[0] + "Z") : setValue(val.split("T")[0])
 
             }} />
         </AppItem>
