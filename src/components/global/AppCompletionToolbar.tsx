@@ -33,7 +33,7 @@ const AppCompletionToolbar: React.FC<{ start?: React.FC, completion?: boolean, e
             </AppCard>
 
         </AppModal>}
-        {<AppToolbar>
+        {<AppToolbar color={darkMode ? "paper" : "tertiary"}>
             <AppButtons slot="start">
                 {start && start}
                 <AppButton onClick={() => {

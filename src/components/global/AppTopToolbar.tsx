@@ -17,7 +17,7 @@ import AppContent from '../AppContent';
 const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, about }) => {
     const { pathname } = useLocation();
     const { paths } = useCompletion();
-    const { update, appTitle, version } = useAppLayout();
+    const { update, appTitle, version, darkMode } = useAppLayout();
     const breadcrumbs = useAppLayout(x => x.breadCrumbs);
     const isHome = pathname === '/';
     useEffect(() => {
@@ -25,7 +25,7 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
     }, [pathname, update, paths])
     const [showAbout, setShowAbout] = useState(false)
 
-    return (<AppToolbar>
+    return (<AppToolbar color={darkMode ? "paper" : "tertiary"}>
         <AppButtons slot='start'>
             <AppMenuButton />
             <AppButton expand='full' routerLink={"/"}>

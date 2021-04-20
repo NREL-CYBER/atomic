@@ -39,7 +39,9 @@ const AppCompletionToolbar = ({
     onToggleChange: isDark => {
       setDarkMode(isDark);
     }
-  })))), /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+  })))), /*#__PURE__*/React.createElement(AppToolbar, {
+    color: darkMode ? "paper" : "tertiary"
+  }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, start && start, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {

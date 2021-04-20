@@ -132,6 +132,12 @@ ion-title{
 ion-textarea {
   min-height:50px;
 }
+textarea{
+  min-height:50px;
+}
+input{
+  min-height:50px;
+}
 ion-input {
   min-height:50px;
 }
@@ -559,12 +565,15 @@ ion-app .scroll-content {
 }
 
 .light-theme{
+  transition: all,0.3ms;
   --ion-color-translucent: rgb(1,1,1,1.35);
 --ion-background-color: #ccc;
 --ion-toolbar-background: clear;
 --ion-item-background: #D1D5D8;
 --ion-background-color:#ccc;  
 --ion-text-color:#333;
+--ion-text-color-rgb: 51,51,51;
+
 --ion-backdrop-color:#0B5E90;
 --ion-overlay-background-color:#3A4246;
 --ion-border-color:clear;
@@ -596,7 +605,7 @@ ion-app .scroll-content {
   --ion-color-secondary: #5DD2FF;
   --ion-color-secondary-rgb: 80,200,255;
   --ion-color-secondary-contrast: #000;
-  --ion-color-secondary-contrast-rgb: 255,255,255;
+  --ion-color-secondary-contrast-rgb: 0,0,0;
   --ion-color-secondary-shade: #46b0e0;
   --ion-color-secondary-tint: #62ceff;
 

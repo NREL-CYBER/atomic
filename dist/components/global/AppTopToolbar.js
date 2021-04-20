@@ -23,7 +23,8 @@ const AppTopToolbar = ({
   const {
     update,
     appTitle,
-    version
+    version,
+    darkMode
   } = useAppLayout();
   const breadcrumbs = useAppLayout(x => x.breadCrumbs);
   const isHome = pathname === '/';
@@ -31,7 +32,9 @@ const AppTopToolbar = ({
     update(pathname);
   }, [pathname, update, paths]);
   const [showAbout, setShowAbout] = useState(false);
-  return /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
+  return /*#__PURE__*/React.createElement(AppToolbar, {
+    color: darkMode ? "paper" : "tertiary"
+  }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppMenuButton, null), /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
