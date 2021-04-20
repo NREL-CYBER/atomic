@@ -3,7 +3,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 import { IonDatetime } from "@ionic/react";
 import React from "react";
 export const AppDateTime = props => /*#__PURE__*/React.createElement(IonDatetime, _extends({
-  pickerFormat: "",
+  displayTimezone: "utc",
   onIonChange: e => {
     props.onDateEntered(e.detail.value);
   }

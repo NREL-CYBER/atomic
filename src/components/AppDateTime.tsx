@@ -12,7 +12,7 @@ interface dateTimeProps {
     disabled?: boolean
 }
 
-export const AppDateTime: React.FC<dateTimeProps> = (props) => <IonDatetime pickerFormat=""
+export const AppDateTime: React.FC<dateTimeProps> = (props) => <IonDatetime displayTimezone={"utc"}
     onIonChange={e => {
         props.onDateEntered(e.detail.value!)
     }} {...props} />
