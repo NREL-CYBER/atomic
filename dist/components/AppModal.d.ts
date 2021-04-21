@@ -3,6 +3,7 @@ import { AppColor } from '../theme/AppColor';
 interface appModalProps {
     color?: AppColor;
     isOpen: boolean;
+    backdropDismiss?: boolean;
     children: ReactFragment;
     onDismiss: () => void;
 }
