@@ -30,7 +30,8 @@ import AppGuidance from './guidance/AppGuidance';
 //import AppCloudSerializer from './serialization/AppCloudSerializer';
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 import AppRestSerializer from './serialization/AppRestSerializer';
-
+import { account } from "../hooks/useAppAccount"
+import useAppAccount from '../hooks/useAppAccount';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -39,8 +40,9 @@ import AppRestSerializer from './serialization/AppRestSerializer';
 const AppRoot: React.FC<AppConfig> = (config) => {
     const { routes,
         sections, bottomBar, topBar, children,
-        serialization, cache, title, version } = config;
+        serialization, title, version, cache } = config;
     const { initialize, darkMode, setDarkMode } = useAppLayout();
+    const initializeAccounts = useAppAccount(x => x.initialize);
     useEffect(() => {
         config.darkMode && setDarkMode(config.darkMode)
     }, [config.darkMode, setDarkMode])
@@ -57,14 +59,14 @@ const AppRoot: React.FC<AppConfig> = (config) => {
     );
 
     useEffect(() => {
-        console.log(config);
         config && initialize(config);
+        config && initializeAccounts(config)
         return () => {
             console.log("Exit");
         }
-    }, [config, initialize])
+    }, [config, initialize, initializeAccounts])
 
-    const [uid, setUid] = useState<string | undefined>()
+    const { uid, setUid } = useAppAccount()
 
     const restSerializationAndNotLoggedIn = (serialization && serialization.rest &&
         serialization.rest && !uid);

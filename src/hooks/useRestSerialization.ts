@@ -9,7 +9,7 @@ export type restSynchronizationContext = {
     authenticate(
         email: string, password: string, action: "login" | "create",
         onLoginSuccess: (uid: string) => void, onLoginFail: () => void): void;
-    synchronize<T>(namespace: string, store: () => Store<T>, uid: string): void;
+    synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string): void;
 }
 
 
@@ -47,10 +47,10 @@ const rpcWithData = (endpoint: string, collection: string, method: "put" | "post
 /**
  * Observe an Entity collection in rest storage
  */
-export const useRestSerializeation = (serializaion: AppSerializationConfig) => (create<restSynchronizationContext>((_, restStorage) => ({
+export const useRestSerializeation = create<restSynchronizationContext>((_, restStorage) => ({
     authenticate: (email, password, action, onLoginSuccess, onLoginFail) => {
     },
-    async synchronize<T>(namespace: string, store: () => Store<T>, uid: string) {
+    async synchronize<T>(serializaion: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string) {
         const endpoint = serializaion.rest!.endpoint;
         const collection_key = namespace + "_" + store().collection;
         console.log(collection_key);
@@ -122,4 +122,4 @@ export const useRestSerializeation = (serializaion: AppSerializationConfig) => (
 
         });
     }
-})))()
+}))

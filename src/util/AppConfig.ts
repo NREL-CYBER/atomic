@@ -1,6 +1,7 @@
 import { AppCacheIndex } from "../state/AppCacheIndex";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
+import { RootSchemaObject } from "validator";
 
 export interface AppRestConfig {
     endpoint: string,
@@ -14,6 +15,7 @@ export interface AppSerializationConfig {
     encryption: "plaintext" | "RSA"
     authentication?: {
         provider: "email"
+        profile?: RootSchemaObject
     },
     rest?: AppRestConfig
 }

@@ -6,6 +6,7 @@ import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, Ap
 import { useCompletion } from '../../hooks';
 import AppModal from '../AppModal';
 import AppContent from '../AppContent';
+import useAppAccount from '../../hooks/useAppAccount';
 
 
 
@@ -24,6 +25,7 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
         update(pathname)
     }, [pathname, update, paths])
     const [showAbout, setShowAbout] = useState(false)
+    const { setUid } = useAppAccount();
 
     return (<AppToolbar color={darkMode ? "paper" : "tertiary"}>
         <AppButtons slot='start'>
@@ -56,6 +58,7 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
             </AppButton>
             <AppButton onClick={() => {
                 window.close();
+                setUid(undefined);
             }}>
                 <AppIcon icon={closeOutline} />
             </AppButton>

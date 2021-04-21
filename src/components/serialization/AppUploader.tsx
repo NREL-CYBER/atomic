@@ -5,6 +5,7 @@ import { AppItem, AppLabel } from '..';
 import { AppColor } from '../../theme';
 import { prettyTitle } from '../../util';
 import AppText from '../AppText';
+import { byteArrayToBase64 } from '../../util/binaryToBase64';
 
 export type AppFill = "clear" | "outline" | "solid" | "default" | undefined
 
@@ -41,13 +42,9 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
     const handleSubmit: (successFile: IFileWithMeta) => Promise<void> = async (fileWithMeta) => {
         const { meta, file } = fileWithMeta;
         const fileBuffer = await file.arrayBuffer()
-        var binary = '';
-        var bytes = new Uint8Array(fileBuffer);
-        var len = bytes.byteLength;
-        for (var i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        onFileReceived(meta, btoa(binary));
+        onFileReceived(meta,
+            byteArrayToBase64(new Uint8Array(fileBuffer))
+        );
     }
     return <>
         <AppItem>

@@ -12,7 +12,7 @@ export interface appLocalSerializerProps {
 
 const AppRestSerializer: FC<appLocalSerializerProps> = ({ cache, serialization }) => {
 
-    const { synchronize } = useRestSerializeation(serialization);
+    const { synchronize } = useRestSerializeation();
     const [booting, setIsBooting] = useState(true);
     const { synchronized, ready } = useCache();
     useTimeout(() => {
@@ -25,11 +25,11 @@ const AppRestSerializer: FC<appLocalSerializerProps> = ({ cache, serialization }
         }
         Object.entries(cache).forEach(([namespace, collections]) => {
             Object.values(collections).forEach((storeAPI) => {
-                synchronize(namespace, storeAPI.getState, "uid");
+                synchronize(serialization, namespace, storeAPI.getState, "uid");
             })
         })
         ready();
-    }, [booting, cache, ready, synchronize, synchronized])
+    }, [booting, cache, ready, serialization, synchronize, synchronized])
     return <></>
 }
 
