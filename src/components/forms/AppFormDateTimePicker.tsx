@@ -40,7 +40,7 @@ const AppFormDateTimePicker = (props: formInputProps) => {
 
     const statusColor = inputStatusColorMap[inputStatus];
 
-    const dateTimeFormat: dateTimeFormat = format === "date-time" ? "hh:mm:ss.sTZD" : "YYYY-MM-DD"
+    const dateTimeFormat: dateTimeFormat = format === "date-time" ? "YYYY-MM-DDThh:mm:ssZ" : "YYYY-MM-DD"
     return <>
         <AppItem color="clear" lines="none">
             <AppLabel position="stacked" color={statusColor} >

@@ -3,7 +3,16 @@ import { chevronDownOutline, chevronForwardOutline } from "ionicons/icons";
 import React, { FC, ReactFragment, useState } from "react";
 import { AppColor } from "../theme";
 
-const AppFoldingNode: FC<{ color?: AppColor, folded?: boolean, titleText?: boolean, title: ReactFragment, centerContent?: ReactFragment, endContent?: ReactFragment, hideIcon?: boolean }> = ({ centerContent, children, title, color, endContent, hideIcon, titleText, folded }) => {
+
+
+const AppFoldingNode: FC<{
+    color?: AppColor, folded?: boolean, titleText?: boolean,
+    title: ReactFragment, centerContent?: ReactFragment,
+    endContent?: ReactFragment,
+    hideIcon?: boolean,
+
+}> = ({ centerContent, children, title, color, endContent, hideIcon, titleText, folded }) => {
+
     const [isFolded, setFolded] = useState<boolean>(typeof folded !== "undefined" ? folded : true);
     return <>
         <AppItem href={"javascript:void(0)"} onClick={() => {

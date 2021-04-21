@@ -33,7 +33,7 @@ const AppFormDateTimePicker = props => {
     setErrors(validationErrors || []);
   }, [onChange, property, value]);
   const statusColor = inputStatusColorMap[inputStatus];
-  const dateTimeFormat = format === "date-time" ? "hh:mm:ss.sTZD" : "YYYY-MM-DD";
+  const dateTimeFormat = format === "date-time" ? "YYYY-MM-DDThh:mm:ssZ" : "YYYY-MM-DD";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear",
     lines: "none"
