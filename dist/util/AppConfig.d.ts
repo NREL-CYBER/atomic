@@ -1,7 +1,7 @@
 /// <reference types="react" />
-import { AppCacheIndex } from "../state/AppCacheIndex";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
+import { AppCacheIndex } from "../state/AppCacheIndex";
 export interface AppRestConfig {
     endpoint: string;
 }
@@ -11,7 +11,7 @@ export interface AppSerializationConfig {
         collections: string[];
         mode: "rest" | "local";
     };
-    encryption: "plaintext" | "RSA";
+    encryption?: "plaintext" | "RSA";
     authentication?: {
         provider: "email";
     };
@@ -34,6 +34,6 @@ export interface AppConfig {
         end?: React.FC;
     };
     about?: React.ReactFragment;
-    serialization?: AppSerializationConfig;
+    serialization: AppSerializationConfig;
     darkMode?: boolean;
 }

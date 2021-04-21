@@ -85,7 +85,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                         {version}
                     </AppChip>
                 </AppTitle>
-                <AppLogin authenticate={(username: string, password: string, operation, onAuthenticate) => {
+                <AppLogin serialization={config.serialization} authenticate={(username: string, password: string, operation, onAuthenticate) => {
                     return new Promise<string>((resolve) => {
                         onAuthenticate("");
                         resolve("")

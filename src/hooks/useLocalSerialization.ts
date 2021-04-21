@@ -1,12 +1,12 @@
 import { get, set } from 'idb-keyval';
 import { Store } from 'store';
 import create from "zustand";
+import { AppSerializationConfig } from '../util/AppConfig';
 
 
 
 export type localSynchronizationContext = {
-    authenticate(email: string, password: string, action: "login" | "create", onLoginSuccess: (uid: string) => void): void;
-    synchronize<T>(namespace: string, store: () => Store<T>, uid: string): void;
+    synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: () => void): void;
 }
 
 
@@ -14,14 +14,13 @@ export type localSynchronizationContext = {
  * Observe an Entity collection in cloud storage
  */
 const useIndexDBStorage = create<localSynchronizationContext>(() => ({
-    authenticate: (email: string, password: string, action, onLoginSuccess: (uid: string) => void) => {
-        action === "login" && console.log("login");
-        action === "create" && console.log("create");
-    },
-    async synchronize<T>(namespace: string, store: () => Store<T>, uid: string) {
-        const collection_key = namespace + "-" + store().collection;
-        const collection_workspace_key = collection_key + "-workspace";
-        const collection_active_key = collection_key + "-active";
+    async synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string = "", onComplete?: () => void) {
+        const uid_prefix = uid === "" ? uid + "_" : ""
+
+        const collection_key = uid_prefix + namespace + "_" + store().collection;
+        const collection_workspace_key = uid_prefix + collection_key + "_workspace";
+        const collection_active_key = uid_prefix + collection_key + "_active";
+
         const serialized_store_string = await get(collection_key);
         try {
             const store_records = JSON.parse(serialized_store_string) as Record<string, any>;
@@ -63,9 +62,8 @@ const useIndexDBStorage = create<localSynchronizationContext>(() => ({
                     set(collection_active_key, store().active)
                     break;
             }
-
-
         });
+        onComplete && onComplete();
     }
 }));
 

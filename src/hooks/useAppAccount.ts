@@ -17,7 +17,7 @@ type AppAccountState = {
     authenticated: () => boolean
 }
 interface UserCredential {
-    email_hash: string,
+    uid: string,
     password_hash: string
 }
 const schema = {

@@ -42,15 +42,18 @@ const rpcWithData = (endpoint, collection, method, data, key) => {
  */
 
 
-export const useRestSerializeation = serializaion => create((_, restStorage) => ({
-  authenticate: (email, password, action, onLoginSuccess, onLoginFail) => {},
+export const useRestSerializeation = create((_, restStorage) => ({
+  async synchronize(serializaion, namespace, store, uid, onComplete) {
+    const uid_prefix = uid.length > 0 ? uid + "_" : "";
+    const collection_key = uid_prefix + namespace + "_" + store().collection;
+    const collection_workspace_key = uid_prefix + collection_key + "_workspace";
+    const collection_active_key = uid_prefix + collection_key + "_active";
 
-  async synchronize(namespace, store, uid) {
+    if (typeof serializaion.rest === "undefined") {
+      throw new Error("Please Set Rest Endpoint");
+    }
+
     const endpoint = serializaion.rest.endpoint;
-    const collection_key = namespace + "_" + store().collection;
-    console.log(collection_key);
-    const collection_workspace_key = "_workspace_" + uid;
-    const collection_active_key = "_active_" + uid;
 
     const insert = (collection, key, value) => rpcWithData(endpoint, collection, "put", value, key);
 
@@ -58,21 +61,13 @@ export const useRestSerializeation = serializaion => create((_, restStorage) => 
 
     const entries = () => rpc(endpoint, collection_key, "get");
 
-    let serialized_store_string = "";
     let store_records = {};
 
     try {
-      serialized_store_string = await entries();
-      store_records = JSON.parse(serialized_store_string);
-      store().import(store_records, true);
+      store_records = await entries();
+      await store().import(store_records, true);
     } catch (error) {
       console.log(error);
-    }
-
-    try {
-      store().import(store_records, false);
-    } catch (error) {
-      console.log(error, serialized_store_string);
     }
 
     try {
@@ -94,7 +89,6 @@ export const useRestSerializeation = serializaion => create((_, restStorage) => 
     store().addListener((key, data, status) => {
       switch (status) {
         case "workspacing":
-          console.log("update workspace", collection_workspace_key);
           set(collection_workspace_key, store().exportWorkspace());
           break;
 
@@ -117,6 +111,7 @@ export const useRestSerializeation = serializaion => create((_, restStorage) => 
           break;
       }
     });
+    onComplete && onComplete();
   }
 
-}))();
+}));

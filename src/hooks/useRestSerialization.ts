@@ -6,10 +6,7 @@ import { get, set } from 'idb-keyval';
 
 
 export type restSynchronizationContext = {
-    authenticate(
-        email: string, password: string, action: "login" | "create",
-        onLoginSuccess: (uid: string) => void, onLoginFail: () => void): void;
-    synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string): void;
+    synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: () => void): void;
 }
 
 
@@ -48,41 +45,31 @@ const rpcWithData = (endpoint: string, collection: string, method: "put" | "post
  * Observe an Entity collection in rest storage
  */
 export const useRestSerializeation = create<restSynchronizationContext>((_, restStorage) => ({
-    authenticate: (email, password, action, onLoginSuccess, onLoginFail) => {
-    },
-    async synchronize<T>(serializaion: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string) {
-        const endpoint = serializaion.rest!.endpoint;
-        const collection_key = namespace + "_" + store().collection;
-        console.log(collection_key);
-        const collection_workspace_key = "_workspace_" + uid;
-        const collection_active_key = "_active_" + uid;
-
+    async synchronize<T>(serializaion: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete: () => void) {
+        const uid_prefix = uid.length > 0 ? uid + "_" : ""
+        const collection_key = uid_prefix + namespace + "_" + store().collection;
+        const collection_workspace_key = uid_prefix + collection_key + "_workspace";
+        const collection_active_key = uid_prefix + collection_key + "_active";
+        if (typeof serializaion.rest === "undefined") {
+            throw new Error("Please Set Rest Endpoint")
+        }
+        const endpoint = serializaion.rest.endpoint;
         const insert = (collection: string, key: string, value: string) => rpcWithData(endpoint, collection, "put", value, key)
         const remove = (collection: string, key: string) => rpc(endpoint, collection, "delete", key)
         const entries = () => rpc(endpoint, collection_key, "get")
 
-        let serialized_store_string = "";
         let store_records: Record<string, any> = {};
         try {
-            serialized_store_string = await entries()
-            store_records = JSON.parse(serialized_store_string) as Record<string, any>;
-            store().import(store_records, true);
+            store_records = await entries() as unknown as Record<string, any>;
+            await store().import(store_records, true);
         } catch (error) {
             console.log(error);
-        }
-        try {
-            store().import(store_records, false);
-
-        } catch (error) {
-            console.log(error, serialized_store_string);
         }
 
         try {
             const workspace_string = await get(collection_workspace_key)
             const store_workspace = workspace_string && JSON.parse(workspace_string) as T;;
-
             store().setWorkspaceInstance(store_workspace);
-
         } catch (error) {
             console.log(error);
         }
@@ -98,7 +85,6 @@ export const useRestSerializeation = create<restSynchronizationContext>((_, rest
         store().addListener((key, data, status) => {
             switch (status) {
                 case "workspacing":
-                    console.log("update workspace", collection_workspace_key)
                     set(collection_workspace_key, store().exportWorkspace());
                     break;
                 case "inserting":
@@ -121,5 +107,6 @@ export const useRestSerializeation = create<restSynchronizationContext>((_, rest
 
 
         });
+        onComplete && onComplete();
     }
 }))

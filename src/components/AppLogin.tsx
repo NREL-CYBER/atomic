@@ -21,12 +21,28 @@ import { AppSerializationConfig } from '../util/AppConfig';
 import useIndexDBStorage from '../hooks/useLocalSerialization';
 import { prettyTitle } from '../util';
 import { byteArrayToBase64 } from '../util/binaryToBase64';
+import { base64ToHex } from '../util/base64ToHex';
 
 
-
-const hash = new SHA3(512);
 
 interface credential { email: string, password: string };
+
+/**
+ * Sha3 hash then convert to base64 and then to HEX
+ * It's a really long string now... there is probably a better solution that is URI safe.
+ * @param sensitive 
+ */
+export const hash_sensitive_info = (sensitive: string) =>
+    base64ToHex(
+        byteArrayToBase64(
+            new Uint8Array(
+                new SHA3(512)
+                    .update(sensitive)
+                    .digest()
+            )
+        )
+    )
+
 /**
  * Component to show a loading overlay on the application
  */
@@ -38,35 +54,30 @@ const AppLogin: React.FC<{
 }> = ({ onLoginSuccess, authenticate, serialization }) => {
 
     const [status, setStatus] = useState<"booting" | "synchronizing" | "idle" | "login" | "create" | "authenticating">("booting")
-    const { synchronize } = useRestSerializeation();
+    const synchronizeRest = useRestSerializeation(x => x.synchronize);
     const synchronizeLocal = useIndexDBStorage(x => x.synchronize);
     const { post } = useNotifications();
-    const hasAccounts = account.credential(x => x.index.length !== 0)
     const insertAccount = account.credential(x => x.insert);
-    const retrieveCredential = account.credential(x => x.retrieve);
-    let accountValidOptions: selectButtonProps[] = [
-        { text: "Sign up", value: "create", fill: "solid" }
-    ]
-    if (hasAccounts) {
-        accountValidOptions.push(
-            { text: "Login", value: "login", fill: 'solid' }
-        )
-    }
-
+    const credentials = account.credential(x => x.all());
+    const hasAccounts = credentials.length > 0
+    const accountValidOptions: selectButtonProps[] =
+        !hasAccounts ?
+            [
+                { text: "Create Account", value: "create", fill: "solid" }] :
+            [
+                { text: "New Account", value: "create", fill: "solid" },
+                { text: "Login", value: "login", fill: 'solid' }
+            ]
     const [validator] = useState<Validator<credential>>(new Validator<credential>(credentialSchema));
     useEffect(() => {
-        if (status === "booting") {
-            if (serialization && serialization.mode === "rest") {
-                synchronize(serialization, "account", account.credential.getState, "anonymous")
-            } else {
-                synchronizeLocal("account", account.credential.getState, "anonymous")
-            }
+        if (status === "booting" && typeof serialization !== "undefined") {
+            const synchronize = serialization && serialization.mode === "rest" ? synchronizeRest : synchronizeLocal;
             setStatus("synchronizing");
-            setTimeout(() => {
-                setStatus("idle");
-            }, 500)
+            synchronize(serialization, "account", account.credential.getState, "", () => {
+                setStatus("idle")
+            })
         }
-    }, [serialization, status, synchronize, synchronizeLocal])
+    }, [serialization, status, synchronizeLocal, synchronizeRest])
     if (status === "booting" || status === "synchronizing") {
         return <AppLoadingCard color="tertiary" title={prettyTitle(status)} message="" />
     }
@@ -79,36 +90,38 @@ const AppLogin: React.FC<{
             }
         }} buttons={accountValidOptions} />}
         {status !== "idle" && status !== "authenticating" && <AppForm
-            customSubmit={<>{status}</>}
+            customSubmit={status}
             title={"Account " + status} data={{}} validator={validator} onSubmit={({ email, password }) => {
                 setStatus("authenticating");
                 authenticate(email, password, status, (result: string) => {
                     if (typeof result === "undefined") {
                         post({ color: "danger", id: "login-failure", message: "Failed to Authenticate" });
-                        setStatus("idle")
                         return;
                     }
-                    const account_credential = {
-                        uid: byteArrayToBase64(new Uint8Array(hash.update(email).digest())),
-                        password_hash: byteArrayToBase64(new Uint8Array(hash.update(password).digest()))
+                    const entered_credential = {
+                        uid: hash_sensitive_info(email.toLowerCase()),
+                        password_hash: hash_sensitive_info(password)
                     };
-                    if (status === "create") {
-                        if (typeof retrieveCredential(account_credential.uid) === "undefined") {
-                            insertAccount(account_credential, account_credential.uid)
-                            onLoginSuccess(result);
-                        }
-                        else {
-                            post({ color: "danger", id: "account-failure", message: "Account Already Exists" });
-                            setStatus("idle");
-                        }
-                    } else if (status === "login") {
-                        if (retrieveCredential(account_credential.uid)?.password_hash === account_credential.password_hash) {
-                            onLoginSuccess(result);
-                        } else {
-                            post({ color: "danger", id: "credential-failure", message: "Invalid username & Password combination" });
-                            setStatus("idle");
-                        }
+                    const existing_credential = credentials.find(x => x.uid === entered_credential.uid)
+                    const account_exists = typeof existing_credential !== "undefined"
+                    switch (status) {
+                        case "create":
+                            if (!account_exists)
+                                insertAccount(entered_credential, entered_credential.uid).then(() => {
+                                    onLoginSuccess(result);
+                                })
+                            else
+                                post({ color: "danger", id: "credential-failure", message: "Invalid username & Password combination" });
+                            break;
+                        case "login":
+                            if (existing_credential && existing_credential.password_hash === entered_credential.password_hash)
+                                onLoginSuccess(result);
+                            else
+                                post({ color: "danger", id: "credential-failure", message: "Invalid username & Password combination" });
+                            break;
                     }
+                    setStatus("idle");
+
                 });
             }} >
             <AppButton onClick={() => setStatus("idle")}>

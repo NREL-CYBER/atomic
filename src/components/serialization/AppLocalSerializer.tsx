@@ -27,11 +27,11 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization 
         }
         Object.entries(cache).forEach(([namespace, collections]) => {
             Object.values(collections).forEach((storeAPI) => {
-                synchronize(namespace, storeAPI.getState, "anon");
+                synchronize(serialization, namespace, storeAPI.getState, "anon");
             })
         })
         ready();
-    }, [booting, cache, ready, synchronize, synchronized])
+    }, [booting, cache, ready, serialization, synchronize, synchronized])
     return <></>
 }
 

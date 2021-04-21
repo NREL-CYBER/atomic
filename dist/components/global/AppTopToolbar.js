@@ -6,6 +6,7 @@ import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, Ap
 import { useCompletion } from '../../hooks';
 import AppModal from '../AppModal';
 import AppContent from '../AppContent';
+import useAppAccount from '../../hooks/useAppAccount';
 /**
  * Self aware top toolbar
  */
@@ -32,6 +33,9 @@ const AppTopToolbar = ({
     update(pathname);
   }, [pathname, update, paths]);
   const [showAbout, setShowAbout] = useState(false);
+  const {
+    setUid
+  } = useAppAccount();
   return /*#__PURE__*/React.createElement(AppToolbar, {
     color: darkMode ? "paper" : "tertiary"
   }, /*#__PURE__*/React.createElement(AppButtons, {
@@ -80,6 +84,7 @@ const AppTopToolbar = ({
   }, version))), /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       window.close();
+      setUid(undefined);
     }
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: closeOutline

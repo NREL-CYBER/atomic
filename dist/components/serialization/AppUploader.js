@@ -4,6 +4,7 @@ import 'react-dropzone-uploader/dist/styles.css';
 import { AppItem, AppLabel } from '..';
 import { prettyTitle } from '../../util';
 import AppText from '../AppText';
+import { byteArrayToBase64 } from '../../util/binaryToBase64';
 
 /**
  * Upload Component 
@@ -37,15 +38,7 @@ const AppUploader = ({
       file
     } = fileWithMeta;
     const fileBuffer = await file.arrayBuffer();
-    var binary = '';
-    var bytes = new Uint8Array(fileBuffer);
-    var len = bytes.byteLength;
-
-    for (var i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-
-    onFileReceived(meta, btoa(binary));
+    onFileReceived(meta, byteArrayToBase64(new Uint8Array(fileBuffer)));
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {

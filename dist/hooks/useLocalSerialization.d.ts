@@ -1,7 +1,7 @@
 import { Store } from 'store';
+import { AppSerializationConfig } from '../util/AppConfig';
 export declare type localSynchronizationContext = {
-    authenticate(email: string, password: string, action: "login" | "create", onLoginSuccess: (uid: string) => void): void;
-    synchronize<T>(namespace: string, store: () => Store<T>, uid: string): void;
+    synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: () => void): void;
 };
 /**
  * Observe an Entity collection in cloud storage

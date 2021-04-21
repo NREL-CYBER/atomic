@@ -17,7 +17,7 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
 import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
@@ -34,6 +34,7 @@ import AppGuidance from './guidance/AppGuidance'; //import AppCloudSerializer fr
 
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 import AppRestSerializer from './serialization/AppRestSerializer';
+import useAppAccount from '../hooks/useAppAccount';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -46,15 +47,16 @@ const AppRoot = config => {
     topBar,
     children,
     serialization,
-    cache,
     title,
-    version
+    version,
+    cache
   } = config;
   const {
     initialize,
     darkMode,
     setDarkMode
   } = useAppLayout();
+  const initializeAccounts = useAppAccount(x => x.initialize);
   useEffect(() => {
     config.darkMode && setDarkMode(config.darkMode);
   }, [config.darkMode, setDarkMode]);
@@ -66,13 +68,16 @@ const AppRoot = config => {
     element.classList.add(className);
   }, [darkMode]);
   useEffect(() => {
-    console.log(config);
     config && initialize(config);
+    config && initializeAccounts(config);
     return () => {
       console.log("Exit");
     };
-  }, [config, initialize]);
-  const [uid, setUid] = useState();
+  }, [config, initialize, initializeAccounts]);
+  const {
+    uid,
+    setUid
+  } = useAppAccount();
   const restSerializationAndNotLoggedIn = serialization && serialization.rest && serialization.rest && !uid;
   const localSerializationWithEncryptionAndNotLoggedIn = !uid && serialization && serialization.encryption === "RSA";
   const needs_authentication = restSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
@@ -87,6 +92,7 @@ const AppRoot = config => {
     }, title, /*#__PURE__*/React.createElement(AppChip, {
       color: "primary"
     }, version)), /*#__PURE__*/React.createElement(AppLogin, {
+      serialization: config.serialization,
       authenticate: (username, password, operation, onAuthenticate) => {
         return new Promise(resolve => {
           onAuthenticate("");

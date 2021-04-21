@@ -5,15 +5,11 @@ import create from "zustand";
  * Observe an Entity collection in cloud storage
  */
 const useIndexDBStorage = create(() => ({
-  authenticate: (email, password, action, onLoginSuccess) => {
-    action === "login" && console.log("login");
-    action === "create" && console.log("create");
-  },
-
-  async synchronize(namespace, store, uid) {
-    const collection_key = namespace + "-" + store().collection;
-    const collection_workspace_key = collection_key + "-workspace";
-    const collection_active_key = collection_key + "-active";
+  async synchronize(serialization, namespace, store, uid = "", onComplete) {
+    const uid_prefix = uid === "" ? uid + "_" : "";
+    const collection_key = uid_prefix + namespace + "_" + store().collection;
+    const collection_workspace_key = uid_prefix + collection_key + "_workspace";
+    const collection_active_key = uid_prefix + collection_key + "_active";
     const serialized_store_string = await get(collection_key);
 
     try {
@@ -42,7 +38,8 @@ const useIndexDBStorage = create(() => ({
     store().addListener((_, data, status) => {
       switch (status) {
         case "workspacing":
-          set(collection_workspace_key, store().exportWorkspace());
+          const exported_workspace = store().exportWorkspace();
+          exported_workspace && set(collection_workspace_key, exported_workspace);
           break;
 
         case "inserting":
@@ -56,6 +53,7 @@ const useIndexDBStorage = create(() => ({
           break;
       }
     });
+    onComplete && onComplete();
   }
 
 }));
