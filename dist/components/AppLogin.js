@@ -1,26 +1,43 @@
 import { arrowBackOutline } from 'ionicons/icons';
-import React, { memo, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
+import { SHA3 } from 'sha3';
 import Validator from 'validator';
 import { AppTitle } from '.';
 import { useNotifications } from '../hooks';
-import { account } from '../hooks/useAppAccount'; //import useFirebaseStorage from '../hooks/useFirebaseSerialization';
-
+import { account } from '../hooks/useAppAccount';
+import useIndexDBStorage from '../hooks/useLocalSerialization';
+import { useRestSerializeation } from '../hooks/useRestSerialization';
+import { prettyTitle } from '../util';
+import { base64ToHex } from '../util/base64ToHex';
+import { byteArrayToBase64 } from '../util/binaryToBase64';
 import AppButton from './AppButton';
 import AppCard from './AppCard';
 import AppIcon from './AppIcon';
 import AppItemDivider from './AppItemDivider';
+import AppLoadingCard from './AppLoadingCard';
 import AppProgress from './AppProgress';
 import AppSelectButtons from './AppSelectButtons';
 import AppForm from './forms/AppForm';
-import { SHA3 } from 'sha3';
-import credentialSchema from "../schemas/credential.schema.json";
-import AppLoadingCard from './AppLoadingCard';
-import { useEffect } from 'react';
-import { useRestSerializeation } from '../hooks/useRestSerialization';
-import useIndexDBStorage from '../hooks/useLocalSerialization';
-import { prettyTitle } from '../util';
-import { byteArrayToBase64 } from '../util/binaryToBase64';
-import { base64ToHex } from '../util/base64ToHex';
+const loginFormSchema = {
+  "$id": "user",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "Please Enter your Email and Password",
+  "title": "Account",
+  "$comment": "~",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "password": {
+      "type": "string",
+      "writeOnly": true,
+      "minLength": 8
+    }
+  },
+  "required": ["email", "password"]
+};
 ;
 /**
  * Sha3 hash then convert to base64 and then to HEX
@@ -60,7 +77,7 @@ const AppLogin = ({
     value: "login",
     fill: 'solid'
   }];
-  const [validator] = useState(new Validator(credentialSchema));
+  const [validator] = useState(new Validator(loginFormSchema));
   useEffect(() => {
     if (status === "booting" && typeof serialization !== "undefined") {
       const synchronize = serialization && serialization.mode === "rest" ? synchronizeRest : synchronizeLocal;
