@@ -65,7 +65,7 @@ export const useRestSerializeation = create((_, restStorage) => ({
 
     try {
       store_records = await entries();
-      await store().import(store_records, true);
+      await store().import(store_records, false);
     } catch (error) {
       console.log(error);
     }

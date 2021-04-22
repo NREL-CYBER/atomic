@@ -61,7 +61,7 @@ export const useRestSerializeation = create<restSynchronizationContext>((_, rest
         let store_records: Record<string, any> = {};
         try {
             store_records = await entries() as unknown as Record<string, any>;
-            await store().import(store_records, true);
+            await store().import(store_records, false);
         } catch (error) {
             console.log(error);
         }
