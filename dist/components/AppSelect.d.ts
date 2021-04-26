@@ -1,8 +1,10 @@
 import React from 'react';
+import { AppColor } from '../theme/AppColor';
 interface selectStringProps {
     interface?: "popover" | "alert" | "action-sheet";
     placeholder?: string;
     value?: string;
+    color?: AppColor;
     onSelectionChange?: (value: string) => void;
 }
 /**
