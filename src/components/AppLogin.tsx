@@ -140,7 +140,7 @@ const AppLogin: React.FC<{
                             else
                                 post({ color: "danger", id: "credential-failure", message: "Invalid username & Password combination" });
                             break;
-                        
+
                     }
                     setStatus("idle");
 
