@@ -1,11 +1,10 @@
 import React from 'react';
-import { AppCompletionConfig } from '../../util/AppConfig';
+import { AppCompletionConfig, AppBottomBarConfig } from '../../util/AppConfig';
 /**
  * Completion aware bottom toolbar
  */
 declare const AppCompletionToolbar: React.FC<{
-    start?: React.FC;
     completion?: AppCompletionConfig;
-    end?: React.FC;
+    bottomBar?: AppBottomBarConfig;
 }>;
 export default AppCompletionToolbar;

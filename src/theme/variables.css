@@ -129,12 +129,6 @@ ion-title{
 /* Opera */
 
 }  
-ion-textarea {
-  min-height:50px;
-}
-textarea{
-  min-height:50px;
-}
 
 
 
@@ -364,6 +358,7 @@ color: var(--ion-color-primary);
     padding:10px!important;
   }
 
+  
 :root {
   --ion-grid-columns:               24;
   /** primary **/

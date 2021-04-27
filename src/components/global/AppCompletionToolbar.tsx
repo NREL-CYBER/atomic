@@ -9,13 +9,14 @@ import AppIcon from '../AppIcon';
 import { settingsOutline } from 'ionicons/icons';
 import AppItem from '../AppItem';
 import AppCard from '../AppCard';
-import { AppCompletionConfig } from '../../util/AppConfig';
+import { AppCompletionConfig, AppBottomBarConfig } from '../../util/AppConfig';
+import { config } from 'process';
 
 /**
  * Completion aware bottom toolbar
  */
 
-const AppCompletionToolbar: React.FC<{ start?: React.FC, completion?: AppCompletionConfig, end?: React.FC }> = ({ children, start, end, completion }) => {
+const AppCompletionToolbar: React.FC<{ completion?: AppCompletionConfig, bottomBar?: AppBottomBarConfig }> = ({ children, bottomBar, completion }) => {
     const { setDarkMode, darkMode, title } = useAppLayout()
     const completionValue = useCompletion(x => x.completion);
     const [showSettings, setShowSettings] = useState(false);
@@ -37,16 +38,16 @@ const AppCompletionToolbar: React.FC<{ start?: React.FC, completion?: AppComplet
         </AppModal>}
         {<AppToolbar color={darkMode ? "paper" : "tertiary"}>
             <AppButtons slot="start">
-                {start && start}
                 <AppButton onClick={() => {
                     setShowSettings(true);
                 }}>
                     <AppIcon icon={settingsOutline} />
                 </AppButton>
+                {bottomBar?.start && <bottomBar.start />}
             </AppButtons>
             {completion && !completion.disabled && < AppProgress color="favorite" value={completionValue()} />}
             <AppButtons slot="end" >
-                {end ? end : <AppContinueButton />}
+                {bottomBar?.end && <bottomBar.end />}
             </AppButtons>
         </AppToolbar>
         }</>

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { AppButtons, AppToolbar, AppToggle, AppChip, AppModal } from '..';
 import useCompletion from '../../hooks/useCompletion';
 import AppProgress from '../AppProgress';
-import { AppContinueButton } from './AppContinueButton';
 import { useAppLayout } from '../../hooks';
 import AppButton from '../AppButton';
 import AppIcon from '../AppIcon';
@@ -15,8 +14,7 @@ import AppCard from '../AppCard';
  */
 const AppCompletionToolbar = ({
   children,
-  start,
-  end,
+  bottomBar,
   completion
 }) => {
   const {
@@ -43,18 +41,18 @@ const AppCompletionToolbar = ({
     color: darkMode ? "paper" : "tertiary"
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
-  }, start && start, /*#__PURE__*/React.createElement(AppButton, {
+  }, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setShowSettings(true);
     }
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: settingsOutline
-  }))), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppProgress, {
+  })), bottomBar?.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppProgress, {
     color: "favorite",
     value: completionValue()
   }), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, end ? end : /*#__PURE__*/React.createElement(AppContinueButton, null))));
+  }, bottomBar?.end && /*#__PURE__*/React.createElement(bottomBar.end, null))));
 };
 
 export default AppCompletionToolbar;

@@ -21,6 +21,10 @@ export interface AppCompletionConfig {
     disabled?: boolean;
     default: CompletionStatus;
 }
+export interface AppBottomBarConfig {
+    start?: React.FC;
+    end?: React.FC;
+}
 export interface AppConfig {
     title: string;
     completion?: AppCompletionConfig;
@@ -29,10 +33,7 @@ export interface AppConfig {
     sections?: Record<string, AppRoute[]>;
     routes: AppRoute[];
     cache: AppCacheIndex;
-    bottomBar?: {
-        start?: React.FC;
-        end?: React.FC;
-    };
+    bottomBar?: AppBottomBarConfig;
     about?: React.ReactFragment;
     serialization: AppSerializationConfig;
     darkMode?: boolean;

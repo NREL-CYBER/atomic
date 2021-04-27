@@ -1,6 +1,7 @@
 import { composeStore } from "store";
 import AddressSchema from "../schemas/address.schema.json";
 import routes from "./routes";
+import { ExampleBottomBar } from "./ExampleBottomBar";
 const useAddress = composeStore({
   schema: AddressSchema
 });
@@ -22,29 +23,14 @@ const ExampleConfig = {
     }
   },
   darkMode: false,
+  bottomBar: {
+    start: ExampleBottomBar
+  },
   about: "example application information....",
   serialization: {
-    mode: "rest",
-    encryption: "plaintext",
-    rest: {
-      endpoint: "http://1lv11rmadm01:8888/api/v1/"
-    } // cloud: {
-    //     provider: {
-    //         firebase: {
-    //             apiKey: "AIzaSyCpu67xdMKRxZOpN-FGxXH_wmLhqvAUFQM",
-    //             authDomain: "cyber-risk-manager.firebaseapp.com",
-    //             databaseURL: "https://cyber-risk-manager.firebaseio.com",
-    //             projectId: "cyber-risk-manager",
-    //             storageBucket: "cyber-risk-manager.appspot.com",
-    //             messagingSenderId: "859144297245",
-    //             appId: "1:859144297245:web:860111e3fbc173327e9ff4",
-    //             measurementId: "G-T9PQXBYXR7",
-    //         },
-    //         authentication: {
-    //             provider: "email",
-    //             required: true
-    //         }
-    //     }
+    mode: "local",
+    encryption: "plaintext" // rest: {
+    //     endpoint: "http://1lv11rmadm01:8888/api/v1/",
     // }
 
   }

@@ -84,7 +84,7 @@ const AppFormInput = (props: formInputProps<any>) => {
                 <AppInput color="dark" type={inputMode} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
                     setValue(val)
                 }} />
-                : <AppTextArea color="dark" inputMode={inputMode} value={value} onTextChange={(val) => {
+                : <AppTextArea  color="dark" inputMode={inputMode} value={value} onTextChange={(val) => {
                     setValue(val);
                 }} />}
         </AppItem>

@@ -5,6 +5,9 @@ import React from 'react';
 
 /**
  * Component to display text with optional color (onText change debounced by 500ms)
+ * if you want to use any other params feel free to add them in text props:
+ * https://ionicframework.com/docs/api/textarea
+ * As it says in ionic doc, this is not for inline children text, set the inner value by using the value param
  */
 const AppTextArea = ({
   onTextChange,
@@ -12,6 +15,7 @@ const AppTextArea = ({
 }) => {
   return /*#__PURE__*/React.createElement(IonTextarea, _extends({
     autoGrow: true,
+    rows: 1,
     debounce: 500,
     onIonChange: event => {
       onTextChange(event.detail.value);

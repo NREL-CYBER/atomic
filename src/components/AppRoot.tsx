@@ -113,10 +113,10 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             <AppNotifications />
             <AppGuidance />
             <IonFooter>
-                <AppCompletionToolbar completion={config.completion} {...bottomBar} />
+                <AppCompletionToolbar completion={config.completion} bottomBar={bottomBar} />
             </IonFooter>
             {children}
         </AppRouter>
-    </IonApp>
+    </IonApp >
 }
 export default memo(AppRoot);

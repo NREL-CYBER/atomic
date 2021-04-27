@@ -123,9 +123,10 @@ const AppRoot = config => {
     about: config.about || ""
   }), routes && routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
-  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppCompletionToolbar, _extends({
-    completion: config.completion
-  }, bottomBar))), children));
+  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppCompletionToolbar, {
+    completion: config.completion,
+    bottomBar: bottomBar
+  })), children));
 };
 
 export default /*#__PURE__*/memo(AppRoot);
