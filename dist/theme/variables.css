@@ -348,18 +348,18 @@ color: var(--ion-color-primary);
 }
 
  .light-theme ion-textarea{
-    min-height: 30px;
     border-radius: 5px!important;
     border: dotted 1px rgba(0,0,0,0.3)!important;
     padding-left:10px!important;
   }
   ion-textarea{
-    min-height: 30px;
     border-radius: 5px!important;
     border: dotted 1px rgba(255,255,255,0.3)!important;
     padding-left:10px!important;
   }
-
+ion-modal ion-textarea{
+  min-height: 30px!important;
+}
   
 :root {
   --ion-grid-columns:               24;

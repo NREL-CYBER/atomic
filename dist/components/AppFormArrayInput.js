@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
-import FormComposer from './forms/AppForm';
+import AppForm from './forms/AppForm';
 const inputStatusColorMap = {
   empty: "dark",
   valid: "favorite",
@@ -54,6 +54,7 @@ const AppFormArrayInput = props => {
     },
     color: inputStatusColor
   }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
+    const valType = typeof val;
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
       onClick: () => {
@@ -61,7 +62,7 @@ const AppFormArrayInput = props => {
         setValue(valueRemoved);
         beginInsertItem(val);
       }
-    }, typeof val === "string" && val, typeof val === "object" && Object.values(val).sort((a, b) => String(a).length - String(b).length)[0]);
+    }, valType === "string" && val, valType === "object" && Object.values(val).sort((a, b) => String(a).length - String(b).length)[0]);
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
@@ -75,7 +76,7 @@ const AppFormArrayInput = props => {
   }))), /*#__PURE__*/React.createElement(AppModal, {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
-  }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(FormComposer, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppForm, {
     customComponentMap: customComponentMap,
     validator: validator,
     data: { ...data

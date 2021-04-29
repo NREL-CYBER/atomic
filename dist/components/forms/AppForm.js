@@ -350,7 +350,7 @@ const AppForm = props => {
   }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     propertyInfo: schema,
     property: schema.title || "",
-    input: "line",
+    input: "text",
     instanceRef: instance,
     onChange: handleInputReceived
   }))), /*#__PURE__*/React.createElement(AppList, {
