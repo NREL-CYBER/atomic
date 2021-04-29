@@ -364,7 +364,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 {schema.type === "string" && <><AppFormInput
                     propertyInfo={schema as PropertyDefinitionRef}
                     property={schema.title || ""}
-                    input={"line"}
+                    input={"text"}
                     instanceRef={instance}
                     onChange={handleInputReceived}
                 /></>}

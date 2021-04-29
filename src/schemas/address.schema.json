@@ -9,8 +9,14 @@
         "post_office_address": {
             "type": "string"
         },
-        "extended_address": {
-            "type": "string"
+        "more_info": {
+            "type": "array",
+            "items": {
+                "title":"more info",
+                "description": "yea",
+                "type": "string"
+
+            }
         },
         "street_view": {
             "type": "string",
@@ -30,6 +36,7 @@
         }
     },
     "required": [
+        "more_info",
         "post_office_address",
         "region",
         "street_view",

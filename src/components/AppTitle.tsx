@@ -12,6 +12,6 @@ interface titleProps {
  * A title component for an App item
  */
 const AppTitle: React.FC<titleProps> = (props) => {
-    return <IonTitle {...props} />
+    return <IonTitle  {...props} />
 };
 export default AppTitle;

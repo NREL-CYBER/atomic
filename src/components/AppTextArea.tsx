@@ -8,7 +8,7 @@ interface textProps {
     color?: AppColor
     onTextChange: (value: string) => void
     value: string
-    inputMode?: "text" | "none" | "tel" | "url" | "email" | "numeric" | "decimal" | "search" | undefined
+    inputMode?: "text" | "none" | "tel" | "url" | "email" | "numeric" | "decimal" | "search"
 }
 
 /**

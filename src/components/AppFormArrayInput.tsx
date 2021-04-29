@@ -6,7 +6,7 @@ import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, App
 import { AppColor } from '../theme/AppColor';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
-import FormComposer, { formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
+import AppForm, { formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
 
 
 interface formInputProps<T> {
@@ -54,13 +54,17 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             </AppButtons>
             <AppButtons>
                 {value && value.map((val, i) => {
+                    const valType = typeof val
                     return <AppChip key={i} onClick={() => {
                         const valueRemoved = remove<unknown>((item) => item === val, value);
                         setValue(valueRemoved);
                         beginInsertItem(val);
                     }}>
-                        {typeof val === "string" && val}
-                        {typeof val === "object" && Object.values(val as Object).sort((a, b) => String(a).length - String(b).length)[0]}
+
+                        {valType === "string" && val}
+                        {/**This looks like vooodooo, but it is just displaying the value 
+                         * that is the shortest, which is usually the title || name */}
+                        {valType === "object" && Object.values(val as Object).sort((a, b) => String(a).length - String(b).length)[0]}
                     </AppChip>
                 })}
             </AppButtons>
@@ -71,7 +75,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             </AppButtons>
             <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
-                    {isInsertingItem && <FormComposer
+                    {isInsertingItem && <AppForm
                         customComponentMap={customComponentMap}
                         validator={validator}
                         data={{ ...data }}
@@ -92,7 +96,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                             }
                             setIsInsertingItem(false);
                         }} />
-                    </FormComposer>}
+                    </AppForm>}
                 </AppContent>
             </AppModal>
         </AppToolbar>

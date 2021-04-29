@@ -40,9 +40,11 @@ const AppFormInput = (props: formInputProps<any>) => {
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
     // This is a chained Ternary:
     const [value, setValue] = useState<string>(
-        instanceType === "undefined" ? null :
+        instanceType === "undefined" ? undefined :
             input !== "array" ? instance :
-                typeof instance === "object" ? instance.join("\n") : instance);
+                typeof instance === "object" ? instance.join("\n") :
+                    instance);
+
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property || "");
 
     const calculateType = () => {
@@ -84,7 +86,7 @@ const AppFormInput = (props: formInputProps<any>) => {
                 <AppInput color="dark" type={inputMode} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
                     setValue(val)
                 }} />
-                : <AppTextArea  color="dark" inputMode={inputMode} value={value} onTextChange={(val) => {
+                : <AppTextArea  color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
                     setValue(val);
                 }} />}
         </AppItem>

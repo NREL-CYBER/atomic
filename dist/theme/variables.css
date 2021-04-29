@@ -347,17 +347,20 @@ ion-menu.ios ion-item.selected ion-icon {
 color: var(--ion-color-primary);
 }
 
-  .light-theme textarea{
-    border: solid 1px rgba(0,0,0,0.1)!important;
-    border-radius: 10px!important;
-    padding:10px!important;
+ .light-theme ion-textarea{
+    min-height: 30px;
+    border-radius: 5px!important;
+    border: dotted 1px rgba(0,0,0,0.3)!important;
+    padding-left:10px!important;
   }
-  .dark-theme textarea{
-    border: solid 1px rgba(255,255,255,0.1)!important;
-    border-radius: 10px!important;
-    padding:10px!important;
+  ion-textarea{
+    min-height: 30px;
+    border-radius: 5px!important;
+    border: dotted 1px rgba(255,255,255,0.3)!important;
+    padding-left:10px!important;
   }
 
+  
 :root {
   --ion-grid-columns:               24;
   /** primary **/
