@@ -14,14 +14,14 @@ const AppLocalSerializer = ({
   } = useIndexDBStorage();
   const [booting, setIsBooting] = useState(true);
   const {
-    synchronized,
+    status,
     ready
   } = useCache();
   useTimeout(() => {
     setIsBooting(false);
   }, 500);
   useEffect(() => {
-    if (booting || synchronized) {
+    if (booting || status === "idle") {
       return;
     }
 
@@ -31,7 +31,7 @@ const AppLocalSerializer = ({
       });
     });
     ready();
-  }, [booting, cache, ready, serialization, synchronize, synchronized]);
+  }, [booting, cache, ready, serialization, status, synchronize]);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 

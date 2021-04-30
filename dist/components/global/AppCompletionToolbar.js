@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { AppButtons, AppToolbar, AppToggle, AppChip, AppModal } from '..';
-import useCompletion from '../../hooks/useCompletion';
-import AppProgress from '../AppProgress';
-import { useAppLayout } from '../../hooks';
-import AppButton from '../AppButton';
-import AppIcon from '../AppIcon';
 import { settingsOutline } from 'ionicons/icons';
-import AppItem from '../AppItem';
+import React, { useState } from 'react';
+import { AppButtons, AppChip, AppModal, AppToggle, AppToolbar } from '..';
+import { useAppLayout } from '../../hooks';
+import useCompletion from '../../hooks/useCompletion';
+import AppButton from '../AppButton';
 import AppCard from '../AppCard';
-
+import AppIcon from '../AppIcon';
+import AppItem from '../AppItem';
+import AppProgress from '../AppProgress';
+import { AppContinueButton } from './AppContinueButton';
 /**
  * Completion aware bottom toolbar
  */
+
 const AppCompletionToolbar = ({
   children,
   bottomBar,
@@ -52,7 +53,7 @@ const AppCompletionToolbar = ({
     value: completionValue()
   }), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, bottomBar?.end && /*#__PURE__*/React.createElement(bottomBar.end, null))));
+  }, bottomBar?.end && /*#__PURE__*/React.createElement(bottomBar.end, null), /*#__PURE__*/React.createElement(AppContinueButton, null))));
 };
 
 export default AppCompletionToolbar;

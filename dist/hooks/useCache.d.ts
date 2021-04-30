@@ -1,11 +1,12 @@
 /**
  */
-declare type CacheService = {
-    synchronized: boolean;
+declare type CacheStatus = {
+    status: "booting" | "synchronizing" | "idle";
     ready: () => void;
+    synchronizing: () => void;
 };
 /**
-*  Application Cache
+*  Application Cache status
 */
-declare const useCache: import("zustand").UseStore<CacheService>;
+declare const useCache: import("zustand").UseStore<CacheStatus>;
 export default useCache;

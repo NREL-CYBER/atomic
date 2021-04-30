@@ -1,16 +1,15 @@
+import { settingsOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { AppButtons, AppToolbar, AppToggle, AppChip, AppModal } from '..';
+import { AppButtons, AppChip, AppModal, AppToggle, AppToolbar } from '..';
+import { useAppLayout } from '../../hooks';
 import useCompletion from '../../hooks/useCompletion';
+import { AppBottomBarConfig, AppCompletionConfig } from '../../util/AppConfig';
+import AppButton from '../AppButton';
+import AppCard from '../AppCard';
+import AppIcon from '../AppIcon';
+import AppItem from '../AppItem';
 import AppProgress from '../AppProgress';
 import { AppContinueButton } from './AppContinueButton';
-import { useAppLayout } from '../../hooks';
-import AppButton from '../AppButton';
-import AppIcon from '../AppIcon';
-import { settingsOutline } from 'ionicons/icons';
-import AppItem from '../AppItem';
-import AppCard from '../AppCard';
-import { AppCompletionConfig, AppBottomBarConfig } from '../../util/AppConfig';
-import { config } from 'process';
 
 /**
  * Completion aware bottom toolbar
@@ -48,7 +47,9 @@ const AppCompletionToolbar: React.FC<{ completion?: AppCompletionConfig, bottomB
             {completion && !completion.disabled && < AppProgress color="favorite" value={completionValue()} />}
             <AppButtons slot="end" >
                 {bottomBar?.end && <bottomBar.end />}
+                <AppContinueButton />
             </AppButtons>
+
         </AppToolbar>
         }</>
     );

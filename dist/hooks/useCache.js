@@ -1,13 +1,20 @@
 import create from "zustand";
+/**
+ */
 
 /**
-*  Application Cache
+*  Application Cache status
 */
 const useCache = create((set, cache) => ({
-  synchronized: false,
+  status: "booting",
+  synchronizing: () => {
+    set({
+      status: "synchronizing"
+    });
+  },
   ready: () => {
     set({
-      synchronized: true
+      status: "idle"
     });
   }
 }));

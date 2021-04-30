@@ -12,10 +12,11 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
 import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
+import useAppAccount from '../hooks/useAppAccount';
 import "../theme/variables.css";
 import { AppConfig } from '../util/AppConfig';
 import AppChip from './AppChip';
@@ -30,8 +31,6 @@ import AppGuidance from './guidance/AppGuidance';
 //import AppCloudSerializer from './serialization/AppCloudSerializer';
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 import AppRestSerializer from './serialization/AppRestSerializer';
-import { account } from "../hooks/useAppAccount"
-import useAppAccount from '../hooks/useAppAccount';
 /**
  * Component that stores the root of the application and control current theme
  */

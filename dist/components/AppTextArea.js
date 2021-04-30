@@ -11,12 +11,12 @@ import React from 'react';
  */
 const AppTextArea = ({
   onTextChange,
+  rows = 2,
   ...props
 }) => {
   return /*#__PURE__*/React.createElement(IonTextarea, _extends({
-    autoGrow: true,
-    rows: 1,
     debounce: 500,
+    rows: rows,
     onIonChange: event => {
       onTextChange(event.detail.value);
     }

@@ -16,13 +16,13 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization 
     //TODO implement encryption
     const { synchronize } = useIndexDBStorage();
     const [booting, setIsBooting] = useState(true);
-    const { synchronized, ready } = useCache();
+    const { status, ready } = useCache();
     useTimeout(() => {
         setIsBooting(false);
     }, 500);
 
     useEffect(() => {
-        if (booting || synchronized) {
+        if (booting || status === "idle") {
             return;
         }
         Object.entries(cache).forEach(([namespace, collections]) => {
@@ -31,7 +31,7 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization 
             })
         })
         ready();
-    }, [booting, cache, ready, serialization, synchronize, synchronized])
+    }, [booting, cache, ready, serialization, status, synchronize])
     return <></>
 }
 

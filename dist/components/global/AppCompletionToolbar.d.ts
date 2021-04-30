@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppCompletionConfig, AppBottomBarConfig } from '../../util/AppConfig';
+import { AppBottomBarConfig, AppCompletionConfig } from '../../util/AppConfig';
 /**
  * Completion aware bottom toolbar
  */

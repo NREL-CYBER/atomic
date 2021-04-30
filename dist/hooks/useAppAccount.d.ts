@@ -1,5 +1,5 @@
-import { UseStore } from "zustand";
 import { Store } from "store";
+import { UseStore } from "zustand";
 import { AppConfig } from "../util";
 /**
  * Type that defines what the useApplayout hook will be capable of

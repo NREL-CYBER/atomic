@@ -13,9 +13,10 @@ const AppRestSerializer = ({
   } = useRestSerializeation();
   const [booting, setIsBooting] = useState(true);
   const {
-    synchronized,
+    status,
     ready
   } = useCache();
+  const synchronized = status === "idle";
   const {
     uid,
     authProvider

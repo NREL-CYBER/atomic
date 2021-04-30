@@ -15,7 +15,8 @@ const AppRestSerializer: FC<appLocalSerializerProps> = ({ cache, serialization }
 
     const { synchronize } = useRestSerializeation();
     const [booting, setIsBooting] = useState(true);
-    const { synchronized, ready } = useCache();
+    const { status, ready } = useCache();
+    const synchronized = status === "idle"
     const { uid, authProvider } = useAppAccount();
     useTimeout(() => {
         setIsBooting(false);

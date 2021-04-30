@@ -8,6 +8,7 @@ interface textProps {
     color?: AppColor
     onTextChange: (value: string) => void
     value: string
+    rows: number
     inputMode?: "text" | "none" | "tel" | "url" | "email" | "numeric" | "decimal" | "search"
 }
 
@@ -17,11 +18,10 @@ interface textProps {
  * https://ionicframework.com/docs/api/textarea
  * As it says in ionic doc, this is not for inline children text, set the inner value by using the value param
  */
-const AppTextArea: React.FC<textProps> = ({ onTextChange, ...props }) => {
+const AppTextArea: React.FC<textProps> = ({ onTextChange, rows = 2, ...props }) => {
     return <IonTextarea
-        autoGrow
-        rows={1}
         debounce={500}
+        rows={rows}
         onIonChange={(event) => { onTextChange(event.detail.value!) }} {...props} />
 };
 export default AppTextArea;

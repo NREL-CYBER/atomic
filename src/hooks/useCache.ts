@@ -1,22 +1,26 @@
 import create from "zustand";
-import { AppCacheIndex } from "../state/AppCacheIndex";
 
 
 
 /**
  */
-type CacheService = {
-    synchronized: boolean
+type CacheStatus = {
+    status: "booting" | "synchronizing" |
+    "idle",
     ready: () => void
+    synchronizing: () => void
 }
 
 /**
-*  Application Cache
+*  Application Cache status
 */
-const useCache = create<CacheService>((set, cache) => ({
-    synchronized: false,
+const useCache = create<CacheStatus>((set, cache) => ({
+    status: "booting",
+    synchronizing: () => {
+        set({ status: "synchronizing" })
+    },
     ready: () => {
-        set({ synchronized: true })
+        set({ status: "idle" })
     }
 }));
 export default useCache;

@@ -21,6 +21,7 @@ import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
 import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
+import useAppAccount from '../hooks/useAppAccount';
 import "../theme/variables.css";
 import AppChip from './AppChip';
 import AppLogin from './AppLogin';
@@ -34,7 +35,6 @@ import AppGuidance from './guidance/AppGuidance'; //import AppCloudSerializer fr
 
 import AppLocalSerializer from './serialization/AppLocalSerializer';
 import AppRestSerializer from './serialization/AppRestSerializer';
-import useAppAccount from '../hooks/useAppAccount';
 /**
  * Component that stores the root of the application and control current theme
  */
