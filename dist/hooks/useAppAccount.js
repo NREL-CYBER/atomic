@@ -31,10 +31,10 @@ export const account = {
 const useAppAccount = create((set, store) => ({
   initialize: config => {
     set({
-      authProvider: config.serialization?.authentication?.provider
+      authProvider: config.serialization && config.serialization.authentication && config.serialization.authentication.provider
     });
 
-    if (config.serialization?.mode === "local") {}
+    if (config.serialization && config.serialization.mode === "local") {}
   },
   setUid: uid => set({
     uid

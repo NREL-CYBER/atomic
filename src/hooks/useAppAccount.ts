@@ -58,9 +58,9 @@ export const account: AccountCache = {
 const useAppAccount = create<AppAccountState>((set, store) => ({
     initialize: (config) => {
         set({
-            authProvider: config.serialization?.authentication?.provider
+            authProvider: config.serialization && config.serialization.authentication && config.serialization.authentication.provider
         })
-        if (config.serialization?.mode === "local") {
+        if (config.serialization && config.serialization.mode === "local") {
 
         }
     },
