@@ -29,6 +29,7 @@ type supported_schema_format = "email" | "date" | "time" | undefined
  */
 const AppFormInput = (props: formInputProps<any>) => {
     const { property, instanceRef, input, onChange, propertyInfo } = props;
+    const { description } = propertyInfo;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const instance = instanceRef.current && (instanceRef.current as any)[property];
@@ -83,10 +84,10 @@ const AppFormInput = (props: formInputProps<any>) => {
                 {propertyFormattedName}
             </AppLabel>
             {input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
-                <AppInput color="dark" type={inputMode} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
+                <AppInput color="dark" type={inputMode} value={value} placeholder={description || ""} onInputChange={(val) => {
                     setValue(val)
                 }} />
-                : <AppTextArea  color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
+                : <AppTextArea placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
                     setValue(val);
                 }} />}
         </AppItem>

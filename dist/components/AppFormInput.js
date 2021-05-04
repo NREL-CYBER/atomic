@@ -22,6 +22,9 @@ const AppFormInput = props => {
     onChange,
     propertyInfo
   } = props;
+  const {
+    description
+  } = propertyInfo;
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
   const instance = instanceRef.current && instanceRef.current[property];
@@ -70,11 +73,12 @@ const AppFormInput = props => {
     color: "dark",
     type: inputMode,
     value: value,
-    placeholder: propertyFormattedName,
+    placeholder: description || "",
     onInputChange: val => {
       setValue(val);
     }
   }) : /*#__PURE__*/React.createElement(AppTextArea, {
+    placeholder: description,
     color: "dark",
     inputMode: inputMode || "text",
     value: value,

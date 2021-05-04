@@ -7,7 +7,7 @@ export type stringFormat = "number" | "time" | "text" | "date" | "email" | "pass
 
 interface inputProps {
     onInputChange?: (value: string) => void
-    placeholder: string
+    placeholder?: string
     value?: string
     color?: AppColor
     type?: stringFormat
