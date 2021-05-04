@@ -42,11 +42,11 @@ const AppCompletionToolbar: React.FC<{ completion?: AppCompletionConfig, bottomB
                 }}>
                     <AppIcon icon={settingsOutline} />
                 </AppButton>
-                {bottomBar?.start && <bottomBar.start />}
+                {bottomBar && bottomBar.start && <bottomBar.start />}
             </AppButtons>
             {completion && !completion.disabled && < AppProgress color="favorite" value={completionValue()} />}
             <AppButtons slot="end" >
-                {bottomBar?.end && <bottomBar.end />}
+                {bottomBar && bottomBar.end && <bottomBar.end />}
                 <AppContinueButton />
             </AppButtons>
 

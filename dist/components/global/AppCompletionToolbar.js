@@ -48,12 +48,12 @@ const AppCompletionToolbar = ({
     }
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: settingsOutline
-  })), bottomBar?.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppProgress, {
+  })), bottomBar && bottomBar.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppProgress, {
     color: "favorite",
     value: completionValue()
   }), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, bottomBar?.end && /*#__PURE__*/React.createElement(bottomBar.end, null), /*#__PURE__*/React.createElement(AppContinueButton, null))));
+  }, bottomBar && bottomBar.end && /*#__PURE__*/React.createElement(bottomBar.end, null), /*#__PURE__*/React.createElement(AppContinueButton, null))));
 };
 
 export default AppCompletionToolbar;
