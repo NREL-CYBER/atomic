@@ -77,8 +77,7 @@ const AppForm = props => {
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
     const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
-    console.log(allErrors);
-    setErrors(allErrors.map(x => x.dataPath.split("#").join("").split("/").join("") + " " + x.message || ""));
+    setErrors(allErrors.map(x => x.dataPath.split("#").join("").split("/").join("") || Object.values(x.params).join(" ") + " " + x.message + " " || ""));
 
     if (allErrors.length === 0) {
       autoSubmit && onSubmit(instance.current);
@@ -367,7 +366,7 @@ const AppForm = props => {
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",
     color: "danger"
-  }, title, " ", error.split('_').join(' '))), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
+  }, title || "Data", " ", error.split('_').join(' '))), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
     fill: "solid",
     color: isValid ? "favorite" : "primary",
