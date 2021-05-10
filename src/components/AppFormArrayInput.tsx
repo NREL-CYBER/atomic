@@ -16,6 +16,9 @@ interface formInputProps<T> {
     instanceRef: MutableRefObject<any>
     validator: Validator<T>
     onChange: formFieldChangeEvent,
+    showFields?: string[],
+    hiddenFields?: string[],
+    lockedFields?: string[],
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
@@ -27,7 +30,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormArrayInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, onChange, propertyInfo, customComponentMap } = props;
+    const { property, instanceRef, validator, onChange, propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
@@ -42,7 +45,39 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
         setUndoCache(val);
         setIsInsertingItem(true)
     };
+    const removeAndbeginInsert = (val: any) => {
+        const valueRemoved = remove<unknown>((item) => item === val, value);
+        setValue(valueRemoved);
+        beginInsertItem(val);
+    }
 
+    const findShortestValue = (val: any) => {
+        /**This looks like vooodooo, but it is just displaying the value 
+                         * that is the shortest, which is usually the title || name */
+        return String(
+            Object
+                .values(val as Object)
+                .sort((a, b) => String(a).length - String(b).length).pop())
+    }
+
+    const onSubmitItem = (item: any) => {
+        const newValue = produce(value, (draftValue) => {
+            draftValue.push(item);
+        });
+        const [validationStatus, errors] = onChange(property, newValue);
+        setIsInsertingItem(false);
+        setValue(newValue);
+        setInputStatus(validationStatus);
+        setErrors(errors);
+    }
+
+    const onBackPressed = () => {
+        if (validator.validate(undoCache)) {
+            const newValue = [...value, undoCache]
+            setValue(newValue);
+        }
+        setIsInsertingItem(false);
+    }
     return <AppRow>
         <AppToolbar color="clear">
             <AppButtons slot='start'>
@@ -55,16 +90,9 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             <AppButtons>
                 {value && value.map((val, i) => {
                     const valType = typeof val
-                    return <AppChip key={i} onClick={() => {
-                        const valueRemoved = remove<unknown>((item) => item === val, value);
-                        setValue(valueRemoved);
-                        beginInsertItem(val);
-                    }}>
-
+                    return <AppChip key={i} onClick={() => removeAndbeginInsert(val)}>
                         {valType === "string" && val}
-                        {/**This looks like vooodooo, but it is just displaying the value 
-                         * that is the shortest, which is usually the title || name */}
-                        {valType === "object" && Object.values(val as Object).sort((a, b) => String(a).length - String(b).length)[0]}
+                        {valType === "object" && findShortestValue(val)}
                     </AppChip>
                 })}
             </AppButtons>
@@ -76,26 +104,14 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
                     {isInsertingItem && <AppForm
+                        showFields={showFields}
+                        hiddenFields={hiddenFields}
+                        lockedFields={lockedFields}
                         customComponentMap={customComponentMap}
                         validator={validator}
                         data={{ ...data }}
-                        onSubmit={(item) => {
-                            const newValue = produce(value, (draftValue) => {
-                                draftValue.push(item);
-                            });
-                            const [validationStatus, errors] = onChange(property, newValue);
-                            setIsInsertingItem(false);
-                            setValue(newValue);
-                            setInputStatus(validationStatus);
-                            setErrors(errors);
-                        }} >
-                        <AppBackButton onClick={() => {
-                            if (validator.validate(undoCache)) {
-                                const newValue = [...value, undoCache]
-                                setValue(newValue);
-                            }
-                            setIsInsertingItem(false);
-                        }} />
+                        onSubmit={onSubmitItem} >
+                        <AppBackButton onClick={onBackPressed} />
                     </AppForm>}
                 </AppContent>
             </AppModal>
