@@ -50,7 +50,7 @@ const AppSequence = ({
     onBack
   }) => /*#__PURE__*/React.createElement(React.Fragment, null, children, /*#__PURE__*/React.createElement(AppToolbar, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, elements && activeElementIndex < elements.length ? /*#__PURE__*/React.createElement(AppButton, {
+  }, elements && activeElementIndex < elements.length - 1 ? /*#__PURE__*/React.createElement(AppButton, {
     color: status !== "locked" ? "primary" : "medium",
     disabled: status === "locked",
     onClick: onNext

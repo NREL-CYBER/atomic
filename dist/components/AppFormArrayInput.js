@@ -21,7 +21,10 @@ const AppFormArrayInput = props => {
     validator,
     onChange,
     propertyInfo,
-    customComponentMap
+    customComponentMap,
+    hiddenFields,
+    lockedFields,
+    showFields
   } = props;
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
@@ -43,6 +46,38 @@ const AppFormArrayInput = props => {
     setIsInsertingItem(true);
   };
 
+  const removeAndbeginInsert = val => {
+    const valueRemoved = remove(item => item === val, value);
+    setValue(valueRemoved);
+    beginInsertItem(val);
+  };
+
+  const findShortestValue = val => {
+    /**This looks like vooodooo, but it is just displaying the value 
+                     * that is the shortest, which is usually the title || name */
+    return String(Object.values(val).sort((a, b) => String(a).length - String(b).length).pop());
+  };
+
+  const onSubmitItem = item => {
+    const newValue = produce(value, draftValue => {
+      draftValue.push(item);
+    });
+    const [validationStatus, errors] = onChange(property, newValue);
+    setIsInsertingItem(false);
+    setValue(newValue);
+    setInputStatus(validationStatus);
+    setErrors(errors);
+  };
+
+  const onBackPressed = () => {
+    if (validator.validate(undoCache)) {
+      const newValue = [...value, undoCache];
+      setValue(newValue);
+    }
+
+    setIsInsertingItem(false);
+  };
+
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
@@ -57,12 +92,8 @@ const AppFormArrayInput = props => {
     const valType = typeof val;
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
-      onClick: () => {
-        const valueRemoved = remove(item => item === val, value);
-        setValue(valueRemoved);
-        beginInsertItem(val);
-      }
-    }, valType === "string" && val, valType === "object" && Object.values(val).sort((a, b) => String(a).length - String(b).length)[0]);
+      onClick: () => removeAndbeginInsert(val)
+    }, valType === "string" && val, valType === "object" && findShortestValue(val));
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
@@ -77,29 +108,16 @@ const AppFormArrayInput = props => {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppForm, {
+    showFields: showFields,
+    hiddenFields: hiddenFields,
+    lockedFields: lockedFields,
     customComponentMap: customComponentMap,
     validator: validator,
     data: { ...data
     },
-    onSubmit: item => {
-      const newValue = produce(value, draftValue => {
-        draftValue.push(item);
-      });
-      const [validationStatus, errors] = onChange(property, newValue);
-      setIsInsertingItem(false);
-      setValue(newValue);
-      setInputStatus(validationStatus);
-      setErrors(errors);
-    }
+    onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
-    onClick: () => {
-      if (validator.validate(undoCache)) {
-        const newValue = [...value, undoCache];
-        setValue(newValue);
-      }
-
-      setIsInsertingItem(false);
-    }
+    onClick: onBackPressed
   }))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"

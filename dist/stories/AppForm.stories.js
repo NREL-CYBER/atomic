@@ -2576,6 +2576,8 @@ export const ComplexExample = Template.bind({});
 ComplexExample.args = {
   data: {},
   definition: "metadata",
+  requiredOnly: true,
+  showFields: ["rar"],
   lazyLoadValidator: sapValidator,
   onSubmit
 };

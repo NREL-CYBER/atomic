@@ -8,6 +8,9 @@ interface formInputProps<T> {
     instanceRef: MutableRefObject<any>;
     validator: Validator<T>;
     onChange: formFieldChangeEvent;
+    showFields?: string[];
+    hiddenFields?: string[];
+    lockedFields?: string[];
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
 }
 /**

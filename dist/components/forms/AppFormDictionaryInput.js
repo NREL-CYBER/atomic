@@ -15,25 +15,31 @@ const inputStatusColorMap = {
  */
 
 const AppFormDictionaryInput = props => {
+  //destructure props
   const {
     property,
     instanceRef,
     validator,
     onChange,
     propertyInfo,
-    customComponentMap
+    customComponentMap,
+    hiddenFields,
+    lockedFields,
+    showFields
   } = props;
   const {
     title
-  } = propertyInfo;
+  } = propertyInfo; //local state
+
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState("empty");
   const [isInsertingItem, setIsInsertingItem] = useState(false);
   const [value, setValue] = useState(instanceRef.current[property] ? instanceRef.current[property] : {});
   const [data, setData] = useState({});
-  const [activeIndex, setActiveIndex] = useState(undefined);
+  const [activeIndex, setActiveIndex] = useState(undefined); //local queries
+
   const propertyFormattedName = prettyTitle(title || property);
-  const inputStatusColor = inputStatusColorMap[inputStatus];
+  const inputStatusColor = inputStatusColorMap[inputStatus]; //local events
 
   const beginInsertItem = (index = v4(), val = {}) => {
     setActiveIndex(index);
@@ -45,6 +51,17 @@ const AppFormDictionaryInput = props => {
     ;
     setData(val);
     setIsInsertingItem(true);
+  };
+
+  const onSubmitValue = item => {
+    const newValue = produce(value, draftValue => {
+      draftValue[activeIndex ? activeIndex : v4()] = item;
+    });
+    const [validationStatus, errors] = onChange(property, newValue);
+    setIsInsertingItem(false);
+    setValue(newValue);
+    setInputStatus(validationStatus);
+    setErrors(errors);
   };
 
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, {
@@ -82,16 +99,10 @@ const AppFormDictionaryInput = props => {
     validator: validator,
     data: { ...data
     },
-    onSubmit: item => {
-      const newValue = produce(value, draftValue => {
-        draftValue[activeIndex ? activeIndex : v4()] = item;
-      });
-      const [validationStatus, errors] = onChange(property, newValue);
-      setIsInsertingItem(false);
-      setValue(newValue);
-      setInputStatus(validationStatus);
-      setErrors(errors);
-    }
+    showFields: showFields,
+    hiddenFields: hiddenFields,
+    lockedFields: lockedFields,
+    onSubmit: onSubmitValue
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => {
       setIsInsertingItem(false);

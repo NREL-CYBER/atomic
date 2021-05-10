@@ -13,7 +13,7 @@ export default {
 
 const Template: Story<formComposerProps> = (args) => <AppFormComposer {...args} />;
 
-interface Address {
+export interface Address {
     "post-office-box": string,
     "locality": string,
     "region": string
@@ -2910,6 +2910,8 @@ export const ComplexExample = Template.bind({});
 ComplexExample.args = {
     data: {},
     definition: "metadata",
+    requiredOnly: true,
+    showFields:["rar"],
     lazyLoadValidator: sapValidator,
     onSubmit,
 }
