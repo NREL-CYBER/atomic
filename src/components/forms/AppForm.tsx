@@ -147,6 +147,10 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             validator={validator.makeReferenceValidator(propertyInfo)}
             requiredOnly={requiredOnly}
             autoSubmit={true}
+            calculatedFields={calculatedFields}
+            hiddenFields={hiddenFields}
+            lockedFields={lockedFields}
+            showFields={showFields}
             customComponentMap={customComponentMap}
             onSubmit={(nestedObjectValue) => {
                 setNestedFormStatus("valid");
@@ -265,6 +269,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
                 propertyInfo={propertyInfo}
+                hiddenFields={hiddenFields}
+                lockedFields={lockedFields}
+                showFields={showFields}
                 property={property}
                 customComponentMap={customComponentMap}
                 validator={validator.makeReferenceValidator(propertyInfo)}
@@ -278,6 +285,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 instanceRef={instanceRef}
                 customComponentMap={customComponentMap}
                 propertyInfo={propertyInfo}
+                hiddenFields={hiddenFields}
+                lockedFields={lockedFields}
+                showFields={showFields}
                 property={property}
                 validator={validator.makeReferenceValidator(refPropertyInfo)}
                 key={property}
@@ -318,7 +328,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
     let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
-    requiredFields = showFields ? [...requiredFields, ...showFields] : requiredFields;
+    requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
     const [showOptional, setShowOptional] = useState<boolean>(false);
     const RequiredFormFields = () => <>{
         requiredFields.map(property => {

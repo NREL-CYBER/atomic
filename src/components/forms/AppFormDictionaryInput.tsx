@@ -16,6 +16,9 @@ interface formInputProps<T> {
     instanceRef: MutableRefObject<any>
     validator: Validator<T>
     onChange: formFieldChangeEvent,
+    showFields?: string[],
+    hiddenFields?: string[],
+    lockedFields?: string[],
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
@@ -27,22 +30,38 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", vali
  * Component for input that displays validation errors
  */
 const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, onChange, propertyInfo, customComponentMap } = props;
+    //destructure props
+    const { property, instanceRef, validator, onChange,
+        propertyInfo, customComponentMap, hiddenFields,
+        lockedFields, showFields } = props;
     const { title } = propertyInfo;
+    //local state
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<Record<string, any>>(instanceRef.current[property] ? instanceRef.current[property] : {})
     const [data, setData] = useState<any>({})
     const [activeIndex, setActiveIndex] = useState<string | undefined>(undefined);
+    //local queries
     const propertyFormattedName = prettyTitle(title || property)
     const inputStatusColor = inputStatusColorMap[inputStatus];
+    //local events
     const beginInsertItem = (index: string = v4(), val: any = {}) => {
         setActiveIndex(index);
         if (typeof (value) === "undefined") { setValue({}) };
         setData(val);
         setIsInsertingItem(true)
     };
+    const onSubmitValue = (item: any) => {
+        const newValue = produce(value, (draftValue: { [x: string]: any; }) => {
+            draftValue[activeIndex ? activeIndex : v4()] = item;
+        });
+        const [validationStatus, errors] = onChange(property, newValue);
+        setIsInsertingItem(false);
+        setValue(newValue);
+        setInputStatus(validationStatus);
+        setErrors(errors);
+    }
 
     return <AppRow>
         <AppToolbar color="clear">
@@ -74,16 +93,11 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                         customComponentMap={customComponentMap}
                         validator={validator}
                         data={{ ...data }}
-                        onSubmit={(item: any) => {
-                            const newValue = produce(value, (draftValue: { [x: string]: any; }) => {
-                                draftValue[activeIndex ? activeIndex : v4()] = item;
-                            });
-                            const [validationStatus, errors] = onChange(property, newValue);
-                            setIsInsertingItem(false);
-                            setValue(newValue);
-                            setInputStatus(validationStatus);
-                            setErrors(errors);
-                        }} >
+                        showFields={showFields}
+                        hiddenFields={hiddenFields}
+                        lockedFields={lockedFields}
+
+                        onSubmit={onSubmitValue} >
                         <AppBackButton onClick={() => {
                             setIsInsertingItem(false);
                         }} />
