@@ -42,7 +42,8 @@ export const AppSettingsModal: React.FC = () => {
  * Completion aware bottom toolbar
  */
 
-export const AppBottomBar: React.FC<{ completion?: AppCompletionConfig, darkMode?: boolean, bottomBar?: AppBottomBarConfig }> = ({ children, bottomBar, completion, darkMode }) => {
+export const AppBottomBar: React.FC<{ completion?: AppCompletionConfig, bottomBar?: AppBottomBarConfig }> = ({ children, bottomBar, completion }) => {
+    const { darkMode } = useAppLayout();
 
     return <AppToolbar color={darkMode ? "paper" : "tertiary"}>
         <AppButtons slot="start">

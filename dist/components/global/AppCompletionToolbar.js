@@ -51,9 +51,11 @@ export const AppSettingsModal = () => {
 export const AppBottomBar = ({
   children,
   bottomBar,
-  completion,
-  darkMode
+  completion
 }) => {
+  const {
+    darkMode
+  } = useAppLayout();
   return /*#__PURE__*/React.createElement(AppToolbar, {
     color: darkMode ? "paper" : "tertiary"
   }, /*#__PURE__*/React.createElement(AppButtons, {
