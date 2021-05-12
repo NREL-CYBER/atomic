@@ -7,6 +7,5 @@ export declare const AppSettingsModal: React.FC;
  */
 export declare const AppBottomBar: React.FC<{
     completion?: AppCompletionConfig;
-    darkMode?: boolean;
     bottomBar?: AppBottomBarConfig;
 }>;
