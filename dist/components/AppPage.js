@@ -5,17 +5,18 @@ import React from 'react';
  */
 
 const AppPage = ({
-  children
+  children,
+  fullscreen = false
 }) => {
   return /*#__PURE__*/React.createElement(IonPage, {
     id: "main"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, !fullscreen && /*#__PURE__*/React.createElement("div", {
     style: {
       height: 55
     }
   }), /*#__PURE__*/React.createElement(IonContent, {
     slot: "fixed"
-  }, children), /*#__PURE__*/React.createElement("div", {
+  }, children), !fullscreen && /*#__PURE__*/React.createElement("div", {
     style: {
       height: 55
     }

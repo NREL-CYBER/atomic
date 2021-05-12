@@ -11,47 +11,49 @@ import AppItem from '../AppItem';
 import AppProgress from '../AppProgress';
 import { AppContinueButton } from './AppContinueButton';
 
+export const AppCompletionProgress: React.FC = () => {
+    const completionValue = useCompletion(x => x.completion);
+    return < AppProgress color="favorite" value={completionValue()} />
+}
+export const AppSettingsModal: React.FC = () => {
+    const [showSettings, setShowSettings] = useState(false);
+    const { darkMode, setDarkMode, title } = useAppLayout();
+    return showSettings ? <AppModal isOpen={showSettings} onDismiss={() => { setShowSettings(false) }}>
+        < AppCard title={title + " Settings"
+        } headerColor="tertiary" >
+            <AppItem>
+                <AppChip>
+                    {darkMode ? "Dark Mode" : "Light Mode"}
+                </AppChip>
+                <AppToggle checked={darkMode} onToggleChange={(isDark) => {
+                    setDarkMode(isDark)
+                }} />
+            </AppItem>
+        </AppCard >
+    </AppModal > : <AppButton onClick={() => {
+        setShowSettings(true);
+    }}>
+        <AppIcon icon={settingsOutline} />
+    </AppButton>
+}
+
+
 /**
  * Completion aware bottom toolbar
  */
 
-const AppCompletionToolbar: React.FC<{ completion?: AppCompletionConfig, bottomBar?: AppBottomBarConfig }> = ({ children, bottomBar, completion }) => {
-    const { setDarkMode, darkMode, title } = useAppLayout()
-    const completionValue = useCompletion(x => x.completion);
-    const [showSettings, setShowSettings] = useState(false);
+export const AppBottomBar: React.FC<{ completion?: AppCompletionConfig, darkMode?: boolean, bottomBar?: AppBottomBarConfig }> = ({ children, bottomBar, completion, darkMode }) => {
 
-    return (<>
-        {showSettings && <AppModal isOpen={showSettings} onDismiss={() => { setShowSettings(false) }}>
-            <AppCard title={title + " Settings"} headerColor="tertiary">
+    return <AppToolbar color={darkMode ? "paper" : "tertiary"}>
+        <AppButtons slot="start">
+            <AppSettingsModal />
+            {bottomBar && bottomBar.start && <bottomBar.start />}
+        </AppButtons>
+        {completion && !completion.disabled && <AppCompletionProgress />}
+        <AppButtons slot="end" >
+            {bottomBar && bottomBar.end && <bottomBar.end />}
+            <AppContinueButton />
+        </AppButtons>
 
-                <AppItem>
-                    <AppChip>
-                        {darkMode ? "Dark Mode" : "Light Mode"}
-                    </AppChip>
-                    <AppToggle checked={darkMode} onToggleChange={(isDark) => {
-                        setDarkMode(isDark)
-                    }} />
-                </AppItem>
-            </AppCard>
-
-        </AppModal>}
-        {<AppToolbar color={darkMode ? "paper" : "tertiary"}>
-            <AppButtons slot="start">
-                <AppButton onClick={() => {
-                    setShowSettings(true);
-                }}>
-                    <AppIcon icon={settingsOutline} />
-                </AppButton>
-                {bottomBar && bottomBar.start && <bottomBar.start />}
-            </AppButtons>
-            {completion && !completion.disabled && < AppProgress color="favorite" value={completionValue()} />}
-            <AppButtons slot="end" >
-                {bottomBar && bottomBar.end && <bottomBar.end />}
-                <AppContinueButton />
-            </AppButtons>
-
-        </AppToolbar>
-        }</>
-    );
+    </AppToolbar>
 };
-export default AppCompletionToolbar;

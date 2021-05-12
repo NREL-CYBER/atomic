@@ -9,23 +9,21 @@ import AppIcon from '../AppIcon';
 import AppItem from '../AppItem';
 import AppProgress from '../AppProgress';
 import { AppContinueButton } from './AppContinueButton';
-/**
- * Completion aware bottom toolbar
- */
-
-const AppCompletionToolbar = ({
-  children,
-  bottomBar,
-  completion
-}) => {
+export const AppCompletionProgress = () => {
+  const completionValue = useCompletion(x => x.completion);
+  return /*#__PURE__*/React.createElement(AppProgress, {
+    color: "favorite",
+    value: completionValue()
+  });
+};
+export const AppSettingsModal = () => {
+  const [showSettings, setShowSettings] = useState(false);
   const {
-    setDarkMode,
     darkMode,
+    setDarkMode,
     title
   } = useAppLayout();
-  const completionValue = useCompletion(x => x.completion);
-  const [showSettings, setShowSettings] = useState(false);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, showSettings && /*#__PURE__*/React.createElement(AppModal, {
+  return showSettings ? /*#__PURE__*/React.createElement(AppModal, {
     isOpen: showSettings,
     onDismiss: () => {
       setShowSettings(false);
@@ -38,22 +36,29 @@ const AppCompletionToolbar = ({
     onToggleChange: isDark => {
       setDarkMode(isDark);
     }
-  })))), /*#__PURE__*/React.createElement(AppToolbar, {
-    color: darkMode ? "paper" : "tertiary"
-  }, /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "start"
-  }, /*#__PURE__*/React.createElement(AppButton, {
+  })))) : /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setShowSettings(true);
     }
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: settingsOutline
-  })), bottomBar && bottomBar.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppProgress, {
-    color: "favorite",
-    value: completionValue()
-  }), /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "end"
-  }, bottomBar && bottomBar.end && /*#__PURE__*/React.createElement(bottomBar.end, null), /*#__PURE__*/React.createElement(AppContinueButton, null))));
+  }));
 };
+/**
+ * Completion aware bottom toolbar
+ */
 
-export default AppCompletionToolbar;
+export const AppBottomBar = ({
+  children,
+  bottomBar,
+  completion,
+  darkMode
+}) => {
+  return /*#__PURE__*/React.createElement(AppToolbar, {
+    color: darkMode ? "paper" : "tertiary"
+  }, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppSettingsModal, null), bottomBar && bottomBar.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppCompletionProgress, null), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  }, bottomBar && bottomBar.end && /*#__PURE__*/React.createElement(bottomBar.end, null), /*#__PURE__*/React.createElement(AppContinueButton, null)));
+};

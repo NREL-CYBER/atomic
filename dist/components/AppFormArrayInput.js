@@ -55,7 +55,7 @@ const AppFormArrayInput = props => {
   const findShortestValue = val => {
     /**This looks like vooodooo, but it is just displaying the value 
                      * that is the shortest, which is usually the title || name */
-    return String(Object.values(val).sort((a, b) => String(a).length - String(b).length).pop());
+    return String(Object.values(val).sort((a, b) => String(a).length - String(b).length).unshift());
   };
 
   const onSubmitItem = item => {

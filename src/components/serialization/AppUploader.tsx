@@ -56,7 +56,7 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
             <AppText>{description}</AppText>
         </AppItem>
         <AppItem>
-            <Dropzone
+            <Dropzone                
                 initialFiles={file ? [file] : undefined}
                 maxFiles={1}
                 multiple={false}

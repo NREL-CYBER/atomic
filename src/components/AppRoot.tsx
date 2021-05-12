@@ -23,7 +23,7 @@ import AppChip from './AppChip';
 import AppLogin from './AppLogin';
 import AppRouter from './AppRouter';
 import AppTitle from './AppTitle';
-import AppCompletionToolbar from './global/AppCompletionToolbar';
+import { AppBottomBar } from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
@@ -111,9 +111,9 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             )}
             <AppNotifications />
             <AppGuidance />
-            <IonFooter>
-                <AppCompletionToolbar completion={config.completion} bottomBar={bottomBar} />
-            </IonFooter>
+            {bottomBar && <IonFooter>
+                <AppBottomBar completion={config.completion} bottomBar={bottomBar} />
+            </IonFooter>}
             {children}
         </AppRouter>
     </IonApp >

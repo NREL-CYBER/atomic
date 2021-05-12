@@ -57,7 +57,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
         return String(
             Object
                 .values(val as Object)
-                .sort((a, b) => String(a).length - String(b).length).pop())
+                .sort((a, b) => String(a).length - String(b).length).unshift())
     }
 
     const onSubmitItem = (item: any) => {
