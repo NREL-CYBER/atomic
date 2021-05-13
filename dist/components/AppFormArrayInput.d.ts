@@ -13,6 +13,7 @@ interface formInputProps<T> {
     lockedFields?: string[];
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
 }
+export declare const findShortestValue: (val: any) => string;
 /**
  * Component for input that displays validation errors
  */

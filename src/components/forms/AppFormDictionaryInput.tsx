@@ -6,6 +6,7 @@ import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { AppColor } from "../../theme/AppColor";
 import { prettyTitle } from "../../util";
+import { findShortestValue } from "../AppFormArrayInput";
 import AppForm, { formFieldChangeEvent, nestedFormProps } from './AppForm';
 
 
@@ -78,7 +79,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                         beginInsertItem(i, val);
                     }}>
                         {typeof val === "string" && val}
-                        {typeof val === "object" && Object.values(val as Object).sort((a, b) => String(a).length - String(b).length)[0]}
+                        {typeof val === "object" && findShortestValue(val)}
                     </AppChip>
                 })}
             </AppButtons>

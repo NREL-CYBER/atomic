@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useState, useCallback } from 'react';
+import React, { MutableRefObject, useCallback, useState } from 'react';
 import { AppSelectArray } from '.';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
@@ -7,7 +7,6 @@ import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
-import { useEffect } from 'react';
 
 
 export interface formSelectArrayInputProps {

@@ -26,6 +26,23 @@ type InputStatus = "empty" | "invalid" | "valid";
 
 const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", valid: "favorite", invalid: "danger" }
 
+export const findShortestValue = (val: any) => {
+    /**This looks like vooodooo, but it is just displaying the value 
+                     * that is the shortest, which is usually the title || name */
+    const standard_values = ["name", "title"]
+
+    Object.keys(val).forEach((key) => {
+        standard_values.forEach((visible_key) => {
+            if (key.includes(visible_key))
+                return val[key];
+        })
+    });
+    return String(
+        Object
+            .values(val as Object)
+            .sort((a, b) => String(a).length - String(b).length).filter(x => x.length > 2)[0])
+}
+
 /**
  * Component for input that displays validation errors
  */
@@ -51,14 +68,6 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
         beginInsertItem(val);
     }
 
-    const findShortestValue = (val: any) => {
-        /**This looks like vooodooo, but it is just displaying the value 
-                         * that is the shortest, which is usually the title || name */
-        return String(
-            Object
-                .values(val as Object)
-                .sort((a, b) => String(a).length - String(b).length).unshift())
-    }
 
     const onSubmitItem = (item: any) => {
         const newValue = produce(value, (draftValue) => {

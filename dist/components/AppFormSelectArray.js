@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AppSelectArray } from '.';
 import { prettyTitle } from '../util';
 import AppItem from './AppItem';

@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { v4 } from 'uuid';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { prettyTitle } from "../../util";
+import { findShortestValue } from "../AppFormArrayInput";
 import AppForm from './AppForm';
 const inputStatusColorMap = {
   empty: "dark",
@@ -80,7 +81,7 @@ const AppFormDictionaryInput = props => {
       onClick: () => {
         beginInsertItem(i, val);
       }
-    }, typeof val === "string" && val, typeof val === "object" && Object.values(val).sort((a, b) => String(a).length - String(b).length)[0]);
+    }, typeof val === "string" && val, typeof val === "object" && findShortestValue(val));
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
