@@ -29,6 +29,7 @@ import AppLogin from './AppLogin';
 import AppPage from './AppPage';
 import AppRouter from './AppRouter';
 import AppTitle from './AppTitle';
+import AppToolbar from './AppToolbar';
 import { AppBottomBar } from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
@@ -114,7 +115,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                         useIndexDBStorage}
                 serialization={serialization}
                 cache={cache} />}
-        {status === "synchronizing" && <AppPage fullscreen><AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} /></AppPage>}
+        {status === "synchronizing" && <><AppToolbar /><AppPage fullscreen><AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} /></AppPage></>}
         {status === "idle" && <AppRouter id={"root"}>
             {/**Side Menu  */}
             {sections && <AppMainMenu sections={sections} />}

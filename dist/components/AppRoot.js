@@ -33,6 +33,7 @@ import AppLogin from './AppLogin';
 import AppPage from './AppPage';
 import AppRouter from './AppRouter';
 import AppTitle from './AppTitle';
+import AppToolbar from './AppToolbar';
 import { AppBottomBar } from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
@@ -121,13 +122,13 @@ const AppRoot = config => {
     context: serialization.mode === "rest" ? useRestSerializeation : desktop ? useElectronSerialization : useIndexDBStorage,
     serialization: serialization,
     cache: cache
-  }), status === "synchronizing" && /*#__PURE__*/React.createElement(AppPage, {
+  }), status === "synchronizing" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null), /*#__PURE__*/React.createElement(AppPage, {
     fullscreen: true
   }, /*#__PURE__*/React.createElement(AppLoadingCard, {
     color: "tertiary",
     title: prettyTitle(status),
     message: ""
-  })), status === "idle" && /*#__PURE__*/React.createElement(AppRouter, {
+  }))), status === "idle" && /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
     sections: sections
