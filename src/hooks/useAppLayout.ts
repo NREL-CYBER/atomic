@@ -26,8 +26,9 @@ const calculateNextPage = (allPageRoutes: AppRoute[], routeOrder: AppPath[], pat
 /**
  * Type that defines what the useApplayout hook will be capable of
  */
+export type AppStatus = "booting" | "synchronizing" | "idle";
 type AppLayout = {
-    status: "booting" | "idle",
+    status: AppStatus,
     id: string,
     appTitle: string,
     title: string,
@@ -44,6 +45,7 @@ type AppLayout = {
     setDarkMode: (isDark: boolean) => void
     update: (pathname: string) => void
     initialize: (config: AppConfig) => void
+    setStatus: (status: AppStatus) => void
 }
 
 /**
@@ -59,6 +61,9 @@ const useAppLayout = create<AppLayout>((set, store) => ({
         set({ darkMode: isDark })
     },
     appTitle: "",
+    setStatus: (status) => {
+        set({ status });
+    },
     initialize: ({ routes, title, version }) => {
         const allPageRoutes = routes;
         const allRoutesFlattened = routes
@@ -74,7 +79,7 @@ const useAppLayout = create<AppLayout>((set, store) => ({
         }
         const order = allRoutesFlattened.map(x => x.path);
         const appTitle = title;
-        set({ appTitle, title, version, status: "idle", rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
+        set({ appTitle, title, version, status: "synchronizing", rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
     },
     id: "",
     path: "",

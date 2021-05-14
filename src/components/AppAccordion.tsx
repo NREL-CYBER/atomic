@@ -1,7 +1,7 @@
-import React, { FC, useState, ReactFragment } from "react";
+import React, { FC, ReactFragment, useState } from "react";
 import { AppItem, AppRow } from ".";
-import AppList from "./AppList";
 import { AppColor } from "../theme/AppColor";
+import AppList from "./AppList";
 
 type accordionItem = {
     toolbarContent: ReactFragment,
@@ -21,6 +21,7 @@ const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor, exp
     const [unlockedIndex, setUnlockedIndex] = useState(-1);
 
     return <AppList>{items.map((accordionItem, i) =>
+        // eslint-disable-next-line no-script-url
         <React.Fragment key={i}><AppItem href={"javascript:void(0)"} color={unlockedIndex === i ? selectedColor : itemColor} onClick={() => {
             if (unlockedIndex === i) {
                 setUnlockedIndex(-1);

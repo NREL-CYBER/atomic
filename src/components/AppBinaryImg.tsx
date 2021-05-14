@@ -1,4 +1,3 @@
-import { IonImg } from '@ionic/react';
 import React, { memo } from 'react';
 import { binaryToFileUri } from '../util';
 

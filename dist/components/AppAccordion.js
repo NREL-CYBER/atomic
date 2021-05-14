@@ -13,7 +13,10 @@ const AppAccordion = ({
   expand
 }) => {
   const [unlockedIndex, setUnlockedIndex] = useState(-1);
-  return /*#__PURE__*/React.createElement(AppList, null, items.map((accordionItem, i) => /*#__PURE__*/React.createElement(React.Fragment, {
+  return /*#__PURE__*/React.createElement(AppList, null, items.map((accordionItem, i) =>
+  /*#__PURE__*/
+  // eslint-disable-next-line no-script-url
+  React.createElement(React.Fragment, {
     key: i
   }, /*#__PURE__*/React.createElement(AppItem, {
     href: "javascript:void(0)",

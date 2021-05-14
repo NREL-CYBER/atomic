@@ -1,22 +1,40 @@
-import React, { memo } from "react";
-import useLocalSerialization from "../../hooks/useLocalSerialization";
+import React, { memo, useEffect, useState } from "react";
+import useAppLayout from "../../hooks/useAppLayout";
 
-const AppSerializer = ({
+const AppLocalSerializer = ({
   cache,
-  mode
+  serialization,
+  context,
+  uid
 }) => {
-  const {
-    index
-  } = cache;
+  //TODO implement encryption
   const {
     synchronize
-  } = useLocalSerialization();
-  Object.entries(index).forEach(([namespace, collections]) => {
-    Object.values(collections).forEach(storeAPI => {
-      synchronize(namespace, storeAPI.getState);
+  } = context();
+  const {
+    status,
+    setStatus
+  } = useAppLayout();
+  const cache_items = Object.entries(cache).flatMap(([namespace, collections]) => Object.values(collections).length).reduce((a, b) => a + b, 0);
+  const [remaining, setRemaining] = useState(cache_items);
+  useEffect(() => {
+    remaining === 0 && setStatus("idle");
+  }, [remaining, setStatus]);
+  useEffect(() => {
+    if (status !== "synchronizing") {
+      return;
+    }
+
+    Object.entries(cache).forEach(([namespace, collections]) => {
+      Object.values(collections).forEach(storeAPI => {
+        synchronize(serialization, namespace, storeAPI.getState, uid || "secret", () => {
+          console.log("Synchronized " + namespace + storeAPI.getState().collection);
+          setRemaining(x => x - 1);
+        });
+      });
     });
-  });
+  }, [cache, serialization, status, synchronize, uid]);
   return /*#__PURE__*/React.createElement(React.Fragment, null);
 };
 
-export default memo(AppSerializer);
+export default /*#__PURE__*/memo(AppLocalSerializer);

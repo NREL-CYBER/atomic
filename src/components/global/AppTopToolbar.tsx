@@ -1,12 +1,12 @@
-import useAppLayout from '../../hooks/useAppLayout';
-import { homeOutline, closeOutline } from 'ionicons/icons';
+import { closeOutline, homeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, AppChip, AppCard } from '..';
+import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
 import { useCompletion } from '../../hooks';
-import AppModal from '../AppModal';
-import AppContent from '../AppContent';
 import useAppAccount from '../../hooks/useAppAccount';
+import useAppLayout from '../../hooks/useAppLayout';
+import AppItemDivider from '../AppItemDivider';
+import AppModal from '../AppModal';
 
 
 
@@ -40,12 +40,12 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
         </AppButtons>
         <AppButtons slot='end'>
             <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
-                <AppContent>
-                    <AppCard contentColor="light" headerColor="tertiary" title={appTitle + " " + version}>
-                        {showAbout && about}
-                    </AppCard>
-                    <AppButton expand={"full"} fill={"outline"} onClick={() => { setShowAbout(false) }} >OK </AppButton>
-                </AppContent>
+                <AppCard contentColor="light" headerColor="tertiary" title={appTitle + " " + version}>
+                    <AppItemDivider color="clear" />
+                    {about}
+                    <AppItemDivider color="clear" />
+                </AppCard>
+                <AppButton expand={"full"} fill={"solid"} onClick={() => { setShowAbout(false) }} >OK </AppButton>
             </AppModal >
 
             <AppButton color="tertiary" fill="clear" onClick={() => { setShowAbout(x => !x) }}>

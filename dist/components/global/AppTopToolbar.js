@@ -1,12 +1,12 @@
-import useAppLayout from '../../hooks/useAppLayout';
-import { homeOutline, closeOutline } from 'ionicons/icons';
+import { closeOutline, homeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { AppButton, AppButtons, AppIcon, AppMenuButton, AppTitle, AppToolbar, AppChip, AppCard } from '..';
+import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
 import { useCompletion } from '../../hooks';
-import AppModal from '../AppModal';
-import AppContent from '../AppContent';
 import useAppAccount from '../../hooks/useAppAccount';
+import useAppLayout from '../../hooks/useAppLayout';
+import AppItemDivider from '../AppItemDivider';
+import AppModal from '../AppModal';
 /**
  * Self aware top toolbar
  */
@@ -61,17 +61,21 @@ const AppTopToolbar = ({
       setShowAbout(false);
     },
     isOpen: showAbout
-  }, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppCard, {
+  }, /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "light",
     headerColor: "tertiary",
     title: appTitle + " " + version
-  }, showAbout && about), /*#__PURE__*/React.createElement(AppButton, {
+  }, /*#__PURE__*/React.createElement(AppItemDivider, {
+    color: "clear"
+  }), about, /*#__PURE__*/React.createElement(AppItemDivider, {
+    color: "clear"
+  })), /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
-    fill: "outline",
+    fill: "solid",
     onClick: () => {
       setShowAbout(false);
     }
-  }, "OK "))), /*#__PURE__*/React.createElement(AppButton, {
+  }, "OK ")), /*#__PURE__*/React.createElement(AppButton, {
     color: "tertiary",
     fill: "clear",
     onClick: () => {

@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
-interface formInputProps<T> {
+interface formInputProps {
     instanceRef: MutableRefObject<any>;
 }
-declare const AppLastModifiedGenerator: (props: formInputProps<any>) => JSX.Element;
+declare const AppLastModifiedGenerator: (props: formInputProps) => JSX.Element;
 export default AppLastModifiedGenerator;

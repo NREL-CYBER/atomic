@@ -22,22 +22,29 @@ import { Route } from 'react-router';
 import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
 import useAppAccount from '../hooks/useAppAccount';
+import useElectronSerialization from '../hooks/useElectronSerialization';
+import useIndexDBStorage from '../hooks/useLocalSerialization';
+import { useRestSerializeation } from '../hooks/useRestSerialization';
 import "../theme/variables.css";
+import { prettyTitle } from '../util';
 import AppChip from './AppChip';
+import AppLoadingCard from './AppLoadingCard';
 import AppLogin from './AppLogin';
+import AppPage from './AppPage';
 import AppRouter from './AppRouter';
 import AppTitle from './AppTitle';
 import { AppBottomBar } from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
-import AppGuidance from './guidance/AppGuidance'; //import AppCloudSerializer from './serialization/AppCloudSerializer';
+import AppGuidance from './guidance/AppGuidance';
+import AppSerializer from './serialization/AppSerializer';
 
-import AppLocalSerializer from './serialization/AppLocalSerializer';
-import AppRestSerializer from './serialization/AppRestSerializer';
+const isElectron = require("is-electron");
 /**
  * Component that stores the root of the application and control current theme
  */
+
 
 const AppRoot = config => {
   const {
@@ -54,9 +61,11 @@ const AppRoot = config => {
   const {
     initialize,
     darkMode,
+    status,
     setDarkMode
   } = useAppLayout();
   const initializeAccounts = useAppAccount(x => x.initialize);
+  const desktop = isElectron();
   useEffect(() => {
     config.darkMode && setDarkMode(config.darkMode);
   }, [config.darkMode, setDarkMode]);
@@ -79,7 +88,7 @@ const AppRoot = config => {
     setUid
   } = useAppAccount();
   const restSerializationAndNotLoggedIn = serialization && serialization.rest && serialization.rest && !uid;
-  const localSerializationWithEncryptionAndNotLoggedIn = !uid && serialization && serialization.encryption === "RSA";
+  const localSerializationWithEncryptionAndNotLoggedIn = !uid && serialization && serialization.encryption === "AES256";
   const needs_authentication = restSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
 
   if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
@@ -107,13 +116,18 @@ const AppRoot = config => {
 
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
-  }, serialization && serialization.mode === "local" && /*#__PURE__*/React.createElement(AppLocalSerializer, {
+  }, serialization && /*#__PURE__*/React.createElement(AppSerializer, {
+    uid: uid,
+    context: serialization.mode === "rest" ? useRestSerializeation : desktop ? useElectronSerialization : useIndexDBStorage,
     serialization: serialization,
     cache: cache
-  }), serialization && serialization.mode === "rest" && serialization.rest && /*#__PURE__*/React.createElement(AppRestSerializer, {
-    serialization: serialization,
-    cache: cache
-  }), /*#__PURE__*/React.createElement(AppRouter, {
+  }), status === "synchronizing" && /*#__PURE__*/React.createElement(AppPage, {
+    fullscreen: true
+  }, /*#__PURE__*/React.createElement(AppLoadingCard, {
+    color: "tertiary",
+    title: prettyTitle(status),
+    message: ""
+  })), status === "idle" && /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
   }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
     sections: sections

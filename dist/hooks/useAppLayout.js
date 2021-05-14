@@ -45,6 +45,11 @@ const useAppLayout = create((set, store) => ({
     });
   },
   appTitle: "",
+  setStatus: status => {
+    set({
+      status
+    });
+  },
   initialize: ({
     routes,
     title,
@@ -64,7 +69,7 @@ const useAppLayout = create((set, store) => ({
       appTitle,
       title,
       version,
-      status: "idle",
+      status: "synchronizing",
       rootRoute,
       allPageRoutes: allPageRoutes.filter(x => x.path !== "/"),
       allRoutesFlattened,

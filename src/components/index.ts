@@ -43,6 +43,7 @@ import AppSequence from './AppSequence';
 import AppSideMenu from "./AppSideMenu";
 import AppSpinner from "./AppSpinner";
 import AppText from "./AppText";
+import AppTextArea from './AppTextArea';
 import AppTitle from './AppTitle';
 import AppToggle from "./AppToggle";
 import AppToolbar from './AppToolbar';
@@ -51,9 +52,8 @@ import AppRouteCard from './completion/AppRouteCard';
 import AppForm from './forms/AppForm';
 import AppFormComposer from './forms/AppFormComposer';
 import AppFormDictionaryInput from "./forms/AppFormDictionaryInput";
-import AppSerializer from './serialization/AppLocalSerializer';
+import AppSerializer from './serialization/AppSerializer';
 import AppUploader from './serialization/AppUploader';
-import AppTextArea from './AppTextArea'
 export * from "./AppCard";
 export { AppTextArea, AppInput, AppFormComposer, AppFoldingNode, AppLoadingCard, AppDateTime, AppSelect, AppSelectArray, AppFormSelectArray, AppProgress, AppFormDictionaryInput, AppAvatar, AppBinaryImg, AppImg, AppUploader, AppSelectButtons, AppSerializer, AppRouteCard, AppSequence, AppSearchBar, AppAccordion, AppForm, AppRouterOutlet, AppItemDivider, AppSelectOption, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
 

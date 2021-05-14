@@ -19,7 +19,8 @@ const ExampleConfig = {
   },
   cache: {
     atomic: {
-      addresses: useAddress
+      addresses: useAddress,
+      addresses2: useAddress
     }
   },
   darkMode: false,
@@ -29,7 +30,10 @@ const ExampleConfig = {
   about: "example application information....",
   serialization: {
     mode: "local",
-    encryption: "plaintext" // rest: {
+    encryption: "AES256",
+    authentication: {
+      provider: "email"
+    } // rest: {
     //     endpoint: "http://1lv11rmadm01:8888/api/v1/",
     // }
 

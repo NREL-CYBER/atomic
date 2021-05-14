@@ -3,8 +3,9 @@ import { AppConfig } from "../util";
 /**
  * Type that defines what the useApplayout hook will be capable of
  */
+export declare type AppStatus = "booting" | "synchronizing" | "idle";
 declare type AppLayout = {
-    status: "booting" | "idle";
+    status: AppStatus;
     id: string;
     appTitle: string;
     title: string;
@@ -21,6 +22,7 @@ declare type AppLayout = {
     setDarkMode: (isDark: boolean) => void;
     update: (pathname: string) => void;
     initialize: (config: AppConfig) => void;
+    setStatus: (status: AppStatus) => void;
 };
 /**
  *  Hook for Responsible for the current page title

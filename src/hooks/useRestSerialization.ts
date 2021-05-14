@@ -3,11 +3,9 @@ import { Store } from "store";
 import create from "zustand";
 import { AppSerializationConfig } from "../util/AppConfig";
 import { get, set } from 'idb-keyval';
+import { SynchronizationContext } from "./useLocalSerialization";
 
 
-export type restSynchronizationContext = {
-    synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: () => void): void;
-}
 
 
 const makeRpcPath = (collection: string, key = "") => {
@@ -44,7 +42,7 @@ const rpcWithData = (endpoint: string, collection: string, method: "put" | "post
 /**
  * Observe an Entity collection in rest storage
  */
-export const useRestSerializeation = create<restSynchronizationContext>((_, restStorage) => ({
+export const useRestSerializeation = create<SynchronizationContext>((_, restStorage) => ({
     async synchronize<T>(serializaion: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete: () => void) {
         const uid_prefix = uid.length > 0 ? uid + "_" : ""
         const collection_key = uid_prefix + namespace + "_" + store().collection;

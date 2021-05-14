@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AppItem, AppLabel, AppText } from '..';
-import AppInput from '../AppInput';
 import { prettyTitle } from '../../util';
+import AppInput from '../AppInput';
 const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",

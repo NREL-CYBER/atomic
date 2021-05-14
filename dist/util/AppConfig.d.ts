@@ -5,15 +5,18 @@ import { AppCacheIndex } from "../state/AppCacheIndex";
 export interface AppRestConfig {
     endpoint: string;
 }
+export declare type serializationMode = "rest" | "local";
+export declare type encryptionMode = "plaintext" | "AES256";
+export declare type authProvider = "email";
 export interface AppSerializationConfig {
-    mode: "rest" | "local";
+    mode: serializationMode;
     overide?: {
         collections: string[];
-        mode: "rest" | "local";
+        mode: serializationMode;
     };
-    encryption?: "plaintext" | "RSA";
+    encryption?: encryptionMode;
     authentication?: {
-        provider: "email";
+        provider: authProvider;
     };
     rest?: AppRestConfig;
 }

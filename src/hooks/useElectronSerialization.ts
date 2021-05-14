@@ -1,20 +1,26 @@
-import { get, set } from 'idb-keyval';
 import { Store } from 'store';
 import create from "zustand";
 import { AppSerializationConfig } from '../util/AppConfig';
+import { asyncImportModule } from '../util/asyncImportModule';
+import { SynchronizationContext } from './useLocalSerialization';
 
-
-
-export type SynchronizationContext = {
-    synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: () => void): void;
-}
 
 
 /**
- * Observe an Entity collection in cloud storage
+ * Observe an Entity collection in electron storage
  */
-const useIndexDBStorage = create<SynchronizationContext>(() => ({
+const useElectronSerialization = create<SynchronizationContext>(() => ({
     async synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string = "", onComplete?: () => void) {
+        try {
+            await asyncImportModule('electron-store');
+
+        } catch {
+            alert("Failed to import Electron... this is not an electron app.")
+        }
+        const ElectronStore = await asyncImportModule('electron-store');
+
+        const { get, set } = new ElectronStore()
+        console.log(ElectronStore);
         const uid_prefix = uid === "" ? uid + "_" : ""
 
         const collection_key = uid_prefix + namespace + "_" + store().collection;
@@ -68,4 +74,4 @@ const useIndexDBStorage = create<SynchronizationContext>(() => ({
 }));
 
 
-export default useIndexDBStorage;
+export default useElectronSerialization;

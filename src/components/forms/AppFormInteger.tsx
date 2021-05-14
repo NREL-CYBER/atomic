@@ -1,13 +1,13 @@
 import React, { MutableRefObject, useEffect, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppItem, AppLabel, AppText } from '..';
+import { AppColor } from '../../theme';
+import { prettyTitle } from '../../util';
 import AppInput from '../AppInput';
 import { formFieldChangeEvent } from './AppForm';
-import { AppColor } from '../../theme';
-import { titleCase, prettyTitle } from '../../util';
 
 
-interface formInputProps<T> {
+interface formInputProps {
     propertyInfo: PropertyDefinitionRef
     property: string
     instanceRef: MutableRefObject<any>
@@ -22,7 +22,7 @@ const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", va
 /**
  * Component for input that displays validation errors
  */
-const AppFormInteger = (props: formInputProps<any>) => {
+const AppFormInteger = (props: formInputProps) => {
     const { property, instanceRef, onChange, propertyInfo } = props;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");

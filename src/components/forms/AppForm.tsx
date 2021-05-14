@@ -159,28 +159,28 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             }}
         >
         </AppForm> : <AppItem>
-                <AppButtons slot="start">
-                    <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
-                        {formated_title}
-                    </AppButton>
-                </AppButtons>
-                <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
-                    <AppContent>
-                        {showNestedForm && <AppForm
-                            data={instanceRef.current[property]}
-                            customComponentMap={customComponentMap}
-                            validator={validator.makeReferenceValidator(propertyInfo)}
-                            onSubmit={(nestedObjectValue) => {
-                                setNestedFormStatus("valid");
-                                onChange(property, nestedObjectValue);
-                                setShowNestedFrom(false);
-                            }}
-                        ><AppBackButton onClick={() => setShowNestedFrom(false)} />
-                        </AppForm>}
-                    </AppContent>
-                </AppModal>
+            <AppButtons slot="start">
+                <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
+                    {formated_title}
+                </AppButton>
+            </AppButtons>
+            <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
+                <AppContent>
+                    {showNestedForm && <AppForm
+                        data={instanceRef.current[property]}
+                        customComponentMap={customComponentMap}
+                        validator={validator.makeReferenceValidator(propertyInfo)}
+                        onSubmit={(nestedObjectValue) => {
+                            setNestedFormStatus("valid");
+                            onChange(property, nestedObjectValue);
+                            setShowNestedFrom(false);
+                        }}
+                    ><AppBackButton onClick={() => setShowNestedFrom(false)} />
+                    </AppForm>}
+                </AppContent>
+            </AppModal>
 
-            </AppItem>
+        </AppItem>
     }
 
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 import { AppButtons, AppCol, AppGrid, AppIcon, AppItem, AppRow, AppTitle } from ".";
 import { chevronDownOutline, chevronForwardOutline } from "ionicons/icons";
 import React, { useState } from "react";
