@@ -1,3 +1,4 @@
+import { useCache } from "atomic";
 import React, { FC, memo, useEffect, useState } from "react";
 import { UseStore } from "zustand";
 import useAppLayout from "../../hooks/useAppLayout";
@@ -17,14 +18,15 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization,
     //TODO implement encryption
     const { synchronize } = context();
     const { status, setStatus } = useAppLayout();
+    const { ready } = useCache();
     const cache_items = Object.entries(cache).flatMap(([namespace, collections]) =>
         Object.values(collections).length
     ).reduce((a, b) => a + b, 0)
 
     const [remaining, setRemaining] = useState<number>(cache_items)
     useEffect(() => {
-        remaining === 0 && setStatus("idle");
-    }, [remaining, setStatus])
+        remaining === 0 && setStatus("idle") && ready();
+    }, [ready, remaining, setStatus])
     useEffect(() => {
         if (status !== "synchronizing") {
             return;
