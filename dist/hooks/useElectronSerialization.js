@@ -1,23 +1,15 @@
+import ElectronStore from "electron-store";
 import create from "zustand";
-import { asyncImportModule } from '../util/asyncImportModule';
 
 /**
  * Observe an Entity collection in electron storage
  */
 const useElectronSerialization = create(() => ({
   async synchronize(serialization, namespace, store, uid = "", onComplete) {
-    try {
-      await asyncImportModule('electron-store');
-    } catch {
-      alert("Failed to import Electron... this is not an electron app.");
-    }
-
-    const ElectronStore = await asyncImportModule('electron-store');
     const {
       get,
       set
     } = new ElectronStore();
-    console.log(ElectronStore);
     const uid_prefix = uid === "" ? uid + "_" : "";
     const collection_key = uid_prefix + namespace + "_" + store().collection;
     const collection_workspace_key = uid_prefix + collection_key + "_workspace";
@@ -35,7 +27,7 @@ const useElectronSerialization = create(() => ({
       const workspace_string = await get(collection_workspace_key);
       const store_workspace = workspace_string && JSON.parse(workspace_string);
       ;
-      store().setWorkspaceInstance(store_workspace);
+      store_workspace !== "" && store().setWorkspaceInstance(store_workspace);
     } catch (error) {
       console.log(error);
     }

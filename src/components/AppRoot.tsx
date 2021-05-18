@@ -115,7 +115,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                         useIndexDBStorage}
                 serialization={serialization}
                 cache={cache} />}
-        {status === "synchronizing" && <><AppToolbar /><AppPage fullscreen><AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} /></AppPage></>}
+        {status === "synchronizing" && <><AppToolbar/><AppPage fullscreen><AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} /></AppPage></>}
         {status === "idle" && <AppRouter id={"root"}>
             {/**Side Menu  */}
             {sections && <AppMainMenu sections={sections} />}
