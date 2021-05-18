@@ -110,6 +110,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
+        console.trace();
+        console.log(property);
         if (schema.type === "string" || schema.type === "array") {
             instance.current = value;
         } else if (schema.type === "object") {
@@ -127,7 +129,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         const allErrors = validator.validate.errors || []
         console.log(instance.current, allErrors);
         const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
-        setErrors(allErrors.map(x => x.schemaPath.split(" ").join("").split(" ").join("") + x.message + " " || ""))
+        setErrors(allErrors.map(x => x.message + " " + Object.values(x.params).join("") || ""))
         if (allErrors.length === 0) {
             autoSubmit && onSubmit(instance.current);
         }
@@ -337,7 +339,12 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
                 return <Fragment key={property}></Fragment>
-            return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+            return <FormElement
+                key={property}
+                onChange={handleInputReceived}
+                validator={validator}
+                instanceRef={instance}
+                property={property} />
         })}</>
 
 
