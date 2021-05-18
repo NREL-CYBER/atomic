@@ -76,9 +76,9 @@ const AppForm = props => {
 
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
-    console.log(allErrors);
+    console.log(instance.current, allErrors);
     const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
-    setErrors(allErrors.map(x => x.keyword + " " + x.dataPath.split("#").join("").split("/").join("") || Object.values(x.params).join(" ") + " " + x.message + " " || ""));
+    setErrors(allErrors.map(x => x.schemaPath.split(" ").join("").split(" ").join("") + x.message + " " || ""));
 
     if (allErrors.length === 0) {
       autoSubmit && onSubmit(instance.current);
