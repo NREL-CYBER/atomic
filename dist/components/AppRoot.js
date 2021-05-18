@@ -22,7 +22,6 @@ import { Route } from 'react-router';
 import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
 import useAppAccount from '../hooks/useAppAccount';
-import useElectronSerialization from '../hooks/useElectronSerialization';
 import useIndexDBStorage from '../hooks/useLocalSerialization';
 import { useRestSerializeation } from '../hooks/useRestSerialization';
 import "../theme/variables.css";
@@ -40,12 +39,9 @@ import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
 import AppSerializer from './serialization/AppSerializer';
-
-const isElectron = require("is-electron");
 /**
  * Component that stores the root of the application and control current theme
  */
-
 
 const AppRoot = config => {
   const {
@@ -66,7 +62,6 @@ const AppRoot = config => {
     setDarkMode
   } = useAppLayout();
   const initializeAccounts = useAppAccount(x => x.initialize);
-  const desktop = isElectron();
   useEffect(() => {
     config.darkMode && setDarkMode(config.darkMode);
   }, [config.darkMode, setDarkMode]);
@@ -119,7 +114,7 @@ const AppRoot = config => {
     className: darkMode ? "dark-theme" : "light-theme"
   }, serialization && /*#__PURE__*/React.createElement(AppSerializer, {
     uid: uid,
-    context: serialization.mode === "rest" ? useRestSerializeation : desktop ? useElectronSerialization : useIndexDBStorage,
+    context: serialization.mode === "rest" ? useRestSerializeation : useIndexDBStorage,
     serialization: serialization,
     cache: cache
   }), status === "synchronizing" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null), /*#__PURE__*/React.createElement(AppPage, {

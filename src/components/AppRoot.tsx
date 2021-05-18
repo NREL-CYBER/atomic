@@ -17,7 +17,6 @@ import { Route } from 'react-router';
 import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
 import useAppAccount from '../hooks/useAppAccount';
-import useElectronSerialization from '../hooks/useElectronSerialization';
 import useIndexDBStorage from '../hooks/useLocalSerialization';
 import { useRestSerializeation } from '../hooks/useRestSerialization';
 import "../theme/variables.css";
@@ -36,9 +35,6 @@ import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
 import AppSerializer from './serialization/AppSerializer';
-
-const isElectron = require("is-electron");
-
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -50,7 +46,6 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         serialization, title, version, cache } = config;
     const { initialize, darkMode, status, setDarkMode } = useAppLayout();
     const initializeAccounts = useAppAccount(x => x.initialize);
-    const desktop = isElectron();
     useEffect(() => {
         config.darkMode && setDarkMode(config.darkMode)
     }, [config.darkMode, setDarkMode])
@@ -110,12 +105,11 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             < AppSerializer
                 uid={uid}
                 context={serialization.mode === "rest" ?
-                    useRestSerializeation : desktop ?
-                        useElectronSerialization :
-                        useIndexDBStorage}
+                    useRestSerializeation :
+                    useIndexDBStorage}
                 serialization={serialization}
                 cache={cache} />}
-        {status === "synchronizing" && <><AppToolbar/><AppPage fullscreen><AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} /></AppPage></>}
+        {status === "synchronizing" && <><AppToolbar /><AppPage fullscreen><AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} /></AppPage></>}
         {status === "idle" && <AppRouter id={"root"}>
             {/**Side Menu  */}
             {sections && <AppMainMenu sections={sections} />}
