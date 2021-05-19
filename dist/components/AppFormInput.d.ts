@@ -1,5 +1,6 @@
 import { MutableRefObject } from 'react';
 import { PropertyDefinitionRef } from 'validator';
+import { AppColor } from '../theme/AppColor';
 import { formFieldChangeEvent } from './forms/AppForm';
 interface formInputProps<T> {
     propertyInfo: PropertyDefinitionRef;
@@ -8,6 +9,8 @@ interface formInputProps<T> {
     input: "line" | "text" | "array";
     onChange: formFieldChangeEvent;
 }
+declare type InputStatus = "empty" | "invalid" | "valid";
+export declare const inputStatusColorMap: Record<InputStatus, AppColor>;
 /**
  * Component for input that displays validation errors
  */

@@ -6,6 +6,7 @@ import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
 import { AppButton, AppButtons, AppIcon, AppItemDivider, AppToolbar } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
+import { AppNextButton } from "./AppNextButton";
 
 export const AppContinueButton: React.FC = () => {
     const { allPageRoutes, currentRootPage, rootRoute, path } = useAppLayout();
@@ -21,7 +22,7 @@ export const AppContinueButton: React.FC = () => {
                     <AppIcon icon={continueRoute.icon} />
                     {continueRoute.title}
                     <AppIcon icon={arrowForwardOutline} />
-                </AppButton> : <></>}
+                </AppButton> : <AppNextButton />}
             </AppButtons>}
         </AppToolbar>
         <AppItemDivider />

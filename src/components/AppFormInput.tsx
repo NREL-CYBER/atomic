@@ -20,7 +20,7 @@ interface formInputProps<T> {
 
 type InputStatus = "empty" | "invalid" | "valid";
 
-const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", valid: "favorite", invalid: "danger" }
+export const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", valid: "favorite", invalid: "danger" }
 
 type supported_schema_format = "email" | "date" | "time" | undefined
 

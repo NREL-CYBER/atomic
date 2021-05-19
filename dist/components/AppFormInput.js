@@ -5,7 +5,7 @@ import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
-const inputStatusColorMap = {
+export const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",
   invalid: "danger"
