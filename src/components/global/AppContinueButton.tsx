@@ -22,7 +22,7 @@ export const AppContinueButton: React.FC = () => {
                     <AppIcon icon={continueRoute.icon} />
                     {continueRoute.title}
                     <AppIcon icon={arrowForwardOutline} />
-                </AppButton> : <AppNextButton />}
+                </AppButton> : <AppNextButton fill={"clear"} />}
             </AppButtons>}
         </AppToolbar>
         <AppItemDivider />

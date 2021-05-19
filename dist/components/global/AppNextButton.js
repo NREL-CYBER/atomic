@@ -5,7 +5,9 @@ import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
 import { AppButton, AppButtons, AppIcon, AppToolbar } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
-export const AppNextButton = () => {
+export const AppNextButton = ({
+  fill = "solid"
+}) => {
   const next = useAppLayout(x => x.nextPage);
   const {
     isUnlocked,
@@ -19,7 +21,7 @@ export const AppNextButton = () => {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     disabled: !nextButtonUnlocked,
-    fill: "solid",
+    fill: fill,
     color: statusColor,
     routerDirection: "forward",
     routerLink: next.path

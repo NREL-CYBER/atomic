@@ -7,7 +7,7 @@ import React from "react";
 import { AppButton, AppButtons, AppIcon, AppToolbar } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 
-export const AppNextButton: React.FC = () => {
+export const AppNextButton: React.FC<{ fill?: "outline" | "solid" | "clear" }> = ({ fill = "solid" }) => {
     const next = useAppLayout(x => x.nextPage);
     const { isUnlocked, pathStatusColor } = useCompletion();
     const statusColor = pathStatusColor(next.path);
@@ -17,7 +17,7 @@ export const AppNextButton: React.FC = () => {
         <AppToolbar color="clear">
             {<AppButtons slot="end">
                 <AppButton disabled={!nextButtonUnlocked}
-                    fill='solid' color={statusColor}
+                    fill={fill} color={statusColor}
                     routerDirection='forward' routerLink={next.path} >
                     <AppIcon icon={next.icon} />
                     {next.title}

@@ -35,5 +35,7 @@ export const AppContinueButton = () => {
     icon: continueRoute.icon
   }), continueRoute.title, /*#__PURE__*/React.createElement(AppIcon, {
     icon: arrowForwardOutline
-  })) : /*#__PURE__*/React.createElement(AppNextButton, null))), /*#__PURE__*/React.createElement(AppItemDivider, null));
+  })) : /*#__PURE__*/React.createElement(AppNextButton, {
+    fill: "clear"
+  }))), /*#__PURE__*/React.createElement(AppItemDivider, null));
 };
