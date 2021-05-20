@@ -52,9 +52,6 @@ const AppForm = props => {
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
   const handleInputReceived = useCallback((property, value) => {
-    console.trace();
-    console.log(property);
-
     if (schema.type === "string" || schema.type === "array") {
       instance.current = value;
     } else if (schema.type === "object") {
@@ -79,9 +76,8 @@ const AppForm = props => {
 
     setIsValid(validator.validate(instance.current));
     const allErrors = validator.validate.errors || [];
-    console.log(instance.current, allErrors);
     const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
-    setErrors(allErrors.map(x => x.keyword + " " + x.message + " " + Object.values(x.params).join("") || ""));
+    setErrors(allErrors.map(x => x.dataPath.split("/").join("") + " " + x.keyword + " " + x.message + " " + Object.values(x.params).join("") || ""));
 
     if (allErrors.length === 0) {
       autoSubmit && onSubmit(instance.current);
