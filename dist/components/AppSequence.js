@@ -64,7 +64,9 @@ const AppSequence = ({
     onClick: previousSequence
   }, "Previous"))));
 
-  const nextSequenceElement = () => setActiveElementIndex(x => x + 1);
+  const nextSequenceElement = () => {
+    setActiveElementIndex(x => x + 1);
+  };
 
   const previousSequenceElement = () => setActiveElementIndex(x => x - 1);
 

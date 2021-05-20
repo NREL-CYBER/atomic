@@ -71,7 +71,9 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
         </AppToolbar >
     </ >
 
-    const nextSequenceElement = () => setActiveElementIndex(x => x + 1);
+    const nextSequenceElement = () => {
+        setActiveElementIndex(x => x + 1);
+    }
     const previousSequenceElement = () => setActiveElementIndex(x => x - 1);
 
     const onStatusChange = (status: CompletionStatus) => {
