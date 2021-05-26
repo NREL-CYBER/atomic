@@ -1,55 +1,327 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><title>Storybook</title><meta name="viewport" content="width=device-width,initial-scale=1"/><style>html, body {
-    overflow: hidden;
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  * {
-    box-sizing: border-box;
-  }</style><script>/* globals window */
-  /* eslint-disable no-underscore-dangle */
-  try {
-    if (window.top !== window) {
-      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.top.__REACT_DEVTOOLS_GLOBAL_HOOK__;
-    }
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn('unable to connect to top frame for connecting dev tools');
-  }
-
-  window.onerror = function onerror(message, source, line, column, err) {
-    if (window.CONFIG_TYPE !== 'DEVELOPMENT') return;
-    // eslint-disable-next-line no-var, vars-on-top
-    var xhr = new window.XMLHttpRequest();
-    xhr.open('POST', '/runtime-error');
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-    xhr.send(
-      JSON.stringify({
-        /* eslint-disable object-shorthand */
-        message: message,
-        source: source,
-        line: line,
-        column: column,
-        error: err && { message: err.message, name: err.name, stack: err.stack },
-        origin: 'manager',
-        /* eslint-enable object-shorthand */
-      })
-    );
-  };</script><style>#root[hidden],
-      #docs-root[hidden] {
-        display: none !important;
-      }</style></head><body><div id="root"></div><div id="docs-root"></div><script>window['CONFIG_TYPE'] = "PRODUCTION";
-            
-        
-            
-              window['LOGLEVEL'] = "info";
-            
-        
-            
-        
-            
-        
-            
-              window['DOCS_MODE'] = false;</script><script src="runtime~main.a70aa69d4952781463ec.manager.bundle.js"></script><script src="vendors~main.ac8d9f12bb69da9331b6.manager.bundle.js"></script><script src="main.334d332438f99072c113.manager.bundle.js"></script></body></html>
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>atomic</title>
+	<meta name="description" content="Documentation for atomic">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">atomic</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>atomic</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#atomic" id="atomic" style="color: inherit; text-decoration: none;">
+					<h1>atomic</h1>
+				</a>
+				<p>A simple overlay over Ionic framework components, for more control over the API &amp; custom low level components</p>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>installation</h2>
+				</a>
+				<pre><code><span style="color: #001080">ionic</span><span style="color: #000000"> </span><span style="color: #001080">start</span><span style="color: #000000"> </span><span style="color: #001080">app_name</span>
+<span style="color: #001080">cd</span><span style="color: #000000"> </span><span style="color: #001080">app_name</span>
+<span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> git:</span><span style="color: #008000">//github.com/NREL-CYBER/atomic.git</span>
+</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/appconfig.html" class="tsd-kind-icon">App<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/approute.html" class="tsd-kind-icon">App<wbr>Route</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#appcolor" class="tsd-kind-icon">App<wbr>Color</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#appparameter" class="tsd-kind-icon">App<wbr>Parameter</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#apppath" class="tsd-kind-icon">App<wbr>Path</a>
+					</li>
+					<li class=" tsd-kind-property">
+						<a href="modules.html#appbinaryimg" class="tsd-kind-icon">App<wbr>Binary<wbr>Img</a>
+					</li>
+					<li class=" tsd-kind-property">
+						<a href="modules.html#approot" class="tsd-kind-icon">App<wbr>Root</a>
+					</li>
+					<li class=" tsd-kind-property">
+						<a href="modules.html#appserializer" class="tsd-kind-icon">App<wbr>Serializer</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appaccordion" class="tsd-kind-icon">App<wbr>Accordion</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appavatar" class="tsd-kind-icon">App<wbr>Avatar</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appbackbutton" class="tsd-kind-icon">App<wbr>Back<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appbadge" class="tsd-kind-icon">App<wbr>Badge</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appbutton" class="tsd-kind-icon">App<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appbuttons" class="tsd-kind-icon">App<wbr>Buttons</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appcard" class="tsd-kind-icon">App<wbr>Card</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appchip" class="tsd-kind-icon">App<wbr>Chip</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appcol" class="tsd-kind-icon">App<wbr>Col</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appcontent" class="tsd-kind-icon">App<wbr>Content</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appdatetime" class="tsd-kind-icon">App<wbr>Date<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appfoldingnode" class="tsd-kind-icon">App<wbr>Folding<wbr>Node</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appform" class="tsd-kind-icon">App<wbr>Form</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appformcomposer" class="tsd-kind-icon">App<wbr>Form<wbr>Composer</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appgrid" class="tsd-kind-icon">App<wbr>Grid</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appicon" class="tsd-kind-icon">App<wbr>Icon</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appimg" class="tsd-kind-icon">App<wbr>Img</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appinput" class="tsd-kind-icon">App<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appitem" class="tsd-kind-icon">App<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appitemdivider" class="tsd-kind-icon">App<wbr>Item<wbr>Divider</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#applabel" class="tsd-kind-icon">App<wbr>Label</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#applist" class="tsd-kind-icon">App<wbr>List</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#applistheader" class="tsd-kind-icon">App<wbr>List<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#apploadingcard" class="tsd-kind-icon">App<wbr>Loading<wbr>Card</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appmenu" class="tsd-kind-icon">App<wbr>Menu</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appmenubutton" class="tsd-kind-icon">App<wbr>Menu<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appmenutoggle" class="tsd-kind-icon">App<wbr>Menu<wbr>Toggle</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appmodal" class="tsd-kind-icon">App<wbr>Modal</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#apppage" class="tsd-kind-icon">App<wbr>Page</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appprogress" class="tsd-kind-icon">App<wbr>Progress</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#approutecard" class="tsd-kind-icon">App<wbr>Route<wbr>Card</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#approuteroutlet" class="tsd-kind-icon">App<wbr>Router<wbr>Outlet</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#approw" class="tsd-kind-icon">App<wbr>Row</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appsearchbar" class="tsd-kind-icon">App<wbr>Search<wbr>Bar</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appselect" class="tsd-kind-icon">App<wbr>Select</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appselectarray" class="tsd-kind-icon">App<wbr>Select<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appselectbuttons" class="tsd-kind-icon">App<wbr>Select<wbr>Buttons</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appselectoption" class="tsd-kind-icon">App<wbr>Select<wbr>Option</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appsequence" class="tsd-kind-icon">App<wbr>Sequence</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appsidemenu" class="tsd-kind-icon">App<wbr>Side<wbr>Menu</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appspinner" class="tsd-kind-icon">App<wbr>Spinner</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#apptext" class="tsd-kind-icon">App<wbr>Text</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#apptextarea" class="tsd-kind-icon">App<wbr>Text<wbr>Area</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#apptitle" class="tsd-kind-icon">App<wbr>Title</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#apptoggle" class="tsd-kind-icon">App<wbr>Toggle</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#apptoolbar" class="tsd-kind-icon">App<wbr>Toolbar</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appuploader" class="tsd-kind-icon">App<wbr>Uploader</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#appuuidgenerator" class="tsd-kind-icon">App<wbr>Uuid<wbr>Generator</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#useappaccount" class="tsd-kind-icon">use<wbr>App<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#useapplayout" class="tsd-kind-icon">use<wbr>App<wbr>Layout</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#usecache" class="tsd-kind-icon">use<wbr>Cache</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#usecompletion" class="tsd-kind-icon">use<wbr>Completion</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#useguidance" class="tsd-kind-icon">use<wbr>Guidance</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#usenotifications" class="tsd-kind-icon">use<wbr>Notifications</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#appformarrayinput" class="tsd-kind-icon">App<wbr>Form<wbr>Array<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#appformdictionaryinput" class="tsd-kind-icon">App<wbr>Form<wbr>Dictionary<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#appforminput" class="tsd-kind-icon">App<wbr>Form<wbr>Input</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#appformselect" class="tsd-kind-icon">App<wbr>Form<wbr>Select</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#appformselectarray" class="tsd-kind-icon">App<wbr>Form<wbr>Select<wbr>Array</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#binarytofileuri" class="tsd-kind-icon">binary<wbr>ToFile<wbr>Uri</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#destination" class="tsd-kind-icon">destination</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#prettytitle" class="tsd-kind-icon">pretty<wbr>Title</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="modules.html#remove" class="tsd-kind-icon">remove</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#titlecase" class="tsd-kind-icon">title<wbr>Case</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#unique" class="tsd-kind-icon">unique</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#usewindowsize" class="tsd-kind-icon">use<wbr>Window<wbr>Size</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
