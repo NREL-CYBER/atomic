@@ -27,18 +27,17 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.2",
     "sha3": "^2.1.4",
-    "store": "git://github.nrel.gov/CyberSecurity/store.git",
+    "store": "git://github.com/NREL-CYBER/store.git",
     "typescript": "^4.1.3",
     "use-timeout": "^1.1.0",
     "uuid": "^8.3.2",
-    "validator": "git://github.nrel.gov/CyberSecurity/validator.git",
+    "validator": "git://github.com/NREL-CYBER/validator.git",
     "zustand": "^3.2.0"
   },
   "scripts": {
-    "build:types": "tsc --emitDeclarationOnly ",
-    "build:components": "babel src --out-dir dist --extensions .ts,.tsx",
+    "build": "tsc --emitDeclarationOnly && babel src --out-dir dist --extensions .ts,.tsx",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "docs": "typedoc --out docs src/entry.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
