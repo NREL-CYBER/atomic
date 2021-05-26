@@ -13210,9 +13210,9 @@ store2@^2.12.0:
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.12.0.tgz#e1f1b7e1a59b6083b2596a8d067f6ee88fd4d3cf"
   integrity sha512-7t+/wpKLanLzSnQPX8WAcuLCCeuSHoWdQuh9SB3xD0kNOM38DNf+0Oa+wmvxmYueRzkmh6IcdKFtvTa+ecgPDw==
 
-"store@git://github.com/NREL-CYBER/store.git":
-  version "1.4.7"
-  resolved "git://github.com/NREL-CYBER/store.git#8f69333651cfc090ff00dce9eac5bf400b1e289b"
+"store@git+ssh://git@github.com/NREL-CYBER/store.git":
+  version "1.4.8"
+  resolved "git+ssh://git@github.com/NREL-CYBER/store.git#877a45e9c33533f9b8e1e2f90e9557fca68d3e81"
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@types/uuid" "^8.3.0"
@@ -13221,7 +13221,7 @@ store2@^2.12.0:
     immer "^8.0.2"
     ts-node "^9.1.1"
     uuid "^8.3.2"
-    validator "git://github.nrel.gov/CyberSecurity/validator.git"
+    validator "git+ssh://git@github.com/NREL-CYBER/validator.git"
     zustand "^3.3.3"
 
 stream-browserify@^2.0.1:
@@ -14358,9 +14358,9 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-"validator@git://github.com/NREL-CYBER/validator.git":
+"validator@git+ssh://git@github.com/NREL-CYBER/validator.git":
   version "4.3.6"
-  resolved "git://github.com/NREL-CYBER/validator.git#e3bd7ba5c4f5f80bfaaed12baab6b41de22f6554"
+  resolved "git+ssh://git@github.com/NREL-CYBER/validator.git#04df48a3f0dd199d1553154df2b52d7a0925f6e9"
   dependencies:
     "@types/uuid" "^8.3.0"
     ajv "^7.2.1"
