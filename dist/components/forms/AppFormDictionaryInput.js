@@ -5,16 +5,12 @@ import { v4 } from 'uuid';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { prettyTitle } from "../../util";
 import { findShortestValue } from "../AppFormArrayInput";
+import { inputStatusColorMap } from "../AppFormInput";
 import AppForm from './AppForm';
-const inputStatusColorMap = {
-  empty: "dark",
-  valid: "favorite",
-  invalid: "danger"
-};
+
 /**
  * Component for input that displays validation errors
  */
-
 const AppFormDictionaryInput = props => {
   //destructure props
   const {

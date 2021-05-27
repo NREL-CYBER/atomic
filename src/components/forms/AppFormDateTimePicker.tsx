@@ -1,9 +1,9 @@
 import React, { MutableRefObject, useEffect, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppItem, AppLabel, AppText } from '..';
-import { AppColor } from '../../theme';
 import { prettyTitle } from '../../util';
 import { AppDateTime, dateTimeFormat } from '../AppDateTime';
+import { InputStatus, inputStatusColorMap } from '../AppFormInput';
 import { formFieldChangeEvent } from './AppForm';
 
 interface formInputProps {
@@ -14,9 +14,6 @@ interface formInputProps {
     format?: string
 }
 
-type InputStatus = "empty" | "invalid" | "valid";
-
-const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", valid: "favorite", invalid: "danger" };
 
 
 /**

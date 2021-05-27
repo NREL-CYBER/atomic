@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 import { AppButtons } from '.';
 import titleCase from '../util/titleCase';
+import { inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectButtons from './AppSelectButtons';
 import AppText from './AppText';
-export const inputStatusColorMap = {
-  empty: "dark",
-  valid: "favorite",
-  invalid: "danger"
-};
+
 /**
  * Component for toggle that displays validation errors
  */
-
 const AppFormToggle = props => {
   const {
     propertyInfo,

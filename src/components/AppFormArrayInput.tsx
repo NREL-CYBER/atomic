@@ -3,9 +3,9 @@ import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
-import { AppColor } from '../theme/AppColor';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
+import { InputStatus, inputStatusColorMap } from "./AppFormInput";
 import AppForm, { formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
 
 
@@ -22,9 +22,7 @@ interface formInputProps<T> {
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
-type InputStatus = "empty" | "invalid" | "valid";
 
-const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", valid: "favorite", invalid: "danger" }
 
 export const findShortestValue = (val: any) => {
     /**This looks like vooodooo, but it is just displaying the value 

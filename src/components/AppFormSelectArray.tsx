@@ -1,7 +1,7 @@
 import React, { MutableRefObject, useCallback, useState } from 'react';
 import { AppSelectArray } from '.';
-import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
+import { InputStatus, inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
@@ -17,9 +17,6 @@ export interface formSelectArrayInputProps {
     multiple?: boolean
 }
 
-type InputStatus = "empty" | "invalid" | "valid";
-
-const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", valid: "favorite", invalid: "danger" }
 
 /**
  * Component for input that displays validation errors

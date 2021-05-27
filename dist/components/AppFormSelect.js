@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
+import { inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
-import AppSelectOption from './AppSelectOption';
 import AppSelect from './AppSelect';
+import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
-import { useEffect, useCallback } from 'react';
-const inputStatusColorMap = {
-  empty: "dark",
-  valid: "favorite",
-  invalid: "danger"
-};
+
 /**
  * Component for input that displays validation errors
  */
-
 const AppFormSelect = props => {
   const {
     propertyInfo,

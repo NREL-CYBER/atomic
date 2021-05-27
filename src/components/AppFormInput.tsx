@@ -18,7 +18,7 @@ interface formInputProps<T> {
     onChange: formFieldChangeEvent
 }
 
-type InputStatus = "empty" | "invalid" | "valid";
+export type InputStatus = "empty" | "invalid" | "valid";
 
 export const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", valid: "favorite", invalid: "danger" }
 

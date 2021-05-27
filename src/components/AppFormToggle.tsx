@@ -1,8 +1,8 @@
 import React, { MutableRefObject, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppButtons } from '.';
-import { AppColor } from '../theme/AppColor';
 import titleCase from '../util/titleCase';
+import { InputStatus, inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectButtons from './AppSelectButtons';
@@ -17,9 +17,6 @@ interface formToggleProps<T> {
     onChange: formFieldChangeEvent
 }
 
-export type InputStatus = "empty" | "invalid" | "valid";
-
-export const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", valid: "favorite", invalid: "danger" }
 
 /**
  * Component for toggle that displays validation errors

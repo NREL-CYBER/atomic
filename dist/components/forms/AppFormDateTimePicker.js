@@ -2,15 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { AppItem, AppLabel, AppText } from '..';
 import { prettyTitle } from '../../util';
 import { AppDateTime } from '../AppDateTime';
-const inputStatusColorMap = {
-  empty: "medium",
-  valid: "favorite",
-  invalid: "danger"
-};
+import { inputStatusColorMap } from '../AppFormInput';
+
 /**
  * Component for input that displays validation errors
  */
-
 const AppFormDateTimePicker = props => {
   const {
     property,

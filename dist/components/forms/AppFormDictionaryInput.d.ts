@@ -11,6 +11,7 @@ interface formInputProps<T> {
     showFields?: string[];
     hiddenFields?: string[];
     lockedFields?: string[];
+    customTitleFunction?: () => string;
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
 }
 /**

@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { AppItem, AppLabel, AppText } from '..';
 import { prettyTitle } from '../../util';
+import { inputStatusColorMap } from '../AppFormInput';
 import AppInput from '../AppInput';
-const inputStatusColorMap = {
-  empty: "medium",
-  valid: "favorite",
-  invalid: "danger"
-};
+
 /**
  * Component for input that displays validation errors
  */
-
 const AppFormInteger = props => {
   const {
     property,

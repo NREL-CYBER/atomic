@@ -4,12 +4,8 @@ import React, { useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
+import { inputStatusColorMap } from "./AppFormInput";
 import AppForm from './forms/AppForm';
-const inputStatusColorMap = {
-  empty: "dark",
-  valid: "favorite",
-  invalid: "danger"
-};
 export const findShortestValue = val => {
   /**This looks like vooodooo, but it is just displaying the value 
                    * that is the shortest, which is usually the title || name */

@@ -4,9 +4,9 @@ import React, { MutableRefObject, useState } from 'react';
 import { v4 } from 'uuid';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
-import { AppColor } from "../../theme/AppColor";
 import { prettyTitle } from "../../util";
 import { findShortestValue } from "../AppFormArrayInput";
+import { InputStatus, inputStatusColorMap } from "../AppFormInput";
 import AppForm, { formFieldChangeEvent, nestedFormProps } from './AppForm';
 
 
@@ -20,12 +20,10 @@ interface formInputProps<T> {
     showFields?: string[],
     hiddenFields?: string[],
     lockedFields?: string[],
+    customTitleFunction?: () => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
-type InputStatus = "empty" | "invalid" | "valid";
-
-const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", valid: "favorite", invalid: "danger" }
 
 /**
  * Component for input that displays validation errors

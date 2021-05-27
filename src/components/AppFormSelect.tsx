@@ -1,14 +1,13 @@
-import React, { MutableRefObject, useState } from 'react';
-import { AppColor } from '../theme/AppColor';
+import React, { MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
+import { InputStatus, inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
-import AppSelectOption from './AppSelectOption';
 import AppSelect from './AppSelect';
+import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
-import { useEffect, useCallback } from 'react';
 
 
 export interface formSelectInputProps {
@@ -17,10 +16,6 @@ export interface formSelectInputProps {
     instanceRef: MutableRefObject<any>
     onChange: formFieldChangeEvent
 }
-
-type InputStatus = "empty" | "invalid" | "valid";
-
-const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "dark", valid: "favorite", invalid: "danger" }
 
 /**
  * Component for input that displays validation errors
