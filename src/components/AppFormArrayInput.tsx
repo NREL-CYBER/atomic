@@ -19,6 +19,7 @@ interface formInputProps<T> {
     showFields?: string[],
     hiddenFields?: string[],
     lockedFields?: string[],
+    customTitleFunction?: (value: any) => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
@@ -45,7 +46,8 @@ export const findShortestValue = (val: any) => {
  * Component for input that displays validation errors
  */
 const AppFormArrayInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, validator, onChange, propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields } = props;
+    const { property, instanceRef, validator, onChange, customTitleFunction,
+        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
@@ -55,7 +57,9 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
-        if (typeof (value) === "undefined") { setValue([]) };
+        if (typeof (value) === "undefined") {
+            setValue([])
+        };
         setData(val);
         setUndoCache(val);
         setIsInsertingItem(true)
@@ -96,10 +100,12 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
             </AppButtons>
             <AppButtons>
                 {value && value.map((val, i) => {
-                    const valType = typeof val
                     return <AppChip key={i} onClick={() => removeAndbeginInsert(val)}>
-                        {valType === "string" && val}
-                        {valType === "object" && findShortestValue(val)}
+                        {customTitleFunction ? customTitleFunction(val) : <>
+                            {typeof val === "string" && val}
+                            {typeof val === "object" && findShortestValue(val)}
+                        </>}
+
                     </AppChip>
                 })}
             </AppButtons>

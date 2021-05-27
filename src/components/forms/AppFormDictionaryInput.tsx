@@ -20,7 +20,7 @@ interface formInputProps<T> {
     showFields?: string[],
     hiddenFields?: string[],
     lockedFields?: string[],
-    customTitleFunction?: () => string,
+    customTitleFunction?: (value: any) => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
 
@@ -32,7 +32,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
     //destructure props
     const { property, instanceRef, validator, onChange,
         propertyInfo, customComponentMap, hiddenFields,
-        lockedFields, showFields } = props;
+        lockedFields, showFields, customTitleFunction } = props;
     const { title } = propertyInfo;
     //local state
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
@@ -76,8 +76,10 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                     return <AppChip key={i} onClick={() => {
                         beginInsertItem(i, val);
                     }}>
-                        {typeof val === "string" && val}
-                        {typeof val === "object" && findShortestValue(val)}
+                        {customTitleFunction ? customTitleFunction(val) : <>
+                            {typeof val === "string" && val}
+                            {typeof val === "object" && findShortestValue(val)}
+                        </>}
                     </AppChip>
                 })}
             </AppButtons>
