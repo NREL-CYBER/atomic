@@ -27,6 +27,7 @@ const AppFormArrayInput = props => {
     instanceRef,
     validator,
     onChange,
+    customTitleFunction,
     propertyInfo,
     customComponentMap,
     hiddenFields,
@@ -90,11 +91,10 @@ const AppFormArrayInput = props => {
     },
     color: inputStatusColor
   }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
-    const valType = typeof val;
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
       onClick: () => removeAndbeginInsert(val)
-    }, valType === "string" && val, valType === "object" && findShortestValue(val));
+    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val)));
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {

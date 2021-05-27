@@ -22,7 +22,8 @@ const AppFormDictionaryInput = props => {
     customComponentMap,
     hiddenFields,
     lockedFields,
-    showFields
+    showFields,
+    customTitleFunction
   } = props;
   const {
     title
@@ -77,7 +78,7 @@ const AppFormDictionaryInput = props => {
       onClick: () => {
         beginInsertItem(i, val);
       }
-    }, typeof val === "string" && val, typeof val === "object" && findShortestValue(val));
+    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val)));
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
