@@ -55,7 +55,12 @@ const AppSequence = ({
     disabled: status === "locked",
     onClick: onNext
   }, "Next") : /*#__PURE__*/React.createElement(AppButton, {
-    onClick: sequenceComplete
+    color: status !== "locked" ? "primary" : "medium",
+    disabled: status === "locked",
+    onClick: () => {
+      nextSequenceElement();
+      sequenceComplete();
+    }
   }, "Complete")), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, elements && activeElementIndex !== 0 ? /*#__PURE__*/React.createElement(AppButton, {

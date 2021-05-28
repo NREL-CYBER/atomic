@@ -56,16 +56,19 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
             < AppButtons slot="end">
                 {elements && activeElementIndex < elements.length - 1 ? <AppButton color={status !== "locked" ? "primary" : "medium"} disabled={status === "locked"} onClick={onNext}>
                     Next
-                </AppButton> : <AppButton onClick={sequenceComplete}>
-                        Complete
-                    </AppButton>}
+                </AppButton> : <AppButton color={status !== "locked" ? "primary" : "medium"} disabled={status === "locked"} onClick={() => {
+                    nextSequenceElement();
+                    sequenceComplete()
+                }}>
+                    Complete
+                </AppButton>}
             </AppButtons>
             <AppButtons slot="start">
                 {elements && activeElementIndex !== 0 ? <AppButton onClick={onBack}>
                     Back
                 </AppButton> : <AppButton onClick={previousSequence}>
-                        Previous
-                    </AppButton>}
+                    Previous
+                </AppButton>}
 
             </AppButtons>
         </AppToolbar >
