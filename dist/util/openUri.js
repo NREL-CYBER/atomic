@@ -1,5 +1,8 @@
 export const openUri = uri => {
-  if (typeof window.ipc !== "undefined") window.confirm("Open " + uri + "in a new window?") && window.ipc.send('open-uri', uri);else {
-    window.confirm("Open " + uri + "in a new window?") && window.open(uri);
-  }
+  const confirmation_msg = "Open \n" + uri + "\nin a new window?";
+  const electronIPCFound = typeof window.ipc !== "undefined";
+
+  const openUriInNewWindow = () => electronIPCFound ? window.ipc.send('open-uri', uri) : window.open(uri);
+
+  window.confirm(confirmation_msg) && openUriInNewWindow();
 };
