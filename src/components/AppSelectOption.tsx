@@ -12,6 +12,6 @@ interface selectOptionProps {
  * Component for a selection option
  */
 const AppSelectOption: React.FC<selectOptionProps> = (props) => {
-    return <IonSelectOption {...props} />
+    return <IonSelectOption {...props} children={props.children ? props.children : props.value} />
 };
 export default AppSelectOption;

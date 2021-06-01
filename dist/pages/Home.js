@@ -1,14 +1,16 @@
-import React from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppPage } from '../components';
+import React, { useState } from 'react';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectOption } from '../components';
 
 const Home = () => {
+  const [val, setVal] = useState();
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "primary",
     titleColor: "secondary",
-    title: "Welcome to atomic"
+    title: "Welcome to atomic",
+    subTitle: "@nrel/atomic"
   }, /*#__PURE__*/React.createElement(AppChip, {
     color: "success"
-  }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, "Colors"), /*#__PURE__*/React.createElement(AppItem, {
+  }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, "AppColors"), /*#__PURE__*/React.createElement(AppItem, {
     color: "primary"
   }, "Primary"), /*#__PURE__*/React.createElement(AppItem, {
     color: "secondary"
@@ -36,7 +38,16 @@ const Home = () => {
     routerLink: "/form",
     color: "primary",
     fill: "solid"
-  }, "Form Example"))))));
+  }, "Form Example"))), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "AppSelect"), /*#__PURE__*/React.createElement(AppSelect, {
+    onSelectionChange: setVal,
+    value: val,
+    color: typeof val === "undefined" ? "warning" : "success",
+    placeholder: "Environment"
+  }, /*#__PURE__*/React.createElement(AppSelectOption, {
+    value: "Development"
+  }), /*#__PURE__*/React.createElement(AppSelectOption, {
+    value: "Production"
+  }))))));
 };
 
 export default Home;

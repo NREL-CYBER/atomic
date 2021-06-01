@@ -8,6 +8,11 @@ import React from 'react';
  */
 const AppSelectString = props => {
   return /*#__PURE__*/React.createElement(IonSelect, _extends({
+    style: {
+      color: "var(--ion-color-" + props.color + ",yellow)",
+      "--color": "var(--ion-color-" + props.color + ")",
+      "--placeholder-color": "var(--ion-color-" + props.color + ")"
+    },
     onIonChange: e => {
       props.onSelectionChange && props.onSelectionChange(e.detail.value);
     }

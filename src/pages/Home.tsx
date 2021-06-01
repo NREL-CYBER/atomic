@@ -1,16 +1,18 @@
-import React from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppPage } from '../components';
+import React, { useState } from 'react';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectOption } from '../components';
 
 const Home: React.FC = () => {
+  const [val, setVal] = useState<string | undefined>();
   return <AppPage >
-    <AppContent >
-      <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic">
+    <AppContent>
+      <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="@nrel/atomic">
         <AppChip color="success">
           Check out the examples to get started
         </AppChip>
+        <AppItemDivider />
         <AppItem>
           <AppChip>
-            Colors
+            AppColors
           </AppChip>
           <AppItem color="primary">
             Primary
@@ -52,6 +54,16 @@ const Home: React.FC = () => {
               Form Example
             </AppButton>
           </AppButtons>
+        </AppItem>
+        <AppItemDivider />
+        <AppItem>
+          <AppLabel>
+            AppSelect
+          </AppLabel>
+          <AppSelect onSelectionChange={setVal} value={val} color={typeof val === "undefined" ? "warning" : "success"} placeholder="Environment" >
+            <AppSelectOption value="Development" />
+            <AppSelectOption value="Production" />
+          </AppSelect>
         </AppItem>
       </AppCard>
     </AppContent>
