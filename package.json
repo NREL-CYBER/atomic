@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": true,
   "main": "dist/entry.js",
   "types": "dist/entry.d.ts",
@@ -40,6 +40,9 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "resolutions": {
+    "ws": "7.4.6"
   },
   "browserslist": {
     "production": [
