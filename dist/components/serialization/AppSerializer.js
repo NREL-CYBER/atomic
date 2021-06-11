@@ -35,7 +35,6 @@ const AppLocalSerializer = ({
     Object.entries(cache).forEach(([namespace, collections]) => {
       Object.values(collections).forEach(storeAPI => {
         synchronize(serialization, namespace, storeAPI.getState, uid || "secret", () => {
-          console.log("Synchronized " + namespace + storeAPI.getState().collection);
           setRemaining(x => x - 1);
         });
       });

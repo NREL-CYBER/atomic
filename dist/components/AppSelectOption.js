@@ -7,7 +7,13 @@ import { IonSelectOption } from '@ionic/react';
  * Component for a selection option
  */
 const AppSelectOption = props => {
-  return /*#__PURE__*/React.createElement(IonSelectOption, _extends({}, props, {
+  return /*#__PURE__*/React.createElement(IonSelectOption, _extends({
+    style: props.color && {
+      color: "var(--ion-color-" + props.color + ")",
+      "--color": "var(--ion-color-" + props.color + ")",
+      "--placeholder-color": "var(--ion-color-" + props.color + ")"
+    }
+  }, props, {
     children: props.children ? props.children : props.value
   }));
 };

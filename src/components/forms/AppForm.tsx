@@ -220,7 +220,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     instanceRef={instanceRef}
                     propertyInfo={propertyInfo}
                     property={property}
-                    onChange={handleInputReceived}
+                    onChange={handleInputReceived}                    
                     key={property}
                 />
             } else {

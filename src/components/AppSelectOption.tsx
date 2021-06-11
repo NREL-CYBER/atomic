@@ -12,6 +12,6 @@ interface selectOptionProps {
  * Component for a selection option
  */
 const AppSelectOption: React.FC<selectOptionProps> = (props) => {
-    return <IonSelectOption {...props} children={props.children ? props.children : props.value} />
+    return <IonSelectOption style={props.color && { color: "var(--ion-color-" + props.color + ")", "--color": "var(--ion-color-" + props.color + ")", "--placeholder-color": "var(--ion-color-" + props.color + ")" }} {...props} children={props.children ? props.children : props.value} />
 };
 export default AppSelectOption;

@@ -15,11 +15,11 @@ export type SynchronizationContext = {
  */
 const useIndexDBStorage = create<SynchronizationContext>(() => ({
     async synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string = "", onComplete?: () => void) {
-        const uid_prefix = uid === "" ? uid + "_" : ""
+        const uid_prefix = uid === "" ? uid + "-" : ""
 
-        const collection_key = uid_prefix + namespace + "_" + store().collection;
-        const collection_workspace_key = uid_prefix + collection_key + "_workspace";
-        const collection_active_key = uid_prefix + collection_key + "_active";
+        const collection_key = uid_prefix + namespace + "-" + store().collection;
+        const collection_workspace_key = uid_prefix + collection_key + "-workspace";
+        const collection_active_key = uid_prefix + collection_key + "-active";
 
         const serialized_store_string = await get(collection_key);
         try {
