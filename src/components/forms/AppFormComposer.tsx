@@ -44,9 +44,9 @@ const AppFormComposer: React.FC<formComposerProps> = ({ lazyLoadValidator, defin
     }, [definition, lazyLoadDefinitionValidator, lazyLoadValidator, validator]);
 
     if (typeof validator === "undefined" || typeof validator.schema === "undefined") {
-        const loadingtitle = "Loading... " + props.title || ""
-        return <AppLoadingCard title={loadingtitle
-        } message="Loading.... " color={"favorite"} />
+        const title = (typeof props.title === "string") ? props.title : "Validator";
+        return <AppLoadingCard title={"Loading " + title + " ..."
+        } message="..." color={"favorite"} />
     } else {
         return <AppForm validator={validator} {...props} />
     }

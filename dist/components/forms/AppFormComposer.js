@@ -50,10 +50,10 @@ const AppFormComposer = ({
   }, [definition, lazyLoadDefinitionValidator, lazyLoadValidator, validator]);
 
   if (typeof validator === "undefined" || typeof validator.schema === "undefined") {
-    const loadingtitle = "Loading... " + props.title || "";
+    const title = typeof props.title === "string" ? props.title : "Validator";
     return /*#__PURE__*/React.createElement(AppLoadingCard, {
-      title: loadingtitle,
-      message: "Loading.... ",
+      title: "Loading " + title + " ...",
+      message: "...",
       color: "favorite"
     });
   } else {
