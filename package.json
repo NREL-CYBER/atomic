@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "2.2.6",
+  "version": "2.2.7",
   "private": true,
   "main": "dist/entry.js",
   "types": "dist/entry.d.ts",
@@ -42,7 +42,8 @@
     "extends": "react-app"
   },
   "resolutions": {
-    "ws": "7.4.6"
+    "ws": "7.4.6",
+    "normalize-url": "4.5.1"
   },
   "browserslist": {
     "production": [
