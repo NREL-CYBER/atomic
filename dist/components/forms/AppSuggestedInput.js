@@ -4,7 +4,7 @@ import { prettyTitle, unique } from 'atomic';
 import { caretDown } from 'ionicons/icons';
 import React, { useRef } from 'react';
 import { useState } from 'react';
-import { AppIcon } from '..';
+import { AppIcon, AppRow } from '..';
 
 /**
  * Component for text input
@@ -37,7 +37,8 @@ const AppSuggestedInput = ({
     showBackdrop: false,
     onHide: () => dismiss()
   });
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(IonInput, {
+  return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(IonInput, {
+    placeholder: placeholder,
     color: color,
     ref: inputRef,
     id: id,

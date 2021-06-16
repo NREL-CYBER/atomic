@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { IonButton, IonInput, IonItem, IonList, IonListHeader, useIonPopover } from '@ionic/react';
+import { IonButton, IonInput, IonItem, IonList, useIonPopover } from '@ionic/react';
 import { prettyTitle, unique } from 'atomic';
-import { arrowDown, caretDown } from 'ionicons/icons';
-import React, { useRef } from 'react';
-import { useState } from 'react';
-import { AppIcon } from '..';
+import { caretDown } from 'ionicons/icons';
+import React, { useRef, useState } from 'react';
+import { AppIcon, AppRow } from '..';
 import { AppColor } from '../../theme';
 
 export type stringFormat = "number" | "time" | "text" | "date" | "email" | "password" | "search" | "tel" | "url" | "week" | "month" | "datetime-local" | undefined;
@@ -42,13 +41,13 @@ const AppSuggestedInput: React.FC<inputProps> = ({ values, id, color, onInputCha
         showBackdrop: false, onHide: () => dismiss()
     });
 
-    return <>
-        <IonInput color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => { setValue(detail.value || "") }} />
+    return <AppRow>
+        <IonInput placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => { setValue(detail.value || "") }} />
         <IonButton color={color} fill="clear" onClick={(e) => {
             present({ event: e.nativeEvent });
         }}>
             <AppIcon icon={caretDown} />
         </IonButton>
-    </>
+    </AppRow>
 }
 export default AppSuggestedInput;
