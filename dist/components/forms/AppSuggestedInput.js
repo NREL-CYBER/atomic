@@ -2,8 +2,7 @@
 import { IonButton, IonInput, IonItem, IonList, useIonPopover } from '@ionic/react';
 import { prettyTitle, unique } from 'atomic';
 import { caretDown } from 'ionicons/icons';
-import React, { useRef } from 'react';
-import { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { AppIcon, AppRow } from '..';
 
 /**
