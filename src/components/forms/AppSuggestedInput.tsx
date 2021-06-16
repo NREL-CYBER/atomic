@@ -21,8 +21,7 @@ interface inputProps {
 /**
  * Component for text input
  */
-const AppSuggestedInput: React.FC<inputProps> = ({ values, id, color, onInputChange, placeholder, type }) => {
-    const [value, setValue] = useState<string>()
+const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onInputChange, placeholder, type }) => {
     const inputRef = useRef<HTMLIonInputElement>(null)
     const PopoverList: React.FC<{
         onHide: () => void;
@@ -32,7 +31,9 @@ const AppSuggestedInput: React.FC<inputProps> = ({ values, id, color, onInputCha
             {unique(value ? [value, ...values] : values).map((option) =>
                 <IonItem onClick={() => {
                     dismiss();
-                    setValue(option)
+                    setTimeout(() => {
+                        onInputChange(option)
+                    }, 100)
                 }} button>{prettyTitle(option)}</IonItem>
             )}
         </IonList>
@@ -42,7 +43,7 @@ const AppSuggestedInput: React.FC<inputProps> = ({ values, id, color, onInputCha
     });
 
     return <AppRow>
-        <IonInput placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => { setValue(detail.value || "") }} />
+        <IonInput placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => { onInputChange(detail.value!) }} />
         <IonButton color={color} fill="clear" onClick={(e) => {
             present({ event: e.nativeEvent });
         }}>

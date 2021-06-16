@@ -2,13 +2,14 @@
 import { IonButton, IonInput, IonItem, IonList, useIonPopover } from '@ionic/react';
 import { prettyTitle, unique } from 'atomic';
 import { caretDown } from 'ionicons/icons';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { AppIcon, AppRow } from '..';
 
 /**
  * Component for text input
  */
 const AppSuggestedInput = ({
+  value,
   values,
   id,
   color,
@@ -16,7 +17,6 @@ const AppSuggestedInput = ({
   placeholder,
   type
 }) => {
-  const [value, setValue] = useState();
   const inputRef = useRef(null);
 
   const PopoverList = ({
@@ -26,7 +26,9 @@ const AppSuggestedInput = ({
     return /*#__PURE__*/React.createElement(IonList, null, unique(value ? [value, ...values] : values).map(option => /*#__PURE__*/React.createElement(IonItem, {
       onClick: () => {
         dismiss();
-        setValue(option);
+        setTimeout(() => {
+          onInputChange(option);
+        }, 100);
       },
       button: true
     }, prettyTitle(option))));
@@ -47,7 +49,7 @@ const AppSuggestedInput = ({
     onIonChange: ({
       detail
     }) => {
-      setValue(detail.value || "");
+      onInputChange(detail.value);
     }
   }), /*#__PURE__*/React.createElement(IonButton, {
     color: color,
