@@ -12,6 +12,7 @@ export interface selectButtonsProps {
     selected: string[];
     multi?: boolean;
     display?: "horizontal" | "vertical";
+    segment?: boolean;
 }
 /**
  * Component for a select interface via buttons

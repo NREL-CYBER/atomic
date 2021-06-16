@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectOption } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption } from '../components';
+import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 
 const Home = () => {
   const [val, setVal] = useState();
@@ -38,7 +39,26 @@ const Home = () => {
     routerLink: "/form",
     color: "primary",
     fill: "solid"
-  }, "Form Example"))), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "AppSelect"), /*#__PURE__*/React.createElement(AppSelect, {
+  }, "Form Example"))), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "App Select Buttons"), /*#__PURE__*/React.createElement(AppSelectButtons, {
+    multi: false,
+    buttons: [{
+      text: "asdasd",
+      value: "s",
+      color: "primary"
+    }, {
+      text: "asdssasd",
+      value: "sw",
+      color: "primary"
+    }],
+    selected: [],
+    onSelectionChange: () => {}
+  })), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "App Datalist input"), /*#__PURE__*/React.createElement(AppSuggestedInput, {
+    id: "test",
+    values: ["test", "value"],
+    onInputChange: () => {
+      console.log("");
+    }
+  })), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "AppSelect"), /*#__PURE__*/React.createElement(AppSelect, {
     onSelectionChange: setVal,
     value: val,
     color: typeof val === "undefined" ? "warning" : "success",

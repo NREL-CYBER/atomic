@@ -4,11 +4,13 @@ import React from 'react';
 import AppButton from './AppButton';
 import AppList from './AppList';
 import { AppItem } from '.';
+import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/react';
 
 /**
  * Component for a select interface via buttons
  */
 const AppSelectButtons = ({
+  segment,
   selected,
   buttons,
   onSelectionChange,
@@ -29,6 +31,22 @@ const AppSelectButtons = ({
       }
     }
   })));
+
+  if (display === "horizontal" && multi === false && segment) {
+    return /*#__PURE__*/React.createElement(IonSegment, null, buttons.map(({
+      text,
+      value,
+      color,
+      fill,
+      disabled
+    }) => disabled ? /*#__PURE__*/React.createElement(React.Fragment, null) : /*#__PURE__*/React.createElement(IonSegmentButton, {
+      color: color,
+      value: value
+    }, /*#__PURE__*/React.createElement(IonLabel, {
+      color: fill
+    }, text))));
+  }
+
   return display === "horizontal" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : /*#__PURE__*/React.createElement(AppList, null, selectButtons.map((button, i) => /*#__PURE__*/React.createElement(AppItem, {
     key: i
   }, button)));

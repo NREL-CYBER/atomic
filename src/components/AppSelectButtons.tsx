@@ -3,6 +3,7 @@ import { AppColor } from '../theme';
 import AppButton, { buttonProps } from './AppButton';
 import AppList from './AppList';
 import { AppItem } from '.';
+import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/react';
 
 export interface selectButtonProps extends buttonProps {
     value: string
@@ -15,15 +16,16 @@ export interface selectButtonsProps {
     selected: string[]
     multi?: boolean
     display?: "horizontal" | "vertical"
+    segment?: boolean
 }
 
 /**
  * Component for a select interface via buttons
  */
-const AppSelectButtons: React.FC<selectButtonsProps> = ({ selected, buttons, onSelectionChange, multi, display = "horizontal" }) => {
+const AppSelectButtons: React.FC<selectButtonsProps> = ({ segment, selected, buttons, onSelectionChange, multi, display = "horizontal" }) => {
 
     const selectButtons =
-        buttons.map((button, i) => <AppButton key={i} 
+        buttons.map((button, i) => <AppButton key={i}
             fill={selected.includes(button.value) ? "solid" : "outline"}
             children={button.text} {...button}
             onClick={() => {
@@ -36,7 +38,17 @@ const AppSelectButtons: React.FC<selectButtonsProps> = ({ selected, buttons, onS
             }} />)
 
 
-
+    if (display === "horizontal" && multi === false && segment) {
+        return <IonSegment>
+            {buttons.map(({ text, value, color, fill, disabled }) =>
+                disabled ? <></> : <IonSegmentButton color={color} value={value}  >
+                    <IonLabel color={fill}>
+                        {text}
+                    </IonLabel>
+                </IonSegmentButton>
+            )}
+        </IonSegment>
+    }
     return display === "horizontal" ? <>{selectButtons}</> : <AppList>
         {selectButtons.map((button, i) =>
             <AppItem key={i}>

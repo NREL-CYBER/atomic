@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectOption } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption } from '../components';
+import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 
 const Home: React.FC = () => {
   const [val, setVal] = useState<string | undefined>();
@@ -54,6 +55,21 @@ const Home: React.FC = () => {
               Form Example
             </AppButton>
           </AppButtons>
+        </AppItem>
+        <AppItem>
+          <AppLabel>
+            App Select Buttons
+          </AppLabel>
+          <AppSelectButtons multi={false} buttons={[{ text: "asdasd", value: "s", color: "primary" }, { text: "asdssasd", value: "sw", color: "primary" }]} selected={[]} onSelectionChange={() => { }} />
+        </AppItem>
+        <AppItemDivider />
+        <AppItem>
+          <AppLabel>
+            App Datalist input
+          </AppLabel>
+          <AppSuggestedInput id="test" values={["test", "value"]} onInputChange={() => {
+            console.log("")
+          }} />
         </AppItem>
         <AppItemDivider />
         <AppItem>
