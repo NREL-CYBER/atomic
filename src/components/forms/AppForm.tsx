@@ -8,7 +8,8 @@ import {
 
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
     AppList,
-    AppModal, AppProgress, AppText,
+    AppLoadingCard,
+    AppModal, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -109,29 +110,25 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const [errors, setErrors] = useState<string[]>([]);
 
 
-    const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element[] | null>(null)
-    const [optionalFieldsComponent, setOptionalFieldsComponent] = useState<JSX.Element[]>([<></>])
-    const [showOptional, setShowOptional] = useState<boolean>(false);
+    const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element | null>(null)
+    const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "hidden">("hidden");
     useEffect(() => {
-        if (showOptional) {
-            console.log("Set cache")
-            optionalFieldsCache && setOptionalFieldsComponent(optionalFieldsCache)
-        } else {
-            setOptionalFieldsComponent([<></>])
+        if (optionalStatus === "show" && optionalFieldsCache === null) {
+            setOptionalStatus("loading")
         }
-    }, [showOptional, optionalFieldsCache])
-    useEffect(() => {
-        if (optionalFieldsCache !== null) {
+        if (optionalStatus !== "loading") {
             return
         }
-        setOptionalFieldsCache(optionalFields.map((property) => {
+        const optionalFieldsRendered = optionalFields.map((property) => {
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
                 return <Fragment key={property}></Fragment>
             return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-        }));
-    }, [showOptional]);
+        })
+        setOptionalFieldsCache(<>{optionalFieldsRendered}</>);
+        setOptionalStatus("show");
+    }, [optionalStatus]);
 
 
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
@@ -405,11 +402,12 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
             {<AppList color={"clear"}>
                 <AppItem color="clear">
-                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={showOptional ? "tertiary" : "primary"} fill={"outline"} onClick={() => setShowOptional(x => !x)} >
-                        {!showOptional ? "Enter" : ""} Optional info
+                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "hidden" ? "tertiary" : "primary"} fill={"outline"} onClick={() => setOptionalStatus(optionalStatus !== "hidden" ? "hidden" : "show")} >
+                        {optionalStatus === "hidden" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {optionalFieldsComponent}
+                {optionalStatus === "show" && optionalFieldsCache}
+                {optionalStatus === "loading" && <><AppLoadingCard title="Rendering" message="Preparing Optional Fields" color="primary" /></>}
             </AppList>}
 
             <AppToolbar color="clear">
