@@ -51,6 +51,34 @@ const AppForm = props => {
   } : schema.type === "array" ? [...data] : undefined);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [optionalFieldsCache, setOptionalFieldsCache] = useState(null);
+  useEffect(() => {
+    setTimeout(() => {
+      if (optionalFieldsCache !== null) {
+        console.log("cache exists");
+        return;
+      }
+
+      console.log("make cache");
+      setOptionalFieldsCache(optionalFields.map(property => {
+        if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+          key: property,
+          property: property,
+          value: instance.current[property]
+        });
+        if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+          key: property
+        });
+        return /*#__PURE__*/React.createElement(FormElement, {
+          key: property,
+          onChange: handleInputReceived,
+          validator: validator,
+          instanceRef: instance,
+          property: property
+        });
+      }));
+    }, 100);
+  }, []);
   const handleInputReceived = useCallback((property, value) => {
     if (schema.type === "string" || schema.type === "array") {
       instance.current = value;
@@ -340,33 +368,9 @@ const AppForm = props => {
 
 
   const OptionalFormFields = () => {
-    const [optionalFieldsCache, setOptionalFieldsCache] = useState(null);
-    useEffect(() => {
-      if (optionalFieldsCache !== null) {
-        return;
-      }
-
-      setOptionalFieldsCache(optionalFields.map(property => {
-        if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-          key: property,
-          property: property,
-          value: instance.current[property]
-        });
-        if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-          key: property
-        });
-        return /*#__PURE__*/React.createElement(FormElement, {
-          key: property,
-          onChange: handleInputReceived,
-          validator: validator,
-          instanceRef: instance,
-          property: property
-        });
-      }));
-    }, []);
-    return /*#__PURE__*/React.createElement(React.Fragment, null, showOptional && optionalFieldsCache === null ? /*#__PURE__*/React.createElement(AppProgress, {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, showOptional ? optionalFieldsCache === null ? /*#__PURE__*/React.createElement(AppProgress, {
       color: "primary"
-    }) : optionalFieldsCache);
+    }) : optionalFieldsCache : /*#__PURE__*/React.createElement(React.Fragment, null));
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
@@ -396,7 +400,7 @@ const AppForm = props => {
     color: showOptional ? "tertiary" : "primary",
     fill: "outline",
     onClick: () => setShowOptional(x => !x)
-  }, !showOptional ? "Enter" : "", " Optional info")), /*#__PURE__*/React.createElement(OptionalFormFields, null)), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [showOptional])), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",

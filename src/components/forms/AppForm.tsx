@@ -111,18 +111,21 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element[] | null>(null)
     useEffect(() => {
-        if (optionalFieldsCache !== null) {
-            console.log("cache exists");
-            return
-        }
-        console.log("make cache");
-        setOptionalFieldsCache(optionalFields.map((property) => {
-            if (lockedFields && lockedFields.includes(property))
-                return <LockedField key={property} property={property} value={instance.current[property]} />
-            if (hiddenFields && hiddenFields.includes(property))
-                return <Fragment key={property}></Fragment>
-            return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-        }));
+        setTimeout(() => {
+            if (optionalFieldsCache !== null) {
+                console.log("cache exists");
+                return
+            }
+            console.log("make cache");
+            setOptionalFieldsCache(optionalFields.map((property) => {
+                if (lockedFields && lockedFields.includes(property))
+                    return <LockedField key={property} property={property} value={instance.current[property]} />
+                if (hiddenFields && hiddenFields.includes(property))
+                    return <Fragment key={property}></Fragment>
+                return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+            }));
+
+        }, 100);
     }, []);
 
 
