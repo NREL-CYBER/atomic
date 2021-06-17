@@ -112,10 +112,20 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element | null>(null)
     const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "hidden">("hidden");
-    useEffect(() => {
-        if (optionalStatus === "show" && optionalFieldsCache === null) {
-            setOptionalStatus("loading")
+    const toggleOptionalFields = () => {
+        switch (optionalStatus) {
+            case "hidden":
+                setOptionalStatus(optionalFieldsCache ? "show" : "loading")
+                break;
+            case "show":
+                setOptionalStatus("hidden")
+                break;
+
+            default:
+                break;
         }
+    }
+    useEffect(() => {
         if (optionalStatus !== "loading") {
             return
         }
@@ -402,7 +412,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
             {<AppList color={"clear"}>
                 <AppItem color="clear">
-                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "hidden" ? "tertiary" : "primary"} fill={"outline"} onClick={() => setOptionalStatus(optionalStatus !== "hidden" ? "hidden" : "show")} >
+                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "hidden" ? "tertiary" : "primary"} fill={"outline"} onClick={toggleOptionalFields} >
                         {optionalStatus === "hidden" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
