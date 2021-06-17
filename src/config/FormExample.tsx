@@ -11,7 +11,6 @@ const ExampleForm: React.FC = () => {
         <AppContent center>
             {status === "editing" ? <AppFormComposer
                 title={"Address"}
-                requiredOnly
                 onSubmit={(data) => {
                     insert(data).then(() => {
                         setStatus("idle");

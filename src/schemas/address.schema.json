@@ -28,7 +28,22 @@
         "locality": {
             "type": "string"
         },
-        "region": {
+        "s": {
+            "type": "string"
+        },
+        "regionasd": {
+            "type": "string"
+        },
+        "regsadsion": {
+            "type": "string"
+        },
+        "regisdon": {
+            "type": "string"
+        },
+        "regissdon": {
+            "type": "string"
+        },
+        "regisson": {
             "type": "string"
         },
         "country_name": {

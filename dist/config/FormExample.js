@@ -15,7 +15,6 @@ const ExampleForm = () => {
     center: true
   }, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
     title: "Address",
-    requiredOnly: true,
     onSubmit: data => {
       insert(data).then(() => {
         setStatus("idle");

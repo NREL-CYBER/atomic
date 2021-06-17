@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator, AppFormSelect } from '..';
+import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
+import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
 import AppUploader from '../serialization/AppUploader';
+import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
-import AppFormSelectArray from '../AppFormSelectArray';
-import AppFormDateTimePicker from './AppFormDateTimePicker';
 
 const LockedField = ({
   property,
@@ -326,23 +326,35 @@ const AppForm = props => {
   })); // eslint-disable-next-line react-hooks/exhaustive-deps
 
 
-  const OptionalFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, optionalFields.map(property => {
-    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-      key: property,
-      property: property,
-      value: instance.current[property]
-    });
-    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-      key: property
-    });
-    return /*#__PURE__*/React.createElement(FormElement, {
-      key: property,
-      onChange: handleInputReceived,
-      validator: validator,
-      instanceRef: instance,
-      property: property
-    });
-  }));
+  const OptionalFormFields = () => {
+    const [optionalFieldsCached, setOptionalFieldsCache] = useState();
+    useEffect(() => {
+      const optional = optionalFields.map(property => {
+        if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+          key: property,
+          property: property,
+          value: instance.current[property]
+        });
+        if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+          key: property
+        });
+        return /*#__PURE__*/React.createElement(FormElement, {
+          key: property,
+          onChange: handleInputReceived,
+          validator: validator,
+          instanceRef: instance,
+          property: property
+        });
+      });
+      setOptionalFieldsCache(optional);
+    }, []);
+
+    if (!showOptional) {
+      return /*#__PURE__*/React.createElement(React.Fragment, null);
+    }
+
+    return /*#__PURE__*/React.createElement(React.Fragment, null, optionalFieldsCached);
+  };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "light",
@@ -371,7 +383,7 @@ const AppForm = props => {
     color: showOptional ? "tertiary" : "primary",
     fill: "outline",
     onClick: () => setShowOptional(x => !x)
-  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(() => showOptional ? /*#__PURE__*/React.createElement(OptionalFormFields, null) : /*#__PURE__*/React.createElement(React.Fragment, null), [showOptional])), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [showOptional])), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",

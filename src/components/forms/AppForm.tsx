@@ -1,26 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useMemo, useRef, useState } from 'react';
+import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
     AppCard, AppChip, AppCol,
     AppContent,
 
-    AppFormArrayInput, AppFormInput,
-    AppItem, AppLabel,
+    AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
     AppList,
     AppModal,
     AppText,
-    AppTitle, AppToolbar, AppUuidGenerator, AppFormSelect
+    AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
+import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
 import AppUploader from '../serialization/AppUploader';
+import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
-import AppFormSelectArray from '../AppFormSelectArray';
-import AppFormDateTimePicker from './AppFormDateTimePicker';
 
 export interface propertyKeyValue {
     property: string,
@@ -220,7 +219,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     instanceRef={instanceRef}
                     propertyInfo={propertyInfo}
                     property={property}
-                    onChange={handleInputReceived}                    
+                    onChange={handleInputReceived}
                     key={property}
                 />
             } else {
@@ -346,15 +345,27 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const OptionalFormFields = () => <>{
-        optionalFields.map((property) => {
-            if (lockedFields && lockedFields.includes(property))
-                return <LockedField key={property} property={property} value={instance.current[property]} />
-            if (hiddenFields && hiddenFields.includes(property))
-                return <Fragment key={property}></Fragment>
+    const OptionalFormFields = () => {
+        const [optionalFieldsCached, setOptionalFieldsCache] = useState<JSX.Element[]>()
+        useEffect(() => {
+            const optional = optionalFields.map((property) => {
+                if (lockedFields && lockedFields.includes(property))
+                    return <LockedField key={property} property={property} value={instance.current[property]} />
+                if (hiddenFields && hiddenFields.includes(property))
+                    return <Fragment key={property}></Fragment>
 
-            return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-        })}</>
+                return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+            })
+            setOptionalFieldsCache(optional)
+
+
+        }, [])
+        if (!showOptional) {
+            return <></>
+        }
+        return <>{optionalFieldsCached}</>
+
+    }
 
 
 
@@ -391,7 +402,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {!showOptional ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {useMemo(() => showOptional ? <OptionalFormFields /> : <></>, [showOptional])}
+                {useMemo(() => <OptionalFormFields />, [showOptional])}
             </AppList>}
 
             <AppToolbar color="clear">
