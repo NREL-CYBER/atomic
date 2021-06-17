@@ -52,8 +52,8 @@ const AppFormComposer = ({
   if (typeof validator === "undefined" || typeof validator.schema === "undefined") {
     const title = typeof props.title === "string" ? props.title : "Validator";
     return /*#__PURE__*/React.createElement(AppLoadingCard, {
-      title: "Loading " + title + " ...",
-      message: "...",
+      title: "Loading " + title,
+      message: "",
       color: "favorite"
     });
   } else {

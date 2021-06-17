@@ -207,10 +207,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 }} />
         }
 
+        // Custom component by property name
         if (customComponentMap && customComponentMap[property]) {
             return customComponentMap[property]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children })
         }
-
+        // Custom component by property identifier
+        if (customComponentMap && propertyInfo.$id && customComponentMap[propertyInfo.$id]) {
+            return customComponentMap[propertyInfo.$id]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children })
+        }
 
 
         if ("enum" in propertyInfo) {
