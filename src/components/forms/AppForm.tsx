@@ -110,23 +110,28 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element[] | null>(null)
+    const [optionalFieldsComponent, setOptionalFieldsComponent] = useState<JSX.Element[]>([<></>])
+    const [showOptional, setShowOptional] = useState<boolean>(false);
     useEffect(() => {
-        setTimeout(() => {
-            if (optionalFieldsCache !== null) {
-                console.log("cache exists");
-                return
-            }
-            console.log("make cache");
-            setOptionalFieldsCache(optionalFields.map((property) => {
-                if (lockedFields && lockedFields.includes(property))
-                    return <LockedField key={property} property={property} value={instance.current[property]} />
-                if (hiddenFields && hiddenFields.includes(property))
-                    return <Fragment key={property}></Fragment>
-                return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-            }));
-
-        }, 100);
-    }, []);
+        if (showOptional) {
+            console.log("Set cache")
+            optionalFieldsCache && setOptionalFieldsComponent(optionalFieldsCache)
+        } else {
+            setOptionalFieldsComponent([<></>])
+        }
+    }, [showOptional, optionalFieldsCache])
+    useEffect(() => {
+        if (optionalFieldsCache !== null) {
+            return
+        }
+        setOptionalFieldsCache(optionalFields.map((property) => {
+            if (lockedFields && lockedFields.includes(property))
+                return <LockedField key={property} property={property} value={instance.current[property]} />
+            if (hiddenFields && hiddenFields.includes(property))
+                return <Fragment key={property}></Fragment>
+            return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+        }));
+    }, [showOptional]);
 
 
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
@@ -353,7 +358,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
     let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
-    const [showOptional, setShowOptional] = useState<boolean>(false);
     const RequiredFormFields = () => <>{
         requiredFields.map(property => {
             if (lockedFields && lockedFields.includes(property))
@@ -369,10 +373,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         })}</>
 
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const OptionalFormFields = () => {
-        return <>{showOptional ? optionalFieldsCache === null ? < AppProgress color="primary" /> : optionalFieldsCache : <></>}</>
-    }
 
 
 
@@ -409,7 +409,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {!showOptional ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {useMemo(() => <OptionalFormFields />, [showOptional])}
+                {optionalFieldsComponent}
             </AppList>}
 
             <AppToolbar color="clear">
