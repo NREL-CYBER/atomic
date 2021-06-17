@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppProgress, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -340,7 +340,9 @@ const AppForm = props => {
 
 
   const OptionalFormFields = () => {
-    const [optionalFieldsCached, setOptionalFieldsCache] = useState();
+    const [optionalFieldsCached, setOptionalFieldsCache] = useState([/*#__PURE__*/React.createElement(AppProgress, {
+      color: "primary"
+    })]);
     useEffect(() => {
       const optional = optionalFields.map(property => {
         if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {

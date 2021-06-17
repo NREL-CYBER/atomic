@@ -9,6 +9,7 @@ import {
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
     AppList,
     AppModal,
+    AppProgress,
     AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
@@ -350,7 +351,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const OptionalFormFields = () => {
-        const [optionalFieldsCached, setOptionalFieldsCache] = useState<JSX.Element[]>()
+        const [optionalFieldsCached, setOptionalFieldsCache] = useState<JSX.Element[]>([<AppProgress color="primary" />])
         useEffect(() => {
             const optional = optionalFields.map((property) => {
                 if (lockedFields && lockedFields.includes(property))
