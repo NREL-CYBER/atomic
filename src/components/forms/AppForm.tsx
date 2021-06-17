@@ -107,6 +107,25 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
+
+
+    const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element[] | null>(null)
+    useEffect(() => {
+        if (optionalFieldsCache !== null) {
+            console.log("cache exists");
+            return
+        }
+        console.log("make cache");
+        setOptionalFieldsCache(optionalFields.map((property) => {
+            if (lockedFields && lockedFields.includes(property))
+                return <LockedField key={property} property={property} value={instance.current[property]} />
+            if (hiddenFields && hiddenFields.includes(property))
+                return <Fragment key={property}></Fragment>
+            return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+        }));
+    }, []);
+
+
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
         if (schema.type === "string" || schema.type === "array") {
             instance.current = value;
@@ -349,20 +368,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const OptionalFormFields = () => {
-        const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element[] | null>(null)
-        useEffect(() => {
-            if (optionalFieldsCache !== null) {
-                return
-            }
-            setOptionalFieldsCache(optionalFields.map((property) => {
-                if (lockedFields && lockedFields.includes(property))
-                    return <LockedField key={property} property={property} value={instance.current[property]} />
-                if (hiddenFields && hiddenFields.includes(property))
-                    return <Fragment key={property}></Fragment>
-                return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-            }));
-        }, []);
-        return <>{showOptional && optionalFieldsCache === null ? <AppProgress color="primary" /> : optionalFieldsCache}</>
+        return <>{showOptional ? optionalFieldsCache === null ? < AppProgress color="primary" /> : optionalFieldsCache : <></>}</>
     }
 
 
@@ -400,7 +406,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {!showOptional ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {<OptionalFormFields />}
+                {useMemo(() => <OptionalFormFields />, [showOptional])}
             </AppList>}
 
             <AppToolbar color="clear">
