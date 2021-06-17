@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
@@ -416,8 +416,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {optionalStatus === "hidden" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {optionalStatus === "show" && optionalFieldsCache}
-                {optionalStatus === "loading" && <><AppLoadingCard title="Rendering" message="Preparing Optional Fields" color="primary" /></>}
+                {optionalStatus === "show" && <Suspense fallback={<AppLoadingCard title="Rendering" color="primary" message="" />}>{optionalFieldsCache}</Suspense>}
             </AppList>}
 
             <AppToolbar color="clear">
