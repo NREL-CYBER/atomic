@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useMemo, useRef, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
@@ -8,9 +8,7 @@ import {
 
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
     AppList,
-    AppModal,
-    AppProgress,
-    AppText,
+    AppModal, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -351,25 +349,16 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const OptionalFormFields = () => {
-        const [optionalFieldsCached, setOptionalFieldsCache] = useState<JSX.Element[]>([<AppProgress color="primary" />])
-        useEffect(() => {
-            const optional = optionalFields.map((property) => {
+        const optionalFieldsCached = useMemo(() =>
+            optionalFields.map((property) => {
                 if (lockedFields && lockedFields.includes(property))
                     return <LockedField key={property} property={property} value={instance.current[property]} />
                 if (hiddenFields && hiddenFields.includes(property))
                     return <Fragment key={property}></Fragment>
-
                 return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-            })
-            setOptionalFieldsCache(optional)
-
-
-        }, [])
-        if (!showOptional) {
-            return <></>
-        }
-        return <>{optionalFieldsCached}</>
-
+            }), []
+        )
+        return <>{showOptional && optionalFieldsCached}</>
     }
 
 
@@ -407,7 +396,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {!showOptional ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {useMemo(() => <OptionalFormFields />, [showOptional])}
+                {useMemo(OptionalFormFields, [showOptional])}
             </AppList>}
 
             <AppToolbar color="clear">

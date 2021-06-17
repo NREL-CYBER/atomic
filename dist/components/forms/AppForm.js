@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppProgress, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -340,35 +340,24 @@ const AppForm = props => {
 
 
   const OptionalFormFields = () => {
-    const [optionalFieldsCached, setOptionalFieldsCache] = useState([/*#__PURE__*/React.createElement(AppProgress, {
-      color: "primary"
-    })]);
-    useEffect(() => {
-      const optional = optionalFields.map(property => {
-        if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-          key: property,
-          property: property,
-          value: instance.current[property]
-        });
-        if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-          key: property
-        });
-        return /*#__PURE__*/React.createElement(FormElement, {
-          key: property,
-          onChange: handleInputReceived,
-          validator: validator,
-          instanceRef: instance,
-          property: property
-        });
+    const optionalFieldsCached = useMemo(() => optionalFields.map(property => {
+      if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+        key: property,
+        property: property,
+        value: instance.current[property]
       });
-      setOptionalFieldsCache(optional);
-    }, []);
-
-    if (!showOptional) {
-      return /*#__PURE__*/React.createElement(React.Fragment, null);
-    }
-
-    return /*#__PURE__*/React.createElement(React.Fragment, null, optionalFieldsCached);
+      if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+        key: property
+      });
+      return /*#__PURE__*/React.createElement(FormElement, {
+        key: property,
+        onChange: handleInputReceived,
+        validator: validator,
+        instanceRef: instance,
+        property: property
+      });
+    }), []);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, showOptional && optionalFieldsCached);
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
@@ -398,7 +387,7 @@ const AppForm = props => {
     color: showOptional ? "tertiary" : "primary",
     fill: "outline",
     onClick: () => setShowOptional(x => !x)
-  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(() => /*#__PURE__*/React.createElement(OptionalFormFields, null), [showOptional])), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(OptionalFormFields, [showOptional])), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",
