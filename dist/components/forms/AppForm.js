@@ -387,7 +387,7 @@ const AppForm = props => {
     color: showOptional ? "tertiary" : "primary",
     fill: "outline",
     onClick: () => setShowOptional(x => !x)
-  }, !showOptional ? "Enter" : "", " Optional info")), useMemo(OptionalFormFields, [showOptional])), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, !showOptional ? "Enter" : "", " Optional info")), /*#__PURE__*/React.createElement(OptionalFormFields, null)), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",
