@@ -396,7 +396,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {!showOptional ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {useMemo(OptionalFormFields, [showOptional])}
+                {<OptionalFormFields />}
             </AppList>}
 
             <AppToolbar color="clear">
