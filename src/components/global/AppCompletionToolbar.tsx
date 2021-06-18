@@ -1,7 +1,8 @@
 import { settingsOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { AppButtons, AppChip, AppModal, AppToggle, AppToolbar } from '..';
+import { AppButtons, AppChip, AppInput, AppModal, AppToggle, AppToolbar } from '..';
 import { useAppLayout } from '../../hooks';
+import { useAppSettings } from '../../hooks/useAppSettings';
 import useCompletion from '../../hooks/useCompletion';
 import { AppBottomBarConfig, AppCompletionConfig } from '../../util/AppConfig';
 import AppButton from '../AppButton';
@@ -17,10 +18,10 @@ export const AppCompletionProgress: React.FC = () => {
 }
 export const AppSettingsModal: React.FC = () => {
     const [showSettings, setShowSettings] = useState(false);
-    const { darkMode, setDarkMode, title } = useAppLayout();
+    const { darkMode, setDarkMode, setServer, server } = useAppSettings();
+    const { title } = useAppLayout();
     return showSettings ? <AppModal isOpen={showSettings} onDismiss={() => { setShowSettings(false) }}>
-        < AppCard title={title + " Settings"
-        } headerColor="tertiary" >
+        < AppCard title={title + " Settings"} headerColor="tertiary" >
             <AppItem>
                 <AppChip>
                     {darkMode ? "Dark Mode" : "Light Mode"}
@@ -29,6 +30,20 @@ export const AppSettingsModal: React.FC = () => {
                     setDarkMode(isDark)
                 }} />
             </AppItem>
+            <AppItem>
+                <AppChip>
+                    Atomic Server URI:
+                </AppChip>
+                <AppInput value={server} placeholder={"https://atomic-server-uri:{port-number}"} onInputChange={(input) => {
+                    setServer(input)
+                }} >
+                </AppInput>
+            </AppItem>
+            {server && <AppButton onClick={() => {
+
+            }} expand={"full"}>
+                Synchronize with server
+            </AppButton>}
         </AppCard >
     </AppModal > : <AppButton onClick={() => {
         setShowSettings(true);
@@ -43,7 +58,7 @@ export const AppSettingsModal: React.FC = () => {
  */
 
 export const AppBottomBar: React.FC<{ completion?: AppCompletionConfig, bottomBar?: AppBottomBarConfig }> = ({ children, bottomBar, completion }) => {
-    const { darkMode } = useAppLayout();
+    const { darkMode } = useAppSettings();
 
     return <AppToolbar color={darkMode ? "paper" : "tertiary"}>
         <AppButtons slot="start">

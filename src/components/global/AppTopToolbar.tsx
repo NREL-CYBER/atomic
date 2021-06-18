@@ -5,6 +5,7 @@ import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTit
 import { useCompletion } from '../../hooks';
 import useAppAccount from '../../hooks/useAppAccount';
 import useAppLayout from '../../hooks/useAppLayout';
+import { useAppSettings } from '../../hooks/useAppSettings';
 import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';
 
@@ -18,7 +19,8 @@ import AppModal from '../AppModal';
 const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, about }) => {
     const { pathname } = useLocation();
     const { paths } = useCompletion();
-    const { update, appTitle, version, darkMode } = useAppLayout();
+    const { update, appTitle, version } = useAppLayout();
+    const { darkMode } = useAppSettings();
     const breadcrumbs = useAppLayout(x => x.breadCrumbs);
     const isHome = pathname === '/';
     useEffect(() => {

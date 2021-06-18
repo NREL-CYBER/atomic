@@ -17,6 +17,7 @@ import { Route } from 'react-router';
 import { AppContent } from '.';
 import { useAppLayout } from '../hooks';
 import useAppAccount from '../hooks/useAppAccount';
+import { useAppSettings } from '../hooks/useAppSettings';
 import useIndexDBStorage from '../hooks/useLocalSerialization';
 import { useRestSerializeation } from '../hooks/useRestSerialization';
 import "../theme/variables.css";
@@ -44,11 +45,10 @@ const AppRoot: React.FC<AppConfig> = (config) => {
     const { routes,
         sections, bottomBar, topBar, children,
         serialization, title, version, cache } = config;
-    const { initialize, darkMode, status, setDarkMode } = useAppLayout();
+    const { initialize, status } = useAppLayout();
+    const { darkMode } = useAppSettings();
     const initializeAccounts = useAppAccount(x => x.initialize);
-    useEffect(() => {
-        config.darkMode && setDarkMode(config.darkMode)
-    }, [config.darkMode, setDarkMode])
+    const initializeSettings = useAppSettings(x => x.initialize);
 
     useEffect(
         () => {
@@ -64,10 +64,11 @@ const AppRoot: React.FC<AppConfig> = (config) => {
     useEffect(() => {
         config && initialize(config);
         config && initializeAccounts(config)
+        config && initializeSettings(config)
         return () => {
             console.log("Exit");
         }
-    }, [config, initialize, initializeAccounts])
+    }, [config, initialize, initializeAccounts, initializeSettings])
 
     const { uid, setUid } = useAppAccount()
 
@@ -109,7 +110,12 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                     useIndexDBStorage}
                 serialization={serialization}
                 cache={cache} />}
-        {status === "synchronizing" && <><AppToolbar /><AppPage fullscreen><AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} /></AppPage></>}
+        {status === "synchronizing" && <>
+            <AppToolbar />
+            <AppPage fullscreen>
+                <AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} />
+            </AppPage>
+        </>}
         {status === "idle" && <AppRouter id={"root"}>
             {/**Side Menu  */}
             {sections && <AppMainMenu sections={sections} />}

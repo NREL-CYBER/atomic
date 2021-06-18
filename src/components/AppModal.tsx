@@ -1,6 +1,6 @@
 import { IonModal } from '@ionic/react';
 import React, { ReactFragment } from 'react';
-import { useAppLayout } from '../hooks';
+import { useAppSettings } from '../hooks/useAppSettings';
 import { AppColor } from '../theme/AppColor';
 
 
@@ -18,7 +18,7 @@ interface appModalProps {
  *  
  */
 const AppModal: React.FC<appModalProps> = (props) => {
-    const { darkMode } = useAppLayout();
+    const { darkMode } = useAppSettings();
     return <IonModal cssClass={darkMode ? "dark-theme" : "light-theme"} onDidDismiss={props.onDismiss && props.onDismiss} {...props} />
 }
 

@@ -11,8 +11,8 @@ export type SynchronizationContext = {
 
 
 /**
- * Observe an Entity collection in cloud storage
- */
+ * Serialize cache to indexDB any time it changes via store listener
+ * */
 const useIndexDBStorage = create<SynchronizationContext>(() => ({
     async synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string = "", onComplete?: () => void) {
         const uid_prefix = uid === "" ? uid + "-" : ""

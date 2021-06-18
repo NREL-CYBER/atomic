@@ -2,7 +2,7 @@
 import { IonButton, IonInput, IonItem, IonList, useIonPopover } from '@ionic/react';
 import { prettyTitle, unique } from 'atomic';
 import { caretDown } from 'ionicons/icons';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { AppIcon, AppRow } from '..';
 import { AppColor } from '../../theme';
 
@@ -43,7 +43,9 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
     });
 
     return <AppRow>
-        <IonInput placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => { onInputChange(detail.value!) }} />
+        <IonInput type={type} placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => {
+            onInputChange(detail.value!)
+        }} />
         <IonButton color={color} fill="clear" onClick={(e) => {
             present({ event: e.nativeEvent });
         }}>
