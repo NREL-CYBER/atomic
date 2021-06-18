@@ -2,7 +2,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 
 import { IonModal } from '@ionic/react';
 import React from 'react';
-import { useAppLayout } from '../hooks';
+import { useAppSettings } from '../hooks/useAppSettings';
 
 /**
  * Component for modals
@@ -11,7 +11,7 @@ import { useAppLayout } from '../hooks';
 const AppModal = props => {
   const {
     darkMode
-  } = useAppLayout();
+  } = useAppSettings();
   return /*#__PURE__*/React.createElement(IonModal, _extends({
     cssClass: darkMode ? "dark-theme" : "light-theme",
     onDidDismiss: props.onDismiss && props.onDismiss

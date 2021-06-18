@@ -39,6 +39,7 @@ const AppSuggestedInput = ({
     onHide: () => dismiss()
   });
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(IonInput, {
+    type: type,
     placeholder: placeholder,
     color: color,
     ref: inputRef,

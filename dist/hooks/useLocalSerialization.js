@@ -2,8 +2,8 @@ import { get, set } from 'idb-keyval';
 import create from "zustand";
 
 /**
- * Observe an Entity collection in cloud storage
- */
+ * Serialize cache to indexDB any time it changes via store listener
+ * */
 const useIndexDBStorage = create(() => ({
   async synchronize(serialization, namespace, store, uid = "", onComplete) {
     const uid_prefix = uid === "" ? uid + "-" : "";

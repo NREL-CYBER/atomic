@@ -5,6 +5,7 @@ import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTit
 import { useCompletion } from '../../hooks';
 import useAppAccount from '../../hooks/useAppAccount';
 import useAppLayout from '../../hooks/useAppLayout';
+import { useAppSettings } from '../../hooks/useAppSettings';
 import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';
 /**
@@ -24,9 +25,11 @@ const AppTopToolbar = ({
   const {
     update,
     appTitle,
-    version,
-    darkMode
+    version
   } = useAppLayout();
+  const {
+    darkMode
+  } = useAppSettings();
   const breadcrumbs = useAppLayout(x => x.breadCrumbs);
   const isHome = pathname === '/';
   useEffect(() => {

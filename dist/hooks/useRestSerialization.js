@@ -94,7 +94,6 @@ export const useRestSerializeation = create((_, restStorage) => ({
 
         case "inserting":
         case "updating":
-          console.log("insert/update", collection_key, key);
           insert(collection_key, key, JSON.stringify(data)).catch(() => {
             store().setStatus("erroring");
           });

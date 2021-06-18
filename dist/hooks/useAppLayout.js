@@ -38,12 +38,7 @@ const calculateNextPage = (allPageRoutes, routeOrder, path) => {
 const useAppLayout = create((set, store) => ({
   status: "booting",
   version: "0.0.0-development",
-  darkMode: true,
-  setDarkMode: isDark => {
-    set({
-      darkMode: isDark
-    });
-  },
+  server: undefined,
   appTitle: "",
   setStatus: status => {
     set({

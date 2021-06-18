@@ -7,6 +7,7 @@ export declare type AppStatus = "booting" | "synchronizing" | "idle";
 declare type AppLayout = {
     status: AppStatus;
     id: string;
+    server?: string;
     appTitle: string;
     title: string;
     version: string;
@@ -18,8 +19,6 @@ declare type AppLayout = {
     breadCrumbs: AppRoute[];
     path: string;
     nextPage: AppRoute;
-    darkMode: boolean;
-    setDarkMode: (isDark: boolean) => void;
     update: (pathname: string) => void;
     initialize: (config: AppConfig) => void;
     setStatus: (status: AppStatus) => void;
