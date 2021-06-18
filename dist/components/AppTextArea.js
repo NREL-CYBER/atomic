@@ -15,8 +15,9 @@ const AppTextArea = ({
   ...props
 }) => {
   return /*#__PURE__*/React.createElement(IonTextarea, _extends({
-    debounce: 500,
+    debounce: 200,
     rows: rows,
+    autoGrow: true,
     onIonChange: event => {
       onTextChange(event.detail.value);
     }
