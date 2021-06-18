@@ -52,13 +52,17 @@ const AppForm = props => {
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
   const [optionalFieldsCache, setOptionalFieldsCache] = useState(null);
-  const [optionalFieldLimit, setOptionalFieldLimit] = useState(4);
-  const [optionalStatus, setOptionalStatus] = useState("hidden");
+  const [optionalStatus, setOptionalStatus] = useState("initialize");
 
   const toggleOptionalFields = () => {
     switch (optionalStatus) {
+      case "initialize":
+      case "loaded":
+        setOptionalStatus("show");
+        break;
+
       case "hidden":
-        setOptionalStatus(optionalFieldsCache ? "show" : "loading");
+        setOptionalStatus("show");
         break;
 
       case "show":
@@ -71,11 +75,17 @@ const AppForm = props => {
   };
 
   useEffect(() => {
+    if (optionalStatus === "initialize") {
+      setTimeout(() => {
+        setOptionalStatus("loading");
+      }, 200);
+    }
+
     if (optionalStatus !== "loading") {
       return;
     }
 
-    const optionalFieldsRendered = optionalFields.slice(optionalFieldLimit).map(property => {
+    const optionalFieldsRendered = optionalFields.map(property => {
       if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
         key: property,
         property: property,
@@ -93,7 +103,7 @@ const AppForm = props => {
       });
     });
     setOptionalFieldsCache( /*#__PURE__*/React.createElement(React.Fragment, null, optionalFieldsRendered));
-    setOptionalStatus("show");
+    setOptionalStatus("loaded");
   }, [optionalStatus]);
   const handleInputReceived = useCallback((property, value) => {
     if (schema.type === "string" || schema.type === "array") {
@@ -408,19 +418,15 @@ const AppForm = props => {
     color: optionalStatus === "hidden" ? "tertiary" : "primary",
     fill: "outline",
     onClick: toggleOptionalFields
-  }, optionalStatus === "hidden" ? "Enter" : "", " Optional info")), optionalStatus === "show" && /*#__PURE__*/React.createElement(Suspense, {
+  }, optionalStatus === "hidden" ? "Enter" : "", " Optional info")), /*#__PURE__*/React.createElement("div", {
+    hidden: optionalStatus !== "show"
+  }, /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, {
       title: "Rendering",
       color: "primary",
       message: ""
     })
-  }, optionalFieldsCache), !requiredOnly && optionalFields.length > 0 && optionalFields.length < optionalFieldLimit && /*#__PURE__*/React.createElement(AppButton, {
-    color: optionalStatus === "hidden" ? "tertiary" : "primary",
-    fill: "outline",
-    onClick: () => {
-      setOptionalFieldLimit(x => x + 5);
-    }
-  }, optionalStatus === "hidden" ? "Enter" : "", " (", optionalFields.length - optionalFieldLimit, ") More Optional Fields")), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, optionalFieldsCache))), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",

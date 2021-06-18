@@ -21,6 +21,7 @@ import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
+
 export interface propertyKeyValue {
     property: string,
     value: string
@@ -111,12 +112,15 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element | null>(null)
-    const [optionalFieldLimit, setOptionalFieldLimit] = useState<number>(4)
-    const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "hidden">("hidden");
+    const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "loaded" | "initialize" | "hidden">("initialize");
     const toggleOptionalFields = () => {
         switch (optionalStatus) {
+            case "initialize":
+            case "loaded":
+                setOptionalStatus("show")
+                break;
             case "hidden":
-                setOptionalStatus(optionalFieldsCache ? "show" : "loading")
+                setOptionalStatus("show")
                 break;
             case "show":
                 setOptionalStatus("hidden")
@@ -127,10 +131,15 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
     }
     useEffect(() => {
+        if (optionalStatus === "initialize") {
+            setTimeout(() => {
+                setOptionalStatus("loading")
+            }, 200)
+        }
         if (optionalStatus !== "loading") {
             return
         }
-        const optionalFieldsRendered = optionalFields.slice(optionalFieldLimit).map((property) => {
+        const optionalFieldsRendered = optionalFields.map((property) => {
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
@@ -138,7 +147,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
         })
         setOptionalFieldsCache(<>{optionalFieldsRendered}</>);
-        setOptionalStatus("show");
+        setOptionalStatus("loaded");
     }, [optionalStatus]);
 
 
@@ -417,14 +426,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {optionalStatus === "hidden" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {optionalStatus === "show" && <Suspense fallback={<AppLoadingCard title="Rendering" color="primary" message="" />}>
-                    {optionalFieldsCache}
-                </Suspense>}
-                {!requiredOnly && optionalFields.length > 0 && optionalFields.length < optionalFieldLimit && < AppButton color={optionalStatus === "hidden" ? "tertiary" : "primary"} fill={"outline"} onClick={() => {
-                    setOptionalFieldLimit(x => x + 5);
-                }} >
-                    {optionalStatus === "hidden" ? "Enter" : ""} ({optionalFields.length - optionalFieldLimit}) More Optional Fields
-                </AppButton>}
+                {<div hidden={optionalStatus !== "show"}><Suspense fallback={<AppLoadingCard title="Rendering" color="primary" message="" />}>{optionalFieldsCache}</Suspense></div>}
             </AppList>}
 
             <AppToolbar color="clear">

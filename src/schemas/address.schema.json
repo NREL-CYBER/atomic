@@ -12,10 +12,9 @@
         "more_info": {
             "type": "array",
             "items": {
-                "title":"more info",
+                "title": "more info",
                 "description": "yea",
                 "type": "string"
-
             }
         },
         "street_view": {
@@ -23,19 +22,49 @@
             "contentMediaType": "image/png"
         },
         "street_address": {
-            "type": "string"
+            "type": "array",
+            "items": {
+                "title": "more info",
+                "description": "yea",
+                "type": "string"
+            }
         },
         "locality": {
-            "type": "string"
+            "type": "array",
+            "items": {
+                "title": "more info",
+                "description": "yea",
+                "type": "string"
+            }
         },
         "s": {
-            "type": "string"
+            "type": "array",
+            "items": {
+                "title": "more info",
+                "description": "yea",
+                "type": "string"
+            }
         },
         "regionasd": {
-            "type": "string"
+            "type": "array",
+            "items": {
+                "title": "more info",
+                "description": "yea",
+                "type": "object",
+                "properties": {
+                    "test": {
+                        "type": "string"
+                    }
+                }
+            }
         },
         "regsadsion": {
-            "type": "string"
+            "type": "array",
+            "items": {
+                "title": "more info",
+                "description": "yea",
+                "type": "string"
+            }
         },
         "regisdon": {
             "type": "string"
