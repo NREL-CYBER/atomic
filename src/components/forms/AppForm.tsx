@@ -111,6 +111,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element | null>(null)
+    const [optionalFieldLimit, setOptionalFieldLimit] = useState<number>(4)
     const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "hidden">("hidden");
     const toggleOptionalFields = () => {
         switch (optionalStatus) {
@@ -129,7 +130,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         if (optionalStatus !== "loading") {
             return
         }
-        const optionalFieldsRendered = optionalFields.map((property) => {
+        const optionalFieldsRendered = optionalFields.slice(optionalFieldLimit).map((property) => {
             if (lockedFields && lockedFields.includes(property))
                 return <LockedField key={property} property={property} value={instance.current[property]} />
             if (hiddenFields && hiddenFields.includes(property))
@@ -416,7 +417,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {optionalStatus === "hidden" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {optionalStatus === "show" && <Suspense fallback={<AppLoadingCard title="Rendering" color="primary" message="" />}>{optionalFieldsCache}</Suspense>}
+                {optionalStatus === "show" && <Suspense fallback={<AppLoadingCard title="Rendering" color="primary" message="" />}>
+                    {optionalFieldsCache}
+                </Suspense>}
+                {!requiredOnly && optionalFields.length > 0 && optionalFields.length < optionalFieldLimit && < AppButton color={optionalStatus === "hidden" ? "tertiary" : "primary"} fill={"outline"} onClick={() => {
+                    setOptionalFieldLimit(x => x + 5);
+                }} >
+                    {optionalStatus === "hidden" ? "Enter" : ""} ({optionalFields.length - optionalFieldLimit}) More Optional Fields
+                </AppButton>}
             </AppList>}
 
             <AppToolbar color="clear">

@@ -52,6 +52,7 @@ const AppForm = props => {
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
   const [optionalFieldsCache, setOptionalFieldsCache] = useState(null);
+  const [optionalFieldLimit, setOptionalFieldLimit] = useState(4);
   const [optionalStatus, setOptionalStatus] = useState("hidden");
 
   const toggleOptionalFields = () => {
@@ -74,7 +75,7 @@ const AppForm = props => {
       return;
     }
 
-    const optionalFieldsRendered = optionalFields.map(property => {
+    const optionalFieldsRendered = optionalFields.slice(optionalFieldLimit).map(property => {
       if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
         key: property,
         property: property,
@@ -413,7 +414,13 @@ const AppForm = props => {
       color: "primary",
       message: ""
     })
-  }, optionalFieldsCache)), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, optionalFieldsCache), !requiredOnly && optionalFields.length > 0 && optionalFields.length < optionalFieldLimit && /*#__PURE__*/React.createElement(AppButton, {
+    color: optionalStatus === "hidden" ? "tertiary" : "primary",
+    fill: "outline",
+    onClick: () => {
+      setOptionalFieldLimit(x => x + 5);
+    }
+  }, optionalStatus === "hidden" ? "Enter" : "", " (", optionalFields.length - optionalFieldLimit, ") More Optional Fields")), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",
