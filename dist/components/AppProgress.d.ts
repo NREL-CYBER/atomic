@@ -2,7 +2,7 @@ import React from 'react';
 import { AppColor } from '../theme/AppColor';
 interface progressProps {
     value?: number;
-    color: AppColor;
+    color?: AppColor;
     type?: "indeterminate" | "determinate";
 }
 /**

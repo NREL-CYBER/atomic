@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppProgress, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -82,7 +82,7 @@ const AppForm = props => {
         } else {
           setOptionalStatus("loaded");
         }
-      }, 200);
+      }, 1);
     }
 
     if (optionalStatus !== "loading") {
@@ -404,9 +404,11 @@ const AppForm = props => {
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
     }, prettyTitle(title || schema.title)))))
-  }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
+  }, optionalStatus !== "loaded" ? /*#__PURE__*/React.createElement(AppProgress, null) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), /*#__PURE__*/React.createElement(AppList, {
+  }, description ? description : schema.description)), /*#__PURE__*/React.createElement("div", {
+    hidden: optionalStatus !== "loaded"
+  }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     propertyInfo: schema,
@@ -414,7 +416,7 @@ const AppForm = props => {
     input: "text",
     instanceRef: instance,
     onChange: handleInputReceived
-  }))), /*#__PURE__*/React.createElement(AppList, {
+  })))), /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear"

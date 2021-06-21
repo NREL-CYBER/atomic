@@ -9,7 +9,7 @@ import {
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
     AppList,
     AppLoadingCard,
-    AppModal, AppText,
+    AppModal, AppProgress, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -138,7 +138,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 } else {
                     setOptionalStatus("loaded")
                 }
-            }, 200)
+            }, 1)
         }
         if (optionalStatus !== "loading") {
             return
@@ -408,21 +408,24 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 </AppButtons>
             </AppToolbar>
         </>}>
+            {optionalStatus !== "loaded" ? <AppProgress /> : <></>}
             <AppItem>
                 <AppText color="medium">
                     {description ? description : schema.description}
                 </AppText>
             </AppItem>
-            <AppList color="clear">
-                {useMemo(() => <RequiredFormFields />, [])}
-                {schema.type === "string" && <><AppFormInput
-                    propertyInfo={schema as PropertyDefinitionRef}
-                    property={schema.title || ""}
-                    input={"text"}
-                    instanceRef={instance}
-                    onChange={handleInputReceived}
-                /></>}
-            </AppList>
+            <div hidden={optionalStatus !== "loaded"}>
+                <AppList color="clear">
+                    {useMemo(() => <RequiredFormFields />, [])}
+                    {schema.type === "string" && <><AppFormInput
+                        propertyInfo={schema as PropertyDefinitionRef}
+                        property={schema.title || ""}
+                        input={"text"}
+                        instanceRef={instance}
+                        onChange={handleInputReceived}
+                    /></>}
+                </AppList>
+            </div>
 
             {<AppList color={"clear"}>
                 <AppItem color="clear">

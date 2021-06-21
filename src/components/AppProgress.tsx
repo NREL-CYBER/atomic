@@ -5,14 +5,14 @@ import { AppColor } from '../theme/AppColor';
 
 interface progressProps {
     value?: number,
-    color: AppColor
+    color?: AppColor
     type?: "indeterminate" | "determinate"
 }
 /**
  * Component that stores the root of the application and control current theme
  */
-const AppProgress: React.FC<progressProps> = (props) =>
-    <IonProgressBar  {...props} />
+const AppProgress: React.FC<progressProps> = ({ color = "primary", children, type = "indeterminate", value }) =>
+    <IonProgressBar color={color} children={children} type={type} value={value} />
 
 
 export default AppProgress;
