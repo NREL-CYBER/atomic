@@ -9,7 +9,7 @@ import {
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
     AppList,
     AppLoadingCard,
-    AppModal, AppSpinner, AppText,
+    AppModal, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -135,7 +135,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
     }
     useEffect(() => {
-        if (optionalStatus !== "empty") {
+        if (optionalStatus !== "loading") {
             return
         }
         setTimeout(() => {
@@ -422,7 +422,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             {<AppList color={"clear"}>
                 <AppItem color="clear">
                     {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "hidden" ? "tertiary" : "primary"} fill={"outline"} onClick={toggleOptionalFields} >
-                        {optionalStatus === "hidden" ? "Enter" : ""} Optional info
+                        {optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
                 {optionalStatus === "loading" && <AppLoadingCard color="clear" title="Loading Optional Fields" message="..." />}
