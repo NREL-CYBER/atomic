@@ -81,7 +81,7 @@ const AppForm = props => {
   };
 
   useEffect(() => {
-    if (optionalStatus !== "empty") {
+    if (optionalStatus !== "loading") {
       return;
     }
 
@@ -420,7 +420,7 @@ const AppForm = props => {
     color: optionalStatus === "hidden" ? "tertiary" : "primary",
     fill: "outline",
     onClick: toggleOptionalFields
-  }, optionalStatus === "hidden" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(AppLoadingCard, {
+  }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(AppLoadingCard, {
     color: "clear",
     title: "Loading Optional Fields",
     message: "..."
