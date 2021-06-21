@@ -1,5 +1,6 @@
+import axios from 'axios';
 import { settingsOutline } from 'ionicons/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppButtons, AppChip, AppInput, AppModal, AppToggle, AppToolbar } from '..';
 import { useAppLayout } from '../../hooks';
 import { useAppSettings } from '../../hooks/useAppSettings';
@@ -22,12 +23,29 @@ export const AppSettingsModal = () => {
   const {
     darkMode,
     setDarkMode,
+    server,
     setServer,
-    server
+    authorized,
+    setAuthorized,
+    serverStatus,
+    setServerStatus
   } = useAppSettings();
   const {
     title
   } = useAppLayout();
+  const [tempServer, setTempServer] = useState(server || "");
+  useEffect(() => {
+    if (authorized && server && serverStatus === "connecting") {
+      axios.get(server).then(() => {
+        setServerStatus("connected");
+      }).catch(() => {
+        setServerStatus("error");
+      });
+    } else if (!authorized && server) {
+      const authorized = window.confirm("To connect to a server will open a connection to the specified URI.\n Are you in a trusted environment?\n Are you sure you want to do this?");
+      setAuthorized(authorized);
+    }
+  }, [authorized, server, serverStatus, setAuthorized, setServerStatus]);
   return showSettings ? /*#__PURE__*/React.createElement(AppModal, {
     isOpen: showSettings,
     onDismiss: () => {
@@ -42,15 +60,24 @@ export const AppSettingsModal = () => {
       setDarkMode(isDark);
     }
   })), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, "Atomic Server URI:"), /*#__PURE__*/React.createElement(AppInput, {
-    value: server,
+    value: tempServer,
     placeholder: "https://atomic-server-uri:{port-number}",
     onInputChange: input => {
-      setServer(input);
+      setTempServer(input);
     }
-  })), server && /*#__PURE__*/React.createElement(AppButton, {
-    onClick: () => {},
+  }), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  }, server && /*#__PURE__*/React.createElement(AppChip, {
+    color: serverStatus === "connected" ? "favorite" : serverStatus === "connecting" ? "medium" : "danger"
+  }, serverStatus))), server && tempServer !== server && /*#__PURE__*/React.createElement(AppButton, {
+    onClick: () => {
+      setServer(tempServer);
+      setServerStatus("connecting");
+    },
     expand: "full"
-  }, "Synchronize with server"))) : /*#__PURE__*/React.createElement(AppButton, {
+  }, "Synchronize with server"), serverStatus === "connected" && /*#__PURE__*/React.createElement(AppChip, {
+    color: "favorite"
+  }, "Synchronizing data with ", server))) : /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setShowSettings(true);
     }

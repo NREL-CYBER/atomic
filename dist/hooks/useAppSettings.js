@@ -4,12 +4,14 @@ import { set as idbSet, get } from "idb-keyval";
 /**
 *  Application Cache status
 */
-export const useAppSettings = create((set, cache) => ({
+export const useAppSettings = create((set, settings) => ({
+  serverStatus: "unknown",
   darkMode: true,
   initialized: false,
+  authorized: false,
   initialize: async appConfig => {
-    const savedCache = await get("atomic-settings");
-    const cacheFields = { ...JSON.parse(savedCache)
+    const savedSettings = await get("atomic-settings");
+    const cacheFields = { ...JSON.parse(savedSettings)
     }; // Combine serialized settings and app-config
 
     const {
@@ -25,30 +27,41 @@ export const useAppSettings = create((set, cache) => ({
       server,
       initialized: true
     });
-    cache().serialize();
+    settings().serialize();
   },
   serialize: () => {
     const {
       server,
       darkMode,
       encryption
-    } = cache();
+    } = settings();
     idbSet("atomic-settings", JSON.stringify({
       server,
       darkMode,
       encryption
     }));
   },
+  setAuthorized: authorized => {
+    set({
+      authorized
+    });
+    settings().serialize();
+  },
   setServer: server => {
     set({
       server
     });
-    cache().serialize();
+    settings().serialize();
+  },
+  setServerStatus: serverStatus => {
+    set({
+      serverStatus
+    });
   },
   setDarkMode: darkMode => {
     set({
       darkMode
     });
-    cache().serialize();
+    settings().serialize();
   }
 }));

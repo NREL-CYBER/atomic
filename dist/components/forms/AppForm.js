@@ -77,7 +77,11 @@ const AppForm = props => {
   useEffect(() => {
     if (optionalStatus === "initialize") {
       setTimeout(() => {
-        setOptionalStatus("loading");
+        if (!requiredOnly) {
+          setOptionalStatus("loading");
+        } else {
+          setOptionalStatus("loaded");
+        }
       }, 200);
     }
 
