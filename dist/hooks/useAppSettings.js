@@ -10,7 +10,7 @@ export const useAppSettings = create((set, settings) => ({
   initialized: false,
   authorized: false,
   initialize: async appConfig => {
-    const savedSettings = await get("atomic-settings");
+    const savedSettings = (await get("atomic-settings")) || {};
     const cacheFields = { ...JSON.parse(savedSettings)
     }; // Combine serialized settings and app-config
 
