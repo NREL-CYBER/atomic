@@ -82,7 +82,7 @@ const AppForm = props => {
         } else {
           setOptionalStatus("loaded");
         }
-      }, 1);
+      }, 50);
     }
 
     if (optionalStatus !== "loading") {
@@ -395,6 +395,7 @@ const AppForm = props => {
     });
   }));
 
+  const rendering = ["loading", "initialize"].includes(optionalStatus);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "light",
     title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
@@ -404,14 +405,14 @@ const AppForm = props => {
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
     }, prettyTitle(title || schema.title)))))
-  }, !["show", "loaded"].includes(optionalStatus) ? /*#__PURE__*/React.createElement(AppLoadingCard, {
+  }, rendering ? /*#__PURE__*/React.createElement(AppLoadingCard, {
     message: "...",
     title: "Rendering",
     color: "primary"
   }) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
   }, description ? description : schema.description)), /*#__PURE__*/React.createElement("div", {
-    hidden: optionalStatus !== "loaded"
+    hidden: !rendering
   }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {

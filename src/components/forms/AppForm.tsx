@@ -138,7 +138,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 } else {
                     setOptionalStatus("loaded")
                 }
-            }, 1)
+            }, 50)
         }
         if (optionalStatus !== "loading") {
             return
@@ -395,7 +395,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
 
-
+    const rendering = ["loading", "initialize"].includes(optionalStatus);
 
     return <>
         <AppCard contentColor={"light"} title={<>
@@ -408,13 +408,13 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 </AppButtons>
             </AppToolbar>
         </>}>
-            {!["show", "loaded"].includes(optionalStatus) ? <AppLoadingCard message={"..."} title="Rendering" color="primary" /> : <></>}
+            {rendering ? <AppLoadingCard message={"..."} title="Rendering" color="primary" /> : <></>}
             <AppItem>
                 <AppText color="medium">
                     {description ? description : schema.description}
                 </AppText>
             </AppItem>
-            <div hidden={optionalStatus !== "loaded"}>
+            <div hidden={!rendering}>
                 <AppList color="clear">
                     {useMemo(() => <RequiredFormFields />, [])}
                     {schema.type === "string" && <><AppFormInput
