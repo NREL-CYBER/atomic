@@ -395,7 +395,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
 
-    const rendering = ["loading", "initialize"].includes(optionalStatus);
+    const rendering = optionalStatus === "initialize" || optionalStatus === "loading"
+    console.log(optionalStatus, rendering);
     return <>
         <AppCard contentColor={"light"} title={<>
             <AppToolbar color="clear">
