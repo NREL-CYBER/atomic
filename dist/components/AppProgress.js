@@ -7,12 +7,11 @@ import React from 'react';
 const AppProgress = ({
   color = "primary",
   children,
-  type = "indeterminate",
   value
 }) => /*#__PURE__*/React.createElement(IonProgressBar, {
   color: color,
   children: children,
-  type: type,
+  type: typeof value === "undefined" ? "indeterminate" : "determinate",
   value: value
 });
 

@@ -166,7 +166,6 @@ const AppLogin = ({
   }))), status === "authenticating" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, {
     color: "tertiary"
   }, "Authenticating"), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppProgress, {
-    type: "indeterminate",
     color: "tertiary"
   })));
 };

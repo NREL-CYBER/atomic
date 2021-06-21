@@ -14,7 +14,6 @@ const AppLoadingCard = ({
   titleColor: color,
   subTitle: message
 }, /*#__PURE__*/React.createElement(AppProgress, {
-  type: "indeterminate",
   color: color
 }));
 

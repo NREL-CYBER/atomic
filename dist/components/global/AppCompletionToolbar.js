@@ -14,7 +14,6 @@ import { AppContinueButton } from './AppContinueButton';
 export const AppCompletionProgress = () => {
   const completionValue = useCompletion(x => x.completion);
   return /*#__PURE__*/React.createElement(AppProgress, {
-    type: "determinate",
     color: "favorite",
     value: completionValue()
   });
