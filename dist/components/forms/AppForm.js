@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppProgress, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -404,7 +404,11 @@ const AppForm = props => {
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
     }, prettyTitle(title || schema.title)))))
-  }, optionalStatus !== "loaded" ? /*#__PURE__*/React.createElement(AppProgress, null) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
+  }, !["show", "loaded"].includes(optionalStatus) ? /*#__PURE__*/React.createElement(AppLoadingCard, {
+    message: "...",
+    title: "Rendering",
+    color: "primary"
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
   }, description ? description : schema.description)), /*#__PURE__*/React.createElement("div", {
     hidden: optionalStatus !== "loaded"

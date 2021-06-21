@@ -14,6 +14,7 @@ import { AppContinueButton } from './AppContinueButton';
 export const AppCompletionProgress = () => {
   const completionValue = useCompletion(x => x.completion);
   return /*#__PURE__*/React.createElement(AppProgress, {
+    type: "determinate",
     color: "favorite",
     value: completionValue()
   });
@@ -101,7 +102,7 @@ export const AppBottomBar = ({
     color: darkMode ? "paper" : "tertiary"
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
-  }, /*#__PURE__*/React.createElement(AppSettingsModal, null), bottomBar && bottomBar.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppCompletionProgress, null), /*#__PURE__*/React.createElement(AppButtons, {
+  }, /*#__PURE__*/React.createElement(AppSettingsModal, null), bottomBar && bottomBar.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, bottomBar && bottomBar.end && /*#__PURE__*/React.createElement(bottomBar.end, null), /*#__PURE__*/React.createElement(AppContinueButton, null)));
+  }, bottomBar && bottomBar.end && /*#__PURE__*/React.createElement(bottomBar.end, null), /*#__PURE__*/React.createElement(AppContinueButton, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppCompletionProgress, null));
 };

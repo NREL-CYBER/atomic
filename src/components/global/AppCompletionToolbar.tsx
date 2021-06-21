@@ -15,7 +15,7 @@ import { AppContinueButton } from './AppContinueButton';
 
 export const AppCompletionProgress: React.FC = () => {
     const completionValue = useCompletion(x => x.completion);
-    return < AppProgress color="favorite" value={completionValue()} />
+    return < AppProgress type="determinate" color="favorite" value={completionValue()} />
 }
 export const AppSettingsModal: React.FC = () => {
     const [showSettings, setShowSettings] = useState(false);
@@ -85,11 +85,10 @@ export const AppBottomBar: React.FC<{ completion?: AppCompletionConfig, bottomBa
             <AppSettingsModal />
             {bottomBar && bottomBar.start && <bottomBar.start />}
         </AppButtons>
-        {completion && !completion.disabled && <AppCompletionProgress />}
         <AppButtons slot="end" >
             {bottomBar && bottomBar.end && <bottomBar.end />}
             <AppContinueButton />
         </AppButtons>
-
+        {completion && !completion.disabled && <AppCompletionProgress />}
     </AppToolbar>
 };

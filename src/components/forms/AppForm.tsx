@@ -408,7 +408,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 </AppButtons>
             </AppToolbar>
         </>}>
-            {optionalStatus !== "loaded" ? <AppProgress /> : <></>}
+            {!["show", "loaded"].includes(optionalStatus) ? <AppLoadingCard message={"..."} title="Rendering" color="primary" /> : <></>}
             <AppItem>
                 <AppText color="medium">
                     {description ? description : schema.description}
