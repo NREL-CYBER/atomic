@@ -9,7 +9,7 @@ import {
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
     AppList,
     AppLoadingCard,
-    AppModal, AppProgress, AppText,
+    AppModal, AppSpinner, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -396,7 +396,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     const rendering = ["loading", "initialize"].includes(optionalStatus);
-
     return <>
         <AppCard contentColor={"light"} title={<>
             <AppToolbar color="clear">
@@ -408,7 +407,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 </AppButtons>
             </AppToolbar>
         </>}>
-            {rendering ? <AppLoadingCard message={"..."} title="Rendering" color="primary" /> : <></>}
+            {rendering ? <AppSpinner /> : <></>}
             <AppItem>
                 <AppText color="medium">
                     {description ? description : schema.description}
