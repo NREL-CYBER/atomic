@@ -114,9 +114,9 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                     <AppIcon icon={addOutline} />
                 </AppButton>
             </AppButtons>
-            <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
+            {isInsertingItem && <AppModal isOpen={true} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
-                    {isInsertingItem && <AppForm
+                    <AppForm
                         showFields={showFields}
                         hiddenFields={hiddenFields}
                         lockedFields={lockedFields}
@@ -125,9 +125,9 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                         data={{ ...data }}
                         onSubmit={onSubmitItem} >
                         <AppBackButton onClick={onBackPressed} />
-                    </AppForm>}
+                    </AppForm>
                 </AppContent>
-            </AppModal>
+            </AppModal>}
         </AppToolbar>
         {
             errors && errors.length > 0 && < AppItem >

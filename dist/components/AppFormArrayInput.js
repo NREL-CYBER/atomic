@@ -105,10 +105,10 @@ const AppFormArrayInput = props => {
     color: "primary"
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: addOutline
-  }))), /*#__PURE__*/React.createElement(AppModal, {
-    isOpen: isInsertingItem,
+  }))), isInsertingItem && /*#__PURE__*/React.createElement(AppModal, {
+    isOpen: true,
     onDismiss: () => setIsInsertingItem(false)
-  }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppForm, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppForm, {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
