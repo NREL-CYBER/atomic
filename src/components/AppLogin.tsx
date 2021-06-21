@@ -155,9 +155,9 @@ const AppLogin: React.FC<{
             status === "authenticating" && <>
                 <AppTitle color="tertiary">
                     Authenticating
-            </AppTitle>
+                </AppTitle>
                 <AppItemDivider />
-                <AppProgress type="indeterminate" color="tertiary" />
+                <AppProgress color="tertiary" />
             </>
         }
     </AppCard >

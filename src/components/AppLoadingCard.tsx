@@ -8,7 +8,7 @@ import AppProgress from './AppProgress';
  */
 const AppLoadingCard: React.FC<{ title: string, color: AppColor, message: string }> = ({ color, title, message }) =>
     <AppCard title={title} titleColor={color} subTitle={message}>
-        <AppProgress type="indeterminate" color={color} />
+        <AppProgress color={color} />
     </AppCard>
 
 export default AppLoadingCard;

@@ -15,7 +15,7 @@ import { AppContinueButton } from './AppContinueButton';
 
 export const AppCompletionProgress: React.FC = () => {
     const completionValue = useCompletion(x => x.completion);
-    return < AppProgress type="determinate" color="favorite" value={completionValue()} />
+    return < AppProgress color="favorite" value={completionValue()} />
 }
 export const AppSettingsModal: React.FC = () => {
     const [showSettings, setShowSettings] = useState(false);
