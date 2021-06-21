@@ -27,7 +27,7 @@ export const useAppSettings = create<AppSettingCache>((set, settings) => ({
     initialized: false,
     authorized: false,
     initialize: async (appConfig) => {
-        const savedSettings = await get("atomic-settings")
+        const savedSettings = await get("atomic-settings") || {}
         const cacheFields = {
             ...JSON.parse(savedSettings)
         } as AppSettingsProperties
