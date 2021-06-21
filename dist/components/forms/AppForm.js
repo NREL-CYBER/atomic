@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppSpinner, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -52,11 +52,17 @@ const AppForm = props => {
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
   const [optionalFieldsCache, setOptionalFieldsCache] = useState(null);
-  const [optionalStatus, setOptionalStatus] = useState("initialize");
+  const [optionalStatus, setOptionalStatus] = useState("empty");
 
   const toggleOptionalFields = () => {
     switch (optionalStatus) {
-      case "initialize":
+      case "empty":
+        if (optionalFieldsCache === null) {
+          setOptionalStatus("loading");
+        }
+
+        break;
+
       case "loaded":
         setOptionalStatus("show");
         break;
@@ -75,17 +81,7 @@ const AppForm = props => {
   };
 
   useEffect(() => {
-    if (optionalStatus === "initialize") {
-      setTimeout(() => {
-        if (!requiredOnly) {
-          setOptionalStatus("loading");
-        } else {
-          setOptionalStatus("loaded");
-        }
-      }, 50);
-    }
-
-    if (optionalStatus !== "loading") {
+    if (optionalStatus !== "empty") {
       return;
     }
 
@@ -395,7 +391,6 @@ const AppForm = props => {
     });
   }));
 
-  const rendering = optionalStatus === "initialize" || optionalStatus === "loading";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "light",
     title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
@@ -405,11 +400,9 @@ const AppForm = props => {
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
     }, prettyTitle(title || schema.title)))))
-  }, rendering ? /*#__PURE__*/React.createElement(AppSpinner, null) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
+  }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), /*#__PURE__*/React.createElement("div", {
-    hidden: rendering
-  }, /*#__PURE__*/React.createElement(AppList, {
+  }, description ? description : schema.description)), /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     propertyInfo: schema,
@@ -417,7 +410,7 @@ const AppForm = props => {
     input: "text",
     instanceRef: instance,
     onChange: handleInputReceived
-  })))), /*#__PURE__*/React.createElement(AppList, {
+  }))), /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear"
@@ -425,7 +418,11 @@ const AppForm = props => {
     color: optionalStatus === "hidden" ? "tertiary" : "primary",
     fill: "outline",
     onClick: toggleOptionalFields
-  }, optionalStatus === "hidden" ? "Enter" : "", " Optional info")), /*#__PURE__*/React.createElement("div", {
+  }, optionalStatus === "hidden" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(AppLoadingCard, {
+    color: "clear",
+    title: "Loading Optional Fields",
+    message: "..."
+  }), /*#__PURE__*/React.createElement("div", {
     hidden: optionalStatus !== "show"
   }, /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, {

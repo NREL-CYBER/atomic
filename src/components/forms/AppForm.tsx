@@ -112,10 +112,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element | null>(null)
-    const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "loaded" | "initialize" | "hidden">("initialize");
+    const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "loaded" | "empty" | "hidden">("empty");
     const toggleOptionalFields = () => {
         switch (optionalStatus) {
-            case "initialize":
+            case "empty":
+                if (optionalFieldsCache === null) {
+                    setOptionalStatus("loading");
+                }
+                break;
             case "loaded":
                 setOptionalStatus("show")
                 break;
@@ -131,27 +135,20 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
     }
     useEffect(() => {
-        if (optionalStatus === "initialize") {
-            setTimeout(() => {
-                if (!requiredOnly) {
-                    setOptionalStatus("loading")
-                } else {
-                    setOptionalStatus("loaded")
-                }
-            }, 50)
-        }
-        if (optionalStatus !== "loading") {
+        if (optionalStatus !== "empty") {
             return
         }
-        const optionalFieldsRendered = optionalFields.map((property) => {
-            if (lockedFields && lockedFields.includes(property))
-                return <LockedField key={property} property={property} value={instance.current[property]} />
-            if (hiddenFields && hiddenFields.includes(property))
-                return <Fragment key={property}></Fragment>
-            return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-        })
-        setOptionalFieldsCache(<>{optionalFieldsRendered}</>);
-        setOptionalStatus("loaded");
+        setTimeout(() => {
+            const optionalFieldsRendered = optionalFields.map((property) => {
+                if (lockedFields && lockedFields.includes(property))
+                    return <LockedField key={property} property={property} value={instance.current[property]} />
+                if (hiddenFields && hiddenFields.includes(property))
+                    return <Fragment key={property}></Fragment>
+                return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+            })
+            setOptionalFieldsCache(<>{optionalFieldsRendered}</>);
+            setOptionalStatus("loaded");
+        }, 20)
     }, [optionalStatus]);
 
 
@@ -395,7 +392,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
 
-    const rendering = optionalStatus === "initialize" || optionalStatus === "loading"
     return <>
         <AppCard contentColor={"light"} title={<>
             <AppToolbar color="clear">
@@ -407,24 +403,21 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 </AppButtons>
             </AppToolbar>
         </>}>
-            {rendering ? <AppSpinner /> : <></>}
             <AppItem>
                 <AppText color="medium">
                     {description ? description : schema.description}
                 </AppText>
             </AppItem>
-            <div hidden={rendering}>
-                <AppList color="clear">
-                    {useMemo(() => <RequiredFormFields />, [])}
-                    {schema.type === "string" && <><AppFormInput
-                        propertyInfo={schema as PropertyDefinitionRef}
-                        property={schema.title || ""}
-                        input={"text"}
-                        instanceRef={instance}
-                        onChange={handleInputReceived}
-                    /></>}
-                </AppList>
-            </div>
+            <AppList color="clear">
+                {useMemo(() => <RequiredFormFields />, [])}
+                {schema.type === "string" && <><AppFormInput
+                    propertyInfo={schema as PropertyDefinitionRef}
+                    property={schema.title || ""}
+                    input={"text"}
+                    instanceRef={instance}
+                    onChange={handleInputReceived}
+                /></>}
+            </AppList>
 
             {<AppList color={"clear"}>
                 <AppItem color="clear">
@@ -432,6 +425,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {optionalStatus === "hidden" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
+                {optionalStatus === "loading" && <AppLoadingCard color="clear" title="Loading Optional Fields" message="..." />}
                 {<div hidden={optionalStatus !== "show"}><Suspense fallback={<AppLoadingCard title="Rendering" color="primary" message="" />}>{optionalFieldsCache}</Suspense></div>}
             </AppList>}
 
