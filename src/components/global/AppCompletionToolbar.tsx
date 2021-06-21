@@ -3,7 +3,7 @@ import { settingsOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { AppButtons, AppChip, AppInput, AppModal, AppToggle, AppToolbar } from '..';
 import { useAppLayout } from '../../hooks';
-import { ServerStatus, useAppSettings } from '../../hooks/useAppSettings';
+import { useAppSettings } from '../../hooks/useAppSettings';
 import useCompletion from '../../hooks/useCompletion';
 import { AppBottomBarConfig, AppCompletionConfig } from '../../util/AppConfig';
 import AppButton from '../AppButton';

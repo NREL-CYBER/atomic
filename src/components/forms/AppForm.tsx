@@ -133,7 +133,11 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     useEffect(() => {
         if (optionalStatus === "initialize") {
             setTimeout(() => {
-                setOptionalStatus("loading")
+                if (!requiredOnly) {
+                    setOptionalStatus("loading")
+                } else {
+                    setOptionalStatus("loaded")
+                }
             }, 200)
         }
         if (optionalStatus !== "loading") {
