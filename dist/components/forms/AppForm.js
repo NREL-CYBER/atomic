@@ -85,25 +85,27 @@ const AppForm = props => {
       return;
     }
 
-    const optionalFieldsRendered = optionalFields.map(property => {
-      if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-        key: property,
-        property: property,
-        value: instance.current[property]
+    setTimeout(() => {
+      const optionalFieldsRendered = optionalFields.map(property => {
+        if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+          key: property,
+          property: property,
+          value: instance.current[property]
+        });
+        if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+          key: property
+        });
+        return /*#__PURE__*/React.createElement(FormElement, {
+          key: property,
+          onChange: handleInputReceived,
+          validator: validator,
+          instanceRef: instance,
+          property: property
+        });
       });
-      if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-        key: property
-      });
-      return /*#__PURE__*/React.createElement(FormElement, {
-        key: property,
-        onChange: handleInputReceived,
-        validator: validator,
-        instanceRef: instance,
-        property: property
-      });
-    });
-    setOptionalFieldsCache( /*#__PURE__*/React.createElement(React.Fragment, null, optionalFieldsRendered));
-    setOptionalStatus("loaded");
+      setOptionalFieldsCache( /*#__PURE__*/React.createElement(React.Fragment, null, optionalFieldsRendered));
+      setOptionalStatus("loaded");
+    }, 20);
   }, [optionalStatus]);
   const handleInputReceived = useCallback((property, value) => {
     if (schema.type === "string" || schema.type === "array") {
