@@ -396,7 +396,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     const rendering = optionalStatus === "initialize" || optionalStatus === "loading"
-    console.log(optionalStatus, rendering);
     return <>
         <AppCard contentColor={"light"} title={<>
             <AppToolbar color="clear">
@@ -414,7 +413,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     {description ? description : schema.description}
                 </AppText>
             </AppItem>
-            <div hidden={!rendering}>
+            <div hidden={rendering}>
                 <AppList color="clear">
                     {useMemo(() => <RequiredFormFields />, [])}
                     {schema.type === "string" && <><AppFormInput

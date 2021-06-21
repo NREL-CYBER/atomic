@@ -409,7 +409,7 @@ const AppForm = props => {
   }, rendering ? /*#__PURE__*/React.createElement(AppSpinner, null) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
   }, description ? description : schema.description)), /*#__PURE__*/React.createElement("div", {
-    hidden: !rendering
+    hidden: rendering
   }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
