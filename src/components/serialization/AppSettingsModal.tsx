@@ -1,7 +1,7 @@
 import { useAppLayout } from "atomic";
 import axios from "axios";
 import { settingsOutline } from "ionicons/icons";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppInput, AppItem, AppModal, AppTitle, AppToggle } from "..";
 import { useAppSettings } from "../../hooks/useAppSettings";
 
