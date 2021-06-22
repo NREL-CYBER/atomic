@@ -418,7 +418,7 @@ const AppForm = props => {
     color: optionalStatus === "hidden" ? "tertiary" : "primary",
     fill: "outline",
     onClick: toggleOptionalFields
-  }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(AppSkeletonText, null), /*#__PURE__*/React.createElement("div", {
+  }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(AppCard, null, /*#__PURE__*/React.createElement(AppSkeletonText, null)), /*#__PURE__*/React.createElement("div", {
     hidden: optionalStatus !== "show"
   }, optionalFieldsCache)), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"

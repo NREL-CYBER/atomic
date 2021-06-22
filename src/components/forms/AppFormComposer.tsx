@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Validator from "validator";
-import { AppSkeletonText } from "..";
+import { AppCard, AppSkeletonText } from "..";
 import AppForm, { formComposerProps } from "./AppForm";
 import useappFormDefinitionValidatorCache from "./useAppFormDefinitionCache";
 
@@ -44,7 +44,7 @@ const AppFormComposer: React.FC<formComposerProps> = ({ lazyLoadValidator, defin
     }, [definition, lazyLoadDefinitionValidator, lazyLoadValidator, validator]);
 
     if (typeof validator === "undefined" || typeof validator.schema === "undefined") {
-        return <AppSkeletonText />
+        return <AppCard><AppSkeletonText /></AppCard>
     } else {
         return <AppForm validator={validator} {...props} />
     }

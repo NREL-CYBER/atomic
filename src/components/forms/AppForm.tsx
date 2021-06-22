@@ -421,7 +421,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {optionalStatus === "loading" && <AppSkeletonText />}
+                {optionalStatus === "loading" && <AppCard><AppSkeletonText /></AppCard>}
                 {<div hidden={optionalStatus !== "show"}>{optionalFieldsCache}</div>}
             </AppList>}
 
