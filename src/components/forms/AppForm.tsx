@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
@@ -7,9 +7,7 @@ import {
     AppContent,
 
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
-    AppList,
-    AppLoadingCard,
-    AppModal, AppText,
+    AppList, AppModal, AppSkeletonText, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -423,8 +421,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {optionalStatus === "loading" && <AppLoadingCard color="clear" title="Loading Optional Fields" message="..." />}
-                {<div hidden={optionalStatus !== "show"}><Suspense fallback={<AppLoadingCard title="Rendering" color="primary" message="" />}>{optionalFieldsCache}</Suspense></div>}
+                {optionalStatus === "loading" && <AppSkeletonText />}
+                {<div hidden={optionalStatus !== "show"}>{optionalFieldsCache}</div>}
             </AppList>}
 
             <AppToolbar color="clear">
