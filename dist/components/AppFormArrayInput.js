@@ -12,7 +12,7 @@ export const findShortestValue = val => {
   const standard_values = ["name", "title"];
   Object.keys(val).forEach(key => {
     standard_values.forEach(visible_key => {
-      if (key.includes(visible_key)) return val[key];
+      if (key === visible_key) return val[key];
     });
   });
   return String(Object.values(val).sort((a, b) => String(a).length - String(b).length).filter(x => x.length > 2)[0]);
@@ -94,7 +94,7 @@ const AppFormArrayInput = props => {
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
       onClick: () => removeAndbeginInsert(val)
-    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && typeof val["title"] !== "undefined" ? val["title"] : findShortestValue(val)));
+    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val)));
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {

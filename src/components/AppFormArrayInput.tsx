@@ -32,7 +32,7 @@ export const findShortestValue = (val: any) => {
 
     Object.keys(val).forEach((key) => {
         standard_values.forEach((visible_key) => {
-            if (key.includes(visible_key))
+            if (key === visible_key)
                 return val[key];
         })
     });
@@ -103,7 +103,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                     return <AppChip key={i} onClick={() => removeAndbeginInsert(val)}>
                         {customTitleFunction ? customTitleFunction(val) : <>
                             {typeof val === "string" && val}
-                            {typeof val === "object" && typeof val["title"] !== "undefined" ? val["title"] : findShortestValue(val)}
+                            {typeof val === "object" && findShortestValue(val)}
                         </>}
 
                     </AppChip>

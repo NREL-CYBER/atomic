@@ -7,7 +7,7 @@ import {
     AppContent,
 
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
-    AppList, AppModal, AppProgress, AppSkeletonText, AppText,
+    AppList, AppModal, AppProgress, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
