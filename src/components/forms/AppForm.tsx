@@ -7,7 +7,7 @@ import {
     AppContent,
 
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
-    AppList, AppModal, AppSkeletonText, AppText,
+    AppList, AppModal, AppProgress, AppSkeletonText, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -427,7 +427,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                             Loading...
                         </AppTitle>
                     </AppItem>
-                    <AppSkeletonText />
+                    <AppProgress color="medium" />
                 </AppCard>}
                 {<div hidden={optionalStatus !== "show"}>{optionalFieldsCache}</div>}
             </AppList>}
