@@ -82,7 +82,6 @@
     "required": [
         "more_info",
         "post_office_address",
-        "region",
         "street_view",
         "country_name"
     ]

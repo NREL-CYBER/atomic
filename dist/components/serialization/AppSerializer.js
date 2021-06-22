@@ -1,14 +1,20 @@
-import useCache from "../../hooks/useCache";
 import React, { memo, useEffect, useState } from "react";
 import useAppLayout from "../../hooks/useAppLayout";
+import useCache from "../../hooks/useCache";
+export const InitializeSynchronization = (cache, serialization, uid, synchronize, onComplete) => {
+  Object.entries(cache).forEach(([namespace, collections]) => {
+    Object.values(collections).forEach(storeAPI => {
+      synchronize(serialization, namespace, storeAPI.getState, uid, onComplete);
+    });
+  });
+};
 
 const AppLocalSerializer = ({
   cache,
-  serialization,
   context,
-  uid
+  serialization,
+  uid = ""
 }) => {
-  //TODO implement encryption
   const {
     synchronize
   } = context();
@@ -32,12 +38,8 @@ const AppLocalSerializer = ({
       return;
     }
 
-    Object.entries(cache).forEach(([namespace, collections]) => {
-      Object.values(collections).forEach(storeAPI => {
-        synchronize(serialization, namespace, storeAPI.getState, uid || "secret", () => {
-          setRemaining(x => x - 1);
-        });
-      });
+    InitializeSynchronization(cache, serialization, uid, synchronize, () => {
+      setRemaining(x => x - 1);
     });
   }, [cache, serialization, status, synchronize, uid]);
   return /*#__PURE__*/React.createElement(React.Fragment, null);

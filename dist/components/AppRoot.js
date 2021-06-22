@@ -19,7 +19,7 @@ import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
 import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
-import { AppContent } from '.';
+import { AppContent, AppSerializer } from '.';
 import { useAppLayout } from '../hooks';
 import useAppAccount from '../hooks/useAppAccount';
 import { useAppSettings } from '../hooks/useAppSettings';
@@ -39,7 +39,6 @@ import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
-import AppSerializer from './serialization/AppSerializer';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -87,6 +86,16 @@ const AppRoot = config => {
   const restSerializationAndNotLoggedIn = serialization && serialization.rest && serialization.rest && !uid;
   const localSerializationWithEncryptionAndNotLoggedIn = !uid && serialization && serialization.encryption === "AES256";
   const needs_authentication = restSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
+  const {
+    endpoint,
+    serverStatus
+  } = useAppSettings();
+  const customizedSerialization = typeof endpoint !== "undefined" && { ...serialization,
+    mode: "rest",
+    rest: {
+      endpoint
+    }
+  };
 
   if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
     return /*#__PURE__*/React.createElement(IonApp, {
@@ -113,10 +122,15 @@ const AppRoot = config => {
 
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
-  }, serialization && /*#__PURE__*/React.createElement(AppSerializer, {
+  }, serverStatus !== "connected" && /*#__PURE__*/React.createElement(AppSerializer, {
+    context: useIndexDBStorage,
     uid: uid,
-    context: serialization.mode === "rest" ? useRestSerializeation : useIndexDBStorage,
     serialization: serialization,
+    cache: cache
+  }), customizedSerialization && /*#__PURE__*/React.createElement(AppSerializer, {
+    context: useRestSerializeation,
+    uid: uid,
+    serialization: customizedSerialization,
     cache: cache
   }), status === "synchronizing" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null), /*#__PURE__*/React.createElement(AppPage, {
     fullscreen: true

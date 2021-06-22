@@ -5,14 +5,14 @@ export type ServerStatus = "unknown" | "connected" | "needs-permission" | "conne
 export interface AppSettingsProperties {
     encryption?: string,
     darkMode: boolean,
-    server?: string,
+    endpoint?: string,
     initialized: boolean,
     authorized: boolean,
     serverStatus: ServerStatus
 }
 export interface AppSettingCache extends AppSettingsProperties {
     setServerStatus: (serverStatus: ServerStatus) => void
-    setServer: (server: string) => void
+    setEndpoint: (endpoint: string) => void
     initialize: (config: AppConfig) => void
     setDarkMode: (isDark: boolean) => void
     setAuthorized: (authorized: boolean) => void
@@ -32,20 +32,20 @@ export const useAppSettings = create<AppSettingCache>((set, settings) => ({
             ...JSON.parse(savedSettings)
         } as AppSettingsProperties
         // Combine serialized settings and app-config
-        const { encryption, darkMode, server } = { ...appConfig, ...cacheFields };
-        set({ encryption, darkMode, server, initialized: true })
+        const { encryption, darkMode, endpoint, authorized } = { ...appConfig, endpoint: appConfig.serialization.rest?.endpoint, ...cacheFields };
+        set({ encryption, darkMode, authorized, endpoint, initialized: true })
         settings().serialize();
     },
     serialize: () => {
-        const { server, darkMode, encryption } = settings()
-        idbSet("atomic-settings", JSON.stringify(({ server, darkMode, encryption })))
+        const { endpoint, darkMode, encryption, authorized } = settings()
+        idbSet("atomic-settings", JSON.stringify(({ endpoint, darkMode, encryption, authorized })))
     },
     setAuthorized: (authorized) => {
         set({ authorized })
         settings().serialize();
     },
-    setServer: (server) => {
-        set({ server })
+    setEndpoint: (endpoint) => {
+        set({ endpoint })
         settings().serialize();
     },
     setServerStatus: (serverStatus) => {

@@ -1,7 +1,8 @@
-import useCache from "../../hooks/useCache";
 import React, { FC, memo, useEffect, useState } from "react";
+import { Store } from "store";
 import { UseStore } from "zustand";
 import useAppLayout from "../../hooks/useAppLayout";
+import useCache from "../../hooks/useCache";
 import { SynchronizationContext } from "../../hooks/useLocalSerialization";
 import { AppCacheIndex } from "../../state/AppCacheIndex";
 import { AppSerializationConfig } from "../../util/AppConfig";
@@ -11,11 +12,23 @@ export interface appLocalSerializerProps {
     serialization: AppSerializationConfig
     context: UseStore<SynchronizationContext>
     uid?: string
+    endpoint?: string
 }
 
-const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization, context, uid }) => {
+export const InitializeSynchronization = (cache: AppCacheIndex,
+    serialization: AppSerializationConfig,
+    uid: string,
+    synchronize: <T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: (() => void) | undefined) => void, onComplete: () => void) => {
+    Object.entries(cache).forEach(([namespace, collections]) => {
+        Object.values(collections).forEach((storeAPI) => {
+            synchronize(serialization, namespace, storeAPI.getState, uid, onComplete);
+        })
+    })
+}
 
-    //TODO implement encryption
+
+const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, context, serialization, uid = "" }) => {
+
     const { synchronize } = context();
     const { status, setStatus } = useAppLayout();
     const { ready } = useCache();
@@ -34,12 +47,8 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, serialization,
         if (status !== "synchronizing") {
             return;
         }
-        Object.entries(cache).forEach(([namespace, collections]) => {
-            Object.values(collections).forEach((storeAPI) => {
-                synchronize(serialization, namespace, storeAPI.getState, uid || "secret", () => {
-                    setRemaining(x => x - 1);
-                });
-            })
+        InitializeSynchronization(cache, serialization, uid, synchronize, () => {
+            setRemaining(x => x - 1);
         })
     }, [cache, serialization, status, synchronize, uid])
     return <></>

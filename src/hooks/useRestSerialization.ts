@@ -43,15 +43,16 @@ const rpcWithData = (endpoint: string, collection: string, method: "put" | "post
  * Observe an Entity collection in rest storage
  */
 export const useRestSerializeation = create<SynchronizationContext>((_, restStorage) => ({
-    async synchronize<T>(serializaion: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete: () => void) {
+    provider: "rest",
+    async synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete: () => void) {
         const uid_prefix = uid.length > 0 ? uid + "_" : ""
         const collection_key = uid_prefix + namespace + "_" + store().collection;
         const collection_workspace_key = uid_prefix + collection_key + "_workspace";
         const collection_active_key = uid_prefix + collection_key + "_active";
-        if (typeof serializaion.rest === "undefined") {
+        if (typeof serialization.rest === "undefined") {
             throw new Error("Please Set Rest Endpoint")
         }
-        const endpoint = serializaion.rest.endpoint;
+        const endpoint = serialization.rest.endpoint;
         const insert = (collection: string, key: string, value: string) => rpcWithData(endpoint, collection, "put", value, key)
         const remove = (collection: string, key: string) => rpc(endpoint, collection, "delete", key)
         const entries = () => rpc(endpoint, collection_key, "get")

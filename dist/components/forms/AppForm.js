@@ -55,16 +55,14 @@ const AppForm = props => {
   const [optionalStatus, setOptionalStatus] = useState("empty");
 
   const toggleOptionalFields = () => {
+    console.log("toggle");
+
     switch (optionalStatus) {
       case "empty":
         if (optionalFieldsCache === null) {
           setOptionalStatus("loading");
         }
 
-        break;
-
-      case "loaded":
-        setOptionalStatus("show");
         break;
 
       case "hidden":
@@ -104,7 +102,7 @@ const AppForm = props => {
         });
       });
       setOptionalFieldsCache( /*#__PURE__*/React.createElement(React.Fragment, null, optionalFieldsRendered));
-      setOptionalStatus("loaded");
+      setOptionalStatus("show");
     }, 20);
   }, [optionalStatus]);
   const handleInputReceived = useCallback((property, value) => {

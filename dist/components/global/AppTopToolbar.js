@@ -39,15 +39,17 @@ const AppTopToolbar = ({
   const {
     setUid
   } = useAppAccount();
+  const titleColor = darkMode ? "tertiary" : "secondary";
+  const bgColor = darkMode ? "paper" : "tertiary";
   return /*#__PURE__*/React.createElement(AppToolbar, {
-    color: darkMode ? "paper" : "tertiary"
+    color: bgColor
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppMenuButton, null), /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
     routerLink: "/"
   }, /*#__PURE__*/React.createElement(AppTitle, {
-    color: isHome ? "tertiary" : undefined
+    color: isHome ? titleColor : undefined
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: homeOutline
   }), " ")), !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(AppButton, {
@@ -66,7 +68,8 @@ const AppTopToolbar = ({
     isOpen: showAbout
   }, /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "light",
-    headerColor: "tertiary",
+    headerColor: bgColor,
+    titleColor: titleColor,
     title: appTitle + " " + version
   }, /*#__PURE__*/React.createElement(AppItemDivider, {
     color: "clear"
@@ -79,15 +82,14 @@ const AppTopToolbar = ({
       setShowAbout(false);
     }
   }, "OK ")), /*#__PURE__*/React.createElement(AppButton, {
-    color: "tertiary",
     fill: "clear",
     onClick: () => {
       setShowAbout(x => !x);
     }
   }, /*#__PURE__*/React.createElement(AppTitle, {
-    color: "tertiary"
+    color: titleColor
   }, appTitle, /*#__PURE__*/React.createElement(AppChip, {
-    color: "tertiary"
+    color: titleColor
   }, version))), /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       window.close();

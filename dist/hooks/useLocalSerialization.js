@@ -5,6 +5,8 @@ import create from "zustand";
  * Serialize cache to indexDB any time it changes via store listener
  * */
 const useIndexDBStorage = create(() => ({
+  provider: "index-db",
+
   async synchronize(serialization, namespace, store, uid = "", onComplete) {
     const uid_prefix = uid === "" ? uid + "-" : "";
     const collection_key = uid_prefix + namespace + "-" + store().collection;

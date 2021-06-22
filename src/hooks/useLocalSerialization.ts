@@ -6,6 +6,7 @@ import { AppSerializationConfig } from '../util/AppConfig';
 
 
 export type SynchronizationContext = {
+    provider: string,
     synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: () => void): void;
 }
 
@@ -14,6 +15,7 @@ export type SynchronizationContext = {
  * Serialize cache to indexDB any time it changes via store listener
  * */
 const useIndexDBStorage = create<SynchronizationContext>(() => ({
+    provider: "index-db",
     async synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string = "", onComplete?: () => void) {
         const uid_prefix = uid === "" ? uid + "-" : ""
 

@@ -6,7 +6,7 @@ export interface AppRestConfig {
     endpoint: string,
 }
 export type serializationMode = "rest" | "local";
-export type encryptionMode = "plaintext" | "AES256";
+export type encryptionMode = "plaintext" | "AES256" | "RSA";
 export type authProvider = "email";
 
 export interface AppSerializationConfig {

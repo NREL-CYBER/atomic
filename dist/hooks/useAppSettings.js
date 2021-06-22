@@ -17,28 +17,33 @@ export const useAppSettings = create((set, settings) => ({
     const {
       encryption,
       darkMode,
-      server
+      endpoint,
+      authorized
     } = { ...appConfig,
+      endpoint: appConfig.serialization.rest?.endpoint,
       ...cacheFields
     };
     set({
       encryption,
       darkMode,
-      server,
+      authorized,
+      endpoint,
       initialized: true
     });
     settings().serialize();
   },
   serialize: () => {
     const {
-      server,
+      endpoint,
       darkMode,
-      encryption
+      encryption,
+      authorized
     } = settings();
     idbSet("atomic-settings", JSON.stringify({
-      server,
+      endpoint,
       darkMode,
-      encryption
+      encryption,
+      authorized
     }));
   },
   setAuthorized: authorized => {
@@ -47,9 +52,9 @@ export const useAppSettings = create((set, settings) => ({
     });
     settings().serialize();
   },
-  setServer: server => {
+  setEndpoint: endpoint => {
     set({
-      server
+      endpoint
     });
     settings().serialize();
   },

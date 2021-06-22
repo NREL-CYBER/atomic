@@ -43,17 +43,19 @@ const rpcWithData = (endpoint, collection, method, data, key) => {
 
 
 export const useRestSerializeation = create((_, restStorage) => ({
-  async synchronize(serializaion, namespace, store, uid, onComplete) {
+  provider: "rest",
+
+  async synchronize(serialization, namespace, store, uid, onComplete) {
     const uid_prefix = uid.length > 0 ? uid + "_" : "";
     const collection_key = uid_prefix + namespace + "_" + store().collection;
     const collection_workspace_key = uid_prefix + collection_key + "_workspace";
     const collection_active_key = uid_prefix + collection_key + "_active";
 
-    if (typeof serializaion.rest === "undefined") {
+    if (typeof serialization.rest === "undefined") {
       throw new Error("Please Set Rest Endpoint");
     }
 
-    const endpoint = serializaion.rest.endpoint;
+    const endpoint = serialization.rest.endpoint;
 
     const insert = (collection, key, value) => rpcWithData(endpoint, collection, "put", value, key);
 

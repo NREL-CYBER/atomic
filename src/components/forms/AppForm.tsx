@@ -112,16 +112,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element | null>(null)
-    const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "loaded" | "empty" | "hidden">("empty");
+    const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "empty" | "hidden">("empty");
     const toggleOptionalFields = () => {
+        console.log("toggle");
         switch (optionalStatus) {
             case "empty":
                 if (optionalFieldsCache === null) {
                     setOptionalStatus("loading");
                 }
-                break;
-            case "loaded":
-                setOptionalStatus("show")
                 break;
             case "hidden":
                 setOptionalStatus("show")
@@ -147,7 +145,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
             })
             setOptionalFieldsCache(<>{optionalFieldsRendered}</>);
-            setOptionalStatus("loaded");
+            setOptionalStatus("show");
         }, 20)
     }, [optionalStatus]);
 

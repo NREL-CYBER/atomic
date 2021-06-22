@@ -28,12 +28,13 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
     }, [pathname, update, paths])
     const [showAbout, setShowAbout] = useState(false)
     const { setUid } = useAppAccount();
-
-    return (<AppToolbar color={darkMode ? "paper" : "tertiary"}>
+    const titleColor = darkMode ? "tertiary" : "secondary";
+    const bgColor = darkMode ? "paper" : "tertiary";
+    return (<AppToolbar color={bgColor}>
         <AppButtons slot='start'>
             <AppMenuButton />
             <AppButton expand='full' routerLink={"/"}>
-                <AppTitle color={isHome ? "tertiary" : undefined}><AppIcon icon={homeOutline} /> </AppTitle>
+                <AppTitle color={isHome ? titleColor : undefined}><AppIcon icon={homeOutline} /> </AppTitle>
             </AppButton>
             {!isHome && breadcrumbs.map(breadCrumb => <AppButton key={breadCrumb.path} color={breadCrumb.path === pathname ? "tertiary" : undefined} fill={breadCrumb.path === pathname ? "solid" : "clear"} routerLink={breadCrumb.path}>
                 <AppTitle>{breadCrumb.title} </AppTitle>  <AppIcon icon={breadCrumb.icon} />
@@ -42,7 +43,7 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
         </AppButtons>
         <AppButtons slot='end'>
             <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
-                <AppCard contentColor="light" headerColor="tertiary" title={appTitle + " " + version}>
+                <AppCard contentColor="light" headerColor={bgColor} titleColor={titleColor} title={appTitle + " " + version}>
                     <AppItemDivider color="clear" />
                     {about}
                     <AppItemDivider color="clear" />
@@ -50,10 +51,10 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
                 <AppButton expand={"full"} fill={"solid"} onClick={() => { setShowAbout(false) }} >OK </AppButton>
             </AppModal >
 
-            <AppButton color="tertiary" fill="clear" onClick={() => { setShowAbout(x => !x) }}>
-                <AppTitle color="tertiary">
+            <AppButton fill="clear" onClick={() => { setShowAbout(x => !x) }}>
+                <AppTitle color={titleColor}>
                     {appTitle}
-                    <AppChip color="tertiary">
+                    <AppChip color={titleColor}>
                         {version}
                     </AppChip>
                 </AppTitle>

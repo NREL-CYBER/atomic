@@ -29,7 +29,7 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
         inputRef?.current?.setFocus()
         return <IonList>
             {unique(value ? [value, ...values] : values).map((option) =>
-                <IonItem onClick={() => {
+                <IonItem key={option} onClick={() => {
                     dismiss();
                     setTimeout(() => {
                         onInputChange(option)

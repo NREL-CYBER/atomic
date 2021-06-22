@@ -12,9 +12,10 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
+import { AppSerializationConfig } from 'atomic/dist/util/AppConfig';
 import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
-import { AppContent } from '.';
+import { AppContent, AppSerializer } from '.';
 import { useAppLayout } from '../hooks';
 import useAppAccount from '../hooks/useAppAccount';
 import { useAppSettings } from '../hooks/useAppSettings';
@@ -35,7 +36,6 @@ import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
 import AppGuidance from './guidance/AppGuidance';
-import AppSerializer from './serialization/AppSerializer';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -74,10 +74,17 @@ const AppRoot: React.FC<AppConfig> = (config) => {
 
     const restSerializationAndNotLoggedIn = (serialization && serialization.rest &&
         serialization.rest && !uid);
-
     const localSerializationWithEncryptionAndNotLoggedIn = (!uid && serialization && serialization.encryption === "AES256");
 
     const needs_authentication = restSerializationAndNotLoggedIn || localSerializationWithEncryptionAndNotLoggedIn;
+
+
+    const { endpoint, serverStatus } = useAppSettings();
+    const customizedSerialization: AppSerializationConfig | false = typeof endpoint !== "undefined" && {
+        ...serialization,
+        mode: "rest",
+        rest: { endpoint }
+    }
 
     if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
@@ -89,27 +96,32 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                         {version}
                     </AppChip>
                 </AppTitle>
-                <AppLogin serialization={config.serialization} authenticate={(username: string, password: string, operation, onAuthenticate) => {
-                    return new Promise<string>((resolve) => {
-                        onAuthenticate("");
-                        resolve("")
-                    });
-                }} onLoginSuccess={(uidCredential) => {
-                    setUid(uidCredential);
-                }} />
+                <AppLogin serialization={config.serialization}
+                    authenticate={(username, password, operation, onAuthenticate) => {
+                        return new Promise<string>((resolve) => {
+                            onAuthenticate("");
+                            resolve("")
+                        });
+                    }} onLoginSuccess={(uidCredential) => {
+                        setUid(uidCredential);
+                    }} />
             </AppContent>
         </IonApp>
     }
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
-        {/* Local Serializer*/}
-        {serialization &&
+        {serverStatus !== "connected" &&
             < AppSerializer
+                context={useIndexDBStorage}
                 uid={uid}
-                context={serialization.mode === "rest" ?
-                    useRestSerializeation :
-                    useIndexDBStorage}
                 serialization={serialization}
                 cache={cache} />}
+
+        {customizedSerialization && < AppSerializer
+            context={useRestSerializeation}
+            uid={uid}
+            serialization={customizedSerialization}
+            cache={cache} />}
+
         {status === "synchronizing" && <>
             <AppToolbar />
             <AppPage fullscreen>
