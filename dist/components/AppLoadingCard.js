@@ -6,9 +6,9 @@ import AppProgress from './AppProgress';
  */
 
 const AppLoadingCard = ({
-  color,
-  title,
-  message
+  color = "primary",
+  title = "Loading",
+  message = ""
 }) => /*#__PURE__*/React.createElement(AppCard, {
   title: title,
   titleColor: color,
