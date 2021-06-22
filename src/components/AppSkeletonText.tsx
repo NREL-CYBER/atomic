@@ -1,3 +1,4 @@
+import React from "react"
 import { IonSkeletonText } from "@ionic/react"
 
 interface skeletonTextProps {

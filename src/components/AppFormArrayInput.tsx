@@ -103,7 +103,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                     return <AppChip key={i} onClick={() => removeAndbeginInsert(val)}>
                         {customTitleFunction ? customTitleFunction(val) : <>
                             {typeof val === "string" && val}
-                            {typeof val === "object" && findShortestValue(val)}
+                            {typeof val === "object" && typeof val["title"] !== "undefined" ? val["title"] : findShortestValue(val)}
                         </>}
 
                     </AppChip>

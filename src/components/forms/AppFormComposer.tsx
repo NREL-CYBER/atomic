@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Validator from "validator";
-import { AppLoadingCard, AppSkeletonText } from "..";
+import { AppSkeletonText } from "..";
 import AppForm, { formComposerProps } from "./AppForm";
 import useappFormDefinitionValidatorCache from "./useAppFormDefinitionCache";
 

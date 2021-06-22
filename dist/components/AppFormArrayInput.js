@@ -94,7 +94,7 @@ const AppFormArrayInput = props => {
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
       onClick: () => removeAndbeginInsert(val)
-    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val)));
+    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && typeof val["title"] !== "undefined" ? val["title"] : findShortestValue(val)));
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {

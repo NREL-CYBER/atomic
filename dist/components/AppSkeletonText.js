@@ -1,3 +1,4 @@
+import React from "react";
 import { IonSkeletonText } from "@ionic/react";
 export const AppSkeletonText = ({
   animated = true
