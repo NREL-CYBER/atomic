@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Fragment, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import React, { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppSkeletonText, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -418,19 +418,9 @@ const AppForm = props => {
     color: optionalStatus === "hidden" ? "tertiary" : "primary",
     fill: "outline",
     onClick: toggleOptionalFields
-  }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(AppLoadingCard, {
-    color: "clear",
-    title: "Loading Optional Fields",
-    message: "..."
-  }), /*#__PURE__*/React.createElement("div", {
+  }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(AppSkeletonText, null), /*#__PURE__*/React.createElement("div", {
     hidden: optionalStatus !== "show"
-  }, /*#__PURE__*/React.createElement(Suspense, {
-    fallback: /*#__PURE__*/React.createElement(AppLoadingCard, {
-      title: "Rendering",
-      color: "primary",
-      message: ""
-    })
-  }, optionalFieldsCache))), /*#__PURE__*/React.createElement(AppToolbar, {
+  }, optionalFieldsCache)), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",

@@ -1,7 +1,7 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 import React, { useEffect, useState } from "react";
-import { AppLoadingCard } from "..";
+import { AppSkeletonText } from "..";
 import AppForm from "./AppForm";
 import useappFormDefinitionValidatorCache from "./useAppFormDefinitionCache";
 /**
@@ -50,12 +50,7 @@ const AppFormComposer = ({
   }, [definition, lazyLoadDefinitionValidator, lazyLoadValidator, validator]);
 
   if (typeof validator === "undefined" || typeof validator.schema === "undefined") {
-    const title = typeof props.title === "string" ? props.title : "Validator";
-    return /*#__PURE__*/React.createElement(AppLoadingCard, {
-      title: "Loading " + title,
-      message: "",
-      color: "favorite"
-    });
+    return /*#__PURE__*/React.createElement(AppSkeletonText, null);
   } else {
     return /*#__PURE__*/React.createElement(AppForm, _extends({
       validator: validator
