@@ -5,7 +5,10 @@ import React, { FC, ReactFragment, useState } from "react";
 import { AppColor } from "../theme";
 
 
-
+/**
+ * A simple folding node for show-hide content & composing tree views naturally
+ * TODO: We should make these sizes based off column setting & add that to app config
+ * */
 const AppFoldingNode: FC<{
     color?: AppColor, folded?: boolean, titleText?: boolean,
     title: ReactFragment, centerContent?: ReactFragment,
@@ -20,7 +23,7 @@ const AppFoldingNode: FC<{
             setFolded(x => !x);
         }}>
             <AppButtons slot="start">
-                {!hideIcon && <AppIcon color={color} icon={!isFolded ? chevronDownOutline : chevronForwardOutline} />}
+                {!hideIcon && <AppIcon color={color} icon={isFolded ? chevronDownOutline : chevronForwardOutline} />}
                 {titleText ? <AppTitle color={color}> {title}
                 </AppTitle> : title}
             </AppButtons>

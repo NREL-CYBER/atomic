@@ -3,6 +3,10 @@ import { AppButtons, AppCol, AppGrid, AppIcon, AppItem, AppRow, AppTitle } from 
 import { chevronDownOutline, chevronForwardOutline } from "ionicons/icons";
 import React, { useState } from "react";
 
+/**
+ * A simple folding node for show-hide content & composing tree views naturally
+ * TODO: We should make these sizes based off column setting & add that to app config
+ * */
 const AppFoldingNode = ({
   centerContent,
   children,
@@ -23,7 +27,7 @@ const AppFoldingNode = ({
     slot: "start"
   }, !hideIcon && /*#__PURE__*/React.createElement(AppIcon, {
     color: color,
-    icon: !isFolded ? chevronDownOutline : chevronForwardOutline
+    icon: isFolded ? chevronDownOutline : chevronForwardOutline
   }), titleText ? /*#__PURE__*/React.createElement(AppTitle, {
     color: color
   }, " ", title) : title), centerContent && centerContent, /*#__PURE__*/React.createElement(AppButtons, {
