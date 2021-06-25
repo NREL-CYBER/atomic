@@ -7,7 +7,7 @@ import {
     AppContent,
 
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
-    AppList, AppModal, AppText,
+    AppList, AppLoadingCard, AppModal, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -179,22 +179,25 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     {formated_title}
                 </AppButton>
             </AppButtons>
-            <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
-                <AppContent>
-                    {showNestedForm && <AppForm
-                        data={instanceRef.current[property]}
-                        customComponentMap={customComponentMap}
-                        validator={validator.makeReferenceValidator(propertyInfo)}
-                        onSubmit={(nestedObjectValue) => {
-                            setNestedFormStatus("valid");
-                            onChange(property, nestedObjectValue);
-                            setShowNestedFrom(false);
-                        }}
-                    ><AppBackButton onClick={() => setShowNestedFrom(false)} />
-                    </AppForm>}
-                </AppContent>
-            </AppModal>
-
+            <Suspense fallback={<></>}>
+                <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
+                    <AppContent>
+                        <div hidden={!showNestedForm}>
+                            <AppForm
+                                data={instanceRef.current[property]}
+                                customComponentMap={customComponentMap}
+                                validator={validator.makeReferenceValidator(propertyInfo)}
+                                onSubmit={(nestedObjectValue) => {
+                                    setNestedFormStatus("valid");
+                                    onChange(property, nestedObjectValue);
+                                    setShowNestedFrom(false);
+                                }}
+                            ><AppBackButton onClick={() => setShowNestedFrom(false)} />
+                            </AppForm>
+                        </div>
+                    </AppContent>
+                </AppModal>
+            </Suspense>
         </AppItem>
     }
 
@@ -380,16 +383,37 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     {description ? description : schema.description}
                 </AppText>
             </AppItem>
-            <AppList color="clear">
-                {useMemo(() => <RequiredFormFields />, [])}
-                {schema.type === "string" && <><AppFormInput
-                    propertyInfo={schema as PropertyDefinitionRef}
-                    property={schema.title || ""}
-                    input={"text"}
-                    instanceRef={instance}
-                    onChange={handleInputReceived}
-                /></>}
-            </AppList>
+            <Suspense fallback={<AppLoadingCard />}>
+                <AppList color="clear">
+                    {useMemo(() => <RequiredFormFields />, [])}
+                    {schema.type === "string" && <>
+                        <AppFormInput
+                            propertyInfo={schema as PropertyDefinitionRef}
+                            property={schema.title || ""}
+                            input={"text"}
+                            instanceRef={instance}
+                            onChange={handleInputReceived}
+                        />
+                    </>}
+                    {schema.type === "boolean" && <>
+                        <AppFormToggle
+                            propertyInfo={schema as PropertyDefinitionRef}
+                            property={schema.title || ""}
+                            instanceRef={instance}
+                            onChange={handleInputReceived}
+                        />
+                    </>}
+                    {schema.type === "number" && <>
+                        <AppFormInteger
+                            propertyInfo={schema as PropertyDefinitionRef}
+                            property={schema.title || ""}
+                            instanceRef={instance}
+                            onChange={handleInputReceived}
+                        />
+                    </>}
+
+                </AppList>
+            </Suspense>
 
             {<AppList color={"clear"}>
                 <AppItem color="clear">

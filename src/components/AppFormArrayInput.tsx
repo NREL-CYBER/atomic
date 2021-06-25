@@ -1,6 +1,6 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
-import React, { MutableRefObject, useState } from 'react';
+import React, { MutableRefObject, Suspense, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
@@ -114,20 +114,24 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                     <AppIcon icon={addOutline} />
                 </AppButton>
             </AppButtons>
-            {isInsertingItem && <AppModal isOpen={true} onDismiss={() => setIsInsertingItem(false)}>
-                <AppContent>
-                    <AppForm
-                        showFields={showFields}
-                        hiddenFields={hiddenFields}
-                        lockedFields={lockedFields}
-                        customComponentMap={customComponentMap}
-                        validator={validator}
-                        data={{ ...data }}
-                        onSubmit={onSubmitItem} >
-                        <AppBackButton onClick={onBackPressed} />
-                    </AppForm>
-                </AppContent>
-            </AppModal>}
+            <div hidden={!isInsertingItem}>
+                <Suspense fallback={<></>}>
+                    {<AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
+                        <AppContent>
+                            <AppForm
+                                showFields={showFields}
+                                hiddenFields={hiddenFields}
+                                lockedFields={lockedFields}
+                                customComponentMap={customComponentMap}
+                                validator={validator}
+                                data={{ ...data }}
+                                onSubmit={onSubmitItem} >
+                                <AppBackButton onClick={onBackPressed} />
+                            </AppForm>
+                        </AppContent>
+                    </AppModal>}
+                </Suspense>
+            </div>
         </AppToolbar>
         {
             errors && errors.length > 0 && < AppItem >
