@@ -1,6 +1,6 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useCallback, useMemo, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
@@ -60,7 +60,7 @@ const AppFormArrayInput = props => {
     beginInsertItem(val);
   };
 
-  const onSubmitItem = item => {
+  const onSubmitItem = useCallback(item => {
     const newValue = produce(value, draftValue => {
       draftValue.push(item);
     });
@@ -69,17 +69,15 @@ const AppFormArrayInput = props => {
     setValue(newValue);
     setInputStatus(validationStatus);
     setErrors(errors);
-  };
-
-  const onBackPressed = () => {
+  }, [onChange, property, value]);
+  const onBackPressed = useCallback(() => {
     if (validator.validate(undoCache)) {
       const newValue = [...value, undoCache];
       setValue(newValue);
     }
 
     setIsInsertingItem(false);
-  };
-
+  }, [undoCache, validator, value]);
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
@@ -112,7 +110,7 @@ const AppFormArrayInput = props => {
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
-  }, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppForm, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, useMemo(() => /*#__PURE__*/React.createElement(AppForm, {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
@@ -123,7 +121,7 @@ const AppFormArrayInput = props => {
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: onBackPressed
-  }))))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  })), [customComponentMap, data, hiddenFields, lockedFields, onBackPressed, onSubmitItem, showFields, validator])))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
   }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error)))));

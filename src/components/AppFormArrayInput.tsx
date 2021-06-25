@@ -1,6 +1,6 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
-import React, { MutableRefObject, Suspense, useState } from 'react';
+import React, { MutableRefObject, Suspense, useCallback, useMemo, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
@@ -71,7 +71,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     }
 
 
-    const onSubmitItem = (item: any) => {
+    const onSubmitItem = useCallback((item: any) => {
         const newValue = produce(value, (draftValue) => {
             draftValue.push(item);
         });
@@ -80,15 +80,15 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
         setValue(newValue);
         setInputStatus(validationStatus);
         setErrors(errors);
-    }
+    }, [onChange, property, value])
 
-    const onBackPressed = () => {
+    const onBackPressed = useCallback(() => {
         if (validator.validate(undoCache)) {
             const newValue = [...value, undoCache]
             setValue(newValue);
         }
         setIsInsertingItem(false);
-    }
+    }, [undoCache, validator, value])
     return <AppRow>
         <AppToolbar color="clear">
             <AppButtons slot='start'>
@@ -118,7 +118,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                 {<AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                     <Suspense fallback={<AppLoadingCard />}>
                         <AppContent>
-                            <AppForm
+                            {useMemo(() => <AppForm
                                 showFields={showFields}
                                 hiddenFields={hiddenFields}
                                 lockedFields={lockedFields}
@@ -127,7 +127,7 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                                 data={{ ...data }}
                                 onSubmit={onSubmitItem} >
                                 <AppBackButton onClick={onBackPressed} />
-                            </AppForm>
+                            </AppForm>, [customComponentMap, data, hiddenFields, lockedFields, onBackPressed, onSubmitItem, showFields, validator])}
                         </AppContent>
                     </Suspense>
                 </AppModal>}

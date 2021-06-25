@@ -1,6 +1,6 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { AppLoadingCard } from "..";
 import AppForm from "./AppForm";
 import useappFormDefinitionValidatorCache from "./useAppFormDefinitionCache";
@@ -48,14 +48,11 @@ const AppFormComposer = ({
       }
     });
   }, [definition, lazyLoadDefinitionValidator, lazyLoadValidator, validator]);
-
-  if (typeof validator === "undefined" || typeof validator.schema === "undefined") {
-    return /*#__PURE__*/React.createElement(AppLoadingCard, null);
-  } else {
-    return /*#__PURE__*/React.createElement(AppForm, _extends({
-      validator: validator
-    }, props));
-  }
+  return /*#__PURE__*/React.createElement(Suspense, {
+    fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
+  }, useMemo(() => validator && /*#__PURE__*/React.createElement(AppForm, _extends({
+    validator: validator
+  }, props)), [props, validator]));
 };
 
 export default AppFormComposer;
