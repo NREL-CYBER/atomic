@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { Fragment, useCallback, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppProgress, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import React, { Fragment, Suspense, useCallback, useMemo, useRef, useState } from 'react';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -51,14 +51,10 @@ const AppForm = props => {
   } : schema.type === "array" ? [...data] : undefined);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [optionalStatus, setOptionalStatus] = useState("empty");
+  const [optionalStatus, setOptionalStatus] = useState("hidden");
 
   const toggleOptionalFields = () => {
     switch (optionalStatus) {
-      case "empty":
-        setOptionalStatus("loading");
-        break;
-
       case "hidden":
         setOptionalStatus("show");
         break;
@@ -385,37 +381,27 @@ const AppForm = props => {
     color: optionalStatus === "show" ? "tertiary" : "primary",
     fill: "outline",
     onClick: toggleOptionalFields
-  }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppProgress, {
-    color: "medium"
-  })), /*#__PURE__*/React.createElement("div", {
+  }, optionalStatus === "hidden" ? "Enter" : "", " Optional info")), /*#__PURE__*/React.createElement("div", {
     hidden: optionalStatus !== "show"
-  }, useMemo(() => {
-    if (optionalStatus === "empty") {
-      return /*#__PURE__*/React.createElement(React.Fragment, null);
-    }
-
-    const optionalSection = optionalFields.map(property => {
-      if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-        key: property,
-        property: property,
-        value: instance.current[property]
-      });
-      if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-        key: property
-      });
-      return /*#__PURE__*/React.createElement(FormElement, {
-        key: property,
-        onChange: handleInputReceived,
-        validator: validator,
-        instanceRef: instance,
-        property: property
-      });
+  }, /*#__PURE__*/React.createElement(Suspense, {
+    fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
+  }, useMemo(() => optionalFields.map(property => {
+    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+      key: property,
+      property: property,
+      value: instance.current[property]
     });
-    setTimeout(() => {
-      optionalStatus === "loading" && setOptionalStatus("show");
-    }, 333);
-    return optionalSection;
-  }, [optionalStatus === "loading"]))), /*#__PURE__*/React.createElement(AppToolbar, {
+    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+      key: property
+    });
+    return /*#__PURE__*/React.createElement(FormElement, {
+      key: property,
+      onChange: handleInputReceived,
+      validator: validator,
+      instanceRef: instance,
+      property: property
+    });
+  }), [])))), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",

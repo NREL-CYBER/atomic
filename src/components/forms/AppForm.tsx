@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useMemo, useRef, useState } from 'react';
+import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useCallback, useMemo, useRef, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
@@ -7,7 +7,7 @@ import {
     AppContent,
 
     AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
-    AppList, AppModal, AppProgress, AppText,
+    AppList, AppModal, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -109,12 +109,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const [errors, setErrors] = useState<string[]>([]);
 
 
-    const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "empty" | "hidden">("empty");
+    const [optionalStatus, setOptionalStatus] = useState<"show" | "hidden">("hidden");
     const toggleOptionalFields = () => {
         switch (optionalStatus) {
-            case "empty":
-                setOptionalStatus("loading");
-                break;
             case "hidden":
                 setOptionalStatus("show")
                 break;
@@ -397,34 +394,25 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             {<AppList color={"clear"}>
                 <AppItem color="clear">
                     {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "show" ? "tertiary" : "primary"} fill={"outline"} onClick={toggleOptionalFields} >
-                        {optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : ""} Optional info
+                        {optionalStatus === "hidden" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
-                {optionalStatus === "loading" &&
-                    <>
-                        <AppProgress color="medium" />
-                    </>}
-                {<div hidden={optionalStatus !== "show"}>{useMemo(
-                    () => {
-                        if (optionalStatus === "empty") {
-                            return <></>
-                        }
-                        const optionalSection = optionalFields.map((property) => {
-                            if (lockedFields && lockedFields.includes(property))
-                                return <LockedField key={property} property={property} value={instance.current[property]} />
-                            if (hiddenFields && hiddenFields.includes(property))
-                                return <Fragment key={property}></Fragment>
-                            return <FormElement key={property}
-                                onChange={handleInputReceived}
-                                validator={validator}
-                                instanceRef={instance} property={property} />
-                        })
-                        setTimeout(() => {
-                            optionalStatus === "loading" && setOptionalStatus("show")
-                        }, 333)
-                        return optionalSection
-                    }
-                    , [optionalStatus === "loading"])}
+                {<div hidden={optionalStatus !== "show"}>
+                    <Suspense fallback={<></>}>
+                        {useMemo(
+                            () =>
+                                optionalFields.map((property) => {
+                                    if (lockedFields && lockedFields.includes(property))
+                                        return <LockedField key={property} property={property} value={instance.current[property]} />
+                                    if (hiddenFields && hiddenFields.includes(property))
+                                        return <Fragment key={property}></Fragment>
+                                    return <FormElement key={property}
+                                        onChange={handleInputReceived}
+                                        validator={validator}
+                                        instanceRef={instance} property={property} />
+                                })
+                            , [])}
+                    </Suspense>
                 </div>}
             </AppList>}
 
