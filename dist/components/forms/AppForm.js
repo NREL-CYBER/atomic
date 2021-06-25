@@ -382,7 +382,7 @@ const AppForm = props => {
   }, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear"
   }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppButton, {
-    color: optionalStatus === "hidden" ? "tertiary" : "primary",
+    color: optionalStatus === "show" ? "tertiary" : "primary",
     fill: "outline",
     onClick: toggleOptionalFields
   }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppProgress, {
@@ -390,6 +390,10 @@ const AppForm = props => {
   })), /*#__PURE__*/React.createElement("div", {
     hidden: optionalStatus !== "show"
   }, useMemo(() => {
+    if (optionalStatus === "empty") {
+      return /*#__PURE__*/React.createElement(React.Fragment, null);
+    }
+
     const optionalSection = optionalFields.map(property => {
       if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
         key: property,
@@ -407,7 +411,6 @@ const AppForm = props => {
         property: property
       });
     });
-    console.log("render");
     setTimeout(() => {
       optionalStatus === "loading" && setOptionalStatus("show");
     }, 333);

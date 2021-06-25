@@ -396,7 +396,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
             {<AppList color={"clear"}>
                 <AppItem color="clear">
-                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "hidden" ? "tertiary" : "primary"} fill={"outline"} onClick={toggleOptionalFields} >
+                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "show" ? "tertiary" : "primary"} fill={"outline"} onClick={toggleOptionalFields} >
                         {optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : ""} Optional info
                     </AppButton>}
                 </AppItem>
@@ -406,6 +406,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     </>}
                 {<div hidden={optionalStatus !== "show"}>{useMemo(
                     () => {
+                        if (optionalStatus === "empty") {
+                            return <></>
+                        }
                         const optionalSection = optionalFields.map((property) => {
                             if (lockedFields && lockedFields.includes(property))
                                 return <LockedField key={property} property={property} value={instance.current[property]} />
@@ -416,10 +419,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                                 validator={validator}
                                 instanceRef={instance} property={property} />
                         })
-                        console.log("render");
                         setTimeout(() => {
                             optionalStatus === "loading" && setOptionalStatus("show")
-                        },333)
+                        }, 333)
                         return optionalSection
                     }
                     , [optionalStatus === "loading"])}
