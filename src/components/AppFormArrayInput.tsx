@@ -2,7 +2,7 @@ import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, Suspense, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
@@ -115,8 +115,8 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                 </AppButton>
             </AppButtons>
             <div hidden={!isInsertingItem}>
-                <Suspense fallback={<></>}>
-                    {<AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
+                {<AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
+                    <Suspense fallback={<AppLoadingCard />}>
                         <AppContent>
                             <AppForm
                                 showFields={showFields}
@@ -129,8 +129,8 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                                 <AppBackButton onClick={onBackPressed} />
                             </AppForm>
                         </AppContent>
-                    </AppModal>}
-                </Suspense>
+                    </Suspense>
+                </AppModal>}
             </div>
         </AppToolbar>
         {

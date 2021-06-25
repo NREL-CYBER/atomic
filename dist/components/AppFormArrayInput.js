@@ -1,7 +1,7 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { Suspense, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { inputStatusColorMap } from "./AppFormInput";
@@ -107,11 +107,11 @@ const AppFormArrayInput = props => {
     icon: addOutline
   }))), /*#__PURE__*/React.createElement("div", {
     hidden: !isInsertingItem
-  }, /*#__PURE__*/React.createElement(Suspense, {
-    fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
   }, /*#__PURE__*/React.createElement(AppModal, {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
+  }, /*#__PURE__*/React.createElement(Suspense, {
+    fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
   }, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppForm, {
     showFields: showFields,
     hiddenFields: hiddenFields,
