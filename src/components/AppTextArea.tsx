@@ -23,7 +23,6 @@ const AppTextArea: React.FC<textProps> = ({ onTextChange, rows = 2, ...props }) 
     return <IonTextarea
         debounce={200}
         rows={rows}
-        autoGrow
         onIonChange={(event) => { onTextChange(event.detail.value!) }} {...props} />
 };
 export default AppTextArea;
