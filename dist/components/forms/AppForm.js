@@ -57,9 +57,6 @@ const AppForm = props => {
     switch (optionalStatus) {
       case "empty":
         setOptionalStatus("loading");
-        setTimeout(() => {
-          setOptionalStatus("show");
-        }, 500);
         break;
 
       case "hidden":
@@ -388,27 +385,34 @@ const AppForm = props => {
     color: optionalStatus === "hidden" ? "tertiary" : "primary",
     fill: "outline",
     onClick: toggleOptionalFields
-  }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, "Loading...."), /*#__PURE__*/React.createElement(AppProgress, {
+  }, optionalStatus === "hidden" || optionalStatus === "empty" ? "Enter" : "", " Optional info")), optionalStatus === "loading" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppProgress, {
     color: "medium"
   })), /*#__PURE__*/React.createElement("div", {
     hidden: optionalStatus !== "show"
-  }, useMemo(() => optionalFields.map(property => {
-    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-      key: property,
-      property: property,
-      value: instance.current[property]
+  }, useMemo(() => {
+    const optionalSection = optionalFields.map(property => {
+      if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+        key: property,
+        property: property,
+        value: instance.current[property]
+      });
+      if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+        key: property
+      });
+      return /*#__PURE__*/React.createElement(FormElement, {
+        key: property,
+        onChange: handleInputReceived,
+        validator: validator,
+        instanceRef: instance,
+        property: property
+      });
     });
-    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-      key: property
-    });
-    return /*#__PURE__*/React.createElement(FormElement, {
-      key: property,
-      onChange: handleInputReceived,
-      validator: validator,
-      instanceRef: instance,
-      property: property
-    });
-  }), [optionalStatus === "loading"]))), /*#__PURE__*/React.createElement(AppToolbar, {
+    console.log("render");
+    setTimeout(() => {
+      optionalStatus === "loading" && setOptionalStatus("show");
+    }, 333);
+    return optionalSection;
+  }, [optionalStatus === "loading"]))), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",

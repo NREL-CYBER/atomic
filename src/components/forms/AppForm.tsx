@@ -114,9 +114,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         switch (optionalStatus) {
             case "empty":
                 setOptionalStatus("loading");
-                setTimeout(() => {
-                    setOptionalStatus("show")
-                }, 500)
                 break;
             case "hidden":
                 setOptionalStatus("show")
@@ -404,20 +401,28 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     </AppButton>}
                 </AppItem>
                 {optionalStatus === "loading" &&
-                    <AppItem>
-                        <AppChip>
-                            Loading....
-                        </AppChip>
+                    <>
                         <AppProgress color="medium" />
-                    </AppItem>}
+                    </>}
                 {<div hidden={optionalStatus !== "show"}>{useMemo(
-                    () => optionalFields.map((property) => {
-                        if (lockedFields && lockedFields.includes(property))
-                            return <LockedField key={property} property={property} value={instance.current[property]} />
-                        if (hiddenFields && hiddenFields.includes(property))
-                            return <Fragment key={property}></Fragment>
-                        return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-                    }), [optionalStatus === "loading"])}
+                    () => {
+                        const optionalSection = optionalFields.map((property) => {
+                            if (lockedFields && lockedFields.includes(property))
+                                return <LockedField key={property} property={property} value={instance.current[property]} />
+                            if (hiddenFields && hiddenFields.includes(property))
+                                return <Fragment key={property}></Fragment>
+                            return <FormElement key={property}
+                                onChange={handleInputReceived}
+                                validator={validator}
+                                instanceRef={instance} property={property} />
+                        })
+                        console.log("render");
+                        setTimeout(() => {
+                            optionalStatus === "loading" && setOptionalStatus("show")
+                        },333)
+                        return optionalSection
+                    }
+                    , [optionalStatus === "loading"])}
                 </div>}
             </AppList>}
 
