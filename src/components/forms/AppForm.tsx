@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, Fragment, MutableRefObject, ReactFragment, useCallback, useMemo, useRef, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
@@ -109,15 +109,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const [errors, setErrors] = useState<string[]>([]);
 
 
-    const [optionalFieldsCache, setOptionalFieldsCache] = useState<JSX.Element | null>(null)
     const [optionalStatus, setOptionalStatus] = useState<"show" | "loading" | "empty" | "hidden">("empty");
     const toggleOptionalFields = () => {
-        console.log("toggle");
         switch (optionalStatus) {
             case "empty":
-                if (optionalFieldsCache === null) {
-                    setOptionalStatus("loading");
-                }
+                setOptionalStatus("loading");
+                setTimeout(() => {
+                    setOptionalStatus("show")
+                }, 500)
                 break;
             case "hidden":
                 setOptionalStatus("show")
@@ -125,27 +124,10 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             case "show":
                 setOptionalStatus("hidden")
                 break;
-
             default:
                 break;
         }
     }
-    useEffect(() => {
-        if (optionalStatus !== "loading") {
-            return
-        }
-        setTimeout(() => {
-            const optionalFieldsRendered = optionalFields.map((property) => {
-                if (lockedFields && lockedFields.includes(property))
-                    return <LockedField key={property} property={property} value={instance.current[property]} />
-                if (hiddenFields && hiddenFields.includes(property))
-                    return <Fragment key={property}></Fragment>
-                return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
-            })
-            setOptionalFieldsCache(<>{optionalFieldsRendered}</>);
-            setOptionalStatus("show");
-        }, 20)
-    }, [optionalStatus]);
 
 
     const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
@@ -428,7 +410,15 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         </AppChip>
                         <AppProgress color="medium" />
                     </AppItem>}
-                {<div hidden={optionalStatus !== "show"}>{optionalFieldsCache}</div>}
+                {<div hidden={optionalStatus !== "show"}>{useMemo(
+                    () => optionalFields.map((property) => {
+                        if (lockedFields && lockedFields.includes(property))
+                            return <LockedField key={property} property={property} value={instance.current[property]} />
+                        if (hiddenFields && hiddenFields.includes(property))
+                            return <Fragment key={property}></Fragment>
+                        return <FormElement key={property} onChange={handleInputReceived} validator={validator} instanceRef={instance} property={property} />
+                    }), [optionalStatus === "loading"])}
+                </div>}
             </AppList>}
 
             <AppToolbar color="clear">
