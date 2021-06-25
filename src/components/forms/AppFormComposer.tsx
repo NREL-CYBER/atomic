@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Validator from "validator";
 import { AppLoadingCard } from "..";
 import AppForm, { formComposerProps } from "./AppForm";
@@ -43,8 +43,9 @@ const AppFormComposer: React.FC<formComposerProps> = ({ lazyLoadValidator, defin
         })
     }, [definition, lazyLoadDefinitionValidator, lazyLoadValidator, validator]);
 
-    return <Suspense fallback={<AppLoadingCard />} >
-        {useMemo(() => validator && <AppForm validator={validator} {...props} />, [props, validator])}
-    </Suspense>
+    return typeof validator == "undefined" ?
+        <AppLoadingCard /> :
+        <AppForm validator={validator} {...props} />
+
 }
 export default AppFormComposer

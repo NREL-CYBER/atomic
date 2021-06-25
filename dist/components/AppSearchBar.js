@@ -8,7 +8,7 @@ import React from 'react';
  */
 const AppSearchBar = props => {
   return /*#__PURE__*/React.createElement(IonSearchbar, _extends({
-    debounce: 200,
+    debounce: 100,
     onIonChange: e => {
       props.onQuery && props.onQuery(e.detail.value);
     }

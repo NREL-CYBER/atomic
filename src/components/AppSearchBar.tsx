@@ -12,7 +12,7 @@ interface searchProps {
  * Component for a search interface
  */
 const AppSearchBar: React.FC<searchProps> = (props) => {
-    return <IonSearchbar debounce={200} onIonChange={(e) => {
+    return <IonSearchbar debounce={100} onIonChange={(e) => {
         props.onQuery && props.onQuery(e.detail.value!)
     }} {...props} />
 };

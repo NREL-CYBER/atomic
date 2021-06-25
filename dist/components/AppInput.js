@@ -9,7 +9,7 @@ import React from 'react';
  */
 const AppInput = props => {
   return /*#__PURE__*/React.createElement(IonInput, _extends({
-    debounce: 200
+    debounce: 100
   }, props, {
     onIonChange: e => {
       props.onInputChange && props.onInputChange(e.detail.value);

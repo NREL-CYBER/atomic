@@ -3,7 +3,8 @@ import AddressSchema from "../schemas/address.schema.json";
 import routes from "./routes";
 import { ExampleBottomBar } from "./ExampleBottomBar";
 const useAddress = composeStore({
-  schema: AddressSchema
+  schema: AddressSchema,
+  definition: "address"
 });
 export { useAddress };
 const ExampleConfig = {
