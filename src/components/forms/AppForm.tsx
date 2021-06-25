@@ -351,6 +351,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
     let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
+
     const RequiredFormFields = () => <>{
         requiredFields.map(property => {
             if (lockedFields && lockedFields.includes(property))
@@ -368,95 +369,97 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
     return <>
-        <AppCard contentColor={"light"} title={<>
-            <AppToolbar color="clear">
-                <AppButtons slot="start">
-                    {children}
-                    {<AppTitle color={isValid ? "favorite" : "tertiary"}>
-                        {prettyTitle(title || schema.title)}
-                    </AppTitle>}
-                </AppButtons>
-            </AppToolbar>
-        </>}>
-            <AppItem>
-                <AppText color="medium">
-                    {description ? description : schema.description}
-                </AppText>
-            </AppItem>
-            <Suspense fallback={<AppLoadingCard />}>
-                <AppList color="clear">
-                    {useMemo(() => <RequiredFormFields />, [])}
-                    {schema.type === "string" && <>
-                        <AppFormInput
-                            propertyInfo={schema as PropertyDefinitionRef}
-                            property={schema.title || ""}
-                            input={"text"}
-                            instanceRef={instance}
-                            onChange={handleInputReceived}
-                        />
-                    </>}
-                    {schema.type === "boolean" && <>
-                        <AppFormToggle
-                            propertyInfo={schema as PropertyDefinitionRef}
-                            property={schema.title || ""}
-                            instanceRef={instance}
-                            onChange={handleInputReceived}
-                        />
-                    </>}
-                    {schema.type === "number" && <>
-                        <AppFormInteger
-                            propertyInfo={schema as PropertyDefinitionRef}
-                            property={schema.title || ""}
-                            instanceRef={instance}
-                            onChange={handleInputReceived}
-                        />
-                    </>}
-
-                </AppList>
-            </Suspense>
-
-            {<AppList color={"clear"}>
-                <AppItem color="clear">
-                    {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "show" ? "tertiary" : "primary"} fill={"outline"} onClick={toggleOptionalFields} >
-                        {optionalStatus === "hidden" ? "Enter" : ""} Optional info
-                    </AppButton>}
+        <Suspense fallback={<AppLoadingCard />}>
+            <AppCard contentColor={"light"} title={<>
+                <AppToolbar color="clear">
+                    <AppButtons slot="start">
+                        {children}
+                        {<AppTitle color={isValid ? "favorite" : "tertiary"}>
+                            {prettyTitle(title || schema.title)}
+                        </AppTitle>}
+                    </AppButtons>
+                </AppToolbar>
+            </>}>
+                <AppItem>
+                    <AppText color="medium">
+                        {description ? description : schema.description}
+                    </AppText>
                 </AppItem>
-                {<div hidden={optionalStatus !== "show"}>
-                    <Suspense fallback={<></>}>
-                        {useMemo(
-                            () =>
-                                optionalFields.map((property) => {
-                                    if (lockedFields && lockedFields.includes(property))
-                                        return <LockedField key={property} property={property} value={instance.current[property]} />
-                                    if (hiddenFields && hiddenFields.includes(property))
-                                        return <Fragment key={property}></Fragment>
-                                    return <FormElement key={property}
-                                        onChange={handleInputReceived}
-                                        validator={validator}
-                                        instanceRef={instance} property={property} />
-                                })
-                            , [])}
-                    </Suspense>
-                </div>}
-            </AppList>}
+                <Suspense fallback={<AppLoadingCard />}>
+                    <AppList color="clear">
+                        {useMemo(() => <RequiredFormFields />, [])}
+                        {schema.type === "string" && <>
+                            <AppFormInput
+                                propertyInfo={schema as PropertyDefinitionRef}
+                                property={schema.title || ""}
+                                input={"text"}
+                                instanceRef={instance}
+                                onChange={handleInputReceived}
+                            />
+                        </>}
+                        {schema.type === "boolean" && <>
+                            <AppFormToggle
+                                propertyInfo={schema as PropertyDefinitionRef}
+                                property={schema.title || ""}
+                                instanceRef={instance}
+                                onChange={handleInputReceived}
+                            />
+                        </>}
+                        {schema.type === "number" && <>
+                            <AppFormInteger
+                                propertyInfo={schema as PropertyDefinitionRef}
+                                property={schema.title || ""}
+                                instanceRef={instance}
+                                onChange={handleInputReceived}
+                            />
+                        </>}
 
-            <AppToolbar color="clear">
-                {errors.slice(0, 1).map(error => <AppChip key={"error"} color='danger'>
-                    {title} {error.split('_').join(' ')}
-                </AppChip>)}
+                    </AppList>
+                </Suspense>
 
-                {useMemo(() => !autoSubmit && isValid ? <AppButton expand="full" fill={"solid"} color={isValid ? "favorite" : "primary"} onClick={() => {
-                    onSubmit(instance.current);
-                }}>
-                    {!customSubmit ? <>
-                        <AppTitle>
-                            Save {title}
-                        </AppTitle>
-                    </> : customSubmit}
-                </AppButton> : <></>, [autoSubmit, customSubmit, isValid, onSubmit])}
-            </AppToolbar>
+                {<AppList color={"clear"}>
+                    <AppItem color="clear">
+                        {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "show" ? "tertiary" : "primary"} fill={"outline"} onClick={toggleOptionalFields} >
+                            {optionalStatus === "hidden" ? "Enter" : ""} Optional info
+                        </AppButton>}
+                    </AppItem>
+                    {<div hidden={optionalStatus !== "show"}>
+                        <Suspense fallback={<></>}>
+                            {useMemo(
+                                () =>
+                                    optionalFields.map((property) => {
+                                        if (lockedFields && lockedFields.includes(property))
+                                            return <LockedField key={property} property={property} value={instance.current[property]} />
+                                        if (hiddenFields && hiddenFields.includes(property))
+                                            return <Fragment key={property}></Fragment>
+                                        return <FormElement key={property}
+                                            onChange={handleInputReceived}
+                                            validator={validator}
+                                            instanceRef={instance} property={property} />
+                                    })
+                                , [])}
+                        </Suspense>
+                    </div>}
+                </AppList>}
 
-        </AppCard >
+                <AppToolbar color="clear">
+                    {errors.slice(0, 1).map(error => <AppChip key={"error"} color='danger'>
+                        {title} {error.split('_').join(' ')}
+                    </AppChip>)}
+
+                    {useMemo(() => !autoSubmit && isValid ? <AppButton expand="full" fill={"solid"} color={isValid ? "favorite" : "primary"} onClick={() => {
+                        onSubmit(instance.current);
+                    }}>
+                        {!customSubmit ? <>
+                            <AppTitle>
+                                Save {title}
+                            </AppTitle>
+                        </> : customSubmit}
+                    </AppButton> : <></>, [autoSubmit, customSubmit, isValid, onSubmit])}
+                </AppToolbar>
+
+            </AppCard >
+        </Suspense>
     </>
 };
 export default AppForm;

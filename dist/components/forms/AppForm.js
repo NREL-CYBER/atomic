@@ -358,7 +358,9 @@ const AppForm = props => {
     });
   }));
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Suspense, {
+    fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
+  }, /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "light",
     title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
       color: "clear"
@@ -429,7 +431,7 @@ const AppForm = props => {
     onClick: () => {
       onSubmit(instance.current);
     }
-  }, !customSubmit ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, null, "Save ", title)) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit]))));
+  }, !customSubmit ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, null, "Save ", title)) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit])))));
 };
 
 export default AppForm;
