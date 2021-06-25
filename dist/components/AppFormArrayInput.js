@@ -1,6 +1,6 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
@@ -105,8 +105,12 @@ const AppFormArrayInput = props => {
     color: "primary"
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: addOutline
-  }))), isInsertingItem && /*#__PURE__*/React.createElement(AppModal, {
-    isOpen: true,
+  }))), /*#__PURE__*/React.createElement("div", {
+    hidden: !isInsertingItem
+  }, /*#__PURE__*/React.createElement(Suspense, {
+    fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
+  }, /*#__PURE__*/React.createElement(AppModal, {
+    isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppForm, {
     showFields: showFields,
@@ -119,7 +123,7 @@ const AppFormArrayInput = props => {
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: onBackPressed
-  }))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  }))))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
   }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error)))));

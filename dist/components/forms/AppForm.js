@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { Fragment, Suspense, useCallback, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -142,10 +142,14 @@ const AppForm = props => {
       color: nestedFormStatus === "valid" ? "success" : "primary",
       fill: "outline",
       onClick: () => setShowNestedFrom(x => !x)
-    }, formated_title)), /*#__PURE__*/React.createElement(AppModal, {
+    }, formated_title)), /*#__PURE__*/React.createElement(Suspense, {
+      fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
+    }, /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
       isOpen: showNestedForm
-    }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppForm, {
+    }, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement("div", {
+      hidden: !showNestedForm
+    }, /*#__PURE__*/React.createElement(AppForm, {
       data: instanceRef.current[property],
       customComponentMap: customComponentMap,
       validator: validator.makeReferenceValidator(propertyInfo),
@@ -156,7 +160,7 @@ const AppForm = props => {
       }
     }, /*#__PURE__*/React.createElement(AppBackButton, {
       onClick: () => setShowNestedFrom(false)
-    })))));
+    })))))));
   };
 
   const FormElement = ({
@@ -365,7 +369,9 @@ const AppForm = props => {
     }, prettyTitle(title || schema.title)))))
   }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), /*#__PURE__*/React.createElement(AppList, {
+  }, description ? description : schema.description)), /*#__PURE__*/React.createElement(Suspense, {
+    fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
+  }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     propertyInfo: schema,
@@ -373,7 +379,17 @@ const AppForm = props => {
     input: "text",
     instanceRef: instance,
     onChange: handleInputReceived
-  }))), /*#__PURE__*/React.createElement(AppList, {
+  })), schema.type === "boolean" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormToggle, {
+    propertyInfo: schema,
+    property: schema.title || "",
+    instanceRef: instance,
+    onChange: handleInputReceived
+  })), schema.type === "number" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInteger, {
+    propertyInfo: schema,
+    property: schema.title || "",
+    instanceRef: instance,
+    onChange: handleInputReceived
+  })))), /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear"
