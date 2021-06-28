@@ -100,18 +100,24 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         description, title, requiredOnly, calculatedFields, showFields,
         customSubmit, autoSubmit, customComponentMap, inlineFields } = props
     const { schema } = validator;
-    console.log("AppForm");
     if (typeof schema.type === "undefined") {
         // eslint-disable-next-line no-throw-literal
         throw "Schema must have a type"
     }
+
+    const [schemaProperties] = useState<string[]>(Object.keys({ ...schema.properties }));
+    const requiredProperties = schema.required || [];
+
+    const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
+    let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
+    requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
 
     const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
 
 
-    const [optionalStatus, setOptionalStatus] = useState<"show" | "hidden">("hidden");
+    const [optionalStatus, setOptionalStatus] = useState<"show" | "hidden">(requiredFields.length === 0 ? "show" : "hidden");
     const toggleOptionalFields = () => {
         switch (optionalStatus) {
             case "hidden":
@@ -162,7 +168,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         return inline ? <AppFormComposer
             data={instanceRef.current[property]}
             lazyLoadValidator={async () => {
-                console.log(propertyInfo)
                 return validator.makeReferenceValidator<unknown>(propertyInfo) as any
             }
             }
@@ -359,12 +364,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     }
 
-    const [schemaProperties] = useState<string[]>(Object.keys({ ...schema.properties }));
-    const requiredProperties = schema.required || [];
-
-    const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
-    let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
-    requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
 
     const RequiredFormFields = () => <>{
         requiredFields.map(property => {

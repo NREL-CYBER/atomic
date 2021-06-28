@@ -42,18 +42,23 @@ const AppForm = props => {
   const {
     schema
   } = validator;
-  console.log("AppForm");
 
   if (typeof schema.type === "undefined") {
     // eslint-disable-next-line no-throw-literal
     throw "Schema must have a type";
   }
 
+  const [schemaProperties] = useState(Object.keys({ ...schema.properties
+  }));
+  const requiredProperties = schema.required || [];
+  const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
+  let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
+  requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
   const instance = useRef(schema.type === "object" ? { ...data
   } : schema.type === "array" ? [...data] : undefined);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [optionalStatus, setOptionalStatus] = useState("hidden");
+  const [optionalStatus, setOptionalStatus] = useState(requiredFields.length === 0 ? "show" : "hidden");
 
   const toggleOptionalFields = () => {
     switch (optionalStatus) {
@@ -126,7 +131,6 @@ const AppForm = props => {
     return inline ? /*#__PURE__*/React.createElement(AppFormComposer, {
       data: instanceRef.current[property],
       lazyLoadValidator: async () => {
-        console.log(propertyInfo);
         return validator.makeReferenceValidator(propertyInfo);
       },
       requiredOnly: requiredOnly,
@@ -345,13 +349,6 @@ const AppForm = props => {
       color: "danger"
     }, property);
   };
-
-  const [schemaProperties] = useState(Object.keys({ ...schema.properties
-  }));
-  const requiredProperties = schema.required || [];
-  const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
-  let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
-  requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
 
   const RequiredFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, requiredFields.map(property => {
     if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
