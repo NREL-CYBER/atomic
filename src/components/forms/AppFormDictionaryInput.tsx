@@ -3,11 +3,11 @@ import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useState } from 'react';
 import { v4 } from 'uuid';
 import Validator, { PropertyDefinitionRef } from 'validator';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { prettyTitle } from "../../util";
 import { findShortestValue } from "../AppFormArrayInput";
 import { InputStatus, inputStatusColorMap } from "../AppFormInput";
-import AppForm, { formFieldChangeEvent, nestedFormProps } from './AppForm';
+import { formFieldChangeEvent, nestedFormProps } from './AppForm';
 
 
 interface formInputProps<T> {
@@ -15,7 +15,7 @@ interface formInputProps<T> {
     property: string
     propertyInfo: PropertyDefinitionRef
     instanceRef: MutableRefObject<any>
-    validator: Validator<T>
+    lazyLoadValidator: () => Promise<Validator<T>>
     onChange: formFieldChangeEvent,
     showFields?: string[],
     hiddenFields?: string[],
@@ -30,7 +30,7 @@ interface formInputProps<T> {
  */
 const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
     //destructure props
-    const { property, instanceRef, validator, onChange,
+    const { property, instanceRef, lazyLoadValidator, onChange,
         propertyInfo, customComponentMap, hiddenFields,
         lockedFields, showFields, customTitleFunction } = props;
     const { title } = propertyInfo;
@@ -90,9 +90,9 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
             </AppButtons>
             <AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
                 <AppContent>
-                    {isInsertingItem && <AppForm
+                    {isInsertingItem && <AppFormComposer
                         customComponentMap={customComponentMap}
-                        validator={validator}
+                        lazyLoadValidator={lazyLoadValidator}
                         data={{ ...data }}
                         showFields={showFields}
                         hiddenFields={hiddenFields}
@@ -102,7 +102,7 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                         <AppBackButton onClick={() => {
                             setIsInsertingItem(false);
                         }} />
-                    </AppForm>}
+                    </AppFormComposer>}
                 </AppContent>
             </AppModal>
         </AppToolbar>

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { AppFormComposer } from '..';
 import React, { Fragment, Suspense, useCallback, useMemo, useRef, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
@@ -41,6 +42,7 @@ const AppForm = props => {
   const {
     schema
   } = validator;
+  console.log("AppForm");
 
   if (typeof schema.type === "undefined") {
     // eslint-disable-next-line no-throw-literal
@@ -121,9 +123,12 @@ const AppForm = props => {
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState("empty");
     const formated_title = titleCase((property || title || '').split("_").join(" "));
-    return inline ? /*#__PURE__*/React.createElement(AppForm, {
+    return inline ? /*#__PURE__*/React.createElement(AppFormComposer, {
       data: instanceRef.current[property],
-      validator: validator.makeReferenceValidator(propertyInfo),
+      lazyLoadValidator: async () => {
+        console.log(propertyInfo);
+        return validator.makeReferenceValidator(propertyInfo);
+      },
       requiredOnly: requiredOnly,
       autoSubmit: true,
       calculatedFields: calculatedFields,
@@ -147,12 +152,14 @@ const AppForm = props => {
     }, /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
       isOpen: showNestedForm
-    }, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement("div", {
-      hidden: !showNestedForm
-    }, /*#__PURE__*/React.createElement(AppForm, {
+    }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
       data: instanceRef.current[property],
       customComponentMap: customComponentMap,
-      validator: validator.makeReferenceValidator(propertyInfo),
+      lazyLoadValidator: () => {
+        console.trace();
+        const nestedValidator = validator.makeReferenceValidator(propertyInfo);
+        return nestedValidator;
+      },
       onSubmit: nestedObjectValue => {
         setNestedFormStatus("valid");
         onChange(property, nestedObjectValue);
@@ -160,7 +167,7 @@ const AppForm = props => {
       }
     }, /*#__PURE__*/React.createElement(AppBackButton, {
       onClick: () => setShowNestedFrom(false)
-    })))))));
+    }))))));
   };
 
   const FormElement = ({
@@ -286,7 +293,10 @@ const AppForm = props => {
         showFields: showFields,
         property: property,
         customComponentMap: customComponentMap,
-        validator: validator.makeReferenceValidator(propertyInfo),
+        lazyLoadValidator: () => {
+          console.log("array");
+          return validator.makeReferenceValidator(propertyInfo);
+        },
         key: property
       });
     }
@@ -301,7 +311,10 @@ const AppForm = props => {
         lockedFields: lockedFields,
         showFields: showFields,
         property: property,
-        validator: validator.makeReferenceValidator(refPropertyInfo),
+        lazyLoadValidator: () => {
+          console.log("dictionary");
+          return validator.makeReferenceValidator(refPropertyInfo);
+        },
         key: property
       });
     }

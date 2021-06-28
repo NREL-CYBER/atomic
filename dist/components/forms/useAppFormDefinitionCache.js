@@ -7,12 +7,13 @@ const useAppFormDefinitionValidatorCache = create((set, store) => ({
     ;
   },
   lazyLoadDefinitionValidator: (validator, definition) => {
+    console.log("Lazy loading definition");
     const path = validator.rootSchema.$id + definition;
-    return new Promise(resolve => {
+    return new Promise(async resolve => {
       const cachedValidator = store().definitions[path];
 
       if (typeof cachedValidator === "undefined") {
-        const freshValidator = validator.makeReferenceValidator({
+        const freshValidator = await validator.makeReferenceValidator({
           $ref: definition
         });
         set({

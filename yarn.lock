@@ -5747,6 +5747,11 @@ detect-port@^1.3.0:
     address "^1.0.1"
     debug "^2.6.0"
 
+dexie@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/dexie/-/dexie-3.0.3.tgz#ede63849dfe5f07e13e99bb72a040e8ac1d29dab"
+  integrity sha512-BSFhGpngnCl1DOr+8YNwBDobRMH0ziJs2vts69VilwetHYOtEDcLqo7d/XiIphM0tJZ2rPPyAGd31lgH2Ln3nw==
+
 diff-sequences@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/diff-sequences/-/diff-sequences-26.6.2.tgz#48ba99157de1923412eed41db6b6d4aa9ca7c0b1"
@@ -13171,18 +13176,19 @@ store2@^2.12.0:
   integrity sha512-7t+/wpKLanLzSnQPX8WAcuLCCeuSHoWdQuh9SB3xD0kNOM38DNf+0Oa+wmvxmYueRzkmh6IcdKFtvTa+ecgPDw==
 
 "store@git+ssh://git@github.com/NREL-CYBER/store.git":
-  version "1.4.8"
-  resolved "git+ssh://git@github.com/NREL-CYBER/store.git#877a45e9c33533f9b8e1e2f90e9557fca68d3e81"
+  version "1.5.4"
+  resolved "git+ssh://git@github.com/NREL-CYBER/store.git#4bfceb65ebc430c3d9be0c69cabe30320d65129b"
   dependencies:
     "@babel/runtime" "^7.13.10"
     "@types/uuid" "^8.3.0"
     ajv "^7.2.1"
     ajv-formats "^1.5.1"
+    dexie "^3.0.3"
     immer "^8.0.2"
     ts-node "^9.1.1"
     uuid "^8.3.2"
     validator "git+ssh://git@github.com/NREL-CYBER/validator.git"
-    zustand "^3.3.3"
+    zustand "^3.5.2"
 
 stream-browserify@^2.0.1:
   version "2.0.2"
@@ -14314,8 +14320,8 @@ validate-npm-package-license@^3.0.1:
     spdx-expression-parse "^3.0.0"
 
 "validator@git+ssh://git@github.com/NREL-CYBER/validator.git":
-  version "4.3.6"
-  resolved "git+ssh://git@github.com/NREL-CYBER/validator.git#04df48a3f0dd199d1553154df2b52d7a0925f6e9"
+  version "4.4.0"
+  resolved "git+ssh://git@github.com/NREL-CYBER/validator.git#7f441644a5be3f13b54be2646ed82f68ecb4d27b"
   dependencies:
     "@types/uuid" "^8.3.0"
     ajv "^7.2.1"
@@ -15042,10 +15048,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zustand@^3.2.0, zustand@^3.3.3:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.5.1.tgz#28970280e830924b185ce064061231957398c1d0"
-  integrity sha512-7J56Ve814z4zap71iaKFD+t65LFI//jEq/Vf55BTSVqJZCm+w9rov8OMBg+YSwIPQk54bfoIWHTrOWuAbpEDMw==
+zustand@^3.5.2:
+  version "3.5.4"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.5.4.tgz#9050a15042ced663b10588327b9210df91f0e13e"
+  integrity sha512-EtS3D83il8eiydRS+xUcpczffT0MpD9ePIqAT10ns2tfzPvq85nmMmYJl9mOLOJjPLaXAMK8lgk0iCz2h7CxGg==
 
 zwitch@^1.0.0:
   version "1.0.5"

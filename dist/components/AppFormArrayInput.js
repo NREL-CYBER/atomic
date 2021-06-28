@@ -1,11 +1,10 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { Suspense, useCallback, useMemo, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { inputStatusColorMap } from "./AppFormInput";
-import AppForm from './forms/AppForm';
 export const findShortestValue = val => {
   /**This looks like vooodooo, but it is just displaying the value 
                    * that is the shortest, which is usually the title || name */
@@ -25,7 +24,7 @@ const AppFormArrayInput = props => {
   const {
     property,
     instanceRef,
-    validator,
+    lazyLoadValidator,
     onChange,
     customTitleFunction,
     propertyInfo,
@@ -61,6 +60,7 @@ const AppFormArrayInput = props => {
   };
 
   const onSubmitItem = useCallback(item => {
+    console.log("on submit");
     const newValue = produce(value, draftValue => {
       draftValue.push(item);
     });
@@ -71,13 +71,15 @@ const AppFormArrayInput = props => {
     setErrors(errors);
   }, [onChange, property, value]);
   const onBackPressed = useCallback(() => {
-    if (validator.validate(undoCache)) {
-      const newValue = [...value, undoCache];
-      setValue(newValue);
-    }
+    lazyLoadValidator().then(validator => {
+      if (validator.validate(undoCache)) {
+        const newValue = [...value, undoCache];
+        setValue(newValue);
+      }
 
-    setIsInsertingItem(false);
-  }, [undoCache, validator, value]);
+      setIsInsertingItem(false);
+    });
+  }, [undoCache, lazyLoadValidator, value]);
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
@@ -110,18 +112,18 @@ const AppFormArrayInput = props => {
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
-  }, /*#__PURE__*/React.createElement(AppContent, null, useMemo(() => /*#__PURE__*/React.createElement(AppForm, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, useMemo(() => /*#__PURE__*/React.createElement(AppFormComposer, {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
     customComponentMap: customComponentMap,
-    validator: validator,
+    lazyLoadValidator: lazyLoadValidator,
     data: { ...data
     },
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: onBackPressed
-  })), [customComponentMap, data, hiddenFields, lockedFields, onBackPressed, onSubmitItem, showFields, validator])))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  })), [customComponentMap, data, hiddenFields, lazyLoadValidator, lockedFields, onBackPressed, onSubmitItem, showFields])))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
   }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error)))));

@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { AppFormComposer } from '..';
 import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useCallback, useMemo, useRef, useState } from 'react';
 import Validator, { PropertyDefinitionRef } from 'validator';
 import {
@@ -59,7 +60,7 @@ export type formFieldChangeEvent = (property: string, value: any) => formFieldVa
 interface formElementProps {
     property: string
     instanceRef: MutableRefObject<any>
-    validator: Validator<any>
+    validator: Validator<unknown>
     onChange: formFieldChangeEvent
 }
 export interface nestedFormProps {
@@ -99,6 +100,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         description, title, requiredOnly, calculatedFields, showFields,
         customSubmit, autoSubmit, customComponentMap, inlineFields } = props
     const { schema } = validator;
+    console.log("AppForm");
     if (typeof schema.type === "undefined") {
         // eslint-disable-next-line no-throw-literal
         throw "Schema must have a type"
@@ -157,23 +159,27 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         const [showNestedForm, setShowNestedFrom] = useState(false);
         const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>("empty");
         const formated_title = titleCase((property || title || '').split("_").join(" "));
-        return inline ? <AppForm
+        return inline ? <AppFormComposer
             data={instanceRef.current[property]}
-            validator={validator.makeReferenceValidator(propertyInfo)}
+            lazyLoadValidator={async () => {
+                console.log(propertyInfo)
+                return validator.makeReferenceValidator<unknown>(propertyInfo) as any
+            }
+            }
             requiredOnly={requiredOnly}
             autoSubmit={true}
             calculatedFields={calculatedFields}
             hiddenFields={hiddenFields}
             lockedFields={lockedFields}
             showFields={showFields}
-            customComponentMap={customComponentMap}
+            customComponentMap={customComponentMap as any}
             onSubmit={(nestedObjectValue) => {
                 setNestedFormStatus("valid");
                 onChange(property, nestedObjectValue);
                 setShowNestedFrom(false);
             }}
         >
-        </AppForm> : <AppItem>
+        </AppFormComposer> : <AppItem>
             <AppButtons slot="start">
                 <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
                     {formated_title}
@@ -182,23 +188,25 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             <Suspense fallback={<></>}>
                 <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
                     <AppContent>
-                        <div hidden={!showNestedForm}>
-                            <AppForm
-                                data={instanceRef.current[property]}
-                                customComponentMap={customComponentMap}
-                                validator={validator.makeReferenceValidator(propertyInfo)}
-                                onSubmit={(nestedObjectValue) => {
-                                    setNestedFormStatus("valid");
-                                    onChange(property, nestedObjectValue);
-                                    setShowNestedFrom(false);
-                                }}
-                            ><AppBackButton onClick={() => setShowNestedFrom(false)} />
-                            </AppForm>
-                        </div>
+                        {showNestedForm && <AppFormComposer
+                            data={instanceRef.current[property]}
+                            customComponentMap={customComponentMap as any}
+                            lazyLoadValidator={() => {
+                                console.trace()
+                                const nestedValidator = validator.makeReferenceValidator(propertyInfo)
+                                return nestedValidator as any
+                            }}
+                            onSubmit={(nestedObjectValue) => {
+                                setNestedFormStatus("valid");
+                                onChange(property, nestedObjectValue);
+                                setShowNestedFrom(false);
+                            }}
+                        ><AppBackButton onClick={() => setShowNestedFrom(false)} />
+                        </AppFormComposer>}
                     </AppContent>
                 </AppModal>
             </Suspense>
-        </AppItem>
+        </AppItem >
     }
 
 
@@ -296,7 +304,10 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 showFields={showFields}
                 property={property}
                 customComponentMap={customComponentMap}
-                validator={validator.makeReferenceValidator(propertyInfo)}
+                lazyLoadValidator={() => {
+                    console.log("array")
+                    return validator.makeReferenceValidator(propertyInfo)
+                }}
                 key={property}
             />
         }
@@ -311,7 +322,10 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 lockedFields={lockedFields}
                 showFields={showFields}
                 property={property}
-                validator={validator.makeReferenceValidator(refPropertyInfo)}
+                lazyLoadValidator={() => {
+                    console.log("dictionary")
+                    return validator.makeReferenceValidator(refPropertyInfo)
+                }}
                 key={property}
             />
         }

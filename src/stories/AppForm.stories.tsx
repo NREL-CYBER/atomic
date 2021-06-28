@@ -103,10 +103,10 @@ const veggieSchema = {
         "fruits", "vegetables"
     ]
 }
-const validator = () => new Promise<Validator<any>>((resolve) => {
+const validator = () => new Promise<Validator<unknown>>((resolve) => {
     resolve(new Validator(addressSchema))
 });
-const veggieValidator = () => new Promise<Validator<any>>((resolve) => {
+const veggieValidator = () => new Promise<Validator<unknown>>((resolve) => {
     resolve(new Validator(veggieSchema))
 });
 
@@ -2887,7 +2887,7 @@ const sapSchema = {
     "maxProperties": 1
 }
 
-const sapValidator = () => new Promise<Validator<any>>((resolve) => {
+const sapValidator = () => new Promise<Validator<unknown>>((resolve) => {
     resolve(new Validator(sapSchema))
 });
 

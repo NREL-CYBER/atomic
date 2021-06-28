@@ -44,7 +44,7 @@ const ExampleForm = () => {
     }, country_name, "-", street_address, " ", region), /*#__PURE__*/React.createElement(AppLabel, {
       position: "floating",
       color: "primary"
-    }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, /*#__PURE__*/React.createElement(AppAvatar, null, /*#__PURE__*/React.createElement(AppBinaryImg, {
+    }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, /*#__PURE__*/React.createElement(AppAvatar, null, street_view && /*#__PURE__*/React.createElement(AppBinaryImg, {
       height: "100",
       alt: "Street View",
       binary: atob(street_view)

@@ -27,22 +27,30 @@ import useappFormDefinitionValidatorCache from "./useAppFormDefinitionCache";
  */
 const AppFormComposer: React.FC<formComposerProps> = ({ lazyLoadValidator, definition, ...props }) => {
     const [validator, setValidator] = useState<Validator<unknown> | undefined>()
+    const [status, setStatus] = useState<"loading" | "idle" | "error">("loading")
     const { lazyLoadDefinitionValidator } = useappFormDefinitionValidatorCache();
     // This hook voodoo caches validators by definition & id
     // ideally, we should pre-compile validators and inject them into the store for better performance.
     // this works for now....
     useEffect(() => {
+        if (status !== "loading") {
+            return;
+        }
         lazyLoadValidator().then((warmValidator) => {
+            console.log("LOaded validator");
             if (typeof definition !== "undefined") {
                 lazyLoadDefinitionValidator(warmValidator, definition).then((warmDefinitionValidator) => {
+                    setStatus("idle")
                     setValidator(warmDefinitionValidator)
                 })
             } else {
+                setStatus("idle")
                 setValidator(warmValidator)
             }
+        }).catch(() => {
+            setStatus("error");
         })
-    }, [definition, lazyLoadDefinitionValidator, lazyLoadValidator, validator]);
-
+    }, [definition, lazyLoadDefinitionValidator, lazyLoadValidator, status, validator]);
     return typeof validator == "undefined" ?
         <AppLoadingCard /> :
         <AppForm validator={validator} {...props} />

@@ -32,7 +32,7 @@ const ExampleForm: React.FC = () => {
                             </AppLabel>
                             <AppTitle>
                                 <AppAvatar>
-                                    <AppBinaryImg height="100" alt="Street View" binary={atob(street_view)} />
+                                    {street_view && <AppBinaryImg height="100" alt="Street View" binary={atob(street_view)} />}
                                 </AppAvatar>
                             </AppTitle>
                         </AppCard >

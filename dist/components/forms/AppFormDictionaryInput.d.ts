@@ -6,7 +6,7 @@ interface formInputProps<T> {
     property: string;
     propertyInfo: PropertyDefinitionRef;
     instanceRef: MutableRefObject<any>;
-    validator: Validator<T>;
+    lazyLoadValidator: () => Promise<Validator<T>>;
     onChange: formFieldChangeEvent;
     showFields?: string[];
     hiddenFields?: string[];

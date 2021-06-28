@@ -4,7 +4,7 @@ import routes from "./routes";
 import { ExampleBottomBar } from "./ExampleBottomBar";
 const useAddress = composeStore({
   schema: AddressSchema,
-  definition: "address"
+  definition: "plan_of_action_and_milestones"
 });
 export { useAddress };
 const ExampleConfig = {
