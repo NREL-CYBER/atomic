@@ -122,16 +122,16 @@ const AppRoot = config => {
 
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
-  }, serverStatus !== "connected" && /*#__PURE__*/React.createElement(AppSerializer, {
+  }, serverStatus !== "connected" && cache && /*#__PURE__*/React.createElement(AppSerializer, {
     context: useIndexDBStorage,
     uid: uid,
     serialization: serialization,
-    cache: cache || {}
-  }), customizedSerialization && /*#__PURE__*/React.createElement(AppSerializer, {
+    cache: cache
+  }), customizedSerialization && cache && /*#__PURE__*/React.createElement(AppSerializer, {
     context: useRestSerializeation,
     uid: uid,
     serialization: customizedSerialization,
-    cache: cache || {}
+    cache: cache
   }), status === "synchronizing" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null), /*#__PURE__*/React.createElement(AppPage, {
     fullscreen: true
   }, /*#__PURE__*/React.createElement(AppLoadingCard, {

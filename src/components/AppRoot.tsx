@@ -108,18 +108,18 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         </IonApp>
     }
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
-        {serverStatus !== "connected" &&
+        {serverStatus !== "connected" && cache &&
             < AppSerializer
                 context={useIndexDBStorage}
                 uid={uid}
                 serialization={serialization!}
-                cache={cache || {}} />}
+                cache={cache} />}
 
-        {customizedSerialization && < AppSerializer
+        {customizedSerialization && cache && < AppSerializer
             context={useRestSerializeation}
             uid={uid}
             serialization={customizedSerialization}
-            cache={cache || {}} />}
+            cache={cache} />}
 
         {status === "synchronizing" && <>
             <AppToolbar />
