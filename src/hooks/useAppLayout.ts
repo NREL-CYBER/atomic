@@ -60,7 +60,7 @@ const useAppLayout = create<AppLayout>((set, store) => ({
     setStatus: (status) => {
         set({ status });
     },
-    initialize: ({ routes, title, version }) => {
+    initialize: ({ routes, title, version, cache }) => {
         const allPageRoutes = routes;
         const allRoutesFlattened = routes
             .map(route => route.nested ?
@@ -75,7 +75,8 @@ const useAppLayout = create<AppLayout>((set, store) => ({
         }
         const order = allRoutesFlattened.map(x => x.path);
         const appTitle = title;
-        set({ appTitle, title, version, status: "synchronizing", rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
+        const status: AppStatus = typeof cache === "undefined" ? "booting" : "idle"
+        set({ appTitle, title, version, status, rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
     },
     id: "",
     path: "",

@@ -48,7 +48,8 @@ const useAppLayout = create((set, store) => ({
   initialize: ({
     routes,
     title,
-    version
+    version,
+    cache
   }) => {
     const allPageRoutes = routes;
     const allRoutesFlattened = routes.map(route => route.nested ? [route, ...route.nested] : [route]).reduce((flatRoutes, moreFlatRoutes) => [...flatRoutes, ...moreFlatRoutes]);
@@ -60,11 +61,12 @@ const useAppLayout = create((set, store) => ({
 
     const order = allRoutesFlattened.map(x => x.path);
     const appTitle = title;
+    const status = typeof cache === "undefined" ? "booting" : "idle";
     set({
       appTitle,
       title,
       version,
-      status: "synchronizing",
+      status,
       rootRoute,
       allPageRoutes: allPageRoutes.filter(x => x.path !== "/"),
       allRoutesFlattened,
