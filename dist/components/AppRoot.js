@@ -131,7 +131,7 @@ const AppRoot = config => {
     context: useRestSerializeation,
     uid: uid,
     serialization: customizedSerialization,
-    cache: cache
+    cache: cache || {}
   }), status === "synchronizing" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null), /*#__PURE__*/React.createElement(AppPage, {
     fullscreen: true
   }, /*#__PURE__*/React.createElement(AppLoadingCard, {

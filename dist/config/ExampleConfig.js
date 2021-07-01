@@ -9,6 +9,7 @@ const useAddress = composeStore({
 export { useAddress };
 const ExampleConfig = {
   title: "Atomic Example",
+  appId: "nrel.atomic.example",
   version: "1.3.0",
   sections: {
     nice: routes

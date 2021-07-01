@@ -42,8 +42,7 @@ import AppGuidance from './guidance/AppGuidance';
 
 
 const AppRoot: React.FC<AppConfig> = (config) => {
-    const { routes,
-        sections, bottomBar, topBar, children,
+    const { routes, sections, bottomBar, topBar, children,
         serialization, title, version, cache } = config;
     const { initialize, status } = useAppLayout();
     const { darkMode } = useAppSettings();
@@ -113,14 +112,14 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             < AppSerializer
                 context={useIndexDBStorage}
                 uid={uid}
-                serialization={serialization}
-                cache={cache} />}
+                serialization={serialization!}
+                cache={cache!} />}
 
         {customizedSerialization && < AppSerializer
             context={useRestSerializeation}
             uid={uid}
             serialization={customizedSerialization}
-            cache={cache} />}
+            cache={cache || {}} />}
 
         {status === "synchronizing" && <>
             <AppToolbar />

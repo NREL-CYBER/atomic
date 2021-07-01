@@ -30,14 +30,15 @@ export interface AppBottomBarConfig {
 }
 export interface AppConfig {
     title: string;
+    appId: string;
     completion?: AppCompletionConfig;
     version: string;
     topBar?: React.FC;
     sections?: Record<string, AppRoute[]>;
     routes: AppRoute[];
-    cache: AppCacheIndex;
+    cache?: AppCacheIndex;
     bottomBar?: AppBottomBarConfig;
     about?: React.ReactFragment;
-    serialization: AppSerializationConfig;
+    serialization?: AppSerializationConfig;
     darkMode?: boolean;
 }

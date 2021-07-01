@@ -20,7 +20,7 @@ export const useAppSettings = create((set, settings) => ({
       endpoint,
       authorized
     } = { ...appConfig,
-      endpoint: appConfig.serialization.rest?.endpoint,
+      endpoint: appConfig.serialization?.rest?.endpoint,
       ...cacheFields
     };
     set({
