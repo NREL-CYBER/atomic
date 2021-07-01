@@ -126,7 +126,7 @@ const AppRoot = config => {
     context: useIndexDBStorage,
     uid: uid,
     serialization: serialization,
-    cache: cache
+    cache: cache || {}
   }), customizedSerialization && /*#__PURE__*/React.createElement(AppSerializer, {
     context: useRestSerializeation,
     uid: uid,
