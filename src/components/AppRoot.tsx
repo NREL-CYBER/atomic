@@ -113,7 +113,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                 context={useIndexDBStorage}
                 uid={uid}
                 serialization={serialization!}
-                cache={cache!} />}
+                cache={cache || {}} />}
 
         {customizedSerialization && < AppSerializer
             context={useRestSerializeation}
