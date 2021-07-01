@@ -12,6 +12,7 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
+import { useCache } from 'atomic';
 import { AppSerializationConfig } from 'atomic/dist/util/AppConfig';
 import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
@@ -48,7 +49,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
     const { darkMode } = useAppSettings();
     const initializeAccounts = useAppAccount(x => x.initialize);
     const initializeSettings = useAppSettings(x => x.initialize);
-
+    const { ready } = useCache();
     useEffect(
         () => {
             const className = darkMode ? 'dark-theme' : "light-theme";
@@ -64,10 +65,11 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         config && initialize(config);
         config && initializeAccounts(config)
         config && initializeSettings(config)
+        !cache && ready();
         return () => {
             console.log("Exit");
         }
-    }, [config, initialize, initializeAccounts, initializeSettings])
+    }, [cache, config, initialize, initializeAccounts, initializeSettings, ready])
 
     const { uid, setUid } = useAppAccount()
 
