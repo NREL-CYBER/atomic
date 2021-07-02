@@ -60,7 +60,6 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         },
         [darkMode]
     );
-
     useEffect(() => {
         config && initialize(config);
         config && initializeAccounts(config)
@@ -90,6 +89,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
     if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
             <AppContent center>
+                "ROOT"
                 <AppNotifications />
                 <AppTitle color="tertiary">
                     {title}
@@ -138,6 +138,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             )}
             <AppNotifications />
             <AppGuidance />
+
             {bottomBar && <IonFooter>
                 <AppBottomBar completion={config.completion} bottomBar={bottomBar} />
             </IonFooter>}

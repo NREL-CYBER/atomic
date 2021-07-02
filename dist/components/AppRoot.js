@@ -107,7 +107,7 @@ const AppRoot = config => {
       className: darkMode ? "dark-theme" : "light-theme"
     }, /*#__PURE__*/React.createElement(AppContent, {
       center: true
-    }, /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppTitle, {
+    }, "\"ROOT\"", /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppTitle, {
       color: "tertiary"
     }, title, /*#__PURE__*/React.createElement(AppChip, {
       color: "primary"

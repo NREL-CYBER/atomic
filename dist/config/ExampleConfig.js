@@ -19,12 +19,6 @@ const ExampleConfig = {
     default: "unlocked",
     disabled: true
   },
-  cache: {
-    atomic: {
-      addresses: useAddress,
-      addresses2: useAddress
-    }
-  },
   darkMode: false,
   bottomBar: {
     start: ExampleBottomBar
