@@ -32,6 +32,7 @@ import AppPage from './AppPage';
 import AppRouter from './AppRouter';
 import AppTitle from './AppTitle';
 import AppToolbar from './AppToolbar';
+import AppCompletion from './completion/AppCompletion';
 import { AppBottomBar } from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
@@ -85,11 +86,9 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         mode: "rest",
         rest: { endpoint }
     }
-
     if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
             <AppContent center>
-                "ROOT"
                 <AppNotifications />
                 <AppTitle color="tertiary">
                     {title}
@@ -122,7 +121,6 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             uid={uid}
             serialization={customizedSerialization}
             cache={cache} />}
-
         {status === "synchronizing" && <>
             <AppToolbar />
             <AppPage fullscreen>
@@ -131,6 +129,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         </>}
         {status === "idle" && <AppRouter id={"root"}>
             {/**Side Menu  */}
+            <AppCompletion config={config} />
             {sections && <AppMainMenu sections={sections} />}
             {topBar ? { topBar } : <AppTopToolbar about={config.about || ""} />}
             {routes && routes.map(route =>

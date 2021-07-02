@@ -1,7 +1,9 @@
 import React from 'react';
-import { CompletionConfiguration } from '../../hooks/useCompletion';
+import { AppConfig } from '../../util';
 /**
  * Manage the availability of routes based on conditions
  */
-declare const AppCompletion: React.FC<CompletionConfiguration>;
+declare const AppCompletion: React.FC<{
+    config: AppConfig;
+}>;
 export default AppCompletion;

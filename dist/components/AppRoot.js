@@ -35,6 +35,7 @@ import AppPage from './AppPage';
 import AppRouter from './AppRouter';
 import AppTitle from './AppTitle';
 import AppToolbar from './AppToolbar';
+import AppCompletion from './completion/AppCompletion';
 import { AppBottomBar } from './global/AppCompletionToolbar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
@@ -107,7 +108,7 @@ const AppRoot = config => {
       className: darkMode ? "dark-theme" : "light-theme"
     }, /*#__PURE__*/React.createElement(AppContent, {
       center: true
-    }, "\"ROOT\"", /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppTitle, {
+    }, /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppTitle, {
       color: "tertiary"
     }, title, /*#__PURE__*/React.createElement(AppChip, {
       color: "primary"
@@ -145,7 +146,9 @@ const AppRoot = config => {
     message: ""
   }))), status === "idle" && /*#__PURE__*/React.createElement(AppRouter, {
     id: "root"
-  }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
+  }, /*#__PURE__*/React.createElement(AppCompletion, {
+    config: config
+  }), sections && /*#__PURE__*/React.createElement(AppMainMenu, {
     sections: sections
   }), topBar ? {
     topBar

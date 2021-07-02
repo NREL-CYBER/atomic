@@ -7,7 +7,6 @@ import AppPopover from "../AppPopover";
 const Guide: FC = () => {
     const { guidance, status, dismiss } = useGuidance();
     const { latestUnockedPath } = useCompletion();
-
     return <AppPopover onDismiss={() => dismiss()} isOpen={status === "open"} >
         <AppCard title="Greetings! Lets pick up where you left off...">
             <AppRow>
