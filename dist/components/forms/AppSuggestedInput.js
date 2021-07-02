@@ -22,7 +22,6 @@ const AppSuggestedInput = ({
   const PopoverList = ({
     onHide
   }) => {
-    inputRef?.current?.setFocus();
     return /*#__PURE__*/React.createElement(IonList, null, unique(value ? [value, ...values] : values).map(option => /*#__PURE__*/React.createElement(IonItem, {
       key: option,
       onClick: () => {

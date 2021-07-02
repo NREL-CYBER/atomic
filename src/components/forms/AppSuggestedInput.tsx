@@ -26,7 +26,6 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
     const PopoverList: React.FC<{
         onHide: () => void;
     }> = ({ onHide }) => {
-        inputRef?.current?.setFocus()
         return <IonList>
             {unique(value ? [value, ...values] : values).map((option) =>
                 <IonItem key={option} onClick={() => {
