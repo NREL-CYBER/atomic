@@ -32,7 +32,8 @@ export const useAppSettings = create<AppSettingCache>((set, settings) => ({
             ...JSON.parse(savedSettings)
         } as AppSettingsProperties
         // Combine serialized settings and app-config
-        const { encryption, darkMode, endpoint, authorized } = { ...appConfig, endpoint: appConfig.serialization?.rest?.endpoint, ...cacheFields };
+        const defaultEndpoint = appConfig.serialization && appConfig.serialization.rest && appConfig.serialization.rest.endpoint
+        const { encryption, darkMode, endpoint, authorized } = { ...appConfig, endpoint: defaultEndpoint, ...cacheFields };
         set({ encryption, darkMode, authorized, endpoint, initialized: true })
         settings().serialize();
     },

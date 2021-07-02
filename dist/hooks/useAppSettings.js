@@ -14,13 +14,14 @@ export const useAppSettings = create((set, settings) => ({
     const cacheFields = { ...JSON.parse(savedSettings)
     }; // Combine serialized settings and app-config
 
+    const defaultEndpoint = appConfig.serialization && appConfig.serialization.rest && appConfig.serialization.rest.endpoint;
     const {
       encryption,
       darkMode,
       endpoint,
       authorized
     } = { ...appConfig,
-      endpoint: appConfig.serialization?.rest?.endpoint,
+      endpoint: defaultEndpoint,
       ...cacheFields
     };
     set({
