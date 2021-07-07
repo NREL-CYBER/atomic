@@ -3,16 +3,17 @@ import React from 'react';
 import { AppColor } from '../theme/AppColor';
 
 
-interface itemProps {
+interface chipProps {
     color?: AppColor
     className?: string
     onClick?: () => void
+    style?: Record<string, any>
 }
 
 /**
  * Chip Element! 
  */
-const AppChip: React.FC<itemProps> = (props) => {
+const AppChip: React.FC<chipProps> = (props) => {
     return <IonChip {...props} />
 };
 export default AppChip;

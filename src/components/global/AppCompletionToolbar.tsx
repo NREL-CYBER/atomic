@@ -19,7 +19,7 @@ export const AppCompletionProgress: React.FC = () => {
 
 export const AppBottomBar: React.FC<{ completion?: AppCompletionConfig, bottomBar?: AppBottomBarConfig }> = ({ children, bottomBar, completion }) => {
     const { darkMode } = useAppSettings();
-
+    const showContinue = !(bottomBar && bottomBar.hideNext)
     return <AppToolbar color={darkMode ? "paper" : "tertiary"}>
         <AppButtons slot="start">
             <AppSettingsModal />
@@ -27,7 +27,7 @@ export const AppBottomBar: React.FC<{ completion?: AppCompletionConfig, bottomBa
         </AppButtons>
         <AppButtons slot="end" >
             {bottomBar && bottomBar.end && <bottomBar.end />}
-            <AppContinueButton />
+            {showContinue && < AppContinueButton />}
         </AppButtons>
         {completion && !completion.disabled && <AppCompletionProgress />}
     </AppToolbar>

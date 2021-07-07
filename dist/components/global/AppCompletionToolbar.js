@@ -24,11 +24,12 @@ export const AppBottomBar = ({
   const {
     darkMode
   } = useAppSettings();
+  const showContinue = !(bottomBar && bottomBar.hideNext);
   return /*#__PURE__*/React.createElement(AppToolbar, {
     color: darkMode ? "paper" : "tertiary"
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppSettingsModal, null), bottomBar && bottomBar.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, bottomBar && bottomBar.end && /*#__PURE__*/React.createElement(bottomBar.end, null), /*#__PURE__*/React.createElement(AppContinueButton, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppCompletionProgress, null));
+  }, bottomBar && bottomBar.end && /*#__PURE__*/React.createElement(bottomBar.end, null), showContinue && /*#__PURE__*/React.createElement(AppContinueButton, null)), completion && !completion.disabled && /*#__PURE__*/React.createElement(AppCompletionProgress, null));
 };

@@ -3,6 +3,7 @@ import { AppColor } from '../theme/AppColor';
 interface textProps {
     className?: string;
     color?: AppColor;
+    style?: Record<string, any>;
 }
 /**
  * Component to display text with optional color

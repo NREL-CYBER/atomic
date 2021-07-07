@@ -1,3 +1,4 @@
+import React from "react";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
 import { AppCacheIndex } from "../state/AppCacheIndex";
@@ -29,6 +30,8 @@ export interface AppCompletionConfig {
 export interface AppBottomBarConfig {
     start?: React.FC
     end?: React.FC
+    hideNext?: boolean
+    settings?: React.FC
 }
 
 export interface AppConfig {

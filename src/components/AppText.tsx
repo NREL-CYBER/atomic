@@ -5,7 +5,8 @@ import { AppColor } from '../theme/AppColor';
 
 interface textProps {
     className?: string
-    color?: AppColor
+    color?: AppColor,
+    style?: Record<string, any>
 }
 
 /**
