@@ -15,7 +15,7 @@ interface MenuProps {
  */
 const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
   const { path } = useAppLayout();
-  const [pageEections] = useState(Object.entries(sections));
+  const [pageSections] = useState(Object.entries(sections));
   const { pathStatusColor, isUnlocked } = useCompletion();
 
   function renderlistItems(list: AppRoute[]) {
@@ -37,8 +37,8 @@ const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
   }
 
 
-  return (<AppMenu type='overlay' side='start' contentId="main" >
-    {pageEections.map(([section, routes]) =>
+  return (<AppMenu type='push' side='start' contentId="main" >
+    {pageSections.map(([section, routes]) =>
       <AppList lines="none" key={section}>
         <AppListHeader>{section}</AppListHeader>
         {renderlistItems(routes)}

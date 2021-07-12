@@ -7,7 +7,7 @@ interface appMenuProps {
     color?: AppColor
     side: "start" | "end"
     contentId: string
-    type?: "push"|"overlay"|"reveal"
+    type?: "push" | "overlay" | "reveal"
 }
 
 /**

@@ -32,8 +32,11 @@ const ExampleConfig: AppConfig = {
         default: "unlocked",
         disabled: true
     },
+    cache: {
+        atomic: { address: useAddress }
+    },
     darkMode: false,
-    bottomBar: { start: ExampleBottomBar },
+    bottomBar: { start: ExampleBottomBar, hideNext: true },
     about: "example application information....",
     serialization: {
         mode: "local",

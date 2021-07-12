@@ -1,9 +1,8 @@
-import { closeOutline, homeOutline } from 'ionicons/icons';
+import { homeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
 import { useCompletion } from '../../hooks';
-import useAppAccount from '../../hooks/useAppAccount';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
 import AppItemDivider from '../AppItemDivider';
@@ -27,7 +26,6 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
         update(pathname)
     }, [pathname, update, paths])
     const [showAbout, setShowAbout] = useState(false)
-    const { setUid } = useAppAccount();
     const titleColor = darkMode ? "tertiary" : "secondary";
     const bgColor = darkMode ? "paper" : "tertiary";
     return (<AppToolbar color={bgColor}>
@@ -58,12 +56,6 @@ const AppTopToolbar: React.FC<{ about: React.ReactFragment }> = ({ children, abo
                         {version}
                     </AppChip>
                 </AppTitle>
-            </AppButton>
-            <AppButton onClick={() => {
-                window.close();
-                setUid(undefined);
-            }}>
-                <AppIcon icon={closeOutline} />
             </AppButton>
         </AppButtons>
 
