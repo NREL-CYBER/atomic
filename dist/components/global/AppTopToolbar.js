@@ -1,9 +1,8 @@
-import { closeOutline, homeOutline } from 'ionicons/icons';
+import { homeOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
 import { useCompletion } from '../../hooks';
-import useAppAccount from '../../hooks/useAppAccount';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
 import AppItemDivider from '../AppItemDivider';
@@ -36,9 +35,6 @@ const AppTopToolbar = ({
     update(pathname);
   }, [pathname, update, paths]);
   const [showAbout, setShowAbout] = useState(false);
-  const {
-    setUid
-  } = useAppAccount();
   const titleColor = darkMode ? "tertiary" : "secondary";
   const bgColor = darkMode ? "paper" : "tertiary";
   return /*#__PURE__*/React.createElement(AppToolbar, {
@@ -90,14 +86,7 @@ const AppTopToolbar = ({
     color: titleColor
   }, appTitle, /*#__PURE__*/React.createElement(AppChip, {
     color: titleColor
-  }, version))), /*#__PURE__*/React.createElement(AppButton, {
-    onClick: () => {
-      window.close();
-      setUid(undefined);
-    }
-  }, /*#__PURE__*/React.createElement(AppIcon, {
-    icon: closeOutline
-  }))));
+  }, version)))));
 };
 
 export default AppTopToolbar;

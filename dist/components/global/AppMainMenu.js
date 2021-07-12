@@ -12,7 +12,7 @@ const AppMainMenu = ({
   const {
     path
   } = useAppLayout();
-  const [pageEections] = useState(Object.entries(sections));
+  const [pageSections] = useState(Object.entries(sections));
   const {
     pathStatusColor,
     isUnlocked
@@ -41,10 +41,10 @@ const AppMainMenu = ({
   }
 
   return /*#__PURE__*/React.createElement(AppMenu, {
-    type: "overlay",
+    type: "push",
     side: "start",
     contentId: "main"
-  }, pageEections.map(([section, routes]) => /*#__PURE__*/React.createElement(AppList, {
+  }, pageSections.map(([section, routes]) => /*#__PURE__*/React.createElement(AppList, {
     lines: "none",
     key: section
   }, /*#__PURE__*/React.createElement(AppListHeader, null, section), renderlistItems(routes))));

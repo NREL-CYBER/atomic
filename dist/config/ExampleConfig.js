@@ -19,9 +19,15 @@ const ExampleConfig = {
     default: "unlocked",
     disabled: true
   },
+  cache: {
+    atomic: {
+      address: useAddress
+    }
+  },
   darkMode: false,
   bottomBar: {
-    start: ExampleBottomBar
+    start: ExampleBottomBar,
+    hideNext: true
   },
   about: "example application information....",
   serialization: {

@@ -80,7 +80,7 @@ const AppRoot = config => {
     config && initialize(config);
     config && initializeAccounts(config);
     config && initializeSettings(config);
-    !cache && ready();
+    typeof cache === "undefined" && ready();
     return () => {
       console.log("Exit");
     };

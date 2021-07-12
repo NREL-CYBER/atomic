@@ -61,7 +61,7 @@ const useAppLayout = create((set, store) => ({
 
     const order = allRoutesFlattened.map(x => x.path);
     const appTitle = title;
-    const status = typeof cache !== "undefined" ? "booting" : "idle";
+    const status = typeof cache !== "undefined" ? "synchronizing" : "idle";
     set({
       appTitle,
       title,
