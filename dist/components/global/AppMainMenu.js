@@ -41,7 +41,7 @@ const AppMainMenu = ({
   }
 
   return /*#__PURE__*/React.createElement(AppMenu, {
-    type: "push",
+    type: "overlay",
     side: "start",
     contentId: "main"
   }, pageSections.map(([section, routes]) => /*#__PURE__*/React.createElement(AppList, {

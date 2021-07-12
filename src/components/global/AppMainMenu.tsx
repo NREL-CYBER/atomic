@@ -37,7 +37,7 @@ const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
   }
 
 
-  return (<AppMenu type='push' side='start' contentId="main" >
+  return (<AppMenu type='overlay' side='start' contentId="main" >
     {pageSections.map(([section, routes]) =>
       <AppList lines="none" key={section}>
         <AppListHeader>{section}</AppListHeader>
