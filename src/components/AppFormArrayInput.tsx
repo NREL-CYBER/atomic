@@ -30,17 +30,16 @@ export const findShortestValue = (val: any) => {
     /**This looks like vooodooo, but it is just displaying the value 
                      * that is the shortest, which is usually the title || name */
     const standard_values = ["name", "title"]
-
-    Object.keys(val).forEach((key) => {
-        standard_values.forEach((visible_key) => {
-            if (key === visible_key)
-                return val[key];
-        })
-    });
+    const keys = Object.keys(val);
+    const standard_keys = keys.filter((k) => standard_values.includes(k))
+    if (standard_keys.length > 0) {
+        return val[standard_keys[0]];
+    }
     return String(
         Object
             .values(val as Object)
-            .sort((a, b) => String(a).length - String(b).length).filter(x => x.length > 2)[0])
+            .sort((a, b) => String(a).length - String(b).length)
+            .filter(x => x.length > 2)[0])
 }
 
 /**
@@ -102,7 +101,6 @@ const AppFormArrayInput = (props: formInputProps) => {
                             {typeof val === "string" && val}
                             {typeof val === "object" && findShortestValue(val)}
                         </>}
-
                     </AppChip>
                 })}
             </AppButtons>

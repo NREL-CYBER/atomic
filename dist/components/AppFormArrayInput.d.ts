@@ -15,7 +15,7 @@ interface formInputProps {
     customTitleFunction?: (value: any) => string;
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
 }
-export declare const findShortestValue: (val: any) => string;
+export declare const findShortestValue: (val: any) => any;
 /**
  * Component for input that displays validation errors
  */
