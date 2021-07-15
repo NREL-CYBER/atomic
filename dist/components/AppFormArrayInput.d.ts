@@ -1,12 +1,13 @@
 import React, { MutableRefObject } from 'react';
-import Validator, { PropertyDefinitionRef } from 'validator';
+import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
-interface formInputProps<T> {
+interface formInputProps {
     inline?: boolean;
     property: string;
     propertyInfo: PropertyDefinitionRef;
     instanceRef: MutableRefObject<any>;
-    lazyLoadValidator: () => Promise<Validator<T>>;
+    objectSchema: SchemaObjectDefinition;
+    rootSchema: RootSchemaObject;
     onChange: formFieldChangeEvent;
     showFields?: string[];
     hiddenFields?: string[];
@@ -18,5 +19,5 @@ export declare const findShortestValue: (val: any) => string;
 /**
  * Component for input that displays validation errors
  */
-declare const AppFormArrayInput: (props: formInputProps<unknown>) => JSX.Element;
+declare const AppFormArrayInput: (props: formInputProps) => JSX.Element;
 export default AppFormArrayInput;

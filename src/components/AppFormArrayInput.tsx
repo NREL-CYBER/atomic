@@ -1,20 +1,21 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, Suspense, useCallback, useMemo, useState } from 'react';
-import Validator, { PropertyDefinitionRef } from 'validator';
+import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
-import { formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
+import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
 
 
-interface formInputProps<T> {
+interface formInputProps {
     inline?: boolean,
     property: string
     propertyInfo: PropertyDefinitionRef
     instanceRef: MutableRefObject<any>
-    lazyLoadValidator: () => Promise<Validator<T>>
+    objectSchema: SchemaObjectDefinition,
+    rootSchema: RootSchemaObject,
     onChange: formFieldChangeEvent,
     showFields?: string[],
     hiddenFields?: string[],
@@ -45,9 +46,9 @@ export const findShortestValue = (val: any) => {
 /**
  * Component for input that displays validation errors
  */
-const AppFormArrayInput = (props: formInputProps<unknown>) => {
-    const { property, instanceRef, lazyLoadValidator, onChange, customTitleFunction,
-        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields } = props;
+const AppFormArrayInput = (props: formInputProps) => {
+    const { property, instanceRef, onChange, customTitleFunction,
+        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
@@ -71,12 +72,11 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     }
 
 
-    const onSubmitItem = useCallback((item: any) => {
-        console.log("on submit")
+    const onSubmitItem = useCallback(async (item: any) => {
         const newValue = produce(value, (draftValue) => {
             draftValue.push(item);
         });
-        const [validationStatus, errors] = onChange(property, newValue);
+        const [validationStatus, errors] = await onChange(property, newValue);
         setIsInsertingItem(false);
         setValue(newValue);
         setInputStatus(validationStatus);
@@ -84,14 +84,8 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
     }, [onChange, property, value])
 
     const onBackPressed = useCallback(() => {
-        lazyLoadValidator().then(validator => {
-            if (validator.validate(undoCache)) {
-                const newValue = [...value, undoCache]
-                setValue(newValue);
-            }
-            setIsInsertingItem(false);
-        })
-    }, [undoCache, lazyLoadValidator, value])
+        setIsInsertingItem(false);
+    }, [])
     return <AppRow>
         <AppToolbar color="clear">
             <AppButtons slot='start'>
@@ -126,11 +120,12 @@ const AppFormArrayInput = (props: formInputProps<unknown>) => {
                                 hiddenFields={hiddenFields}
                                 lockedFields={lockedFields}
                                 customComponentMap={customComponentMap}
-                                lazyLoadValidator={lazyLoadValidator}
+                                rootSchema={rootSchema}
+                                objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                                 data={{ ...data }}
                                 onSubmit={onSubmitItem} >
                                 <AppBackButton onClick={onBackPressed} />
-                            </AppFormComposer>, [customComponentMap, data, hiddenFields, lazyLoadValidator, lockedFields, onBackPressed, onSubmitItem, showFields])}
+                            </AppFormComposer>, [customComponentMap, data, hiddenFields, lockedFields, objectSchema, onBackPressed, onSubmitItem, propertyInfo, rootSchema, showFields])}
                         </AppContent>
                     </Suspense>
                 </AppModal>}

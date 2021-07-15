@@ -38,9 +38,10 @@ const AppFormToggle = (props: formToggleProps<any>) => {
             <AppSelectButtons selected={typeof checked === "undefined" ? [] : checked ? ["true"] : ["false"]} onSelectionChange={(selection) => {
                 const isChecked = selection.includes("true");
                 selection.length > 0 && setChecked(isChecked);
-                const [validationStatus, validationErrors] = onChange(property, isChecked);
-                setInputStatus(validationStatus);
-                setErrors(validationErrors);
+                onChange(property, isChecked).then(([validationStatus, validationErrors]) => {
+                    setInputStatus(validationStatus);
+                    setErrors(validationErrors);
+                });
             }} buttons={[{
                 color: "success",
                 text: "True", value: "true"

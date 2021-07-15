@@ -38,10 +38,11 @@ const AppFormSelect = (props: formSelectInputProps) => {
             setInputStatus("empty");
             return;
         }
-        const [validationStatus, validationErrors] = onChange(property, val);
-        setInputStatus(validationStatus);
-        setErrors(validationErrors);
-        setValue(value);
+        onChange(property, val).then(([validationStatus, validationErrors]) => {
+            setInputStatus(validationStatus);
+            setErrors(validationErrors);
+            setValue(value);
+        });
     }, [onChange, property, value]);
 
     useEffect(() => {

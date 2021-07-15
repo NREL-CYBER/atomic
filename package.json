@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "private": true,
   "main": "dist/entry.js",
   "types": "dist/entry.d.ts",
@@ -17,6 +17,7 @@
     "@types/uuid": "^8.3.0",
     "ajv": "^7.1.1",
     "axios": "^0.21.1",
+    "comlink": "^4.3.1",
     "idb-keyval": "^5.0.2",
     "immer": "^8.0.1",
     "ionicons": "^5.5.0",
@@ -31,6 +32,7 @@
     "use-timeout": "^1.1.0",
     "uuid": "^8.3.2",
     "validator": "git+ssh://git@github.com/NREL-CYBER/validator.git",
+    "workerize-loader": "^1.3.0",
     "zustand": "^3.5.2"
   },
   "scripts": {
@@ -41,6 +43,10 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "config": {
+    "ionic_bundler": "webpack",
+    "ionic_webpack": "./config/webpack.config.js"
   },
   "resolutions": {
     "ws": "7.4.6",

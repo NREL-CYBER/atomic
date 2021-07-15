@@ -8,6 +8,7 @@ import AppTextArea from './AppTextArea';
 export const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",
+  unknown: 'tertiary',
   invalid: "danger"
 };
 
@@ -26,6 +27,7 @@ const AppFormInput = props => {
     description
   } = propertyInfo;
   const [errors, setErrors] = useState([]);
+  const [validated, setValidated] = useState();
   const [inputStatus, setInputStatus] = useState("empty");
   const instance = instanceRef.current && instanceRef.current[property];
   const instanceType = typeof instance; // This component supports arrays as input for fields that are simply arrays of strings for multi-line content
@@ -50,6 +52,10 @@ const AppFormInput = props => {
   };
 
   useEffect(() => {
+    if (value === validated) {
+      return;
+    }
+
     if (value === null || value === "" || typeof value === "undefined") {
       setInputStatus("empty");
       return;
@@ -57,10 +63,12 @@ const AppFormInput = props => {
 
     const formValue = value === "" ? undefined : value;
     const propertyValue = input === "array" ? (formValue || "").split("\n") : formValue;
-    const [validationStatus, validationErrors] = onChange(property, propertyValue);
-    setInputStatus(validationStatus);
-    setErrors(validationErrors || []);
-  }, [input, onChange, property, value]);
+    onChange(property, propertyValue).then(([validationStatus, errors]) => {
+      setInputStatus(validationStatus);
+      setErrors(errors || []);
+      setValidated(value);
+    });
+  }, [input, onChange, property, validated, value]);
   const statusColor = inputStatusColorMap[inputStatus];
   const inputMode = calculateType();
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {

@@ -24,9 +24,10 @@ const AppFormDateTimePicker = props => {
       return;
     }
 
-    const [validationStatus, validationErrors] = onChange(property, value);
-    setInputStatus(validationStatus);
-    setErrors(validationErrors || []);
+    onChange(property, value).then(([validationStatus, validationErrors]) => {
+      setInputStatus(validationStatus);
+      setErrors(validationErrors || []);
+    });
   }, [onChange, property, value]);
   const statusColor = inputStatusColorMap[inputStatus];
   const dateTimeFormat = format === "date-time" ? "YYYY-MM-DDThh:mm:ssZ" : "YYYY-MM-DD";

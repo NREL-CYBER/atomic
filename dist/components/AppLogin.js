@@ -1,7 +1,6 @@
 import { arrowBackOutline } from 'ionicons/icons';
 import React, { memo, useEffect, useState } from 'react';
 import { SHA3 } from 'sha3';
-import Validator from 'validator';
 import { AppTitle } from '.';
 import { useNotifications } from '../hooks';
 import { account } from '../hooks/useAppAccount';
@@ -77,7 +76,6 @@ const AppLogin = ({
     value: "login",
     fill: 'solid'
   }];
-  const [validator] = useState(new Validator(loginFormSchema));
   useEffect(() => {
     if (status === "booting" && typeof serialization !== "undefined") {
       const synchronize = serialization && serialization.mode === "rest" ? synchronizeRest : synchronizeLocal;
@@ -113,7 +111,8 @@ const AppLogin = ({
     customSubmit: status,
     title: "Account " + status,
     data: {},
-    validator: validator,
+    rootSchema: loginFormSchema,
+    objectSchema: loginFormSchema,
     onSubmit: ({
       email,
       password

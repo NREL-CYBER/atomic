@@ -30,9 +30,10 @@ const AppFormDateTimePicker = (props: formInputProps) => {
         if (value === null) {
             return;
         }
-        const [validationStatus, validationErrors] = onChange(property, value);
-        setInputStatus(validationStatus);
-        setErrors(validationErrors || []);
+        onChange(property, value).then(([validationStatus, validationErrors]) => {
+            setInputStatus(validationStatus);
+            setErrors(validationErrors || []);
+        });
     }, [onChange, property, value])
 
     const statusColor = inputStatusColorMap[inputStatus];

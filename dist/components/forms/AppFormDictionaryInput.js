@@ -6,6 +6,7 @@ import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormCompo
 import { prettyTitle } from "../../util";
 import { findShortestValue } from "../AppFormArrayInput";
 import { inputStatusColorMap } from "../AppFormInput";
+import { findSubSchema } from './AppForm';
 
 /**
  * Component for input that displays validation errors
@@ -15,14 +16,15 @@ const AppFormDictionaryInput = props => {
   const {
     property,
     instanceRef,
-    lazyLoadValidator,
+    objectSchema,
     onChange,
     propertyInfo,
     customComponentMap,
     hiddenFields,
     lockedFields,
     showFields,
-    customTitleFunction
+    customTitleFunction,
+    rootSchema
   } = props;
   const {
     title
@@ -54,11 +56,12 @@ const AppFormDictionaryInput = props => {
     const newValue = produce(value, draftValue => {
       draftValue[activeIndex ? activeIndex : v4()] = item;
     });
-    const [validationStatus, errors] = onChange(property, newValue);
-    setIsInsertingItem(false);
-    setValue(newValue);
-    setInputStatus(validationStatus);
-    setErrors(errors);
+    onChange(property, newValue).then(([validationStatus, errors]) => {
+      setIsInsertingItem(false);
+      setValue(newValue);
+      setInputStatus(validationStatus);
+      setErrors(errors);
+    });
   };
 
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, {
@@ -93,7 +96,8 @@ const AppFormDictionaryInput = props => {
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppFormComposer, {
     customComponentMap: customComponentMap,
-    lazyLoadValidator: lazyLoadValidator,
+    objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
+    rootSchema: rootSchema,
     data: { ...data
     },
     showFields: showFields,

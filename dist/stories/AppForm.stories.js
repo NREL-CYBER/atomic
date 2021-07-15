@@ -1,13 +1,13 @@
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import React from 'react';
 import Validator from 'validator';
-import AppFormComposer from '../components/forms/AppFormComposer';
+import AppForm, { findSchemaDefinition } from '../components/forms/AppForm';
 export default {
-  title: 'atomic/AppFormComposer',
-  component: AppFormComposer
+  title: 'atomic/AppForm',
+  component: AppForm
 };
 
-const Template = args => /*#__PURE__*/React.createElement(AppFormComposer, args);
+const Template = args => /*#__PURE__*/React.createElement(AppForm, args);
 
 const addressSchema = {
   "$id": "https://example.com/address.schema.json",
@@ -2561,7 +2561,7 @@ export const AddressExample = Template.bind({});
 AddressExample.args = {
   title: "Address",
   data: {},
-  lazyLoadValidator: validator,
+  rootSchema: sapSchema,
   requiredOnly: false,
   onSubmit
 };
@@ -2569,15 +2569,15 @@ export const VeggieExample = Template.bind({});
 VeggieExample.args = {
   title: "Veggie",
   data: {},
-  lazyLoadValidator: veggieValidator,
+  rootSchema: veggieSchema,
   onSubmit
 };
 export const ComplexExample = Template.bind({});
 ComplexExample.args = {
   data: {},
-  definition: "metadata",
+  objectSchema: findSchemaDefinition(sapSchema, "metadata"),
   requiredOnly: true,
   showFields: ["rar"],
-  lazyLoadValidator: sapValidator,
+  rootSchema: sapSchema,
   onSubmit
 };

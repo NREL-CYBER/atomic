@@ -1,11 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { AppFormComposer } from '..';
-import React, { Fragment, Suspense, useCallback, useMemo, useRef, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { chevronDownOutline, chevronForwardOutline } from 'ionicons/icons';
+import React, { Fragment, Suspense, useMemo, useRef, useState } from 'react';
+import { v4 } from 'uuid';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
 import AppUploader from '../serialization/AppUploader';
+import { validationCacheWorker } from "./../../workers/validationCacheWorker";
 import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
@@ -23,7 +25,7 @@ const LockedField = ({
 
 const AppForm = props => {
   const {
-    validator,
+    rootSchema,
     data,
     onSubmit,
     children,
@@ -39,23 +41,22 @@ const AppForm = props => {
     customComponentMap,
     inlineFields
   } = props;
-  const {
-    schema
-  } = validator;
+  const objectSchema = props.objectSchema || props.rootSchema;
+  const [deferedValidationPromises, setDefferedValidationResultPromises] = useState({});
 
-  if (typeof schema.type === "undefined") {
+  if (typeof objectSchema.type === "undefined") {
     // eslint-disable-next-line no-throw-literal
     throw "Schema must have a type";
   }
 
-  const [schemaProperties] = useState(Object.keys({ ...schema.properties
+  const [schemaProperties] = useState(Object.keys({ ...objectSchema.properties
   }));
-  const requiredProperties = schema.required || [];
+  const requiredProperties = objectSchema.required || [];
   const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
-  let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
+  let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
   requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
-  const instance = useRef(schema.type === "object" ? { ...data
-  } : schema.type === "array" ? [...data] : undefined);
+  const instance = useRef(objectSchema.type === "object" ? { ...data
+  } : objectSchema.type === "array" ? [...data] : undefined);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
   const [optionalStatus, setOptionalStatus] = useState(requiredFields.length === 0 ? "show" : "hidden");
@@ -75,44 +76,67 @@ const AppForm = props => {
     }
   };
 
-  const handleInputReceived = useCallback((property, value) => {
-    if (schema.type === "string" || schema.type === "array") {
-      instance.current = value;
-    } else if (schema.type === "object") {
-      instance.current = { ...instance.current,
-        [property]: value === "" ? undefined : value
-      };
-      const calculateProperties = calculatedFields && calculatedFields.map[property];
-
-      if (calculateProperties) {
-        const calculatedFieldValue = calculateProperties({
-          property,
-          value
-        });
-
-        if (calculatedFieldValue.value) {
-          instance.current = { ...instance.current,
-            [calculatedFieldValue.property]: calculatedFieldValue.value
-          };
-        }
-      }
-    }
-
-    setIsValid(validator.validate(instance.current));
-    const allErrors = validator.validate.errors || [];
+  validationCacheWorker.onmessage = ({
+    data
+  }) => {
+    const allErrors = data.errors;
+    const uuid = data.uuid;
+    const property = data.property;
+    const resolve = deferedValidationPromises[uuid];
+    setIsValid(allErrors.length === 0);
     const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
-    setErrors(allErrors.map(x => x.dataPath.split("/").join("") + " " + x.keyword + " " + x.message));
+    const parsedErrors = allErrors.map(x => x.dataPath.split("/").join("") + " " + x.keyword + " " + x.message);
+    setErrors(parsedErrors);
 
     if (allErrors.length === 0) {
       autoSubmit && onSubmit(instance.current);
     }
 
     if (propertyErrors.length === 0) {
-      return ["valid", undefined];
+      resolve(["valid", undefined]);
     } else {
-      return ["invalid", propertyErrors];
+      resolve(["invalid", propertyErrors]);
     }
-  }, [autoSubmit, calculatedFields, onSubmit, schema.type, validator]);
+  };
+
+  const handleInputReceived = (property, value) => {
+    return new Promise(async resolve => {
+      if (objectSchema.type === "string" || objectSchema.type === "array") {
+        instance.current = value;
+      } else if (objectSchema.type === "object") {
+        instance.current = { ...instance.current,
+          [property]: value === "" ? undefined : value
+        };
+        const calculateProperties = calculatedFields && calculatedFields.map[property];
+
+        if (calculateProperties) {
+          const calculatedFieldValue = calculateProperties({
+            property,
+            value
+          });
+
+          if (calculatedFieldValue.value) {
+            instance.current = { ...instance.current,
+              [calculatedFieldValue.property]: calculatedFieldValue.value
+            };
+          }
+        }
+      }
+
+      const uuid = v4();
+      setDefferedValidationResultPromises(x => ({ ...x,
+        [uuid]: resolve
+      }));
+      validationCacheWorker.postMessage({
+        rootSchema,
+        objectSchema,
+        property,
+        value,
+        instance,
+        uuid
+      });
+    });
+  };
 
   const ComposeNestedFormElement = ({
     customComponentMap,
@@ -130,9 +154,8 @@ const AppForm = props => {
     const formated_title = titleCase((property || title || '').split("_").join(" "));
     return inline ? /*#__PURE__*/React.createElement(AppFormComposer, {
       data: instanceRef.current[property],
-      lazyLoadValidator: async () => {
-        return validator.makeReferenceValidator(propertyInfo);
-      },
+      rootSchema: rootSchema,
+      objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       requiredOnly: requiredOnly,
       autoSubmit: true,
       calculatedFields: calculatedFields,
@@ -141,9 +164,10 @@ const AppForm = props => {
       showFields: showFields,
       customComponentMap: customComponentMap,
       onSubmit: nestedObjectValue => {
-        setNestedFormStatus("valid");
-        onChange(property, nestedObjectValue);
-        setShowNestedFrom(false);
+        onChange(property, nestedObjectValue).then(([validationStatus, errors]) => {
+          setNestedFormStatus(validationStatus);
+          setShowNestedFrom(false);
+        });
       }
     }) : /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
@@ -159,11 +183,8 @@ const AppForm = props => {
     }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
       data: instanceRef.current[property],
       customComponentMap: customComponentMap,
-      lazyLoadValidator: () => {
-        console.trace();
-        const nestedValidator = validator.makeReferenceValidator(propertyInfo);
-        return nestedValidator;
-      },
+      rootSchema: rootSchema,
+      objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       onSubmit: nestedObjectValue => {
         setNestedFormStatus("valid");
         onChange(property, nestedObjectValue);
@@ -177,15 +198,16 @@ const AppForm = props => {
   const FormElement = ({
     instanceRef,
     property,
-    validator
+    rootSchema,
+    objectSchema
   }) => {
-    const propertyInfo = schema.properties && schema.properties[property];
+    const propertyInfo = objectSchema.properties && objectSchema.properties[property];
 
     if (typeof propertyInfo === "undefined") {
-      throw new Error("Undefined property... is your JSON schema OK?");
+      return /*#__PURE__*/React.createElement(React.Fragment, null, "Undefined property... is your JSON schema OK?");
     }
 
-    const refPropertyInfo = validator.getReferenceInformation(propertyInfo);
+    const refPropertyInfo = findReferenceInformation(rootSchema, objectSchema, property, propertyInfo);
     const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
     const propertyFormat = propertyInfo.format ? propertyInfo.format : refPropertyInfo["format"];
 
@@ -289,6 +311,8 @@ const AppForm = props => {
 
     if (propertyType === "array") {
       return /*#__PURE__*/React.createElement(AppFormArrayInput, {
+        rootSchema: rootSchema,
+        objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
         onChange: handleInputReceived,
         instanceRef: instanceRef,
         propertyInfo: propertyInfo,
@@ -297,10 +321,6 @@ const AppForm = props => {
         showFields: showFields,
         property: property,
         customComponentMap: customComponentMap,
-        lazyLoadValidator: () => {
-          console.log("array");
-          return validator.makeReferenceValidator(propertyInfo);
-        },
         key: property
       });
     }
@@ -315,10 +335,8 @@ const AppForm = props => {
         lockedFields: lockedFields,
         showFields: showFields,
         property: property,
-        lazyLoadValidator: () => {
-          console.log("dictionary");
-          return validator.makeReferenceValidator(refPropertyInfo);
-        },
+        objectSchema: objectSchema,
+        rootSchema: rootSchema,
         key: property
       });
     }
@@ -360,9 +378,10 @@ const AppForm = props => {
       key: property
     });
     return /*#__PURE__*/React.createElement(FormElement, {
+      rootSchema: rootSchema,
+      objectSchema: objectSchema,
       key: property,
       onChange: handleInputReceived,
-      validator: validator,
       instanceRef: instance,
       property: property
     });
@@ -378,37 +397,39 @@ const AppForm = props => {
       slot: "start"
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
-    }, prettyTitle(title || schema.title)))))
+    }, prettyTitle(title || objectSchema.title)))))
   }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, description ? description : schema.description)), /*#__PURE__*/React.createElement(Suspense, {
+  }, description ? description : objectSchema.description)), /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
   }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
-  }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), schema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
-    propertyInfo: schema,
-    property: schema.title || "",
+  }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), objectSchema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
+    propertyInfo: objectSchema,
+    property: objectSchema.title || "",
     input: "text",
     instanceRef: instance,
     onChange: handleInputReceived
-  })), schema.type === "boolean" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormToggle, {
-    propertyInfo: schema,
-    property: schema.title || "",
+  })), objectSchema.type === "boolean" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormToggle, {
+    propertyInfo: objectSchema,
+    property: objectSchema.title || "",
     instanceRef: instance,
     onChange: handleInputReceived
-  })), schema.type === "number" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInteger, {
-    propertyInfo: schema,
-    property: schema.title || "",
+  })), objectSchema.type === "number" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInteger, {
+    propertyInfo: objectSchema,
+    property: objectSchema.title || "",
     instanceRef: instance,
     onChange: handleInputReceived
   })))), /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
-  }, /*#__PURE__*/React.createElement(AppItem, {
-    color: "clear"
-  }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppButton, {
-    color: optionalStatus === "show" ? "tertiary" : "primary",
-    fill: "outline",
+  }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppItem, {
+    href: 'javascript:void(0)',
+    color: "clear",
     onClick: toggleOptionalFields
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: optionalStatus === 'show' ? chevronDownOutline : chevronForwardOutline
+  }), /*#__PURE__*/React.createElement(AppTitle, {
+    color: "medium"
   }, optionalStatus === "hidden" ? "Enter" : "", " Optional info")), /*#__PURE__*/React.createElement("div", {
     hidden: optionalStatus !== "show"
   }, /*#__PURE__*/React.createElement(Suspense, {
@@ -423,18 +444,19 @@ const AppForm = props => {
       key: property
     });
     return /*#__PURE__*/React.createElement(FormElement, {
+      rootSchema: rootSchema,
+      objectSchema: objectSchema,
       key: property,
       onChange: handleInputReceived,
-      validator: validator,
       instanceRef: instance,
       property: property
     });
   }), [])))), /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
-  }, errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
+  }, useMemo(() => errors.slice(0, 1).map(error => /*#__PURE__*/React.createElement(AppChip, {
     key: "error",
     color: "danger"
-  }, title, " ", error.split('_').join(' '))), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
+  }, title, " ", error.split('_').join(' '))), [errors]), useMemo(() => !autoSubmit && isValid ? /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
     fill: "solid",
     color: isValid ? "favorite" : "primary",
@@ -444,4 +466,54 @@ const AppForm = props => {
   }, !customSubmit ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, null, "Save ", title)) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit])))));
 };
 
+const AppFormComposer = AppForm;
 export default AppForm;
+export { AppFormComposer };
+export function findSubSchema(schema, objectSchema, propertyInfo) {
+  const definitions = Object.values(schema.definitions || {});
+  const definition_id = propertyInfo.$ref || propertyInfo.items?.$ref;
+  const matchingDefinition = definition_id && definitions.find(x => x.$id === definition_id);
+
+  if (matchingDefinition) {
+    return matchingDefinition;
+  }
+
+  if (propertyInfo.items && typeof propertyInfo.$ref === 'undefined') {
+    return propertyInfo.items;
+  }
+
+  return propertyInfo;
+}
+export function findSchemaDefinitionId(schema, propertyInfo) {
+  if (propertyInfo.$ref) {
+    return propertyInfo.$ref;
+  }
+
+  if (propertyInfo.items) {
+    return propertyInfo.items.$ref;
+  }
+
+  return propertyInfo.$id;
+}
+export function findSchemaDefinition(schema, definition) {
+  return schema.definitions[definition];
+}
+export function findReferenceInformation(rootSchema, objectSchema, property, propInfo) {
+  if (typeof propInfo.$id === 'undefined' && typeof propInfo.$ref === 'undefined' && typeof propInfo.allOf === 'undefined' && typeof propInfo.anyOf === 'undefined') {
+    return propInfo;
+  }
+
+  if (propInfo.items) {
+    if (propInfo.items.$ref) {
+      return findSubSchema(rootSchema, objectSchema, propInfo);
+    }
+
+    return propInfo;
+  }
+
+  if (propInfo.$ref) {
+    return findSubSchema(rootSchema, objectSchema, propInfo);
+  }
+
+  return propInfo;
+}

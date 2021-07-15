@@ -37,9 +37,10 @@ const AppFormSelectArray = props => {
       return;
     }
 
-    const [validationStatus, validationErrors] = onChange(property, val);
-    setInputStatus(validationStatus);
-    setErrors(validationErrors);
+    onChange(property, val).then(([validationStatus, validationErrors]) => {
+      setInputStatus(validationStatus);
+      setErrors(validationErrors);
+    });
   }, [onChange, property]);
   return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",

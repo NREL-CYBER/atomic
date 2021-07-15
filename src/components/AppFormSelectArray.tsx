@@ -39,9 +39,10 @@ const AppFormSelectArray = (props: formSelectArrayInputProps) => {
             setInputStatus("empty");
             return;
         }
-        const [validationStatus, validationErrors] = onChange(property, val);
-        setInputStatus(validationStatus);
-        setErrors(validationErrors);
+        onChange(property, val).then(([validationStatus, validationErrors]) => {
+            setInputStatus(validationStatus);
+            setErrors(validationErrors);
+        });
     }, [onChange, property])
 
 

@@ -24,9 +24,10 @@ const AppFormInteger = props => {
     }
 
     const formValue = value === "" ? "0" : value;
-    const [validationStatus, validationErrors] = onChange(property, formValue ? parseInt(formValue) : 0);
-    setInputStatus(validationStatus);
-    setErrors(validationErrors || []);
+    onChange(property, formValue ? parseInt(formValue) : 0).then(([validationStatus, validationErrors]) => {
+      setInputStatus(validationStatus);
+      setErrors(validationErrors || []);
+    });
   }, [onChange, property, value]);
   const statusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {

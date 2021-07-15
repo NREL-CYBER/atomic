@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { AppAvatar, AppButton, AppCard, AppContent, AppItem, AppLabel, AppPage, AppTitle } from "../components";
+import { AppAvatar, AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
-import AppFormComposer from "../components/forms/AppFormComposer";
+import { findSchemaDefinition } from "../components/forms/AppForm";
 import { useAddress } from "./ExampleConfig";
 
 const ExampleForm = () => {
   const {
-    lazyLoadValidator,
+    schema,
     insert,
     all
   } = useAddress.getState();
@@ -14,14 +14,15 @@ const ExampleForm = () => {
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     center: true
   }, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
+    objectSchema: findSchemaDefinition(schema, 'system_security_plan'),
+    rootSchema: schema,
     title: "Address",
     onSubmit: data => {
       insert(data).then(() => {
         setStatus("idle");
       });
     },
-    data: {},
-    lazyLoadValidator: lazyLoadValidator
+    data: {}
   }) : /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "paper",
     titleColor: "secondary",

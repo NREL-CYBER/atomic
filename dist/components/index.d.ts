@@ -51,7 +51,7 @@ import AppToolbar from './AppToolbar';
 import AppUuidGenerator from './AppUuidGenerator';
 import AppRouteCard from './completion/AppRouteCard';
 import AppForm from './forms/AppForm';
-import AppFormComposer from './forms/AppFormComposer';
+import { AppFormComposer } from './forms/AppForm';
 import AppFormDictionaryInput from "./forms/AppFormDictionaryInput";
 import AppSuggestedInput from './forms/AppSuggestedInput';
 import AppSerializer from './serialization/AppSerializer';

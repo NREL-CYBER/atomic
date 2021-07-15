@@ -17,7 +17,6 @@ interface inputProps {
  * Component for text input
  */
 const AppInput: React.FC<inputProps> = (props) => {
-
     return <IonInput debounce={100} {...props} onIonChange={(e) => { props.onInputChange && props.onInputChange(e.detail.value!) }} />
 }
 export default AppInput;

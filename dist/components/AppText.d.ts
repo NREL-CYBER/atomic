@@ -4,6 +4,7 @@ interface textProps {
     className?: string;
     color?: AppColor;
     style?: Record<string, any>;
+    onBlur?: () => void;
 }
 /**
  * Component to display text with optional color

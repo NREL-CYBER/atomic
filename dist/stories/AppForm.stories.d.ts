@@ -1,5 +1,5 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
-import { formComposerProps } from '../components/forms/AppForm';
+import { formProps } from '../components/forms/AppForm';
 declare const _default: Meta<import("@storybook/react/types-6-0").Args>;
 export default _default;
 export interface Address {
@@ -9,6 +9,6 @@ export interface Address {
     "postal-code": string;
     "country-name": string;
 }
-export declare const AddressExample: Story<formComposerProps>;
-export declare const VeggieExample: Story<formComposerProps>;
-export declare const ComplexExample: Story<formComposerProps>;
+export declare const AddressExample: Story<formProps>;
+export declare const VeggieExample: Story<formProps>;
+export declare const ComplexExample: Story<formProps>;

@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-import { AppAvatar, AppButton, AppCard, AppContent, AppItem, AppLabel, AppPage, AppTitle } from "../components";
+import { AppAvatar, AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
-import AppFormComposer from "../components/forms/AppFormComposer";
+import { findSchemaDefinition } from "../components/forms/AppForm";
 import { useAddress } from "./ExampleConfig";
 
 const ExampleForm: React.FC = () => {
-    const { lazyLoadValidator, insert, all } = useAddress.getState();
+    const { schema, insert, all } = useAddress.getState();
     const [status, setStatus] = useState<"idle" | "editing">("idle")
     return <AppPage>
         <AppContent center>
             {status === "editing" ? <AppFormComposer
+                objectSchema={findSchemaDefinition(schema, 'system_security_plan')}
+                rootSchema={schema}
                 title={"Address"}
-                onSubmit={(data) => {
+                onSubmit={(data: any) => {
                     insert(data).then(() => {
                         setStatus("idle");
                     });
-                }} data={{}} lazyLoadValidator={lazyLoadValidator} /> :
+                }} data={{}} /> :
                 <AppCard contentColor="paper"
                     titleColor="secondary" headerColor="primary"
                     title="Addresses">

@@ -2,12 +2,12 @@ import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useState } from 'react';
 import { v4 } from 'uuid';
-import Validator, { PropertyDefinitionRef } from 'validator';
+import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { prettyTitle } from "../../util";
 import { findShortestValue } from "../AppFormArrayInput";
 import { InputStatus, inputStatusColorMap } from "../AppFormInput";
-import { formFieldChangeEvent, nestedFormProps } from './AppForm';
+import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './AppForm';
 
 
 interface formInputProps<T> {
@@ -15,7 +15,8 @@ interface formInputProps<T> {
     property: string
     propertyInfo: PropertyDefinitionRef
     instanceRef: MutableRefObject<any>
-    lazyLoadValidator: () => Promise<Validator<T>>
+    objectSchema: SchemaObjectDefinition,
+    rootSchema: RootSchemaObject,
     onChange: formFieldChangeEvent,
     showFields?: string[],
     hiddenFields?: string[],
@@ -30,9 +31,9 @@ interface formInputProps<T> {
  */
 const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
     //destructure props
-    const { property, instanceRef, lazyLoadValidator, onChange,
+    const { property, instanceRef, objectSchema, onChange,
         propertyInfo, customComponentMap, hiddenFields,
-        lockedFields, showFields, customTitleFunction } = props;
+        lockedFields, showFields, customTitleFunction, rootSchema } = props;
     const { title } = propertyInfo;
     //local state
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
@@ -55,11 +56,12 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
         const newValue = produce(value, (draftValue: { [x: string]: any; }) => {
             draftValue[activeIndex ? activeIndex : v4()] = item;
         });
-        const [validationStatus, errors] = onChange(property, newValue);
-        setIsInsertingItem(false);
-        setValue(newValue);
-        setInputStatus(validationStatus);
-        setErrors(errors);
+        onChange(property, newValue).then(([validationStatus, errors]) => {
+            setIsInsertingItem(false);
+            setValue(newValue);
+            setInputStatus(validationStatus);
+            setErrors(errors);
+        });
     }
 
     return <AppRow>
@@ -92,7 +94,8 @@ const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
                 <AppContent>
                     {isInsertingItem && <AppFormComposer
                         customComponentMap={customComponentMap}
-                        lazyLoadValidator={lazyLoadValidator}
+                        objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
+                        rootSchema={rootSchema}
                         data={{ ...data }}
                         showFields={showFields}
                         hiddenFields={hiddenFields}

@@ -18,9 +18,9 @@ interface formInputProps<T> {
     onChange: formFieldChangeEvent
 }
 
-export type InputStatus = "empty" | "invalid" | "valid";
+export type InputStatus = "empty" | "invalid" | "unknown" | "valid";
 
-export const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", valid: "favorite", invalid: "danger" }
+export const inputStatusColorMap: Record<InputStatus, AppColor> = { empty: "medium", valid: "favorite", unknown: 'tertiary', invalid: "danger" }
 
 type supported_schema_format = "email" | "date" | "time" | undefined
 
@@ -31,9 +31,9 @@ const AppFormInput = (props: formInputProps<any>) => {
     const { property, instanceRef, input, onChange, propertyInfo } = props;
     const { description } = propertyInfo;
     const [errors, setErrors] = useState<string[]>([]);
+    const [validated, setValidated] = useState<any>();
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const instance = instanceRef.current && (instanceRef.current as any)[property];
-
     const instanceType = typeof instance;
 
     // This component supports arrays as input for fields that are simply arrays of strings for multi-line content
@@ -64,16 +64,21 @@ const AppFormInput = (props: formInputProps<any>) => {
 
 
     useEffect(() => {
+        if (value === validated) {
+            return;
+        }
         if (value === null || value === "" || typeof value === "undefined") {
             setInputStatus("empty");
             return;
         }
         const formValue = value === "" ? undefined : value;
         const propertyValue = input === "array" ? (formValue || "").split("\n") : formValue;
-        const [validationStatus, validationErrors] = onChange(property, propertyValue);
-        setInputStatus(validationStatus);
-        setErrors(validationErrors || []);
-    }, [input, onChange, property, value])
+        onChange(property, propertyValue).then(([validationStatus, errors]) => {
+            setInputStatus(validationStatus);
+            setErrors(errors || []);
+            setValidated(value);
+        })
+    }, [input, onChange, property, validated, value])
 
     const statusColor = inputStatusColorMap[inputStatus];
 

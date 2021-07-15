@@ -2,16 +2,14 @@
 import { Meta, Story } from '@storybook/react/types-6-0';
 import React from 'react';
 import Validator, { RootSchemaObject } from 'validator';
-import { formComposerProps } from '../components/forms/AppForm';
-import AppFormComposer from '../components/forms/AppFormComposer';
-
+import AppForm, { findSchemaDefinition, formProps } from '../components/forms/AppForm';
 
 export default {
-    title: 'atomic/AppFormComposer',
-    component: AppFormComposer,
+    title: 'atomic/AppForm',
+    component: AppForm,
 } as Meta;
 
-const Template: Story<formComposerProps> = (args) => <AppFormComposer {...args} />;
+const Template: Story<formProps> = (args) => <AppForm {...args} />;
 
 export interface Address {
     "post-office-box": string,
@@ -2895,7 +2893,7 @@ export const AddressExample = Template.bind({});
 AddressExample.args = {
     title: "Address",
     data: {},
-    lazyLoadValidator: validator,
+    rootSchema: sapSchema,
     requiredOnly: false,
     onSubmit,
 }
@@ -2903,16 +2901,17 @@ export const VeggieExample = Template.bind({});
 VeggieExample.args = {
     title: "Veggie",
     data: {},
-    lazyLoadValidator: veggieValidator,
+    rootSchema: veggieSchema,
+    
     onSubmit,
 }
 export const ComplexExample = Template.bind({});
 ComplexExample.args = {
     data: {},
-    definition: "metadata",
+    objectSchema: findSchemaDefinition(sapSchema, "metadata"),
     requiredOnly: true,
-    showFields:["rar"],
-    lazyLoadValidator: sapValidator,
+    showFields: ["rar"],
+    rootSchema: sapSchema,
     onSubmit,
 }
 

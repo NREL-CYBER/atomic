@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { AppFormComposer } from '..';
-import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useCallback, useMemo, useRef, useState } from 'react';
-import Validator, { PropertyDefinitionRef } from 'validator';
+import { chevronDownOutline, chevronForwardOutline } from 'ionicons/icons';
+import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useMemo, useRef, useState } from 'react';
+import { v4 } from 'uuid';
+import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
     AppCard, AppChip, AppCol,
     AppContent,
 
-    AppFormArrayInput, AppFormInput, AppFormSelect, AppItem, AppLabel,
+    AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel,
     AppList, AppLoadingCard, AppModal, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
@@ -15,11 +16,11 @@ import { prettyTitle, titleCase } from '../../util';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
 import AppUploader from '../serialization/AppUploader';
+import { validationCacheWorker } from "./../../workers/validationCacheWorker";
 import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
-
 
 export interface propertyKeyValue {
     property: string,
@@ -29,16 +30,13 @@ export interface calculatedPropertyMap {
     map: Record<string, (base: propertyKeyValue) => propertyKeyValue>
 }
 
-export interface formComposerProps extends formProps {
-    lazyLoadValidator: () => Promise<Validator<unknown>>
-    definition?: string,
-}
 export interface formNodeProps extends formProps {
-    validator: Validator<unknown>
 }
 
 export interface formProps {
     data: any,
+    rootSchema: RootSchemaObject
+    objectSchema?: SchemaObjectDefinition
     onSubmit: (validData: any) => void,
     children?: ReactFragment,
     lockedFields?: string[]
@@ -55,12 +53,13 @@ export interface formProps {
 }
 
 export type formFieldValidationStatus = [formFieldStatus, string[] | undefined]
-export type formFieldChangeEvent = (property: string, value: any) => formFieldValidationStatus;
+export type formFieldChangeEvent = (property: string, value: any) => Promise<formFieldValidationStatus>;
 
 interface formElementProps {
     property: string
     instanceRef: MutableRefObject<any>
-    validator: Validator<unknown>
+    rootSchema: RootSchemaObject
+    objectSchema: SchemaObjectDefinition
     onChange: formFieldChangeEvent
 }
 export interface nestedFormProps {
@@ -91,28 +90,27 @@ const LockedField: FC<lockedFieldProps> = ({ property, value }) => <AppItem>
         </AppLabel>
     </AppButtons>
 </AppItem>
-export type formFieldStatus = "valid" | "invalid" | "empty";
+export type formFieldStatus = "valid" | "invalid" | "unknown" | "empty";
 
 
 
 const AppForm: React.FC<formNodeProps> = (props) => {
-    const { validator, data, onSubmit, children, lockedFields, hiddenFields,
+    const { rootSchema, data, onSubmit, children, lockedFields, hiddenFields,
         description, title, requiredOnly, calculatedFields, showFields,
         customSubmit, autoSubmit, customComponentMap, inlineFields } = props
-    const { schema } = validator;
-    if (typeof schema.type === "undefined") {
+    const objectSchema = props.objectSchema || props.rootSchema;
+    const [deferedValidationPromises, setDefferedValidationResultPromises] = useState<Record<string, (status: formFieldValidationStatus) => void>>({})
+    if (typeof objectSchema.type === "undefined") {
         // eslint-disable-next-line no-throw-literal
         throw "Schema must have a type"
     }
-
-    const [schemaProperties] = useState<string[]>(Object.keys({ ...schema.properties }));
-    const requiredProperties = schema.required || [];
+    const [schemaProperties] = useState<string[]>(Object.keys({ ...objectSchema.properties }));
+    const requiredProperties = objectSchema.required || [];
 
     const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
-    let requiredFields = schema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
+    let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
-
-    const instance = useRef<any>(schema.type === "object" ? { ...data } : schema.type === "array" ? [...data] : undefined)
+    const instance = useRef<any>(objectSchema.type === "object" ? { ...data } : objectSchema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
 
@@ -130,36 +128,50 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 break;
         }
     }
+    validationCacheWorker.onmessage = ({ data }) => {
+        const allErrors = data.errors
+        const uuid = data.uuid
+        const property = data.property
+        const resolve = deferedValidationPromises[uuid]
+        setIsValid(allErrors.length === 0)
+        const propertyErrors = allErrors.filter((error: any) => error.schemaPath === "#/" + property).map((x: any) => x.message || "");
+        const parsedErrors = allErrors.map((x: any) => x.dataPath.split("/").join("") + " " + x.keyword + " " + x.message);
 
-
-    const handleInputReceived: formFieldChangeEvent = useCallback((property: string, value: any) => {
-        if (schema.type === "string" || schema.type === "array") {
-            instance.current = value;
-        } else if (schema.type === "object") {
-            instance.current = { ...instance.current, [property]: value === "" ? undefined : value };
-            const calculateProperties = calculatedFields && calculatedFields.map[property];
-            if (calculateProperties) {
-                const calculatedFieldValue = calculateProperties({ property, value });
-                if (calculatedFieldValue.value) {
-                    instance.current = { ...instance.current, [calculatedFieldValue.property]: calculatedFieldValue.value };
-                }
-            }
-        }
-
-        setIsValid(validator.validate(instance.current))
-        const allErrors = validator.validate.errors || []
-        const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
-        setErrors(allErrors.map(x => x.dataPath.split("/").join("") + " " + x.keyword + " " + x.message))
+        setErrors(parsedErrors)
         if (allErrors.length === 0) {
             autoSubmit && onSubmit(instance.current);
         }
         if (propertyErrors.length === 0) {
-            return ["valid", undefined]
+            resolve(["valid", undefined])
         } else {
-            return ["invalid", propertyErrors]
+            resolve(["invalid", propertyErrors])
         }
-    }, [autoSubmit, calculatedFields, onSubmit, schema.type, validator]);
 
+    }
+
+    const handleInputReceived: formFieldChangeEvent = (property: string, value: any) => {
+        return new Promise<formFieldValidationStatus>(async (resolve) => {
+            if (objectSchema.type === "string" || objectSchema.type === "array") {
+                instance.current = value;
+            } else if (objectSchema.type === "object") {
+                instance.current = { ...instance.current, [property]: value === "" ? undefined : value };
+                const calculateProperties = calculatedFields && calculatedFields.map[property];
+                if (calculateProperties) {
+                    const calculatedFieldValue = calculateProperties({ property, value });
+                    if (calculatedFieldValue.value) {
+                        instance.current = { ...instance.current, [calculatedFieldValue.property]: calculatedFieldValue.value };
+                    }
+                }
+            }
+            const uuid = v4()
+            setDefferedValidationResultPromises(x => ({ ...x, [uuid]: resolve }));
+            validationCacheWorker.postMessage(
+                {
+                    rootSchema, objectSchema, property, value, instance, uuid
+                }
+            )
+        })
+    }
     const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ customComponentMap, propertyInfo, property, inline, instanceRef, onChange }) => {
         const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
@@ -167,10 +179,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         const formated_title = titleCase((property || title || '').split("_").join(" "));
         return inline ? <AppFormComposer
             data={instanceRef.current[property]}
-            lazyLoadValidator={async () => {
-                return validator.makeReferenceValidator<unknown>(propertyInfo) as any
-            }
-            }
+            rootSchema={rootSchema}
+            objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
             requiredOnly={requiredOnly}
             autoSubmit={true}
             calculatedFields={calculatedFields}
@@ -179,9 +189,10 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             showFields={showFields}
             customComponentMap={customComponentMap as any}
             onSubmit={(nestedObjectValue) => {
-                setNestedFormStatus("valid");
-                onChange(property, nestedObjectValue);
-                setShowNestedFrom(false);
+                onChange(property, nestedObjectValue).then(([validationStatus, errors]) => {
+                    setNestedFormStatus(validationStatus);
+                    setShowNestedFrom(false);
+                });
             }}
         >
         </AppFormComposer> : <AppItem>
@@ -196,11 +207,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {showNestedForm && <AppFormComposer
                             data={instanceRef.current[property]}
                             customComponentMap={customComponentMap as any}
-                            lazyLoadValidator={() => {
-                                console.trace()
-                                const nestedValidator = validator.makeReferenceValidator(propertyInfo)
-                                return nestedValidator as any
-                            }}
+                            rootSchema={rootSchema}
+                            objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                             onSubmit={(nestedObjectValue) => {
                                 setNestedFormStatus("valid");
                                 onChange(property, nestedObjectValue);
@@ -215,12 +223,13 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     }
 
 
-    const FormElement: React.FC<formElementProps> = ({ instanceRef, property, validator }) => {
-        const propertyInfo = schema.properties && schema.properties[property];
+    const FormElement: React.FC<formElementProps> = ({ instanceRef, property, rootSchema, objectSchema }) => {
+        const propertyInfo = objectSchema.properties && objectSchema.properties[property];
+
         if (typeof propertyInfo === "undefined") {
-            throw new Error("Undefined property... is your JSON schema OK?");
+            return <>Undefined property... is your JSON schema OK?</>;
         }
-        const refPropertyInfo = validator.getReferenceInformation(propertyInfo) as PropertyDefinitionRef;
+        const refPropertyInfo = findReferenceInformation(rootSchema, objectSchema, property, propertyInfo) as PropertyDefinitionRef;
         const propertyType = propertyInfo.type ? propertyInfo.type : refPropertyInfo["type"];
         const propertyFormat = propertyInfo.format ? propertyInfo.format : refPropertyInfo["format"];
         if (property === "uuid") {
@@ -301,6 +310,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
         if (propertyType === "array") {
             return <AppFormArrayInput
+                rootSchema={rootSchema}
+                objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
                 propertyInfo={propertyInfo}
@@ -309,10 +320,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 showFields={showFields}
                 property={property}
                 customComponentMap={customComponentMap}
-                lazyLoadValidator={() => {
-                    console.log("array")
-                    return validator.makeReferenceValidator(propertyInfo)
-                }}
                 key={property}
             />
         }
@@ -327,10 +334,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 lockedFields={lockedFields}
                 showFields={showFields}
                 property={property}
-                lazyLoadValidator={() => {
-                    console.log("dictionary")
-                    return validator.makeReferenceValidator(refPropertyInfo)
-                }}
+                objectSchema={objectSchema}
+                rootSchema={rootSchema}
                 key={property}
             />
         }
@@ -372,9 +377,10 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             if (hiddenFields && hiddenFields.includes(property))
                 return <Fragment key={property}></Fragment>
             return <FormElement
+                rootSchema={rootSchema}
+                objectSchema={objectSchema}
                 key={property}
                 onChange={handleInputReceived}
-                validator={validator}
                 instanceRef={instance}
                 property={property} />
         })}</>
@@ -388,40 +394,40 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     <AppButtons slot="start">
                         {children}
                         {<AppTitle color={isValid ? "favorite" : "tertiary"}>
-                            {prettyTitle(title || schema.title)}
+                            {prettyTitle(title || objectSchema.title)}
                         </AppTitle>}
                     </AppButtons>
                 </AppToolbar>
             </>}>
                 <AppItem>
                     <AppText color="medium">
-                        {description ? description : schema.description}
+                        {description ? description : objectSchema.description}
                     </AppText>
                 </AppItem>
                 <Suspense fallback={<AppLoadingCard />}>
                     <AppList color="clear">
                         {useMemo(() => <RequiredFormFields />, [])}
-                        {schema.type === "string" && <>
+                        {objectSchema.type === "string" && <>
                             <AppFormInput
-                                propertyInfo={schema as PropertyDefinitionRef}
-                                property={schema.title || ""}
+                                propertyInfo={objectSchema as PropertyDefinitionRef}
+                                property={objectSchema.title || ""}
                                 input={"text"}
                                 instanceRef={instance}
                                 onChange={handleInputReceived}
                             />
                         </>}
-                        {schema.type === "boolean" && <>
+                        {objectSchema.type === "boolean" && <>
                             <AppFormToggle
-                                propertyInfo={schema as PropertyDefinitionRef}
-                                property={schema.title || ""}
+                                propertyInfo={objectSchema as PropertyDefinitionRef}
+                                property={objectSchema.title || ""}
                                 instanceRef={instance}
                                 onChange={handleInputReceived}
                             />
                         </>}
-                        {schema.type === "number" && <>
+                        {objectSchema.type === "number" && <>
                             <AppFormInteger
-                                propertyInfo={schema as PropertyDefinitionRef}
-                                property={schema.title || ""}
+                                propertyInfo={objectSchema as PropertyDefinitionRef}
+                                property={objectSchema.title || ""}
                                 instanceRef={instance}
                                 onChange={handleInputReceived}
                             />
@@ -431,11 +437,13 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 </Suspense>
 
                 {<AppList color={"clear"}>
-                    <AppItem color="clear">
-                        {!requiredOnly && optionalFields.length > 0 && <AppButton color={optionalStatus === "show" ? "tertiary" : "primary"} fill={"outline"} onClick={toggleOptionalFields} >
+                    {!requiredOnly && optionalFields.length > 0 && <AppItem href={'javascript:void(0)'} color="clear" onClick={toggleOptionalFields}>
+                        {<AppIcon icon={optionalStatus === 'show' ? chevronDownOutline : chevronForwardOutline} />}
+
+                        <AppTitle color='medium'>
                             {optionalStatus === "hidden" ? "Enter" : ""} Optional info
-                        </AppButton>}
-                    </AppItem>
+                        </AppTitle>
+                    </AppItem>}
                     {<div hidden={optionalStatus !== "show"}>
                         <Suspense fallback={<></>}>
                             {useMemo(
@@ -445,9 +453,11 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                                             return <LockedField key={property} property={property} value={instance.current[property]} />
                                         if (hiddenFields && hiddenFields.includes(property))
                                             return <Fragment key={property}></Fragment>
-                                        return <FormElement key={property}
+                                        return <FormElement
+                                            rootSchema={rootSchema}
+                                            objectSchema={objectSchema}
+                                            key={property}
                                             onChange={handleInputReceived}
-                                            validator={validator}
                                             instanceRef={instance} property={property} />
                                     })
                                 , [])}
@@ -456,9 +466,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 </AppList>}
 
                 <AppToolbar color="clear">
-                    {errors.slice(0, 1).map(error => <AppChip key={"error"} color='danger'>
+                    {useMemo(() => errors.slice(0, 1).map(error => <AppChip key={"error"} color='danger'>
                         {title} {error.split('_').join(' ')}
-                    </AppChip>)}
+                    </AppChip>), [errors])}
 
                     {useMemo(() => !autoSubmit && isValid ? <AppButton expand="full" fill={"solid"} color={isValid ? "favorite" : "primary"} onClick={() => {
                         onSubmit(instance.current);
@@ -475,4 +485,49 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         </Suspense>
     </>
 };
+const AppFormComposer = AppForm;
 export default AppForm;
+export { AppFormComposer };
+
+export function findSubSchema(schema: RootSchemaObject, objectSchema: SchemaObjectDefinition, propertyInfo: PropertyDefinitionRef): SchemaObjectDefinition {
+    const definitions = Object.values(schema.definitions || {})
+    const definition_id = propertyInfo.$ref || propertyInfo.items?.$ref
+    const matchingDefinition = definition_id && definitions.find(x => x.$id === definition_id);
+    if (matchingDefinition) {
+        return matchingDefinition;
+    }
+    if (propertyInfo.items && typeof propertyInfo.$ref === 'undefined') {
+        return propertyInfo.items as SchemaObjectDefinition;
+    }
+    return propertyInfo as SchemaObjectDefinition
+}
+export function findSchemaDefinitionId(schema: RootSchemaObject, propertyInfo: PropertyDefinitionRef): string {
+    if (propertyInfo.$ref) {
+        return propertyInfo.$ref
+    }
+    if (propertyInfo.items) {
+        return propertyInfo.items.$ref as string
+    }
+    return propertyInfo.$id!
+}
+export function findSchemaDefinition(schema: RootSchemaObject, definition: string): SchemaObjectDefinition {
+    return schema!.definitions![definition];
+}
+
+export function findReferenceInformation(rootSchema: RootSchemaObject, objectSchema: SchemaObjectDefinition, property: string, propInfo: PropertyDefinitionRef): PropertyDefinitionRef {
+    if (typeof propInfo.$id === 'undefined' && typeof propInfo.$ref === 'undefined' && typeof propInfo.allOf === 'undefined' && typeof propInfo.anyOf === 'undefined') {
+        return propInfo;
+    }
+    if (propInfo.items) {
+        if (propInfo.items!.$ref) {
+            return findSubSchema(rootSchema, objectSchema, propInfo) as PropertyDefinitionRef
+        }
+        return propInfo
+    }
+    if (propInfo.$ref) {
+        return findSubSchema(rootSchema, objectSchema, propInfo) as PropertyDefinitionRef
+    }
+    return propInfo
+}
+
+

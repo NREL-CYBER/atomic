@@ -1,12 +1,13 @@
 import React, { MutableRefObject } from 'react';
-import Validator, { PropertyDefinitionRef } from 'validator';
+import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { formFieldChangeEvent, nestedFormProps } from './AppForm';
 interface formInputProps<T> {
     inline?: boolean;
     property: string;
     propertyInfo: PropertyDefinitionRef;
     instanceRef: MutableRefObject<any>;
-    lazyLoadValidator: () => Promise<Validator<T>>;
+    objectSchema: SchemaObjectDefinition;
+    rootSchema: RootSchemaObject;
     onChange: formFieldChangeEvent;
     showFields?: string[];
     hiddenFields?: string[];

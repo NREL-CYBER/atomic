@@ -1,7 +1,6 @@
 import { arrowBackOutline } from 'ionicons/icons';
 import React, { memo, useEffect, useState } from 'react';
 import { SHA3 } from 'sha3';
-import Validator from 'validator';
 import { AppTitle } from '.';
 import { useNotifications } from '../hooks';
 import { account } from '../hooks/useAppAccount';
@@ -46,7 +45,7 @@ const loginFormSchema = {
 }
 
 
-interface credential { email: string, password: string };
+export interface credential { email: string, password: string };
 
 /**
  * Sha3 hash then convert to base64 and then to HEX
@@ -89,7 +88,6 @@ const AppLogin: React.FC<{
                 { text: "New Account", value: "create", fill: "solid" },
                 { text: "Login", value: "login", fill: 'solid' }
             ]
-    const [validator] = useState<Validator<credential>>(new Validator<credential>(loginFormSchema));
     useEffect(() => {
         if (status === "booting" && typeof serialization !== "undefined") {
             const synchronize = serialization && serialization.mode === "rest" ? synchronizeRest : synchronizeLocal;
@@ -112,7 +110,7 @@ const AppLogin: React.FC<{
         }} buttons={accountValidOptions} />}
         {status !== "idle" && status !== "authenticating" && <AppForm
             customSubmit={status}
-            title={"Account " + status} data={{}} validator={validator} onSubmit={({ email, password }) => {
+            title={"Account " + status} data={{}} rootSchema={loginFormSchema} objectSchema={loginFormSchema} onSubmit={({ email, password }) => {
                 setStatus("authenticating");
                 authenticate(email, password, status, (result: string) => {
                     if (typeof result === "undefined") {
