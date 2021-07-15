@@ -17,7 +17,6 @@
     "@types/uuid": "^8.3.0",
     "ajv": "^7.1.1",
     "axios": "^0.21.1",
-    "comlink": "^4.3.1",
     "idb-keyval": "^5.0.2",
     "immer": "^8.0.1",
     "ionicons": "^5.5.0",
