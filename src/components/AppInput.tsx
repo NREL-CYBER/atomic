@@ -11,6 +11,7 @@ interface inputProps {
     value?: string
     color?: AppColor
     type?: stringFormat
+    style?: Record<string, any>
 }
 
 /**
