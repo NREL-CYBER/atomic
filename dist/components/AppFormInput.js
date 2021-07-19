@@ -67,8 +67,8 @@ const AppFormInput = props => {
       setInputStatus(validationStatus);
       setErrors(errors || []);
       setValidated(value);
-    });
-  }, [input, onChange, property, validated, value]);
+    }); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [input, onChange, property, value]);
   const statusColor = inputStatusColorMap[inputStatus];
   const inputMode = calculateType();
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {

@@ -1,3 +1,5 @@
+/* eslint-disable no-script-url */
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { chevronDownOutline, chevronForwardOutline } from 'ionicons/icons';
 import React, { Fragment, Suspense, useMemo, useRef, useState } from 'react';

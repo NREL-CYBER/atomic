@@ -1,3 +1,4 @@
+/* eslint-disable no-script-url */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { chevronDownOutline, chevronForwardOutline } from 'ionicons/icons';
 import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useMemo, useRef, useState } from 'react';
@@ -141,6 +142,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         if (allErrors.length === 0) {
             autoSubmit && onSubmit(instance.current);
         }
+        
         if (propertyErrors.length === 0) {
             resolve(["valid", undefined])
         } else {

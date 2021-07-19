@@ -78,7 +78,8 @@ const AppFormInput = (props: formInputProps<any>) => {
             setErrors(errors || []);
             setValidated(value);
         })
-    }, [input, onChange, property, validated, value])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [input, onChange, property, value])
 
     const statusColor = inputStatusColorMap[inputStatus];
 
