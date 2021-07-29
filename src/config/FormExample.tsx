@@ -10,7 +10,7 @@ const ExampleForm: React.FC = () => {
     return <AppPage>
         <AppContent center>
             {status === "editing" ? <AppFormComposer
-                objectSchema={findSchemaDefinition(schema, 'system_security_plan')}
+                objectSchema={findSchemaDefinition(schema, 'address')}
                 rootSchema={schema}
                 title={"Address"}
                 onSubmit={(data: any) => {

@@ -16,7 +16,7 @@ type Address = {
 
 
 const useAddress = composeStore<Address>(
-    { schema: AddressSchema, definition: "plan_of_action_and_milestones" }
+    { schema: AddressSchema, definition: "address" }
 );
 
 
@@ -25,7 +25,7 @@ export { useAddress };
 const ExampleConfig: AppConfig = {
     title: "Atomic Example",
     appId: "nrel.atomic.example",
-    version: "1.3.0",
+    version: "3.1.5",
     sections: { nice: routes },
     routes,
     completion: {

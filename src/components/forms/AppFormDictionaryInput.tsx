@@ -30,6 +30,7 @@ interface formInputProps<T> {
  * Component for input that displays validation errors
  */
 const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
+    console.log(props.propertyInfo);
     //destructure props
     const { property, instanceRef, objectSchema, onChange,
         propertyInfo, customComponentMap, hiddenFields,
