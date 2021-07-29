@@ -130,19 +130,19 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
     }
     validationCacheWorker.onmessage = ({ data }) => {
-        const allErrors = data.errors
+        const allErrors = data.errors || []
+        console.log(allErrors);
         const uuid = data.uuid
         const property = data.property
         const resolve = deferedValidationPromises[uuid]
         setIsValid(allErrors.length === 0)
-        const propertyErrors = allErrors.filter((error: any) => error.schemaPath === "#/" + property).map((x: any) => x.message || "");
-        const parsedErrors = allErrors.map((x: any) => x.dataPath.split("/").join("") + " " + x.keyword + " " + x.message);
-
+        const parsedErrors = allErrors.map((x: any) => x.instancePath.split("/").join("") + " " + x.keyword + " " + x.message);
+        const propertyErrors = parsedErrors.filter((x: string) => x.includes("'" + property + "'"))
         setErrors(parsedErrors)
         if (allErrors.length === 0) {
             autoSubmit && onSubmit(instance.current);
         }
-        
+
         if (propertyErrors.length === 0) {
             resolve(["valid", undefined])
         } else {

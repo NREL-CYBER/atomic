@@ -1,4 +1,5 @@
-import React, { MutableRefObject, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { MutableRefObject, useEffect, useMemo, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppItem, AppLabel, AppText } from '..';
 import { prettyTitle } from '../../util';
@@ -43,9 +44,9 @@ const AppFormInteger = (props: formInputProps) => {
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
-            <AppInput type={"number"} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
+            {useMemo(() => <AppInput type={"number"} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
                 setValue(val)
-            }} />
+            }} />, [])}
         </AppItem>
 
         {errors && errors.length > 0 && <AppItem>

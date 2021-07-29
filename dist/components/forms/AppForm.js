@@ -81,13 +81,14 @@ const AppForm = props => {
   validationCacheWorker.onmessage = ({
     data
   }) => {
-    const allErrors = data.errors;
+    const allErrors = data.errors || [];
+    console.log(allErrors);
     const uuid = data.uuid;
     const property = data.property;
     const resolve = deferedValidationPromises[uuid];
     setIsValid(allErrors.length === 0);
-    const propertyErrors = allErrors.filter(error => error.schemaPath === "#/" + property).map(x => x.message || "");
-    const parsedErrors = allErrors.map(x => x.dataPath.split("/").join("") + " " + x.keyword + " " + x.message);
+    const parsedErrors = allErrors.map(x => x.instancePath.split("/").join("") + " " + x.keyword + " " + x.message);
+    const propertyErrors = parsedErrors.filter(x => x.includes("'" + property + "'"));
     setErrors(parsedErrors);
 
     if (allErrors.length === 0) {

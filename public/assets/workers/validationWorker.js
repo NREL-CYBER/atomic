@@ -5,7 +5,7 @@ var module = {}
 // eslint-disable-next-line no-undef
 importScripts("./ajv.js")
 console.log(self);
-const ajv = new self.ajv7.default()
+const ajv = new self.ajv7.default({ strict: true, inlineRefs: false, code: { es5: true }, passContext: true })
 ajv.addFormat('date-time', () => true)
 ajv.addFormat('uri', () => true)
 ajv.addFormat('uri-reference', () => true)

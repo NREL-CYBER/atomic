@@ -53,7 +53,7 @@ const AppFormArrayInput = (props: formInputProps) => {
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<any[]>(instanceRef.current[property] ? instanceRef.current[property] : [])
     const [data, setData] = useState<any>({})
-    const [undoCache, setUndoCache] = useState<any>();
+    const [, setUndoCache] = useState<any>();
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {

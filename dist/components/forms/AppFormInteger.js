@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useMemo, useState } from 'react';
 import { AppItem, AppLabel, AppText } from '..';
 import { prettyTitle } from '../../util';
 import { inputStatusColorMap } from '../AppFormInput';
@@ -36,14 +37,14 @@ const AppFormInteger = props => {
   }, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: statusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppInput, {
+  }, propertyFormattedName), useMemo(() => /*#__PURE__*/React.createElement(AppInput, {
     type: "number",
     value: value,
     placeholder: propertyFormattedName,
     onInputChange: val => {
       setValue(val);
     }
-  })), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  }), [])), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
   }, errors.map((error, i) => /*#__PURE__*/React.createElement(AppText, {

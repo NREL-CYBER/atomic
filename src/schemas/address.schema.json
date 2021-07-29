@@ -6594,7 +6594,7 @@
             "required": [
                 "uuid",
                 "metadata",
-                "poam_items"
+                "items"
             ],
             "additionalProperties": false
         },

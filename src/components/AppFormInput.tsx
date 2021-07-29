@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useState } from 'react';
+import React, { MutableRefObject, useEffect, useMemo, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
@@ -30,8 +30,8 @@ type supported_schema_format = "email" | "date" | "time" | undefined
 const AppFormInput = (props: formInputProps<any>) => {
     const { property, instanceRef, input, onChange, propertyInfo } = props;
     const { description } = propertyInfo;
-    const [errors, setErrors] = useState<string[]>([]);
-    const [validated, setValidated] = useState<any>();
+    const [errors, setErrors] = useState<string[] | undefined>();
+    const [validating, setValidating] = useState<any>();
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const instance = instanceRef.current && (instanceRef.current as any)[property];
     const instanceType = typeof instance;
@@ -64,7 +64,7 @@ const AppFormInput = (props: formInputProps<any>) => {
 
 
     useEffect(() => {
-        if (value === validated) {
+        if (value === validating) {
             return;
         }
         if (value === null || value === "" || typeof value === "undefined") {
@@ -73,10 +73,10 @@ const AppFormInput = (props: formInputProps<any>) => {
         }
         const formValue = value === "" ? undefined : value;
         const propertyValue = input === "array" ? (formValue || "").split("\n") : formValue;
+        setValidating(value);
         onChange(property, propertyValue).then(([validationStatus, errors]) => {
             setInputStatus(validationStatus);
-            setErrors(errors || []);
-            setValidated(value);
+            setErrors(errors);
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [input, onChange, property, value])
@@ -89,13 +89,14 @@ const AppFormInput = (props: formInputProps<any>) => {
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
-            {input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
+            {useMemo(() => <>{input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
                 <AppInput color="dark" type={inputMode} value={value} placeholder={description || ""} onInputChange={(val) => {
                     setValue(val)
                 }} />
                 : <AppTextArea placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
                     setValue(val);
-                }} />}
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                }} />}</>, [input])}
         </AppItem>
 
         {errors && errors.length > 0 && <AppItem>
