@@ -8,7 +8,11 @@
             "type": "object",
             "properties": {
                 "street_address": {
-                    "type": "string"
+                    "type": "string",
+                    "enum": [
+                        "home",
+                        "business"
+                    ]
                 },
                 "city": {
                     "type": "string"

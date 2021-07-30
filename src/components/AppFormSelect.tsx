@@ -1,4 +1,5 @@
 import React, { MutableRefObject, useCallback, useEffect, useState } from 'react';
+import { AppButtons } from '.';
 import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
 import { InputStatus, inputStatusColorMap } from './AppFormInput';
@@ -52,9 +53,11 @@ const AppFormSelect = (props: formSelectInputProps) => {
 
 
     return <AppItem>
-        <AppLabel position="stacked" color={inputStatusColor} >
-            {propertyFormattedName}
-        </AppLabel>
+        <AppButtons slot={"start"}>
+            <AppLabel position="stacked" color={inputStatusColor} >
+                {propertyFormattedName}
+            </AppLabel>
+        </AppButtons>
         <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
             setValue(selection);
         }}>

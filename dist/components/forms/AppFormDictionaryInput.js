@@ -12,7 +12,8 @@ import { findSubSchema } from './AppForm';
  * Component for input that displays validation errors
  */
 const AppFormDictionaryInput = props => {
-  //destructure props
+  console.log(props.propertyInfo); //destructure props
+
   const {
     property,
     instanceRef,

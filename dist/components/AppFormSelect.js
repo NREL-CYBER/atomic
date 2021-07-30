@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { AppButtons } from '.';
 import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
 import { inputStatusColorMap } from './AppFormInput';
@@ -44,10 +45,12 @@ const AppFormSelect = props => {
   useEffect(() => {
     updateSelection(value);
   }, [updateSelection, value]);
-  return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: inputStatusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelect, {
+  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppSelect, {
     interface: "popover",
     value: value,
     placeholder: propertyFormattedName,
