@@ -45,6 +45,14 @@ export interface AppConfig {
     cache?: AppCacheIndex
     bottomBar?: AppBottomBarConfig,
     about?: React.ReactFragment,
+    settings?: {
+        disabled?: boolean,
+        show?: {
+            server?: boolean,
+            darkmode?: boolean
+        },
+        component?: React.FC
+    },
     serialization?: AppSerializationConfig
     darkMode?: boolean
 }

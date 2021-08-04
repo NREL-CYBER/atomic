@@ -42,7 +42,7 @@ const ExampleForm = () => {
       color: "primary"
     }, "Address"), /*#__PURE__*/React.createElement(AppTitle, {
       color: "medium"
-    }, country_name, "-", street_address, " ", region), /*#__PURE__*/React.createElement(AppLabel, {
+    }, country_name, "-", street_address, " ", region), street_view && /*#__PURE__*/React.createElement(AppLabel, {
       position: "floating",
       color: "primary"
     }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, /*#__PURE__*/React.createElement(AppAvatar, null, street_view && /*#__PURE__*/React.createElement(AppBinaryImg, {

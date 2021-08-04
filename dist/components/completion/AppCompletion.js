@@ -1,5 +1,5 @@
-import { useAppLayout } from 'atomic';
 import React, { useEffect } from 'react';
+import { useAppLayout } from '../../hooks';
 import useCompletion from '../../hooks/useCompletion';
 
 /**

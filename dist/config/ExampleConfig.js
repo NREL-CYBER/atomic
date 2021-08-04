@@ -24,6 +24,11 @@ const ExampleConfig = {
       address: useAddress
     }
   },
+  settings: {
+    show: {
+      server: false
+    }
+  },
   darkMode: false,
   bottomBar: {
     start: ExampleBottomBar,

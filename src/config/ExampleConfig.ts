@@ -35,6 +35,11 @@ const ExampleConfig: AppConfig = {
     cache: {
         atomic: { address: useAddress }
     },
+    settings: {
+        show: {
+            server: false,
+        }
+    },
     darkMode: false,
     bottomBar: { start: ExampleBottomBar, hideNext: true },
     about: "example application information....",

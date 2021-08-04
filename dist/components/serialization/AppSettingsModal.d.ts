@@ -1,2 +1,5 @@
 import React from "react";
-export declare const AppSettingsModal: React.FC;
+import { AppConfig } from "../../util";
+export declare const AppSettingsModal: React.FC<{
+    config: AppConfig;
+}>;

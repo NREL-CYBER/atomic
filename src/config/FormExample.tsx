@@ -29,9 +29,9 @@ const ExampleForm: React.FC = () => {
                             <AppTitle color="medium">
                                 {country_name}-{street_address} {region}
                             </AppTitle>
-                            <AppLabel position="floating" color="primary" >
+                            {street_view && <AppLabel position="floating" color="primary" >
                                 Street View
-                            </AppLabel>
+                            </AppLabel>}
                             <AppTitle>
                                 <AppAvatar>
                                     {street_view && <AppBinaryImg height="100" alt="Street View" binary={atob(street_view)} />}

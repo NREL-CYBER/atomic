@@ -22,7 +22,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "outDir": "dist",
-    "noEmit": false,
+    "noEmit": true,
     "noFallthroughCasesInSwitch": true
   },
   "include": [

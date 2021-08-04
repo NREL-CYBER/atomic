@@ -1,11 +1,12 @@
-import { useAppLayout } from "atomic";
 import axios from "axios";
 import { settingsOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppInput, AppItem, AppModal, AppTitle, AppToggle } from "..";
+import { useAppLayout } from "../../hooks";
 import { useAppSettings } from "../../hooks/useAppSettings";
+import { AppConfig } from "../../util";
 
-export const AppSettingsModal: React.FC = () => {
+export const AppSettingsModal: React.FC<{ config: AppConfig }> = ({ config }) => {
     const [showSettings, setShowSettings] = useState(false);
     const { darkMode, setDarkMode, endpoint, setEndpoint, authorized, setAuthorized, serverStatus, setServerStatus } = useAppSettings();
     const { title } = useAppLayout();
@@ -26,31 +27,33 @@ export const AppSettingsModal: React.FC = () => {
             setAuthorized(authorized);
         }
     }, [authorized, endpoint, serverStatus, setAuthorized, setServerStatus, tempServer])
+    if (config.settings && config.settings.disabled) {
+        return <></>
+    }
+    const showServer = typeof config.settings?.show?.server === "undefined" ? true : config.settings.show.server
+    const showDarkMode = typeof config.settings?.show?.darkmode === "undefined" ? true : config.settings.show.darkmode
     return showSettings ? <AppModal isOpen={showSettings} onDismiss={() => { setShowSettings(false) }}>
         < AppCard title={title + " Settings"} headerColor="tertiary" >
-            <AppItem>
-
-
-
+            {showDarkMode && <AppItem>
                 <AppChip>
                     {darkMode ? "Dark Mode" : "Light Mode"}
                 </AppChip>
                 <AppToggle checked={darkMode} onToggleChange={(isDark) => {
                     setDarkMode(isDark)
                 }} />
-            </AppItem>
-            <AppItem>
+            </AppItem>}
+            {showServer && <AppItem>
                 <AppChip>
-                    Atomic Server URI:
+                    {config.title} Sever URI:
                 </AppChip>
-                <AppInput value={tempServer} placeholder={"https://atomic-server-uri:{port-number}/api/v{version-number}"} onInputChange={(input) => {
+                <AppInput value={tempServer} placeholder={"https://server-uri:{port-number}/api/v{version-number}"} onInputChange={(input) => {
                     setTempServer(input)
                 }} >
                 </AppInput>
                 <AppButtons slot="end">
                     {endpoint && <AppChip color={serverStatus === "connected" ? "favorite" : serverStatus === "connecting" ? "medium" : "danger"}>{serverStatus}</AppChip>}
                 </AppButtons>
-            </AppItem>
+            </AppItem>}
             {tempServer !== endpoint && serverStatus !== "connecting" && < AppButton onClick={() => {
                 setEndpoint(tempServer);
                 setServerStatus("connecting");
@@ -60,7 +63,13 @@ export const AppSettingsModal: React.FC = () => {
             {serverStatus === "connected" && <AppItem>
                 <AppTitle color="favorite">Synchronizing data with {endpoint}</AppTitle>
             </AppItem>}
+            {config.settings?.component}
         </AppCard >
+        <AppButton color='primary' fill="outline" expand="full" onClick={() => {
+            setShowSettings(false);
+        }}>
+            OK
+        </AppButton>
     </AppModal > : <AppButton onClick={() => {
         setShowSettings(true);
     }}>

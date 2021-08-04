@@ -1,10 +1,12 @@
-import { useAppLayout } from "atomic";
 import axios from "axios";
 import { settingsOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppInput, AppItem, AppModal, AppTitle, AppToggle } from "..";
+import { useAppLayout } from "../../hooks";
 import { useAppSettings } from "../../hooks/useAppSettings";
-export const AppSettingsModal = () => {
+export const AppSettingsModal = ({
+  config
+}) => {
   const [showSettings, setShowSettings] = useState(false);
   const {
     darkMode,
@@ -36,6 +38,13 @@ export const AppSettingsModal = () => {
       setAuthorized(authorized);
     }
   }, [authorized, endpoint, serverStatus, setAuthorized, setServerStatus, tempServer]);
+
+  if (config.settings && config.settings.disabled) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null);
+  }
+
+  const showServer = typeof config.settings?.show?.server === "undefined" ? true : config.settings.show.server;
+  const showDarkMode = typeof config.settings?.show?.darkmode === "undefined" ? true : config.settings.show.darkmode;
   return showSettings ? /*#__PURE__*/React.createElement(AppModal, {
     isOpen: showSettings,
     onDismiss: () => {
@@ -44,14 +53,14 @@ export const AppSettingsModal = () => {
   }, /*#__PURE__*/React.createElement(AppCard, {
     title: title + " Settings",
     headerColor: "tertiary"
-  }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, darkMode ? "Dark Mode" : "Light Mode"), /*#__PURE__*/React.createElement(AppToggle, {
+  }, showDarkMode && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, darkMode ? "Dark Mode" : "Light Mode"), /*#__PURE__*/React.createElement(AppToggle, {
     checked: darkMode,
     onToggleChange: isDark => {
       setDarkMode(isDark);
     }
-  })), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, "Atomic Server URI:"), /*#__PURE__*/React.createElement(AppInput, {
+  })), showServer && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, config.title, " Sever URI:"), /*#__PURE__*/React.createElement(AppInput, {
     value: tempServer,
-    placeholder: "https://atomic-server-uri:{port-number}/api/v{version-number}",
+    placeholder: "https://server-uri:{port-number}/api/v{version-number}",
     onInputChange: input => {
       setTempServer(input);
     }
@@ -67,7 +76,14 @@ export const AppSettingsModal = () => {
     expand: "full"
   }, "Synchronize with server"), serverStatus === "connected" && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppTitle, {
     color: "favorite"
-  }, "Synchronizing data with ", endpoint)))) : /*#__PURE__*/React.createElement(AppButton, {
+  }, "Synchronizing data with ", endpoint)), config.settings?.component), /*#__PURE__*/React.createElement(AppButton, {
+    color: "primary",
+    fill: "outline",
+    expand: "full",
+    onClick: () => {
+      setShowSettings(false);
+    }
+  }, "OK")) : /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setShowSettings(true);
     }

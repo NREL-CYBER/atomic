@@ -12,8 +12,7 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import { useCache } from 'atomic';
-import { AppSerializationConfig } from 'atomic/dist/util/AppConfig';
+import useCache from '../hooks/useCache';
 import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
 import { AppContent, AppSerializer } from '.';
@@ -24,7 +23,7 @@ import useIndexDBStorage from '../hooks/useLocalSerialization';
 import { useRestSerializeation } from '../hooks/useRestSerialization';
 import "../theme/variables.css";
 import { prettyTitle } from '../util';
-import { AppConfig } from '../util/AppConfig';
+import { AppConfig, AppSerializationConfig } from '../util/AppConfig';
 import AppChip from './AppChip';
 import AppLoadingCard from './AppLoadingCard';
 import AppLogin from './AppLogin';
@@ -33,7 +32,7 @@ import AppRouter from './AppRouter';
 import AppTitle from './AppTitle';
 import AppToolbar from './AppToolbar';
 import AppCompletion from './completion/AppCompletion';
-import { AppBottomBar } from './global/AppCompletionToolbar';
+import { AppBottomBar } from './global/AppBottomBar';
 import AppMainMenu from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
@@ -139,7 +138,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             <AppGuidance />
 
             {bottomBar && <IonFooter>
-                <AppBottomBar completion={config.completion} bottomBar={bottomBar} />
+                <AppBottomBar config={config} />
             </IonFooter>}
             {children}
         </AppRouter>}

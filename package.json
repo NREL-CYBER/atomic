@@ -35,7 +35,7 @@
     "zustand": "^3.5.2"
   },
   "scripts": {
-    "build": "tsc --emitDeclarationOnly && babel src --out-dir dist --extensions .ts,.tsx",
+    "build": "tsc --emitDeclarationOnly --noEmit false && babel src --out-dir dist --extensions .ts,.tsx",
     "storybook": "start-storybook -p 6006",
     "update": "yarn install && yarn add git+ssh://git@github.com/NREL-CYBER/validator.git git+ssh://git@github.com/NREL-CYBER/store.git",
     "docs": "typedoc --out docs src/entry.ts"
