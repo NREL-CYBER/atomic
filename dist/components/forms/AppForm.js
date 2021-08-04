@@ -104,7 +104,6 @@ const AppForm = props => {
   };
 
   const handleInputReceived = (property, value) => {
-    console.log(property, value);
     return new Promise(async resolve => {
       if (objectSchema.type === "string" || objectSchema.type === "array") {
         instance.current = value;
@@ -315,7 +314,6 @@ const AppForm = props => {
     }
 
     if (propertyType === "array") {
-      console.log(propertyInfo, objectSchema);
       return typeof propertyInfo.items?.anyOf === "undefined" ? /*#__PURE__*/React.createElement(AppFormArrayInput, {
         rootSchema: rootSchema,
         objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
@@ -479,7 +477,6 @@ const AppForm = props => {
     fill: "solid",
     color: isValid ? "favorite" : "primary",
     onClick: () => {
-      console.log(instance.current);
       onSubmit(instance.current);
     }
   }, !customSubmit ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, null, "Save ", title)) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit])))));
@@ -491,7 +488,6 @@ export { AppFormComposer };
 export function findSubSchema(schema, objectSchema, propertyInfo) {
   const definitions = Object.values(schema.definitions || {});
   const definition_id = propertyInfo.$ref || propertyInfo.items?.$ref;
-  console.log(propertyInfo);
   const matchingDefinition = definition_id && definitions.find(x => x.$id === definition_id);
 
   if (matchingDefinition) {

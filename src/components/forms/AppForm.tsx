@@ -153,7 +153,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     }
 
     const handleInputReceived: formFieldChangeEvent = (property: string, value: any) => {
-        console.log(property, value);
         return new Promise<formFieldValidationStatus>(async (resolve) => {
             if (objectSchema.type === "string" || objectSchema.type === "array") {
                 instance.current = value;
@@ -313,7 +312,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
 
         if (propertyType === "array") {
-            console.log(propertyInfo,objectSchema)
             return typeof propertyInfo.items?.anyOf === "undefined" ? <AppFormArrayInput
                 rootSchema={rootSchema}
                 objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
@@ -488,7 +486,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     </AppChip>), [errors])}
 
                     {useMemo(() => !autoSubmit && isValid ? <AppButton expand="full" fill={"solid"} color={isValid ? "favorite" : "primary"} onClick={() => {
-                        console.log(instance.current);
                         onSubmit(instance.current);
                     }}>
                         {!customSubmit ? <>
@@ -510,7 +507,6 @@ export { AppFormComposer };
 export function findSubSchema(schema: RootSchemaObject, objectSchema: SchemaObjectDefinition, propertyInfo: PropertyDefinitionRef): SchemaObjectDefinition {
     const definitions = Object.values(schema.definitions || {})
     const definition_id = propertyInfo.$ref || propertyInfo.items?.$ref
-    console.log(propertyInfo);
     const matchingDefinition = definition_id && definitions.find(x => x.$id === definition_id);
     if (matchingDefinition) {
         return matchingDefinition;
