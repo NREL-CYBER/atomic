@@ -9,7 +9,9 @@ const EmptyRoute: AppRoute = { icon: "", path: "", title: "", }
  * @param path Current Path
  */
 const selectBreadCrumbs = (breadCrumbRoutes: AppRoute[], path: string): AppRoute[] => {
-    return breadCrumbRoutes.filter(x => x && path.includes(x.path));
+    return breadCrumbRoutes.filter(x => {
+        return breadCrumbRoutes.filter(x => x.path.split("/").filter(segment => path.split("/").includes(segment)))
+    });
 }
 /**
  * Determine the next page given the current path

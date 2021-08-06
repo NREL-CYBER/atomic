@@ -5,8 +5,7 @@ import create from "zustand";
 /**
  */
 type CacheStatus = {
-    status: "booting" | "synchronizing" |
-    "idle",
+    status: "booting" | "synchronizing" | "idle",
     ready: () => void
     synchronizing: () => void
 }
