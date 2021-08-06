@@ -49,6 +49,7 @@ const ExampleConfig: AppConfig = {
         authentication: {
             provider: "email"
         }
+
     }
 }
 export default ExampleConfig;

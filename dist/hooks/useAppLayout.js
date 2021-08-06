@@ -12,7 +12,7 @@ const EmptyRoute = {
 
 const selectBreadCrumbs = (breadCrumbRoutes, path) => {
   return breadCrumbRoutes.filter(x => {
-    return breadCrumbRoutes.filter(x => x.path.split("/").filter(segment => path.split("/").includes(segment)));
+    return breadCrumbRoutes.filter(x => !x.dynamic).filter(x => x.path.split("/").filter(segment => path.split("/").includes(segment)));
   });
 };
 /**

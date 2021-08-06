@@ -10,7 +10,8 @@ const EmptyRoute: AppRoute = { icon: "", path: "", title: "", }
  */
 const selectBreadCrumbs = (breadCrumbRoutes: AppRoute[], path: string): AppRoute[] => {
     return breadCrumbRoutes.filter(x => {
-        return breadCrumbRoutes.filter(x => x.path.split("/").filter(segment => path.split("/").includes(segment)))
+        return breadCrumbRoutes.filter(x => !x.dynamic).filter(x =>
+            x.path.split("/").filter(segment => path.split("/").includes(segment)))
     });
 }
 /**

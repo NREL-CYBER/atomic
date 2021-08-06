@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "3.2.0",
+  "version": "3.2.2",
   "private": true,
   "main": "dist/entry.js",
   "types": "dist/entry.d.ts",
@@ -27,17 +27,17 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "sha3": "^2.1.4",
-    "store": "git+ssh://git@github.com/NREL-CYBER/store.git",
+    "store": "git://git@github.com/NREL-CYBER/store.git",
     "use-timeout": "^1.1.0",
     "uuid": "^8.3.2",
-    "validator": "git+ssh://git@github.com/NREL-CYBER/validator.git",
+    "validator": "git://git@github.com/NREL-CYBER/validator.git",
     "workerize-loader": "^1.3.0",
     "zustand": "^3.5.2"
   },
   "scripts": {
     "build": "tsc --emitDeclarationOnly --noEmit false && babel src --out-dir dist --extensions .ts,.tsx",
     "storybook": "start-storybook -p 6006",
-    "update": "yarn install && yarn add git+ssh://git@github.com/NREL-CYBER/validator.git git+ssh://git@github.com/NREL-CYBER/store.git",
+    "update": "yarn install && yarn add git://git@github.com/NREL-CYBER/validator.git git://git@github.com/NREL-CYBER/store.git",
     "docs": "typedoc --out docs src/entry.ts"
   },
   "eslintConfig": {
