@@ -11,7 +11,9 @@ const EmptyRoute = {
  */
 
 const selectBreadCrumbs = (breadCrumbRoutes, path) => {
-  return breadCrumbRoutes.filter(x => x && path.includes(x.path));
+  return breadCrumbRoutes.filter(x => {
+    return breadCrumbRoutes.filter(x => x.path.split("/").filter(segment => path.split("/").includes(segment)));
+  });
 };
 /**
  * Determine the next page given the current path
