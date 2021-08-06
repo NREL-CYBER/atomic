@@ -27,17 +27,17 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "sha3": "^2.1.4",
-    "store": "git://git@github.com/NREL-CYBER/store.git",
+    "store": "https://github.com/NREL-CYBER/store",
     "use-timeout": "^1.1.0",
     "uuid": "^8.3.2",
-    "validator": "git://git@github.com/NREL-CYBER/validator.git",
+    "validator": "https://github.com/NREL-CYBER/validator",
     "workerize-loader": "^1.3.0",
     "zustand": "^3.5.2"
   },
   "scripts": {
     "build": "tsc --emitDeclarationOnly --noEmit false && babel src --out-dir dist --extensions .ts,.tsx",
     "storybook": "start-storybook -p 6006",
-    "update": "yarn install && yarn add git://git@github.com/NREL-CYBER/validator.git git://git@github.com/NREL-CYBER/store.git",
+    "update": "yarn install && yarn add https://github.com/NREL-CYBER/validator https://github.com/NREL-CYBER/store",
     "docs": "typedoc --out docs src/entry.ts"
   },
   "eslintConfig": {
