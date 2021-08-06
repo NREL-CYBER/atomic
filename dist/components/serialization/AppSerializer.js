@@ -27,8 +27,6 @@ const AppLocalSerializer = ({
   } = useCache();
   const cache_items = Object.entries(cache).flatMap(([namespace, collections]) => Object.values(collections).length).reduce((a, b) => a + b, 0);
   const [remaining, setRemaining] = useState(cache_items);
-  console.log(status, remaining);
-  ;
   useEffect(() => {
     if (remaining <= 0) {
       setStatus("idle");

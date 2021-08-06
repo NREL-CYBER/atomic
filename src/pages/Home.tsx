@@ -68,7 +68,6 @@ const Home: React.FC = () => {
             App Datalist input
           </AppLabel>
           <AppSuggestedInput id="test" values={["test", "value"]} onInputChange={() => {
-            console.log("")
           }} />
         </AppItem>
         <AppItemDivider />

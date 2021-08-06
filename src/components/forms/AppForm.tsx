@@ -132,7 +132,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     }
     validationCacheWorker.onmessage = ({ data }) => {
         const allErrors = data.errors || []
-        console.log(allErrors);
         const uuid = data.uuid
         const property = data.property
         const resolve = deferedValidationPromises[uuid]

@@ -55,9 +55,7 @@ const Home = () => {
   })), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "App Datalist input"), /*#__PURE__*/React.createElement(AppSuggestedInput, {
     id: "test",
     values: ["test", "value"],
-    onInputChange: () => {
-      console.log("");
-    }
+    onInputChange: () => {}
   })), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "AppSelect"), /*#__PURE__*/React.createElement(AppSelect, {
     onSelectionChange: setVal,
     value: val,

@@ -107,7 +107,6 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             </AppContent>
         </IonApp>
     }
-    console.log("");
 
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
         {serverStatus !== "connected" && cache &&

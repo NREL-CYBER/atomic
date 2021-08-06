@@ -49,9 +49,6 @@ const ExampleConfig: AppConfig = {
         authentication: {
             provider: "email"
         }
-        // rest: {
-        //     endpoint: "http://1lv11rmadm01:8888/api/v1/",
-        // }
     }
 }
 export default ExampleConfig;

@@ -2,14 +2,13 @@ import axios from "axios";
 import { settingsOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppInput, AppItem, AppModal, AppTitle, AppToggle } from "..";
-import { useAppLayout } from "../../hooks";
 import { useAppSettings } from "../../hooks/useAppSettings";
 import { AppConfig } from "../../util";
 
 export const AppSettingsModal: React.FC<{ config: AppConfig }> = ({ config }) => {
     const [showSettings, setShowSettings] = useState(false);
     const { darkMode, setDarkMode, endpoint, setEndpoint, authorized, setAuthorized, serverStatus, setServerStatus } = useAppSettings();
-    const { title } = useAppLayout();
+    const title = config.title;
     const [tempServer, setTempServer] = useState<string>(endpoint || "")
     useEffect(() => {
 
@@ -30,7 +29,7 @@ export const AppSettingsModal: React.FC<{ config: AppConfig }> = ({ config }) =>
     if (config.settings && config.settings.disabled) {
         return <></>
     }
-    const showServer = typeof config.settings?.show?.server === "undefined" ? true : config.settings.show.server
+    const showServer = typeof config.settings?.show?.server === "undefined" ? false : config.settings.show.server
     const showDarkMode = typeof config.settings?.show?.darkmode === "undefined" ? true : config.settings.show.darkmode
     return showSettings ? <AppModal isOpen={showSettings} onDismiss={() => { setShowSettings(false) }}>
         < AppCard title={title + " Settings"} headerColor="tertiary" >
@@ -54,7 +53,7 @@ export const AppSettingsModal: React.FC<{ config: AppConfig }> = ({ config }) =>
                     {endpoint && <AppChip color={serverStatus === "connected" ? "favorite" : serverStatus === "connecting" ? "medium" : "danger"}>{serverStatus}</AppChip>}
                 </AppButtons>
             </AppItem>}
-            {tempServer !== endpoint && serverStatus !== "connecting" && < AppButton onClick={() => {
+            {tempServer !== endpoint && serverStatus !== "connecting" && showServer && < AppButton onClick={() => {
                 setEndpoint(tempServer);
                 setServerStatus("connecting");
             }} expand={"full"}>

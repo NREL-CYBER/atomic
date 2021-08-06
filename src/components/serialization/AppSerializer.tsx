@@ -36,7 +36,6 @@ const AppLocalSerializer: FC<appLocalSerializerProps> = ({ cache, context, seria
         Object.values(collections).length
     ).reduce((a, b) => a + b, 0)
     const [remaining, setRemaining] = useState<number>(cache_items)
-    console.log(status, remaining);;
     useEffect(() => {
         if (remaining <= 0) {
             setStatus("idle");

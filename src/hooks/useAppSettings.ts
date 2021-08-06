@@ -29,7 +29,7 @@ export const useAppSettings = create<AppSettingCache>((set, settings) => ({
     initialize: async (appConfig) => {
         const savedSettings = await get("atomic-settings") || {}
         const cacheFields = {
-            ...JSON.parse(savedSettings)
+            ...(JSON.parse(savedSettings)) || {}
         } as AppSettingsProperties
         // Combine serialized settings and app-config
         const defaultEndpoint = appConfig.serialization && appConfig.serialization.rest && appConfig.serialization.rest.endpoint

@@ -126,7 +126,6 @@ const AppRoot = config => {
     })));
   }
 
-  console.log("");
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
   }, serverStatus !== "connected" && cache && /*#__PURE__*/React.createElement(AppSerializer, {

@@ -2,7 +2,6 @@ import axios from "axios";
 import { settingsOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppInput, AppItem, AppModal, AppTitle, AppToggle } from "..";
-import { useAppLayout } from "../../hooks";
 import { useAppSettings } from "../../hooks/useAppSettings";
 export const AppSettingsModal = ({
   config
@@ -18,9 +17,7 @@ export const AppSettingsModal = ({
     serverStatus,
     setServerStatus
   } = useAppSettings();
-  const {
-    title
-  } = useAppLayout();
+  const title = config.title;
   const [tempServer, setTempServer] = useState(endpoint || "");
   useEffect(() => {
     if (authorized && endpoint && serverStatus === "connecting") {
