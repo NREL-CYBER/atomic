@@ -126,7 +126,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                 <AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} />
             </AppPage>
         </>}
-        {status === "idle" && <AppRouter id={"root"}>
+        {status === "idle" && <AppRouter animated={config.animated} id={"root"}>
             {/**Side Menu  */}
             <AppCompletion config={config} />
             {sections && <AppMainMenu sections={sections} />}

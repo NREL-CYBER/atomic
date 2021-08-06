@@ -3,7 +3,8 @@ import React from 'react';
 
 
 interface appRouterProps {
-    id: string
+    id: string,
+    animated?: boolean
 }
 
 /**

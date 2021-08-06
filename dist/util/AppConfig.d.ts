@@ -31,16 +31,17 @@ export interface AppBottomBarConfig {
     settings?: React.FC;
 }
 export interface AppConfig {
-    title: string;
-    appId: string;
-    completion?: AppCompletionConfig;
-    version: string;
-    topBar?: React.FC;
-    sections?: Record<string, AppRoute[]>;
-    routes: AppRoute[];
-    cache?: AppCacheIndex;
-    bottomBar?: AppBottomBarConfig;
     about?: React.ReactFragment;
+    animated?: boolean;
+    appId: string;
+    bottomBar?: AppBottomBarConfig;
+    cache?: AppCacheIndex;
+    completion?: AppCompletionConfig;
+    darkMode?: boolean;
+    sections?: Record<string, AppRoute[]>;
+    title: string;
+    topBar?: React.FC;
+    routes: AppRoute[];
     settings?: {
         disabled?: boolean;
         show?: {
@@ -50,5 +51,5 @@ export interface AppConfig {
         component?: React.FC;
     };
     serialization?: AppSerializationConfig;
-    darkMode?: boolean;
+    version: string;
 }

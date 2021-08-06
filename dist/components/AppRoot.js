@@ -145,6 +145,7 @@ const AppRoot = config => {
     title: prettyTitle(status),
     message: ""
   }))), status === "idle" && /*#__PURE__*/React.createElement(AppRouter, {
+    animated: config.animated,
     id: "root"
   }, /*#__PURE__*/React.createElement(AppCompletion, {
     config: config
