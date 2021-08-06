@@ -20,5 +20,5 @@ export interface AppRoute {
  *  lets expand this function,
  *  for filtering lets prefer the use ?searchParams
  */
-declare const destination: (route: AppRoute, id: string) => string;
+declare const destination: (route: AppRoute, params: Record<string, string>) => string;
 export { destination };

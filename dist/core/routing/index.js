@@ -8,8 +8,14 @@
  *  lets expand this function, 
  *  for filtering lets prefer the use ?searchParams
  */
-const destination = (route, id) => {
-  return route.path + "/" + id;
+const destination = (route, params) => {
+  let {
+    path
+  } = route;
+  Object.entries(params).sort(([a], [b]) => a.length - b.length).forEach(([param, value]) => {
+    path = path.replace(":" + param, value);
+  });
+  return path;
 };
 
 export { destination };

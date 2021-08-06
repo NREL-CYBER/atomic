@@ -21,7 +21,11 @@ export interface AppRoute {
  *  lets expand this function, 
  *  for filtering lets prefer the use ?searchParams
  */
-const destination = (route: AppRoute, id: string) => {
-    return route.path + "/" + id;
+const destination = (route: AppRoute, params: Record<string, string>) => {
+    let { path } = route;
+    Object.entries(params).sort(([a], [b]) => a.length - b.length).forEach(([param, value]) => {
+        path = path.replace(":" + param, value)
+    })
+    return path;
 }
 export { destination };

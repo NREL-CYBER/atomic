@@ -40,7 +40,7 @@ export const AppSettingsModal = ({
     return /*#__PURE__*/React.createElement(React.Fragment, null);
   }
 
-  const showServer = typeof config.settings?.show?.server === "undefined" ? true : config.settings.show.server;
+  const showServer = typeof config.settings?.show?.server === "undefined" ? false : config.settings.show.server;
   const showDarkMode = typeof config.settings?.show?.darkmode === "undefined" ? true : config.settings.show.darkmode;
   return showSettings ? /*#__PURE__*/React.createElement(AppModal, {
     isOpen: showSettings,
@@ -65,7 +65,7 @@ export const AppSettingsModal = ({
     slot: "end"
   }, endpoint && /*#__PURE__*/React.createElement(AppChip, {
     color: serverStatus === "connected" ? "favorite" : serverStatus === "connecting" ? "medium" : "danger"
-  }, serverStatus))), tempServer !== endpoint && serverStatus !== "connecting" && /*#__PURE__*/React.createElement(AppButton, {
+  }, serverStatus))), tempServer !== endpoint && serverStatus !== "connecting" && showServer && /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setEndpoint(tempServer);
       setServerStatus("connecting");
