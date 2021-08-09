@@ -3,7 +3,8 @@ import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDi
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 
 const Home = () => {
-  const [val, setVal] = useState();
+  const [platform, setPlatform] = useState("Develop");
+  const [val, setVal] = useState([]);
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "primary",
     titleColor: "secondary",
@@ -50,15 +51,17 @@ const Home = () => {
       value: "sw",
       color: "primary"
     }],
-    selected: [],
-    onSelectionChange: () => {}
+    selected: val,
+    onSelectionChange: value => {
+      setVal(value);
+    }
   })), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "App Datalist input"), /*#__PURE__*/React.createElement(AppSuggestedInput, {
     id: "test",
     values: ["test", "value"],
     onInputChange: () => {}
   })), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, "AppSelect"), /*#__PURE__*/React.createElement(AppSelect, {
-    onSelectionChange: setVal,
-    value: val,
+    onSelectionChange: setPlatform,
+    value: platform,
     color: typeof val === "undefined" ? "warning" : "success",
     placeholder: "Environment"
   }, /*#__PURE__*/React.createElement(AppSelectOption, {

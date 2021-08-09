@@ -1,5 +1,6 @@
 import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
 import React from 'react';
+import { AppToolbar } from '.';
 import { AppNextButton } from './global/AppNextButton';
 
 
@@ -25,7 +26,9 @@ const AppContent: React.FC<{ center?: boolean, next?: boolean }> = (props) => {
             </IonGrid>
         </IonContent> : <IonContent>
             {props.children}
-            {props.next && <AppNextButton />}
+            {props.next && <AppToolbar>
+                <AppNextButton />
+            </AppToolbar>}
         </IonContent>
 }
 export default AppContent;
