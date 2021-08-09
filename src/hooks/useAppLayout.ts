@@ -9,11 +9,9 @@ const EmptyRoute: AppRoute = { icon: "", path: "", title: "", }
  * @param path Current Path
  */
 const selectBreadCrumbs = (breadCrumbRoutes: AppRoute[], path: string): AppRoute[] => {
-    return breadCrumbRoutes.filter(x => {
-        return breadCrumbRoutes.filter(x => !x.dynamic).filter(x =>
-            path.includes(x.path)
-        );
-    })
+    return breadCrumbRoutes.filter(x => !x.dynamic).filter(breadRoute =>
+        path.includes(breadRoute.path)
+    )
 }
 /**
  * Determine the next page given the current path
@@ -21,96 +19,96 @@ const selectBreadCrumbs = (breadCrumbRoutes: AppRoute[], path: string): AppRoute
  * @param path the current path
  */
 const calculateNextPage = (allPageRoutes: AppRoute[], routeOrder: AppPath[], path: string): AppRoute => {
-        let currentRouteIndex = routeOrder.findIndex(routePath => routePath === path)
-        const nextRoutePath = routeOrder[currentRouteIndex + 1];
-        return allPageRoutes.find(route => route.path === nextRoutePath) || EmptyRoute;
-    }
+    let currentRouteIndex = routeOrder.findIndex(routePath => routePath === path)
+    const nextRoutePath = routeOrder[currentRouteIndex + 1];
+    return allPageRoutes.find(route => route.path === nextRoutePath) || EmptyRoute;
+}
 
 
-    /**
-     * Type that defines what the useApplayout hook will be capable of
-     */
-    export type AppStatus = "booting" | "synchronizing" | "idle";
-    type AppLayout = {
-        status: AppStatus,
-        id: string,
-        server?: string,
-        appTitle: string,
-        title: string,
-        version: string,
-        allRoutesFlattened: AppRoute[]
-        allPageRoutes: AppRoute[]
-        rootRoute: AppRoute
-        order: AppPath[]
-        currentRootPage: AppRoute
-        breadCrumbs: AppRoute[]
-        path: string
-        nextPage: AppRoute
-        update: (pathname: string) => void
-        initialize: (config: AppConfig) => void
-        setStatus: (status: AppStatus) => void
-    }
+/**
+ * Type that defines what the useApplayout hook will be capable of
+ */
+export type AppStatus = "booting" | "synchronizing" | "idle";
+type AppLayout = {
+    status: AppStatus,
+    id: string,
+    server?: string,
+    appTitle: string,
+    title: string,
+    version: string,
+    allRoutesFlattened: AppRoute[]
+    allPageRoutes: AppRoute[]
+    rootRoute: AppRoute
+    order: AppPath[]
+    currentRootPage: AppRoute
+    breadCrumbs: AppRoute[]
+    path: string
+    nextPage: AppRoute
+    update: (pathname: string) => void
+    initialize: (config: AppConfig) => void
+    setStatus: (status: AppStatus) => void
+}
 
-    /**
-     *  Hook for Responsible for the current page title
-     *  storing all the routes
-     *  and knowing the nested page and determining the next page.
-     */
-    const useAppLayout = create<AppLayout>((set, store) => ({
-        status: "booting",
-        version: "0.0.0-development",
-        server: undefined,
-        appTitle: "",
-        setStatus: (status) => {
-            set({ status });
-        },
-        initialize: ({ routes, title, version, cache }) => {
-            const allPageRoutes = routes;
-            const allRoutesFlattened = routes
-                .map(route => route.nested ?
-                    [route, ...route.nested] : [route]
-                )
-                .reduce((flatRoutes, moreFlatRoutes) => ([
-                    ...flatRoutes, ...moreFlatRoutes
-                ]));
-            const rootRoute = routes.find(x => x.path === "/")!;
-            if (!rootRoute) {
-                throw new Error("Missing Root route");
-            }
-            const order = allRoutesFlattened.map(x => x.path);
-            const appTitle = title;
-            const status: AppStatus = typeof cache !== "undefined" ? "synchronizing" : "idle"
-            set({ appTitle, title, version, status, rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
-        },
-        id: "",
-        path: "",
-        title: "",
-        allPageRoutes: [],
-        allRoutesFlattened: [],
-        rootRoute: { icon: "", path: "", title: "" },
-        order: [],
-        currentRootPage: { icon: "", path: "", title: "" },
-        breadCrumbs: [] as AppRoute[],
-        nextPage: {} as AppRoute,
-
-        update: (pathname: string) => {
-            const path = pathname;
-            // "/example-page/bunch/of/params" -> ['example-page','bunch','of','params']
-            const pathPeices = pathname.split('/');
-            // "/example-page/bunch/of/params" -> example-page
-            const rootPage = pathname.slice(1).split('/').shift() || "";
-            // /example-page
-            const rootPagePath = "/" + rootPage;
-            // find the full Page object
-            const currentRootPage = store().allPageRoutes.find(route => route && route.path === rootPagePath) as AppRoute || store().rootRoute;
-            // fallback to the app title
-            const title = currentRootPage ? currentRootPage.title : ""
-
-            const breadCrumbs = selectBreadCrumbs(store().allPageRoutes, pathname);
-            const nextPage = calculateNextPage(store().allRoutesFlattened, store().order, pathname);
-
-            const lastPathItem = pathPeices[pathPeices.length - 1];
-            set({ breadCrumbs, path, nextPage, title, currentRootPage, id: lastPathItem })
+/**
+ *  Hook for Responsible for the current page title
+ *  storing all the routes
+ *  and knowing the nested page and determining the next page.
+ */
+const useAppLayout = create<AppLayout>((set, store) => ({
+    status: "booting",
+    version: "0.0.0-development",
+    server: undefined,
+    appTitle: "",
+    setStatus: (status) => {
+        set({ status });
+    },
+    initialize: ({ routes, title, version, cache }) => {
+        const allPageRoutes = routes;
+        const allRoutesFlattened = routes
+            .map(route => route.nested ?
+                [route, ...route.nested] : [route]
+            )
+            .reduce((flatRoutes, moreFlatRoutes) => ([
+                ...flatRoutes, ...moreFlatRoutes
+            ]));
+        const rootRoute = routes.find(x => x.path === "/")!;
+        if (!rootRoute) {
+            throw new Error("Missing Root route");
         }
-    }));
-    export default useAppLayout;
+        const order = allRoutesFlattened.map(x => x.path);
+        const appTitle = title;
+        const status: AppStatus = typeof cache !== "undefined" ? "synchronizing" : "idle"
+        set({ appTitle, title, version, status, rootRoute, allPageRoutes: allPageRoutes.filter(x => x.path !== "/"), allRoutesFlattened, order });
+    },
+    id: "",
+    path: "",
+    title: "",
+    allPageRoutes: [],
+    allRoutesFlattened: [],
+    rootRoute: { icon: "", path: "", title: "" },
+    order: [],
+    currentRootPage: { icon: "", path: "", title: "" },
+    breadCrumbs: [] as AppRoute[],
+    nextPage: {} as AppRoute,
+
+    update: (pathname: string) => {
+        const path = pathname;
+        // "/example-page/bunch/of/params" -> ['example-page','bunch','of','params']
+        const pathPeices = pathname.split('/');
+        // "/example-page/bunch/of/params" -> example-page
+        const rootPage = pathname.slice(1).split('/').shift() || "";
+        // /example-page
+        const rootPagePath = "/" + rootPage;
+        // find the full Page object
+        const currentRootPage = store().allPageRoutes.find(route => route && route.path === rootPagePath) as AppRoute || store().rootRoute;
+        // fallback to the app title
+        const title = currentRootPage ? currentRootPage.title : ""
+
+        const breadCrumbs = selectBreadCrumbs(store().allPageRoutes, pathname);
+        const nextPage = calculateNextPage(store().allRoutesFlattened, store().order, pathname);
+
+        const lastPathItem = pathPeices[pathPeices.length - 1];
+        set({ breadCrumbs, path, nextPage, title, currentRootPage, id: lastPathItem })
+    }
+}));
+export default useAppLayout;

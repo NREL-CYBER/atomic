@@ -11,9 +11,7 @@ const EmptyRoute = {
  */
 
 const selectBreadCrumbs = (breadCrumbRoutes, path) => {
-  return breadCrumbRoutes.filter(x => {
-    return breadCrumbRoutes.filter(x => !x.dynamic).filter(x => path.includes(x.path));
-  });
+  return breadCrumbRoutes.filter(x => !x.dynamic).filter(breadRoute => path.includes(breadRoute.path));
 };
 /**
  * Determine the next page given the current path
