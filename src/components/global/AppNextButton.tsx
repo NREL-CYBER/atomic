@@ -4,7 +4,7 @@
 
 import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
-import { AppButton, AppButtons, AppIcon, AppToolbar } from "..";
+import { AppButton, AppButtons, AppIcon } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 
 export const AppNextButton: React.FC<{ fill?: "outline" | "solid" | "clear" }> = ({ fill = "solid" }) => {
@@ -14,16 +14,14 @@ export const AppNextButton: React.FC<{ fill?: "outline" | "solid" | "clear" }> =
     const nextButtonUnlocked = isUnlocked(next.path);
 
     return <>
-        <AppToolbar color="clear">
-            {<AppButtons slot="end">
-                <AppButton disabled={!nextButtonUnlocked}
-                    fill={fill} color={statusColor}
-                    routerDirection='forward' routerLink={next.path} >
-                    <AppIcon icon={next.icon} />
-                    {next.title}
-                    <AppIcon icon={arrowForwardOutline} />
-                </AppButton>
-            </AppButtons>}
-        </AppToolbar>
+        {<AppButtons slot="end">
+            <AppButton disabled={!nextButtonUnlocked}
+                fill={fill} color={statusColor}
+                routerDirection='forward' routerLink={next.path} >
+                <AppIcon icon={next.icon} />
+                {next.title}
+                <AppIcon icon={arrowForwardOutline} />
+            </AppButton>
+        </AppButtons>}
     </>
 }

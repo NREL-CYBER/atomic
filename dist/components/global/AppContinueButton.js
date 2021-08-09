@@ -3,7 +3,7 @@
  */
 import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
-import { AppButton, AppButtons, AppIcon, AppItemDivider, AppToolbar } from "..";
+import { AppButton, AppButtons, AppIcon, AppItemDivider } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 import { AppNextButton } from "./AppNextButton";
 export const AppContinueButton = () => {
@@ -22,9 +22,7 @@ export const AppContinueButton = () => {
     path
   }) => isUnlocked(path) && !isValid(path));
   const statusColor = continueRoute ? pathStatusColor(continueRoute.path) : "clear";
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
-    color: "clear"
-  }, /*#__PURE__*/React.createElement(AppButtons, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, continueRoute && (!continueRoute.path.includes(currentRootPage.path) || path === rootRoute.path) ? /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
@@ -37,5 +35,5 @@ export const AppContinueButton = () => {
     icon: arrowForwardOutline
   })) : /*#__PURE__*/React.createElement(AppNextButton, {
     fill: "clear"
-  }))), /*#__PURE__*/React.createElement(AppItemDivider, null));
+  })), /*#__PURE__*/React.createElement(AppItemDivider, null));
 };

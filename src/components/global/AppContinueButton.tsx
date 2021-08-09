@@ -4,7 +4,7 @@
 
 import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
-import { AppButton, AppButtons, AppIcon, AppItemDivider, AppToolbar } from "..";
+import { AppButton, AppButtons, AppIcon, AppItemDivider } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 import { AppNextButton } from "./AppNextButton";
 
@@ -14,17 +14,15 @@ export const AppContinueButton: React.FC = () => {
     const continueRoute = allPageRoutes.find(({ path }) => isUnlocked(path) && !isValid(path))
     const statusColor = continueRoute ? pathStatusColor(continueRoute.path) : "clear"
     return <>
-        <AppToolbar color="clear">
-            {<AppButtons slot="end">
-                {continueRoute && (!continueRoute.path.includes(currentRootPage.path) || path === rootRoute.path) ? <AppButton
-                    fill='clear' color={statusColor}
-                    routerDirection='forward' routerLink={continueRoute.path} >
-                    <AppIcon icon={continueRoute.icon} />
-                    {continueRoute.title}
-                    <AppIcon icon={arrowForwardOutline} />
-                </AppButton> : <AppNextButton fill={"clear"} />}
-            </AppButtons>}
-        </AppToolbar>
+        {<AppButtons slot="end">
+            {continueRoute && (!continueRoute.path.includes(currentRootPage.path) || path === rootRoute.path) ? <AppButton
+                fill='clear' color={statusColor}
+                routerDirection='forward' routerLink={continueRoute.path} >
+                <AppIcon icon={continueRoute.icon} />
+                {continueRoute.title}
+                <AppIcon icon={arrowForwardOutline} />
+            </AppButton> : <AppNextButton fill={"clear"} />}
+        </AppButtons>}
         <AppItemDivider />
     </>
 }

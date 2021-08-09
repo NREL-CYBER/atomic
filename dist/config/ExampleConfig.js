@@ -16,8 +16,7 @@ const ExampleConfig = {
   },
   routes,
   completion: {
-    default: "unlocked",
-    disabled: true
+    default: "unlocked"
   },
   cache: {
     atomic: {
@@ -31,8 +30,7 @@ const ExampleConfig = {
   },
   darkMode: false,
   bottomBar: {
-    start: ExampleBottomBar,
-    hideNext: true
+    start: ExampleBottomBar
   },
   about: "example application information....",
   serialization: {

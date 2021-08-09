@@ -3,7 +3,7 @@
  */
 import { arrowForwardOutline } from "ionicons/icons";
 import React from "react";
-import { AppButton, AppButtons, AppIcon, AppToolbar } from "..";
+import { AppButton, AppButtons, AppIcon } from "..";
 import { useAppLayout, useCompletion } from "../../hooks";
 export const AppNextButton = ({
   fill = "solid"
@@ -15,9 +15,7 @@ export const AppNextButton = ({
   } = useCompletion();
   const statusColor = pathStatusColor(next.path);
   const nextButtonUnlocked = isUnlocked(next.path);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
-    color: "clear"
-  }, /*#__PURE__*/React.createElement(AppButtons, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     disabled: !nextButtonUnlocked,
@@ -29,5 +27,5 @@ export const AppNextButton = ({
     icon: next.icon
   }), next.title, /*#__PURE__*/React.createElement(AppIcon, {
     icon: arrowForwardOutline
-  })))));
+  }))));
 };

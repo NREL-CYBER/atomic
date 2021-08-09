@@ -30,7 +30,6 @@ const ExampleConfig: AppConfig = {
     routes,
     completion: {
         default: "unlocked",
-        disabled: true
     },
     cache: {
         atomic: { address: useAddress }
@@ -41,7 +40,7 @@ const ExampleConfig: AppConfig = {
         }
     },
     darkMode: false,
-    bottomBar: { start: ExampleBottomBar, hideNext: true },
+    bottomBar: { start: ExampleBottomBar },
     about: "example application information....",
     serialization: {
         mode: "local",

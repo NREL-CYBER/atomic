@@ -3,7 +3,8 @@ import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDi
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 
 const Home: React.FC = () => {
-  const [val, setVal] = useState<string | undefined>();
+  const [platform, setPlatform] = useState<string>("Develop");
+  const [val, setVal] = useState<string[]>([]);
   return <AppPage >
     <AppContent>
       <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
@@ -60,7 +61,9 @@ const Home: React.FC = () => {
           <AppLabel>
             App Select Buttons
           </AppLabel>
-          <AppSelectButtons multi={false} buttons={[{ text: "asdasd", value: "s", color: "primary" }, { text: "asdssasd", value: "sw", color: "primary" }]} selected={[]} onSelectionChange={() => { }} />
+          <AppSelectButtons multi={false} buttons={[{ text: "asdasd", value: "s", color: "primary" }, { text: "asdssasd", value: "sw", color: "primary" }]} selected={val} onSelectionChange={(value) => {
+            setVal(value);
+          }} />
         </AppItem>
         <AppItemDivider />
         <AppItem>
@@ -75,7 +78,7 @@ const Home: React.FC = () => {
           <AppLabel>
             AppSelect
           </AppLabel>
-          <AppSelect onSelectionChange={setVal} value={val} color={typeof val === "undefined" ? "warning" : "success"} placeholder="Environment" >
+          <AppSelect onSelectionChange={setPlatform} value={platform} color={typeof val === "undefined" ? "warning" : "success"} placeholder="Environment" >
             <AppSelectOption value="Development" />
             <AppSelectOption value="Production" />
           </AppSelect>
