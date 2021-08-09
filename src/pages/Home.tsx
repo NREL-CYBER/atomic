@@ -6,7 +6,7 @@ const Home: React.FC = () => {
   const [val, setVal] = useState<string | undefined>();
   return <AppPage >
     <AppContent>
-      <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="@nrel/atomic">
+      <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
         <AppChip color="success">
           Check out the examples to get started
         </AppChip>

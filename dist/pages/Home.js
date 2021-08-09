@@ -8,7 +8,7 @@ const Home = () => {
     headerColor: "primary",
     titleColor: "secondary",
     title: "Welcome to atomic",
-    subTitle: "@nrel/atomic"
+    subTitle: "atomic"
   }, /*#__PURE__*/React.createElement(AppChip, {
     color: "success"
   }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, "AppColors"), /*#__PURE__*/React.createElement(AppItem, {
