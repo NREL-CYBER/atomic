@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
-import { AppItem, AppLabel } from '..';
+import { AppButtons, AppChip, AppItem, AppLabel } from '..';
 import { prettyTitle } from '../../util';
 import AppText from '../AppText';
 import { byteArrayToBase64 } from '../../util/binaryToBase64';
@@ -25,6 +25,8 @@ const AppUploader = ({
   const propertyFormattedName = prettyTitle(title); // called every time a file's `status` changes
 
   const handleChangeStatus = (fileWithMeta, status) => {
+    console.log(status);
+
     if (status === "done") {
       handleSubmit(fileWithMeta);
     }
@@ -33,6 +35,7 @@ const AppUploader = ({
   };
 
   const handleSubmit = async fileWithMeta => {
+    console.log("submit");
     const {
       meta,
       file
@@ -41,10 +44,16 @@ const AppUploader = ({
     onFileReceived(meta, byteArrayToBase64(new Uint8Array(fileBuffer)));
   };
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: statusColor
-  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, null, description)), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(Dropzone, {
+  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  }, /*#__PURE__*/React.createElement(AppChip, {
+    color: statusColor
+  }, status))), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, null, description)), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(Dropzone, {
     initialFiles: file ? [file] : undefined,
     maxFiles: 1,
     multiple: false,

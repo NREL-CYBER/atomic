@@ -137,7 +137,7 @@ const AppLogin = ({
 
         switch (status) {
           case "create":
-            if (!account_exists) insertAccount(entered_credential, entered_credential.uid).then(() => {
+            if (!account_exists) insertAccount(entered_credential.uid, entered_credential).then(() => {
               onLoginSuccess(result);
             });else post({
               color: "danger",

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { AppAvatar, AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
+import { v4 } from "uuid";
+import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
 import { findSchemaDefinition } from "../components/forms/AppForm";
 import { useAddress } from "./ExampleConfig";
@@ -18,7 +19,7 @@ const ExampleForm = () => {
     rootSchema: schema,
     title: "Address",
     onSubmit: data => {
-      insert(data).then(() => {
+      insert(v4(), data).then(() => {
         setStatus("idle");
       });
     },
@@ -45,11 +46,11 @@ const ExampleForm = () => {
     }, country_name, "-", street_address, " ", region), street_view && /*#__PURE__*/React.createElement(AppLabel, {
       position: "floating",
       color: "primary"
-    }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, /*#__PURE__*/React.createElement(AppAvatar, null, street_view && /*#__PURE__*/React.createElement(AppBinaryImg, {
+    }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, street_view && /*#__PURE__*/React.createElement(AppBinaryImg, {
       height: "100",
       alt: "Street View",
       binary: atob(street_view)
-    }))));
+    })));
   }), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setStatus("editing");

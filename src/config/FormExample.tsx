@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { v4 } from "uuid";
 import { AppAvatar, AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
 import { findSchemaDefinition } from "../components/forms/AppForm";
@@ -14,7 +15,7 @@ const ExampleForm: React.FC = () => {
                 rootSchema={schema}
                 title={"Address"}
                 onSubmit={(data: any) => {
-                    insert(data).then(() => {
+                    insert(v4(), data).then(() => {
                         setStatus("idle");
                     });
                 }} data={{}} /> :
@@ -33,9 +34,7 @@ const ExampleForm: React.FC = () => {
                                 Street View
                             </AppLabel>}
                             <AppTitle>
-                                <AppAvatar>
-                                    {street_view && <AppBinaryImg height="100" alt="Street View" binary={atob(street_view)} />}
-                                </AppAvatar>
+                                {street_view && <AppBinaryImg height="100" alt="Street View" binary={atob(street_view)} />}
                             </AppTitle>
                         </AppCard >
                     })}

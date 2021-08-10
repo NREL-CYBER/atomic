@@ -1,4 +1,5 @@
 import React from "react";
+import { StoreListener } from "store/dist/store";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
 import { AppCacheIndex } from "../state/AppCacheIndex";
@@ -6,9 +7,9 @@ import { AppCacheIndex } from "../state/AppCacheIndex";
 export interface AppRestConfig {
     endpoint: string,
 }
-export type serializationMode = "rest" | "local";
+export type serializationMode = "rest" | "local" | "custom";
 export type encryptionMode = "plaintext" | "AES256" | "RSA";
-export type authProvider = "email";
+export type authProvider = "email" | "oauth";
 
 export interface AppSerializationConfig {
     mode: serializationMode
@@ -20,6 +21,11 @@ export interface AppSerializationConfig {
     authentication?: {
         provider: authProvider
     },
+    synchronization?: {
+        provider: {
+            synchronize: (connect: () => "success" | "error" | "not-allowed", listen: StoreListener<any>) => void
+        },
+    }
     rest?: AppRestConfig
 }
 

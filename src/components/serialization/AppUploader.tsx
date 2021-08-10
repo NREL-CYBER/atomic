@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropzone, { IFileWithMeta, IMeta, IUploadParams, StatusValue } from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
-import { AppItem, AppLabel } from '..';
+import { AppButtons, AppChip, AppItem, AppLabel } from '..';
 import { AppColor } from '../../theme';
 import { prettyTitle } from '../../util';
 import AppText from '../AppText';
@@ -25,7 +25,9 @@ export interface uploaderProps {
 const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFileReceived, uploadParams, file }) => {
     const [status, setStatus] = useState<StatusValue>("ready");
     const successStatus: StatusValue[] = ["done"];
-    const errorStatus: StatusValue[] = ["error_file_size", "error_upload", "error_upload_params", "error_validation", "aborted", "rejected_file_type"]
+    const errorStatus: StatusValue[] = ["error_file_size",
+        "error_upload", "error_upload_params",
+        "error_validation", "aborted", "rejected_file_type"]
     const normalStatus: StatusValue[] = ["ready", "preparing", "getting_upload_params"]
     const statusColor: AppColor = normalStatus.includes(status) ? "primary" : successStatus.includes(status) ? "favorite" : errorStatus.includes(status) ? "danger" : "clear";
 
@@ -33,6 +35,7 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
 
     // called every time a file's `status` changes
     const handleChangeStatus: (fileWithMeta: IFileWithMeta, status: StatusValue, allFiles: IFileWithMeta[]) => void = (fileWithMeta, status) => {
+        console.log(status);
         if (status === "done") {
             handleSubmit(fileWithMeta);
         }
@@ -40,6 +43,7 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
     }
 
     const handleSubmit: (successFile: IFileWithMeta) => Promise<void> = async (fileWithMeta) => {
+        console.log("submit");
         const { meta, file } = fileWithMeta;
         const fileBuffer = await file.arrayBuffer()
         onFileReceived(meta,
@@ -48,15 +52,22 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
     }
     return <>
         <AppItem>
-            <AppLabel position="stacked" color={statusColor} >
-                {propertyFormattedName}
-            </AppLabel>
+            <AppButtons slot="start">
+                <AppLabel position="stacked" color={statusColor} >
+                    {propertyFormattedName}
+                </AppLabel>
+            </AppButtons>
+            <AppButtons slot="end">
+                <AppChip color={statusColor} >
+                    {status}
+                </AppChip>
+            </AppButtons>
         </AppItem>
         <AppItem>
             <AppText>{description}</AppText>
         </AppItem>
         <AppItem>
-            <Dropzone                
+            <Dropzone
                 initialFiles={file ? [file] : undefined}
                 maxFiles={1}
                 multiple={false}

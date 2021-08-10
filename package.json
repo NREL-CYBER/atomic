@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "3.2.6",
+  "version": "3.2.7",
   "private": true,
   "main": "dist/entry.js",
   "types": "dist/entry.d.ts",
@@ -35,6 +35,7 @@
     "zustand": "^3.5.2"
   },
   "scripts": {
+    "start":"ionic s",
     "build": "tsc --emitDeclarationOnly --noEmit false && babel src --out-dir dist --extensions .ts,.tsx",
     "storybook": "start-storybook -p 6006",
     "update": "yarn install && yarn add https://github.com/NREL-CYBER/validator https://github.com/NREL-CYBER/store",

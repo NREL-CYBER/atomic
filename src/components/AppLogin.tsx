@@ -126,7 +126,7 @@ const AppLogin: React.FC<{
                     switch (status) {
                         case "create":
                             if (!account_exists)
-                                insertAccount(entered_credential, entered_credential.uid).then(() => {
+                                insertAccount(entered_credential.uid, entered_credential).then(() => {
                                     onLoginSuccess(result);
                                 })
                             else

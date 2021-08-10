@@ -5,6 +5,7 @@ import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 const Home: React.FC = () => {
   const [platform, setPlatform] = useState<string>("Develop");
   const [val, setVal] = useState<string[]>([]);
+  const [medal, setMedal] = useState<string>("");
   return <AppPage >
     <AppContent>
       <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
@@ -12,10 +13,11 @@ const Home: React.FC = () => {
           Check out the examples to get started
         </AppChip>
         <AppItemDivider />
+        <AppChip>
+          AppColors
+        </AppChip>
         <AppItem>
-          <AppChip>
-            AppColors
-          </AppChip>
+
           <AppItem color="primary">
             Primary
           </AppItem>
@@ -28,11 +30,13 @@ const Home: React.FC = () => {
           <AppItem color="success">
             Success
           </AppItem>
-          <AppItem color="favorite">
-            Favorite
-          </AppItem>
           <AppItem color="warning">
             Warning
+          </AppItem>
+        </AppItem>
+        <AppItem>
+          <AppItem color="favorite">
+            Favorite
           </AppItem>
           <AppItem color="danger">
             Danger
@@ -50,28 +54,43 @@ const Home: React.FC = () => {
             Paper
           </AppItem>
 
-
-          <AppButtons slot="end">
-            <AppButton routerLink={"/form"} color="primary" fill="solid">
-              Form Example
-            </AppButton>
-          </AppButtons>
         </AppItem>
+        <AppItemDivider />
+
+        <AppButtons slot="end">
+          <AppButton routerLink={"/form"} color="primary" fill="solid">
+            Form Example
+          </AppButton>
+        </AppButtons>
         <AppItem>
-          <AppLabel>
-            App Select Buttons
-          </AppLabel>
-          <AppSelectButtons multi={false} buttons={[{ text: "asdasd", value: "s", color: "primary" }, { text: "asdssasd", value: "sw", color: "primary" }]} selected={val} onSelectionChange={(value) => {
-            setVal(value);
-          }} />
+          <AppButtons slot="start">
+            <AppLabel>
+              AppSelectButtons
+            </AppLabel>
+          </AppButtons>
+          <AppSelectButtons multi
+            buttons={
+              [
+                { text: "multiple", value: "M", color: "primary" },
+                { text: "choice", value: "C", color: "favorite" },
+                { text: "selections", value: "S", color: "secondary" }
+              ]
+            } selected={val}
+            onSelectionChange={(value) => {
+              console.log(value);
+              setVal(value);
+            }} />
         </AppItem>
         <AppItemDivider />
         <AppItem>
           <AppLabel>
             App Datalist input
           </AppLabel>
-          <AppSuggestedInput id="test" values={["test", "value"]} onInputChange={() => {
-          }} />
+          <AppButtons slot="end">
+            <AppSuggestedInput value={medal} id="test" values={["gold", "silver", "bronze"]} onInputChange={(freshMedal) => {
+              setMedal(freshMedal)
+            }} />
+          </AppButtons>
         </AppItem>
         <AppItemDivider />
         <AppItem>
@@ -84,7 +103,7 @@ const Home: React.FC = () => {
           </AppSelect>
         </AppItem>
       </AppCard>
-    </AppContent>
-  </AppPage>
+    </AppContent >
+  </AppPage >
 }
 export default Home;
