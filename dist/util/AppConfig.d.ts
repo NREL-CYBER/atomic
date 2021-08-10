@@ -1,13 +1,14 @@
 import React from "react";
+import { StoreListener } from "store/dist/store";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
 import { AppCacheIndex } from "../state/AppCacheIndex";
 export interface AppRestConfig {
     endpoint: string;
 }
-export declare type serializationMode = "rest" | "local";
+export declare type serializationMode = "rest" | "local" | "custom";
 export declare type encryptionMode = "plaintext" | "AES256" | "RSA";
-export declare type authProvider = "email";
+export declare type authProvider = "email" | "oauth";
 export interface AppSerializationConfig {
     mode: serializationMode;
     overide?: {
@@ -17,6 +18,11 @@ export interface AppSerializationConfig {
     encryption?: encryptionMode;
     authentication?: {
         provider: authProvider;
+    };
+    synchronization?: {
+        provider: {
+            synchronize: (connect: () => "success" | "error" | "not-allowed", listen: StoreListener<any>) => void;
+        };
     };
     rest?: AppRestConfig;
 }
