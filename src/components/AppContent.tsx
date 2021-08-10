@@ -19,7 +19,9 @@ const AppContent: React.FC<{ center?: boolean, next?: boolean }> = (props) => {
                     </IonCol>
                     <IonCol sizeSm="22" sizeXs="24" sizeMd='16'>
                         {props.children}
-                        {props.next && <AppNextButton />}
+                        {props.next && <AppToolbar>
+                            <AppNextButton />
+                        </AppToolbar>}
                     </IonCol>
                 </IonRow>
 

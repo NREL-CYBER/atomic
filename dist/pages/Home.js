@@ -6,7 +6,9 @@ const Home = () => {
   const [platform, setPlatform] = useState("Develop");
   const [val, setVal] = useState([]);
   const [medal, setMedal] = useState("");
-  return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppCard, {
+  return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
+    next: true
+  }, /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "primary",
     titleColor: "secondary",
     title: "Welcome to atomic",

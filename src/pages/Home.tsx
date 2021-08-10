@@ -7,7 +7,7 @@ const Home: React.FC = () => {
   const [val, setVal] = useState<string[]>([]);
   const [medal, setMedal] = useState<string>("");
   return <AppPage >
-    <AppContent>
+    <AppContent next>
       <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
         <AppChip color="success">
           Check out the examples to get started
