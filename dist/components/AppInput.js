@@ -9,10 +9,17 @@ import React from 'react';
  */
 const AppInput = props => {
   return /*#__PURE__*/React.createElement(IonInput, _extends({
+    onIonBlur: ({
+      target
+    }) => {
+      props.onInputBlur && props.onInputBlur(target.value);
+    },
     debounce: props.debounce || 200
   }, props, {
-    onIonChange: e => {
-      props.onInputChange && props.onInputChange(e.detail.value);
+    onIonChange: ({
+      detail
+    }) => {
+      props.onInputChange && props.onInputChange(detail.value);
     }
   }));
 };

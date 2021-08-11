@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 
 const Home = () => {
@@ -15,7 +15,15 @@ const Home = () => {
     subTitle: "atomic"
   }, /*#__PURE__*/React.createElement(AppChip, {
     color: "success"
-  }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppChip, null, "AppColors"), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppItem, {
+  }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppInput, {
+    debounce: 500,
+    onInputChange: () => {
+      console.log("change");
+    },
+    onInputBlur: () => {
+      console.log("blur");
+    }
+  }), /*#__PURE__*/React.createElement(AppItemDivider, null), /*#__PURE__*/React.createElement(AppChip, null, "AppColors"), /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppItem, {
     color: "primary"
   }, "Primary"), /*#__PURE__*/React.createElement(AppItem, {
     color: "secondary"

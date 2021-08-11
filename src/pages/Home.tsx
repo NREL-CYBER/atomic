@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 
 const Home: React.FC = () => {
@@ -12,6 +12,13 @@ const Home: React.FC = () => {
         <AppChip color="success">
           Check out the examples to get started
         </AppChip>
+        <AppInput debounce={500} onInputChange={() => {
+          console.log("change");
+        }} onInputBlur={() => {
+          console.log("blur");
+        }}>
+        </AppInput>
+
         <AppItemDivider />
         <AppChip>
           AppColors

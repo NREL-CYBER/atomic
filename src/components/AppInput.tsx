@@ -7,6 +7,7 @@ export type stringFormat = "number" | "time" | "text" | "date" | "email" | "pass
 
 interface inputProps {
     onInputChange?: (value: string) => void
+    onInputBlur?: (value: string) => void
     placeholder?: string
     value?: string
     color?: AppColor
@@ -19,6 +20,6 @@ interface inputProps {
  * Component for text input
  */
 const AppInput: React.FC<inputProps> = (props) => {
-    return <IonInput debounce={props.debounce || 200} {...props} onIonChange={(e) => { props.onInputChange && props.onInputChange(e.detail.value!) }} />
+    return <IonInput onIonBlur={({ target }) => { props.onInputBlur && props.onInputBlur((target as any).value) }} debounce={props.debounce || 200} {...props} onIonChange={({ detail }) => { props.onInputChange && props.onInputChange(detail.value!) }} />
 }
 export default AppInput;

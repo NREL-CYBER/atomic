@@ -246,7 +246,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             return <AppUploader accept={(propertyInfo as any)["contentMediaType"]}
                 description={propertyInfo.description || ""} title={propertyInfo.title || property}
                 onFileReceived={(meta, uri) => {
-                    console.log(meta,uri);
                     handleInputReceived(property, uri);
                 }} />
         }
