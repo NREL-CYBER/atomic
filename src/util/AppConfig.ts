@@ -1,7 +1,6 @@
 import React from "react";
 import { Store } from "store";
 import { StoreListener } from "store/dist/store";
-import { StoreApi } from "zustand";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
 import { AppCacheIndex } from "../state/AppCacheIndex";

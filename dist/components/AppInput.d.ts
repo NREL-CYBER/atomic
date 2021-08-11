@@ -8,6 +8,7 @@ interface inputProps {
     color?: AppColor;
     type?: stringFormat;
     style?: Record<string, any>;
+    debounce?: number;
 }
 /**
  * Component for text input
