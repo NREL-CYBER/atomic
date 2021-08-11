@@ -11,6 +11,6 @@ export interface appLocalSerializerProps {
     uid?: string;
     endpoint?: string;
 }
-export declare const InitializeSynchronization: (cache: AppCacheIndex, serialization: AppSerializationConfig, uid: string, synchronize: <T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: (() => void) | undefined) => void, onComplete: () => void) => void;
+export declare const InitializeSynchronization: (cache: AppCacheIndex, serialization: AppSerializationConfig, uid: string, synchronize: <T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: (() => void) | undefined) => void, onComplete: () => void) => Promise<void>;
 declare const _default: React.NamedExoticComponent<appLocalSerializerProps>;
 export default _default;

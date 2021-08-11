@@ -1,8 +1,8 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
-import React, { MutableRefObject, Suspense, useCallback, useMemo, useState } from 'react';
+import React, { MutableRefObject, useCallback, useMemo, useState } from 'react';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
@@ -22,6 +22,7 @@ interface formInputProps {
     lockedFields?: string[],
     customTitleFunction?: (value: any) => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
+    customItemComponent?: React.FC<nestedFormProps>
 }
 
 
@@ -47,7 +48,7 @@ export const findShortestValue = (val: any) => {
  */
 const AppFormArrayInput = (props: formInputProps) => {
     const { property, instanceRef, onChange, customTitleFunction,
-        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema } = props;
+        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema, customItemComponent } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
@@ -111,21 +112,19 @@ const AppFormArrayInput = (props: formInputProps) => {
             </AppButtons>
             <div hidden={!isInsertingItem}>
                 {<AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
-                    <Suspense fallback={<AppLoadingCard />}>
-                        <AppContent>
-                            {useMemo(() => <AppFormComposer
-                                showFields={showFields}
-                                hiddenFields={hiddenFields}
-                                lockedFields={lockedFields}
-                                customComponentMap={customComponentMap}
-                                rootSchema={rootSchema}
-                                objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
-                                data={{ ...data }}
-                                onSubmit={onSubmitItem} >
-                                <AppBackButton onClick={onBackPressed} />
-                            </AppFormComposer>, [customComponentMap, data, hiddenFields, lockedFields, objectSchema, onBackPressed, onSubmitItem, propertyInfo, rootSchema, showFields])}
-                        </AppContent>
-                    </Suspense>
+                    <AppContent>
+                        {useMemo(() => customItemComponent ? customItemComponent : <AppFormComposer
+                            showFields={showFields}
+                            hiddenFields={hiddenFields}
+                            lockedFields={lockedFields}
+                            customComponentMap={customComponentMap}
+                            rootSchema={rootSchema}
+                            objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
+                            data={{ ...data }}
+                            onSubmit={onSubmitItem} >
+                            <AppBackButton onClick={onBackPressed} />
+                        </AppFormComposer>, [customComponentMap, customItemComponent, data, hiddenFields, lockedFields, objectSchema, onBackPressed, onSubmitItem, propertyInfo, rootSchema, showFields])}
+                    </AppContent>
                 </AppModal>}
             </div>
         </AppToolbar>

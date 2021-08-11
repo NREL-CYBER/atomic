@@ -1,5 +1,7 @@
 import React from "react";
+import { Store } from "store";
 import { StoreListener } from "store/dist/store";
+import { StoreApi } from "zustand";
 import { AppRoute } from "../core/routing";
 import { CompletionStatus } from "../hooks/useCompletion";
 import { AppCacheIndex } from "../state/AppCacheIndex";
@@ -22,9 +24,10 @@ export interface AppSerializationConfig {
         provider: authProvider
     },
     synchronization?: {
-        provider: {
-            synchronize: (connect: () => "success" | "error" | "not-allowed", listen: StoreListener<any>) => void
-        },
+        connect: () => Promise<string>,
+        listener: (namespace: string, collection: string) => StoreListener<any>
+        preload: (namespace: string, store: () => Store<any>,
+        ) => Promise<string>
     }
     rest?: AppRestConfig
 }

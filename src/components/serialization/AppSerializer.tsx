@@ -15,13 +15,30 @@ export interface appLocalSerializerProps {
     endpoint?: string
 }
 
-export const InitializeSynchronization = (cache: AppCacheIndex,
+export const InitializeSynchronization = async (cache: AppCacheIndex,
     serialization: AppSerializationConfig,
     uid: string,
-    synchronize: <T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string, onComplete?: (() => void) | undefined) => void, onComplete: () => void) => {
+    synchronize: <T>(serialization: AppSerializationConfig,
+        namespace: string,
+        store: () => Store<T>,
+        uid: string, onComplete?: (() => void) | undefined) => void,
+    onComplete: () => void) => {
+    if (serialization.synchronization) {
+        await serialization.synchronization.connect()
+    }
     Object.entries(cache).forEach(([namespace, collections]) => {
         Object.values(collections).forEach((storeAPI) => {
-            synchronize(serialization, namespace, storeAPI.getState, uid, onComplete);
+            const { collection } = storeAPI.getState()
+            const customSynchronizer = serialization.synchronization?.listener(namespace, collection)
+            const customPreloader = serialization.synchronization?.preload(namespace, storeAPI.getState);
+            if (customSynchronizer && customPreloader) {
+                customPreloader.then(() => {
+                    storeAPI.getState().addListener(customSynchronizer);
+                    onComplete();
+                })
+            } else {
+                synchronize(serialization, namespace, storeAPI.getState, uid, onComplete);
+            }
         })
     })
 }

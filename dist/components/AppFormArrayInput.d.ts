@@ -14,6 +14,7 @@ interface formInputProps {
     lockedFields?: string[];
     customTitleFunction?: (value: any) => string;
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
+    customItemComponent?: React.FC<nestedFormProps>;
 }
 export declare const findShortestValue: (val: any) => any;
 /**

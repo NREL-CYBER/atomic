@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { v4 } from "uuid";
-import { AppAvatar, AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
+import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
 import { findSchemaDefinition } from "../components/forms/AppForm";
 import { useAddress } from "./ExampleConfig";

@@ -1,10 +1,27 @@
 import React, { memo, useEffect, useState } from "react";
 import useAppLayout from "../../hooks/useAppLayout";
 import useCache from "../../hooks/useCache";
-export const InitializeSynchronization = (cache, serialization, uid, synchronize, onComplete) => {
+export const InitializeSynchronization = async (cache, serialization, uid, synchronize, onComplete) => {
+  if (serialization.synchronization) {
+    await serialization.synchronization.connect();
+  }
+
   Object.entries(cache).forEach(([namespace, collections]) => {
     Object.values(collections).forEach(storeAPI => {
-      synchronize(serialization, namespace, storeAPI.getState, uid, onComplete);
+      const {
+        collection
+      } = storeAPI.getState();
+      const customSynchronizer = serialization.synchronization?.listener(namespace, collection);
+      const customPreloader = serialization.synchronization?.preload(namespace, storeAPI.getState);
+
+      if (customSynchronizer && customPreloader) {
+        customPreloader.then(() => {
+          storeAPI.getState().addListener(customSynchronizer);
+          onComplete();
+        });
+      } else {
+        synchronize(serialization, namespace, storeAPI.getState, uid, onComplete);
+      }
     });
   });
 };
