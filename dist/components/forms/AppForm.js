@@ -232,7 +232,6 @@ const AppForm = props => {
         description: propertyInfo.description || "",
         title: propertyInfo.title || property,
         onFileReceived: (meta, uri) => {
-          console.log(meta, uri);
           handleInputReceived(property, uri);
         }
       });
