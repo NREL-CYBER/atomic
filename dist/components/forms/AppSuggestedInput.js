@@ -23,8 +23,9 @@ const AppSuggestedInput = ({
   const PopoverList = ({
     onHide
   }) => {
-    return /*#__PURE__*/React.createElement(IonList, null, unique(value ? [value, ...values] : values).map(option => /*#__PURE__*/React.createElement(IonItem, {
+    return /*#__PURE__*/React.createElement(IonList, null, unique(values).map(option => /*#__PURE__*/React.createElement(IonItem, {
       key: option,
+      color: value?.includes(option) ? 'primary' : "medium",
       onClick: () => {
         dismiss();
         setTimeout(() => {
