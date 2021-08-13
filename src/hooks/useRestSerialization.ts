@@ -82,29 +82,31 @@ export const useRestSerializeation = create<SynchronizationContext>((_, restStor
 
 
         store().addListener((key, data, status) => {
-            switch (status) {
-                case "workspacing":
-                    set(collection_workspace_key, store().exportWorkspace());
-                    break;
-                case "inserting":
-                case "updating":
-                    insert(collection_key, key, JSON.stringify(data)).catch(() => {
-                        store().setStatus("erroring")
-                    })
-                    break;
-                case "removing":
-                    remove(collection_key, key).catch(() => {
-                        store().setStatus("erroring")
-                    })
+            return new Promise((resolve) => {
+                switch (status) {
+                    case "workspacing":
+                        set(collection_workspace_key, store().exportWorkspace());
+                        break;
+                    case "inserting":
+                    case "updating":
+                        insert(collection_key, key, JSON.stringify(data)).catch(() => {
+                            store().setStatus("erroring")
+                        })
+                        break;
+                    case "removing":
+                        remove(collection_key, key).catch(() => {
+                            store().setStatus("erroring")
+                        })
 
-                    break;
-                case "activating":
-                    set(collection_active_key, store().active!)
-                    break;
-            }
+                        break;
+                    case "activating":
+                        set(collection_active_key, store().active!)
+                        break;
+                }
+                onComplete && onComplete();
+                resolve(status);
+            });
 
-
-        });
-        onComplete && onComplete();
+        })
     }
 }))

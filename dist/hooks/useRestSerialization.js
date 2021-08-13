@@ -89,30 +89,34 @@ export const useRestSerializeation = create((_, restStorage) => ({
     }
 
     store().addListener((key, data, status) => {
-      switch (status) {
-        case "workspacing":
-          set(collection_workspace_key, store().exportWorkspace());
-          break;
+      return new Promise(resolve => {
+        switch (status) {
+          case "workspacing":
+            set(collection_workspace_key, store().exportWorkspace());
+            break;
 
-        case "inserting":
-        case "updating":
-          insert(collection_key, key, JSON.stringify(data)).catch(() => {
-            store().setStatus("erroring");
-          });
-          break;
+          case "inserting":
+          case "updating":
+            insert(collection_key, key, JSON.stringify(data)).catch(() => {
+              store().setStatus("erroring");
+            });
+            break;
 
-        case "removing":
-          remove(collection_key, key).catch(() => {
-            store().setStatus("erroring");
-          });
-          break;
+          case "removing":
+            remove(collection_key, key).catch(() => {
+              store().setStatus("erroring");
+            });
+            break;
 
-        case "activating":
-          set(collection_active_key, store().active);
-          break;
-      }
+          case "activating":
+            set(collection_active_key, store().active);
+            break;
+        }
+
+        onComplete && onComplete();
+        resolve(status);
+      });
     });
-    onComplete && onComplete();
   }
 
 }));

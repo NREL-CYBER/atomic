@@ -86,7 +86,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         rest: { endpoint }
     }
     if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
-        return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
+        return <IonApp  className={darkMode ? "dark-theme" : "light-theme"}>
             <AppContent center>
                 <AppNotifications />
                 <AppTitle color="tertiary">
