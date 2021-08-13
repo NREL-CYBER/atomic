@@ -15,7 +15,8 @@ const AppSuggestedInput = ({
   color,
   onInputChange,
   placeholder,
-  type
+  type,
+  style
 }) => {
   const inputRef = useRef(null);
 
@@ -39,6 +40,7 @@ const AppSuggestedInput = ({
     onHide: () => dismiss()
   });
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(IonInput, {
+    style: style,
     type: type,
     placeholder: placeholder,
     color: color,

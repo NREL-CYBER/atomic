@@ -16,7 +16,7 @@ interface inputProps {
     type?: stringFormat
     values: string[]
     id: string
-    style: Record<string, any>
+    style?: Record<string, any>
 }
 
 /**
