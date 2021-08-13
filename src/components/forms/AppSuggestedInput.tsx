@@ -16,12 +16,13 @@ interface inputProps {
     type?: stringFormat
     values: string[]
     id: string
+    style: Record<string, any>
 }
 
 /**
  * Component for text input
  */
-const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onInputChange, placeholder, type }) => {
+const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onInputChange, placeholder, type, style }) => {
     const inputRef = useRef<HTMLIonInputElement>(null)
     const PopoverList: React.FC<{
         onHide: () => void;
@@ -42,7 +43,7 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
     });
 
     return <AppRow>
-        <IonInput type={type} placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => {
+        <IonInput style={style} type={type} placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => {
             onInputChange(detail.value!)
         }} />
         <IonButton color={color} fill="clear" onClick={(e) => {
