@@ -10,6 +10,7 @@ export type stringFormat = "number" | "time" | "text" | "date" | "email" | "pass
 
 interface inputProps {
     onInputChange: (value: string) => void
+    onSuggestionSelected?: (value: string) => void
     placeholder?: string
     value?: string
     color?: AppColor
@@ -22,7 +23,7 @@ interface inputProps {
 /**
  * Component for text input
  */
-const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onInputChange, placeholder, type, style }) => {
+const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onInputChange, onSuggestionSelected, placeholder, type, style }) => {
     const inputRef = useRef<HTMLIonInputElement>(null)
     const PopoverList: React.FC<{
         onHide: () => void;
@@ -31,9 +32,7 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
             {unique(values).map((option) =>
                 <IonItem key={option} color={value?.includes(option) ? 'primary' : "medium"} onClick={() => {
                     dismiss();
-                    setTimeout(() => {
-                        onInputChange(option)
-                    }, 100)
+                    onSuggestionSelected ? onSuggestionSelected(option) : onInputChange(option);
                 }} button>{prettyTitle(option)}</IonItem>
             )}
         </IonList>
