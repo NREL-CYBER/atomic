@@ -48,7 +48,7 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
 
     return <div style={style}>
         <AppRow>
-            <IonInput type={type} placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => {
+            <IonInput debounce={250} type={type} placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => {
                 onInputChange(detail.value!)
             }} />
             <IonButton color={color} fill="clear" onClick={(e) => {

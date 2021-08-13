@@ -44,6 +44,7 @@ const AppSuggestedInput = ({
   return /*#__PURE__*/React.createElement("div", {
     style: style
   }, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(IonInput, {
+    debounce: 250,
     type: type,
     placeholder: placeholder,
     color: color,
