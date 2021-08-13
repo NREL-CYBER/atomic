@@ -4,6 +4,7 @@ import { prettyTitle, unique } from 'atomic';
 import { caretDown } from 'ionicons/icons';
 import React, { useRef } from 'react';
 import { AppIcon, AppRow } from '..';
+import AppText from '../AppText';
 
 /**
  * Component for text input
@@ -26,13 +27,14 @@ const AppSuggestedInput = ({
   }) => {
     return /*#__PURE__*/React.createElement(IonList, null, unique(values).map(option => /*#__PURE__*/React.createElement(IonItem, {
       key: option,
-      color: value?.includes(option) ? 'primary' : "medium",
       onClick: () => {
         dismiss();
         onSuggestionSelected ? onSuggestionSelected(option) : onInputChange(option);
       },
       button: true
-    }, prettyTitle(option))));
+    }, /*#__PURE__*/React.createElement(AppText, {
+      color: value?.includes(option) ? "success" : "medium"
+    }, prettyTitle(option)))));
   };
 
   const [present, dismiss] = useIonPopover(PopoverList, {
