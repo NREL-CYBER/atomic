@@ -3,6 +3,7 @@ import { AppColor } from '../../theme';
 export declare type stringFormat = "number" | "time" | "text" | "date" | "email" | "password" | "search" | "tel" | "url" | "week" | "month" | "datetime-local" | undefined;
 interface inputProps {
     onInputChange: (value: string) => void;
+    onSuggestionSelected?: (value: string) => void;
     placeholder?: string;
     value?: string;
     color?: AppColor;

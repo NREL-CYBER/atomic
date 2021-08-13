@@ -14,6 +14,7 @@ const AppSuggestedInput = ({
   id,
   color,
   onInputChange,
+  onSuggestionSelected,
   placeholder,
   type,
   style
@@ -28,9 +29,7 @@ const AppSuggestedInput = ({
       color: value?.includes(option) ? 'primary' : "medium",
       onClick: () => {
         dismiss();
-        setTimeout(() => {
-          onInputChange(option);
-        }, 100);
+        onSuggestionSelected ? onSuggestionSelected(option) : onInputChange(option);
       },
       button: true
     }, prettyTitle(option))));
