@@ -5,6 +5,7 @@ import { caretDown } from 'ionicons/icons';
 import React, { useRef } from 'react';
 import { AppIcon, AppRow } from '..';
 import { AppColor } from '../../theme';
+import AppText from '../AppText';
 
 export type stringFormat = "number" | "time" | "text" | "date" | "email" | "password" | "search" | "tel" | "url" | "week" | "month" | "datetime-local" | undefined;
 
@@ -30,10 +31,14 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
     }> = ({ onHide }) => {
         return <IonList>
             {unique(values).map((option) =>
-                <IonItem key={option} color={value?.includes(option) ? 'primary' : "medium"} onClick={() => {
+                <IonItem key={option} onClick={() => {
                     dismiss();
                     onSuggestionSelected ? onSuggestionSelected(option) : onInputChange(option);
-                }} button>{prettyTitle(option)}</IonItem>
+                }} button>
+                    <AppText color={value?.includes(option) ? "success" : "medium"}>
+                        {prettyTitle(option)}
+                    </AppText>
+                </IonItem>
             )}
         </IonList>
     };
