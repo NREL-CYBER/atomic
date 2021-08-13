@@ -10,7 +10,7 @@ export { useAddress };
 const ExampleConfig = {
   title: "Atomic Example",
   appId: "nrel.atomic.example",
-  version: "3.2.6",
+  version: "3.3.3",
   sections: {
     nice: routes
   },

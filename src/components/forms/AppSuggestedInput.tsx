@@ -42,15 +42,17 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
         showBackdrop: false, onHide: () => dismiss()
     });
 
-    return <AppRow>
-        <IonInput style={style} type={type} placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => {
-            onInputChange(detail.value!)
-        }} />
-        <IonButton color={color} fill="clear" onClick={(e) => {
-            present({ event: e.nativeEvent });
-        }}>
-            <AppIcon icon={caretDown} />
-        </IonButton>
-    </AppRow>
+    return <div style={style}>
+        <AppRow>
+            <IonInput type={type} placeholder={placeholder} color={color} ref={inputRef} id={id} autofocus value={value} enterkeyhint={"done"} onIonChange={({ detail }) => {
+                onInputChange(detail.value!)
+            }} />
+            <IonButton color={color} fill="clear" onClick={(e) => {
+                present({ event: e.nativeEvent });
+            }}>
+                <AppIcon icon={caretDown} />
+            </IonButton>
+        </AppRow>
+    </div>
 }
 export default AppSuggestedInput;

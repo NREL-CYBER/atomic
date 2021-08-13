@@ -39,8 +39,9 @@ const AppSuggestedInput = ({
     showBackdrop: false,
     onHide: () => dismiss()
   });
-  return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(IonInput, {
-    style: style,
+  return /*#__PURE__*/React.createElement("div", {
+    style: style
+  }, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(IonInput, {
     type: type,
     placeholder: placeholder,
     color: color,
@@ -64,7 +65,7 @@ const AppSuggestedInput = ({
     }
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: caretDown
-  })));
+  }))));
 };
 
 export default AppSuggestedInput;
