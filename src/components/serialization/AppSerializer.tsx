@@ -21,7 +21,7 @@ export const InitializeSynchronization = async (cache: AppCacheIndex,
     synchronize: <T>(serialization: AppSerializationConfig,
         namespace: string,
         store: () => Store<T>,
-        uid: string, onComplete?: (() => void) | undefined) => void,
+        uid: string, onComplete: (() => void) | undefined) => void,
     onComplete: () => void) => {
     if (serialization.synchronization) {
         await serialization.synchronization.connect()

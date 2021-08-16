@@ -45,10 +45,6 @@ const ExampleConfig: AppConfig = {
     serialization: {
         mode: "local",
         encryption: "AES256",
-        authentication: {
-            provider: "email"
-        }
-
     }
 }
 export default ExampleConfig;

@@ -50,25 +50,30 @@ const useIndexDBStorage = create<SynchronizationContext>(() => ({
 
 
         store().addListener((_, data, status) => {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 switch (status) {
                     case "workspacing":
                         const exported_workspace = store().exportWorkspace();
-                        exported_workspace && set(collection_workspace_key, exported_workspace);
+                        exported_workspace ? set(collection_workspace_key, exported_workspace).then(() => {
+                            resolve("workspace-saved");
+                        }).catch(reject) : reject("workspace-empty");
                         break;
                     case "inserting":
                     case "removing":
                     case "updating":
-                        set(collection_key, store().export());
+                        set(collection_key, store().export()).then(() => {
+                            resolve("update-saved")
+                        }).catch(reject);
                         break;
                     case "activating":
-                        set(collection_active_key, store().active)
+                        set(collection_active_key, store().active).then(() => {
+                            resolve("active-element-saved")
+                        }).catch(reject)
                         break;
                 }
-                onComplete && onComplete();
-                resolve(status);
             })
         });
+        onComplete && onComplete();
     }
 }));
 
