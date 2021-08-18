@@ -38,12 +38,12 @@ const AppFormArrayInput = props => {
     rootSchema,
     customItemComponent
   } = props;
+  const existing_data = instanceRef.current[property] ? instanceRef.current[property] : [];
   const [errors, setErrors] = useState(undefined);
-  const [inputStatus, setInputStatus] = useState("empty");
+  const [inputStatus, setInputStatus] = useState(existing_data.length > 0 ? "valid" : "empty");
   const [isInsertingItem, setIsInsertingItem] = useState(false);
-  const [value, setValue] = useState(instanceRef.current[property] ? instanceRef.current[property] : []);
-  const [data, setData] = useState({});
-  const [, setUndoCache] = useState();
+  const [value, setValue] = useState(existing_data);
+  const [selectedItemData, setSelectedItemData] = useState({});
   const propertyFormattedName = prettyTitle(propertyInfo.title || property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
@@ -53,8 +53,7 @@ const AppFormArrayInput = props => {
     }
 
     ;
-    setData(val);
-    setUndoCache(val);
+    setSelectedItemData(val);
     setIsInsertingItem(true);
   };
 
@@ -76,7 +75,8 @@ const AppFormArrayInput = props => {
   }, [onChange, property, value]);
   const onBackPressed = useCallback(() => {
     setIsInsertingItem(false);
-  }, []);
+    selectedItemData && onSubmitItem(selectedItemData);
+  }, [onSubmitItem, selectedItemData]);
   return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: "clear"
   }, /*#__PURE__*/React.createElement(AppButtons, {
@@ -85,6 +85,7 @@ const AppFormArrayInput = props => {
     fill: "clear",
     onClick: () => {
       beginInsertItem();
+      setSelectedItemData(undefined);
     },
     color: inputStatusColor
   }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
@@ -114,12 +115,12 @@ const AppFormArrayInput = props => {
     customComponentMap: customComponentMap,
     rootSchema: rootSchema,
     objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
-    data: { ...data
+    data: { ...selectedItemData
     },
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: onBackPressed
-  })), [customComponentMap, customItemComponent, data, hiddenFields, lockedFields, objectSchema, onBackPressed, onSubmitItem, propertyInfo, rootSchema, showFields]))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  })), [customComponentMap, customItemComponent, selectedItemData, hiddenFields, lockedFields, objectSchema, onBackPressed, onSubmitItem, propertyInfo, rootSchema, showFields]))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
   }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error)))));

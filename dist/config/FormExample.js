@@ -15,7 +15,7 @@ const ExampleForm = () => {
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     center: true
   }, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
-    objectSchema: findSchemaDefinition(schema, 'address'),
+    objectSchema: findSchemaDefinition(schema, 'address_book'),
     rootSchema: schema,
     title: "Address",
     onSubmit: data => {

@@ -15,7 +15,7 @@ self.onmessage = ({ data }) => {
     if (typeof objectSchema.$id === 'undefined') {
         objectSchema.$id = btoa(JSON.stringify(objectSchema));
     }
-    const path = rootSchema.$id + objectSchema.$id
+    const path = rootSchema.$id + objectSchema.$id || objectSchema.properties[property].$ref
     if (ajv.getSchema(rootSchema.$id) === undefined) {
         ajv.addSchema(rootSchema);
     }

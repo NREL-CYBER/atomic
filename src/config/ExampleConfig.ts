@@ -16,7 +16,7 @@ type Address = {
 
 
 const useAddress = composeStore<Address>(
-    { schema: AddressSchema, definition: "address" }
+    { schema: AddressSchema, definition: "address_book" }
 );
 
 

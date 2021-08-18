@@ -49,20 +49,19 @@ export const findShortestValue = (val: any) => {
 const AppFormArrayInput = (props: formInputProps) => {
     const { property, instanceRef, onChange, customTitleFunction,
         propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema, customItemComponent } = props;
+    const existing_data: any[] = instanceRef.current[property] ? instanceRef.current[property] : [];
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
-    const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
+    const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length > 0 ? "valid" : "empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
-    const [value, setValue] = useState<any[]>(instanceRef.current[property] ? instanceRef.current[property] : [])
-    const [data, setData] = useState<any>({})
-    const [, setUndoCache] = useState<any>();
+    const [value, setValue] = useState<any[]>(existing_data)
+    const [selectedItemData, setSelectedItemData] = useState<any>({})
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
         if (typeof (value) === "undefined") {
             setValue([])
         };
-        setData(val);
-        setUndoCache(val);
+        setSelectedItemData(val);
         setIsInsertingItem(true)
     };
     const removeAndbeginInsert = (val: any) => {
@@ -70,7 +69,6 @@ const AppFormArrayInput = (props: formInputProps) => {
         setValue(valueRemoved);
         beginInsertItem(val);
     }
-
 
     const onSubmitItem = useCallback(async (item: any) => {
         const newValue = produce(value, (draftValue) => {
@@ -85,12 +83,14 @@ const AppFormArrayInput = (props: formInputProps) => {
 
     const onBackPressed = useCallback(() => {
         setIsInsertingItem(false);
-    }, [])
+        selectedItemData && onSubmitItem(selectedItemData);
+    }, [onSubmitItem, selectedItemData])
     return <AppRow>
         <AppToolbar color="clear">
             <AppButtons slot='start'>
                 <AppButton fill="clear" onClick={() => {
                     beginInsertItem()
+                    setSelectedItemData(undefined);
                 }} color={inputStatusColor} >
                     {propertyFormattedName}
                 </AppButton>
@@ -120,10 +120,10 @@ const AppFormArrayInput = (props: formInputProps) => {
                             customComponentMap={customComponentMap}
                             rootSchema={rootSchema}
                             objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
-                            data={{ ...data }}
+                            data={{ ...selectedItemData }}
                             onSubmit={onSubmitItem} >
                             <AppBackButton onClick={onBackPressed} />
-                        </AppFormComposer>, [customComponentMap, customItemComponent, data, hiddenFields, lockedFields, objectSchema, onBackPressed, onSubmitItem, propertyInfo, rootSchema, showFields])}
+                        </AppFormComposer>, [customComponentMap, customItemComponent, selectedItemData, hiddenFields, lockedFields, objectSchema, onBackPressed, onSubmitItem, propertyInfo, rootSchema, showFields])}
                     </AppContent>
                 </AppModal>}
             </div>

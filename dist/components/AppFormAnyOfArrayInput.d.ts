@@ -15,9 +15,9 @@ interface formInputProps {
     customTitleFunction?: (value: any) => string;
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
 }
-export declare const findShortestValue: (val: any) => any;
 /**
- * Component for input that displays validation errors
+ * Find a way to keep this DRY there is too much overlap with standard array editor
+ * Add a parameter and provide this functionality there when we actually need this component
  */
 declare const AppFormAnyOfArrayInput: (props: formInputProps) => JSX.Element;
 export default AppFormAnyOfArrayInput;

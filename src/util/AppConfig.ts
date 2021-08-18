@@ -62,7 +62,7 @@ export interface AppConfig {
         },
         component?: React.FC
     },
-    serialization?: AppSerializationConfig
+    serialization: AppSerializationConfig
     version: string
 }
 

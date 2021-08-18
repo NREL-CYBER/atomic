@@ -5,6 +5,7 @@ import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from 
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
+import { findShortestValue } from "./AppFormArrayInput";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
 
@@ -26,35 +27,21 @@ interface formInputProps {
 
 
 
-export const findShortestValue = (val: any) => {
-    /**This looks like vooodooo, but it is just displaying the value 
-                     * that is the shortest, which is usually the title || name */
-    const standard_values = ["name", "title"]
-    const keys = Object.keys(val);
-    const standard_keys = keys.filter((k) => standard_values.includes(k))
-    if (standard_keys.length > 0) {
-        return val[standard_keys[0]];
-    }
-    return String(
-        Object
-            .values(val as Object)
-            .sort((a, b) => String(a).length - String(b).length)
-            .filter(x => x.length > 2)[0])
-}
 
 /**
- * Component for input that displays validation errors
+ * Find a way to keep this DRY there is too much overlap with standard array editor
+ * Add a parameter and provide this functionality there when we actually need this component
  */
 const AppFormAnyOfArrayInput = (props: formInputProps) => {
     const { property, instanceRef, onChange, customTitleFunction,
         propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema } = props;
+    const existing_data = (instanceRef.current[property] ? instanceRef.current[property] : []);
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
-    const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
+    const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length === 0 ? "empty" : "valid");
     const [status, setStatus] = useState<"idle" | "selecting" | "inserting">("idle");
-    const [value, setValue] = useState<any[]>(instanceRef.current[property] ? instanceRef.current[property] : [])
+    const [value, setValue] = useState<any[]>(existing_data)
     const [selectedType, setSelectedType] = useState<any | undefined>()
     const [data, setData] = useState<any>({})
-    const [, setUndoCache] = useState<any>();
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
@@ -62,7 +49,6 @@ const AppFormAnyOfArrayInput = (props: formInputProps) => {
             setValue([])
         };
         setData(val);
-        setUndoCache(val);
         setStatus("inserting")
     };
     const removeAndbeginInsert = (val: any) => {
@@ -85,7 +71,8 @@ const AppFormAnyOfArrayInput = (props: formInputProps) => {
 
     const onBackPressed = useCallback(() => {
         setStatus("idle");
-    }, [])
+        onSubmitItem(data);
+    }, [data, onSubmitItem])
     return <AppRow>
         <AppToolbar color="clear"><AppButtons slot='start'>
             <AppButton fill="clear" onClick={() => {

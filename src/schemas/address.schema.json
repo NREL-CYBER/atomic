@@ -62,14 +62,7 @@
                 "addresses": {
                     "type": "array",
                     "items": {
-                        "anyOf": [
-                            {
-                                "$ref": "#/definitions/address"
-                            },
-                            {
-                                "$ref": "#/definitions/address_with_street_view"
-                            }
-                        ]
+                        "$ref": "#/definitions/address"
                     }
                 }
             },
