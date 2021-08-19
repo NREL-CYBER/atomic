@@ -1,3 +1,6 @@
+import AppTabBar from './AppTabBar';
+import AppTabs from './AppTabs';
+import AppTabButton from './AppTabButton';
 import AppAccordion from './AppAccordion';
 import AppAvatar from "./AppAvatar";
 import AppBackButton from './AppBackButton';
@@ -57,5 +60,5 @@ import AppSuggestedInput from './forms/AppSuggestedInput';
 import AppSerializer from './serialization/AppSerializer';
 import AppUploader from './serialization/AppUploader';
 export * from "./AppCard";
-export { AppSkeletonText, AppTextArea, AppSuggestedInput, AppInput, AppFormComposer, AppFoldingNode, AppLoadingCard, AppDateTime, AppSelect, AppSelectArray, AppFormSelectArray, AppProgress, AppFormDictionaryInput, AppAvatar, AppBinaryImg, AppImg, AppUploader, AppSelectButtons, AppSerializer, AppRouteCard, AppSequence, AppSearchBar, AppAccordion, AppForm, AppRouterOutlet, AppItemDivider, AppSelectOption, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
+export { AppTabs, AppTabButton, AppTabBar, AppSkeletonText, AppTextArea, AppSuggestedInput, AppInput, AppFormComposer, AppFoldingNode, AppLoadingCard, AppDateTime, AppSelect, AppSelectArray, AppFormSelectArray, AppProgress, AppFormDictionaryInput, AppAvatar, AppBinaryImg, AppImg, AppUploader, AppSelectButtons, AppSerializer, AppRouteCard, AppSequence, AppSearchBar, AppAccordion, AppForm, AppRouterOutlet, AppItemDivider, AppSelectOption, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
 
