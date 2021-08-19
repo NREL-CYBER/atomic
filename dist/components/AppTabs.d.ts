@@ -8,9 +8,9 @@ interface AppTab extends AppRoute {
 interface tabsProps {
     style?: Record<string, any>;
     onTabsDidChange?: () => void;
-    children: React.ReactNode;
     tabs: AppTab[];
     selectedColor?: AppColor;
+    selectedTab: string;
 }
 /**
  * Component to display text with optional color

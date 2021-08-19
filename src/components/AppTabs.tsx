@@ -12,20 +12,23 @@ interface AppTab extends AppRoute {
 interface tabsProps {
     style?: Record<string, any>
     onTabsDidChange?: () => void
-    children: React.ReactNode
     tabs: AppTab[]
     selectedColor?: AppColor
+    selectedTab: string
 }
 
 /**
  * Component to display text with optional color
  */
 const AppTabs: React.FC<tabsProps> = (props) => {
-    const [currentTab, setCurrentTab] = useState<string>()
+    const [currentTab, setCurrentTab] = useState<string>(props.selectedTab)
+    const [tabs] = useState<Record<string, AppTab>>(props.tabs
+        .map((t) => ({ [t.path]: t }))
+        .reduce((a, b) => ({ ...a, ...b }), {})
+    )
     return <IonTabs onIonTabsWillChange={(event) => {
         setCurrentTab(event.detail.tab)
     }} onIonTabsDidChange={props.onTabsDidChange}  {...props} >
-        {props.children}
         {props.tabs.map((tab) => <AppTabButton style={currentTab === tab.path ? { "--color": "var(--ion-color-" + props.selectedColor || "primary" } : {}} tab={tab.path}>
             <AppIcon icon={tab.icon} />
             <AppLabel>
@@ -37,7 +40,7 @@ const AppTabs: React.FC<tabsProps> = (props) => {
         </AppTabButton>)}
         <AppRouterOutlet id={v4()} root={{
             icon: "", path: "*", title: "", nested: [], component: () => <>
-                {props.tabs.find(x => x.path === currentTab)?.component}
+                {tabs[currentTab].component || <>{currentTab} is missing a component! </>}
             </>
         }} >
         </AppRouterOutlet>

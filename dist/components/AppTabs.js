@@ -10,13 +10,18 @@ import AppTabButton from './AppTabButton';
  * Component to display text with optional color
  */
 const AppTabs = props => {
-  const [currentTab, setCurrentTab] = useState();
+  const [currentTab, setCurrentTab] = useState(props.selectedTab);
+  const [tabs] = useState(props.tabs.map(t => ({
+    [t.path]: t
+  })).reduce((a, b) => ({ ...a,
+    ...b
+  }), {}));
   return /*#__PURE__*/React.createElement(IonTabs, _extends({
     onIonTabsWillChange: event => {
       setCurrentTab(event.detail.tab);
     },
     onIonTabsDidChange: props.onTabsDidChange
-  }, props), props.children, props.tabs.map(tab => /*#__PURE__*/React.createElement(AppTabButton, {
+  }, props), props.tabs.map(tab => /*#__PURE__*/React.createElement(AppTabButton, {
     style: currentTab === tab.path ? {
       "--color": "var(--ion-color-" + props.selectedColor || "primary"
     } : {},
@@ -32,7 +37,7 @@ const AppTabs = props => {
       path: "*",
       title: "",
       nested: [],
-      component: () => /*#__PURE__*/React.createElement(React.Fragment, null, props.tabs.find(x => x.path === currentTab)?.component)
+      component: () => /*#__PURE__*/React.createElement(React.Fragment, null, tabs[currentTab].component || /*#__PURE__*/React.createElement(React.Fragment, null, currentTab, " is missing a component! "))
     }
   }));
 };
