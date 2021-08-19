@@ -21,7 +21,10 @@ const AppTabs = props => {
       setCurrentTab(event.detail.tab);
     },
     onIonTabsDidChange: props.onTabsDidChange
-  }, props), /*#__PURE__*/React.createElement(IonTabBar, null, props.tabs.map(tab => /*#__PURE__*/React.createElement(AppTabButton, {
+  }, props), /*#__PURE__*/React.createElement(IonTabBar, {
+    slot: props.slot || "top"
+  }, props.tabs.map((tab, i) => /*#__PURE__*/React.createElement(AppTabButton, {
+    key: i,
     style: currentTab === tab.path ? {
       "--color": "var(--ion-color-" + props.selectedColor || "primary"
     } : {},
@@ -31,7 +34,7 @@ const AppTabs = props => {
   }), /*#__PURE__*/React.createElement(AppLabel, null, tab.title), tab.notifications && /*#__PURE__*/React.createElement(AppBadge, {
     color: tab.notificationColor
   }, tab.notifications)))), /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(Route, {
-    path: "*",
+    path: "/*",
     component: () => /*#__PURE__*/React.createElement(React.Fragment, null, tabs[currentTab].component || /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppChip, {
       color: "danger"
     }, "Error, Missing Component for tab: ", currentTab)))

@@ -1,8 +1,7 @@
 import { IonRouterOutlet, IonTabBar, IonTabs } from '@ionic/react';
-import { AppBadge, AppChip, AppIcon, AppLabel, AppRoute, AppRouterOutlet } from 'atomic';
+import { AppBadge, AppChip, AppIcon, AppLabel, AppRoute } from 'atomic';
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
-import { v4 } from 'uuid';
 import { AppColor } from '../theme';
 import AppTabButton from './AppTabButton';
 
@@ -16,6 +15,7 @@ interface tabsProps {
     tabs: AppTab[]
     selectedColor?: AppColor
     selectedTab: string
+    slot?: "top" | "bottom"
 }
 
 /**
@@ -30,8 +30,8 @@ const AppTabs: React.FC<tabsProps> = (props) => {
     return <IonTabs onIonTabsWillChange={(event) => {
         setCurrentTab(event.detail.tab)
     }} onIonTabsDidChange={props.onTabsDidChange}  {...props} >
-        <IonTabBar>
-            {props.tabs.map((tab) => <AppTabButton style={currentTab === tab.path ? { "--color": "var(--ion-color-" + props.selectedColor || "primary" } : {}} tab={tab.path}>
+        <IonTabBar slot={props.slot || "top"}>
+            {props.tabs.map((tab, i) => <AppTabButton key={i} style={currentTab === tab.path ? { "--color": "var(--ion-color-" + props.selectedColor || "primary" } : {}} tab={tab.path}>
                 <AppIcon icon={tab.icon} />
                 <AppLabel>
                     {tab.title}
@@ -42,7 +42,7 @@ const AppTabs: React.FC<tabsProps> = (props) => {
             </AppTabButton>)}
         </IonTabBar>
         <IonRouterOutlet>
-            <Route path="*" component={() => <>{tabs[currentTab].component || <><AppChip color='danger'>Error, Missing Component for tab: {currentTab}</AppChip></>}</>} />
+            <Route path="/*" component={() => <>{tabs[currentTab].component || <><AppChip color='danger'>Error, Missing Component for tab: {currentTab}</AppChip></>}</>} />
         </IonRouterOutlet>
     </IonTabs>
 };

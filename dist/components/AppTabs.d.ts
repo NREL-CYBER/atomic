@@ -11,6 +11,7 @@ interface tabsProps {
     tabs: AppTab[];
     selectedColor?: AppColor;
     selectedTab: string;
+    slot?: "top" | "bottom";
 }
 /**
  * Component to display text with optional color
