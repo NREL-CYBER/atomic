@@ -1,5 +1,6 @@
+import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 
 const Home: React.FC = () => {
@@ -8,7 +9,23 @@ const Home: React.FC = () => {
   const [medal, setMedal] = useState<string>("");
   return <AppPage >
     <AppContent next>
+      <AppCard >
+        <div style={{ height: '200px' }}>
+
+        </div>
+        <AppTabs slot='bottom' selectedTab='tab1' tabs={[{
+          icon: listOutline, path: "tab1", title: "Tab 1", component: () => <>
+            This is a tab
+          </>
+        }, {
+          icon: peopleOutline, path: "tab2", title: "Tab 2", component: () => <>
+            This is another tab
+          </>
+        }]} />
+
+      </AppCard>
       <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
+
         <AppChip color="success">
           Check out the examples to get started
         </AppChip>
