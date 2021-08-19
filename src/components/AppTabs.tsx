@@ -1,6 +1,7 @@
-import { IonTabs } from '@ionic/react';
-import { AppBadge, AppIcon, AppLabel, AppRoute, AppRouterOutlet } from 'atomic';
+import { IonRouterOutlet, IonTabs } from '@ionic/react';
+import { AppBadge, AppChip, AppIcon, AppLabel, AppRoute, AppRouterOutlet } from 'atomic';
 import React, { useState } from 'react';
+import { Route } from 'react-router-dom';
 import { v4 } from 'uuid';
 import { AppColor } from '../theme';
 import AppTabButton from './AppTabButton';
@@ -38,12 +39,9 @@ const AppTabs: React.FC<tabsProps> = (props) => {
                 {tab.notifications}
             </AppBadge>}
         </AppTabButton>)}
-        <AppRouterOutlet id={v4()} root={{
-            icon: "", path: "*", title: "", nested: [], component: () => <>
-                {tabs[currentTab].component || <>{currentTab} is missing a component! </>}
-            </>
-        }} >
-        </AppRouterOutlet>
+        <IonRouterOutlet>
+            <Route path="*" component={() => <>{tabs[currentTab].component || <><AppChip color='danger'>Error, Missing Component for tab: {currentTab}</AppChip></>}</>} />
+        </IonRouterOutlet>
     </IonTabs>
 };
 export default AppTabs;

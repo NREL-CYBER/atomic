@@ -1,9 +1,9 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-import { IonTabs } from '@ionic/react';
-import { AppBadge, AppIcon, AppLabel, AppRouterOutlet } from 'atomic';
+import { IonRouterOutlet, IonTabs } from '@ionic/react';
+import { AppBadge, AppChip, AppIcon, AppLabel } from 'atomic';
 import React, { useState } from 'react';
-import { v4 } from 'uuid';
+import { Route } from 'react-router-dom';
 import AppTabButton from './AppTabButton';
 
 /**
@@ -30,16 +30,12 @@ const AppTabs = props => {
     icon: tab.icon
   }), /*#__PURE__*/React.createElement(AppLabel, null, tab.title), tab.notifications && /*#__PURE__*/React.createElement(AppBadge, {
     color: tab.notificationColor
-  }, tab.notifications))), /*#__PURE__*/React.createElement(AppRouterOutlet, {
-    id: v4(),
-    root: {
-      icon: "",
-      path: "*",
-      title: "",
-      nested: [],
-      component: () => /*#__PURE__*/React.createElement(React.Fragment, null, tabs[currentTab].component || /*#__PURE__*/React.createElement(React.Fragment, null, currentTab, " is missing a component! "))
-    }
-  }));
+  }, tab.notifications))), /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(Route, {
+    path: "*",
+    component: () => /*#__PURE__*/React.createElement(React.Fragment, null, tabs[currentTab].component || /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppChip, {
+      color: "danger"
+    }, "Error, Missing Component for tab: ", currentTab)))
+  })));
 };
 
 export default AppTabs;
