@@ -43,6 +43,7 @@ export interface AppBottomBarConfig {
 }
 
 export interface AppConfig {
+    search?: React.FC<{ query: string, dismiss: () => void }>,
     about?: React.ReactFragment,
     animated?: boolean
     appId: string,

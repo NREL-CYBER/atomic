@@ -9,22 +9,17 @@ const Home: React.FC = () => {
   const [medal, setMedal] = useState<string>("");
   return <AppPage >
     <AppContent next>
-      <AppCard >
-        <div style={{ height: '200px' }}>
+      <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
 
-        </div>
-        <AppTabs slot='bottom' selectedTab='tab1' tabs={[{
-          icon: listOutline, path: "tab1", title: "Tab 1", component: () => <>
+        <AppTabs height={200} slot='bottom' selectedTab='tab1' tabs={[{
+          icon: listOutline, path: "tab1", title: "Tab 1", component: () => <div>
             This is a tab
-          </>
+          </div>
         }, {
           icon: peopleOutline, path: "tab2", title: "Tab 2", component: () => <>
             This is another tab
           </>
         }]} />
-
-      </AppCard>
-      <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
 
         <AppChip color="success">
           Check out the examples to get started

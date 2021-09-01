@@ -38,6 +38,10 @@ export interface AppBottomBarConfig {
     settings?: React.FC;
 }
 export interface AppConfig {
+    search?: React.FC<{
+        query: string;
+        dismiss: () => void;
+    }>;
     about?: React.ReactFragment;
     animated?: boolean;
     appId: string;

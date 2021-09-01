@@ -154,7 +154,7 @@ const AppRoot = config => {
   }), topBar ? {
     topBar
   } : /*#__PURE__*/React.createElement(AppTopToolbar, {
-    about: config.about || ""
+    config: config
   }), routes && routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
   }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), bottomBar && /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomBar, {

@@ -65,8 +65,8 @@ width: 0px!important;  /* Remove scrollbar space */
 background: transparent!important;  /* Optional: just make scrollbar invisible */
 }
 ion-modal{
---width: 90%!important;
---height: 90%!important;
+--width: 85%!important;
+--height: 85%!important;
 --border-radius: 0;
 
 }

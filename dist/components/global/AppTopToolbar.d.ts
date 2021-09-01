@@ -1,8 +1,9 @@
 import React from 'react';
+import { AppConfig } from '../../util';
 /**
  * Self aware top toolbar
  */
 declare const AppTopToolbar: React.FC<{
-    about: React.ReactFragment;
+    config: AppConfig;
 }>;
 export default AppTopToolbar;

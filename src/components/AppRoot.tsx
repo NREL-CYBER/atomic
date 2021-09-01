@@ -86,7 +86,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         rest: { endpoint }
     }
     if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
-        return <IonApp  className={darkMode ? "dark-theme" : "light-theme"}>
+        return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
             <AppContent center>
                 <AppNotifications />
                 <AppTitle color="tertiary">
@@ -131,7 +131,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             {/**Side Menu  */}
             <AppCompletion config={config} />
             {sections && <AppMainMenu sections={sections} />}
-            {topBar ? { topBar } : <AppTopToolbar about={config.about || ""} />}
+            {topBar ? { topBar } : <AppTopToolbar config={config} />}
             {routes && routes.map(route =>
                 <Route key={route.path} {...route} />
             )}

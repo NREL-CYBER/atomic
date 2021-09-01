@@ -1,5 +1,5 @@
-import { homeOutline } from 'ionicons/icons';
-import React, { useEffect, useState } from 'react';
+import { homeOutline, searchOutline } from 'ionicons/icons';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
 import { useCompletion } from '../../hooks';
@@ -7,14 +7,20 @@ import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
 import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';
+import AppSearchBar from '../AppSearchBar';
 /**
  * Self aware top toolbar
  */
 
 const AppTopToolbar = ({
   children,
-  about
+  config
 }) => {
+  const {
+    about,
+    search
+  } = config;
+  const [query, setQuery] = useState("");
   const {
     pathname
   } = useLocation();
@@ -35,9 +41,27 @@ const AppTopToolbar = ({
     update(pathname);
   }, [pathname, update, paths]);
   const [showAbout, setShowAbout] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const titleColor = darkMode ? "tertiary" : "secondary";
   const bgColor = darkMode ? "paper" : "tertiary";
-  return /*#__PURE__*/React.createElement(AppToolbar, {
+  const searchBar = useRef(null);
+  useEffect(() => {
+    const listener = e => {
+      if (!searchBar.current?.contains(e.target)) {
+        setShowSearch(false);
+        setQuery("");
+      }
+
+      ;
+    };
+
+    if (showSearch) {
+      window.addEventListener("mousedown", listener);
+    } else {
+      window.removeEventListener("mousedown", listener);
+    }
+  }, [showSearch]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: bgColor
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
@@ -86,7 +110,37 @@ const AppTopToolbar = ({
     color: titleColor
   }, appTitle, /*#__PURE__*/React.createElement(AppChip, {
     color: titleColor
-  }, version)))));
+  }, version))), search && /*#__PURE__*/React.createElement(AppButton, {
+    onClick: () => {
+      setShowSearch(x => !x);
+    }
+  }, /*#__PURE__*/React.createElement(AppTitle, null, /*#__PURE__*/React.createElement(AppIcon, {
+    color: showSearch ? "primary" : "medium",
+    icon: searchOutline
+  }))))), showSearch && /*#__PURE__*/React.createElement("div", {
+    ref: searchBar,
+    id: "searchbar",
+    style: {
+      position: "absolute",
+      top: 50,
+      left: 0,
+      right: 0,
+      height: 60,
+      zIndex: 1000
+    }
+  }, /*#__PURE__*/React.createElement(AppToolbar, {
+    color: "paper"
+  }, /*#__PURE__*/React.createElement(AppSearchBar, {
+    onQuery: q => {
+      setQuery(q);
+    }
+  })), query && config.search && /*#__PURE__*/React.createElement(config.search, {
+    query: query,
+    dismiss: () => {
+      setQuery("");
+      setShowSearch(false);
+    }
+  })));
 };
 
 export default AppTopToolbar;

@@ -1,5 +1,6 @@
+import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 
 const Home = () => {
@@ -13,7 +14,22 @@ const Home = () => {
     titleColor: "secondary",
     title: "Welcome to atomic",
     subTitle: "atomic"
-  }, /*#__PURE__*/React.createElement(AppChip, {
+  }, /*#__PURE__*/React.createElement(AppTabs, {
+    height: 200,
+    slot: "bottom",
+    selectedTab: "tab1",
+    tabs: [{
+      icon: listOutline,
+      path: "tab1",
+      title: "Tab 1",
+      component: () => /*#__PURE__*/React.createElement("div", null, "This is a tab")
+    }, {
+      icon: peopleOutline,
+      path: "tab2",
+      title: "Tab 2",
+      component: () => /*#__PURE__*/React.createElement(React.Fragment, null, "This is another tab")
+    }]
+  }), /*#__PURE__*/React.createElement(AppChip, {
     color: "success"
   }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppInput, {
     debounce: 500,

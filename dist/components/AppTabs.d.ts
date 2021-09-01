@@ -11,6 +11,7 @@ interface tabsProps {
     tabs: AppTab[];
     selectedColor?: AppColor;
     selectedTab: string;
+    height: number;
     slot?: "top" | "bottom";
 }
 /**

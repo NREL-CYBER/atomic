@@ -3,6 +3,7 @@ import AddressSchema from "../schemas/address.schema.json";
 import { AppConfig } from "../util/AppConfig";
 import routes from "./routes";
 import { ExampleBottomBar } from "./ExampleBottomBar";
+import { ExampleSearchWidget } from "./ExampleSearchWidget";
 
 
 type Address = {
@@ -25,6 +26,7 @@ export { useAddress };
 const ExampleConfig: AppConfig = {
     title: "Atomic Example",
     appId: "nrel.atomic.example",
+    search: ExampleSearchWidget,
     version: "3.3.3",
     sections: { nice: routes },
     routes,

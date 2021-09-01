@@ -1,10 +1,10 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-import { IonRouterOutlet, IonTabBar, IonTabs } from '@ionic/react';
-import { AppBadge, AppChip, AppIcon, AppLabel } from 'atomic';
+import { IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
+import { AppBadge, AppIcon, AppLabel } from 'atomic';
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
-import AppTabButton from './AppTabButton';
+import { AppCard } from '.';
 
 /**
  * Component to display text with optional color
@@ -16,14 +16,19 @@ const AppTabs = props => {
   })).reduce((a, b) => ({ ...a,
     ...b
   }), {}));
-  return /*#__PURE__*/React.createElement(IonTabs, _extends({
+  return /*#__PURE__*/React.createElement(AppCard, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: props.height,
+      maxHeight: props.height
+    }
+  }, /*#__PURE__*/React.createElement(IonTabs, _extends({
     onIonTabsWillChange: event => {
       setCurrentTab(event.detail.tab);
     },
     onIonTabsDidChange: props.onTabsDidChange
   }, props), /*#__PURE__*/React.createElement(IonTabBar, {
     slot: props.slot || "top"
-  }, props.tabs.map((tab, i) => /*#__PURE__*/React.createElement(AppTabButton, {
+  }, props.tabs.map((tab, i) => /*#__PURE__*/React.createElement(IonTabButton, {
     key: i,
     style: currentTab === tab.path ? {
       "--color": "var(--ion-color-" + props.selectedColor || "primary"
@@ -34,11 +39,9 @@ const AppTabs = props => {
   }), /*#__PURE__*/React.createElement(AppLabel, null, tab.title), tab.notifications && /*#__PURE__*/React.createElement(AppBadge, {
     color: tab.notificationColor
   }, tab.notifications)))), /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(Route, {
-    path: "/*",
-    component: () => /*#__PURE__*/React.createElement(React.Fragment, null, tabs[currentTab].component || /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppChip, {
-      color: "danger"
-    }, "Error, Missing Component for tab: ", currentTab)))
-  })));
+    path: "*",
+    component: tabs[currentTab].component
+  })))));
 };
 
 export default AppTabs;
