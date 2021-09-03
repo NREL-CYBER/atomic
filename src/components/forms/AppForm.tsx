@@ -22,6 +22,7 @@ import { validationCacheWorker } from "./../../workers/validationCacheWorker";
 import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
+import AppFormNumber from './AppFormNumber';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
 export interface propertyKeyValue {
@@ -299,8 +300,17 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             />
         }
 
-        if (propertyType === "integer" || propertyType === "number") {
+        if (propertyType === "integer") {
             return <AppFormInteger
+                instanceRef={instanceRef}
+                propertyInfo={refPropertyInfo}
+                property={property}
+                onChange={handleInputReceived}
+                key={property}
+            />
+        }
+        if (propertyType === "number") {
+            return <AppFormNumber
                 instanceRef={instanceRef}
                 propertyInfo={refPropertyInfo}
                 property={property}

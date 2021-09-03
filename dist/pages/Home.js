@@ -1,12 +1,71 @@
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
+import { useEffect } from 'react';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
+import useTitle from '../hooks/useAppTitle';
+export const palletSchema = {
+  $id: "pallete",
+  title: "Pallete",
+  type: "object",
+  properties: {
+    pallete: {
+      type: "array",
+      items: {
+        $ref: "#/definitions/pallete_element"
+      }
+    }
+  },
+  definitions: {
+    pallete_element: {
+      $id: "#/definitions/pallete_element",
+      type: "object",
+      title: "Pallet Element",
+      properties: {
+        name: {
+          title: "Pallete Color Name",
+          type: 'string'
+        },
+        a: {
+          title: "O OR 1",
+          type: "integer",
+          minimum: 0,
+          maximum: 1
+        },
+        r: {
+          title: "red",
+          type: "number",
+          minimum: 0,
+          maximum: 1
+        },
+        g: {
+          title: "green",
+          type: "number",
+          minimum: 0,
+          maximum: 1
+        },
+        b: {
+          title: "blue",
+          type: "number",
+          minimum: 0,
+          maximum: 1
+        }
+      },
+      required: ['name', 'r', 'g', 'b']
+    }
+  }
+};
 
 const Home = () => {
   const [platform, setPlatform] = useState("Develop");
   const [val, setVal] = useState([]);
   const [medal, setMedal] = useState("");
+  const {
+    setTitle
+  } = useTitle();
+  useEffect(() => {
+    setTitle("Awesome");
+  }, [setTitle]);
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     next: true
   }, /*#__PURE__*/React.createElement(AppCard, {
@@ -15,14 +74,19 @@ const Home = () => {
     title: "Welcome to atomic",
     subTitle: "atomic"
   }, /*#__PURE__*/React.createElement(AppTabs, {
-    height: 200,
+    height: 1000,
     slot: "bottom",
     selectedTab: "tab1",
     tabs: [{
       icon: listOutline,
       path: "tab1",
       title: "Tab 1",
-      component: () => /*#__PURE__*/React.createElement("div", null, "This is a tab")
+      component: () => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(AppForm, {
+        data: {},
+        onSubmit: () => {},
+        rootSchema: palletSchema,
+        objectSchema: palletSchema.definitions.pallete_element
+      }))
     }, {
       icon: peopleOutline,
       path: "tab2",

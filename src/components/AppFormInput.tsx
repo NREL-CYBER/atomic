@@ -89,13 +89,13 @@ const AppFormInput = (props: formInputProps<any>) => {
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
-            {useMemo(() => <>{input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
+            {useMemo(() => <>{property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
                 <AppInput color="dark" type={inputMode} value={value} placeholder={description || ""} onInputChange={(val) => {
                     setValue(val)
                 }} />
                 : <AppTextArea placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
                     setValue(val);
-                // eslint-disable-next-line react-hooks/exhaustive-deps
+                    // eslint-disable-next-line react-hooks/exhaustive-deps
                 }} />}</>, [input])}
         </AppItem>
 

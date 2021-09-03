@@ -26,6 +26,8 @@ const AppFormInteger = props => {
 
     const formValue = value === "" ? "0" : value;
     onChange(property, formValue ? parseInt(formValue) : 0).then(([validationStatus, validationErrors]) => {
+      console.log(validationStatus);
+      console.log(validationErrors);
       setInputStatus(validationStatus);
       setErrors(validationErrors || []);
     });
@@ -38,6 +40,8 @@ const AppFormInteger = props => {
     position: "stacked",
     color: statusColor
   }, propertyFormattedName), useMemo(() => /*#__PURE__*/React.createElement(AppInput, {
+    min: propertyInfo?.minumum,
+    max: propertyInfo?.maximum,
     type: "number",
     value: value,
     placeholder: propertyFormattedName,

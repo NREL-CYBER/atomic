@@ -5,4 +5,5 @@ import useNotifications from "./useNotifications";
 import useWindowSize from "./useWindowSize";
 import useCache from "./useCache";
 import useAppAccount from "./useAppAccount";
-export { useAppLayout, useCompletion, useGuidance, useNotifications, useWindowSize, useCache, useAppAccount };
+import useAppTitle from "./useAppTitle";
+export { useAppLayout, useCompletion, useGuidance, useNotifications, useWindowSize, useCache, useAppAccount, useAppTitle };

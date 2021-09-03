@@ -10,6 +10,8 @@ interface inputProps {
     type?: stringFormat;
     style?: Record<string, any>;
     debounce?: number;
+    max?: string;
+    min?: string;
 }
 /**
  * Component for text input

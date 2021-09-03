@@ -1,19 +1,85 @@
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
+import { useEffect } from 'react';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
+import useTitle from '../hooks/useAppTitle';
+
+export const palletSchema = {
+  $id: "pallete",
+  title: "Pallete",
+  type: "object",
+  properties: {
+    pallete: {
+      type: "array",
+      items: {
+        $ref: "#/definitions/pallete_element"
+      }
+    }
+  },
+  definitions: {
+    pallete_element: {
+      $id: "#/definitions/pallete_element",
+      type: "object",
+      title: "Pallet Element",
+      properties: {
+        name: {
+          title: "Pallete Color Name",
+          type: 'string',
+        },
+        a: {
+          title: "O OR 1",
+          type: "integer",
+          minimum: 0,
+          maximum: 1,
+        },
+        r: {
+          title: "red",
+          type: "number",
+          minimum: 0,
+          maximum: 1,
+        },
+        g: {
+          title: "green",
+          type: "number",
+          minimum: 0,
+          maximum: 1,
+        },
+        b: {
+          title: "blue",
+          type: "number",
+          minimum: 0,
+          maximum: 1,
+        },
+      }, required: [
+        'name',
+        'r',
+        'g',
+        'b'
+      ]
+
+    },
+
+  }
+}
 
 const Home: React.FC = () => {
   const [platform, setPlatform] = useState<string>("Develop");
   const [val, setVal] = useState<string[]>([]);
   const [medal, setMedal] = useState<string>("");
+  const { setTitle } = useTitle();
+  useEffect(() => {
+    setTitle("Awesome");
+  }, [setTitle])
   return <AppPage >
     <AppContent next>
       <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
 
-        <AppTabs height={200} slot='bottom' selectedTab='tab1' tabs={[{
+        <AppTabs height={1000} slot='bottom' selectedTab='tab1' tabs={[{
           icon: listOutline, path: "tab1", title: "Tab 1", component: () => <div>
-            This is a tab
+            <AppForm data={{}} onSubmit={() => { }} rootSchema={palletSchema} objectSchema={palletSchema.definitions.pallete_element}>
+
+            </AppForm>
           </div>
         }, {
           icon: peopleOutline, path: "tab2", title: "Tab 2", component: () => <>

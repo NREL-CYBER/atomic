@@ -33,7 +33,7 @@ const AppTabs: React.FC<tabsProps> = (props) => {
             <IonTabs onIonTabsWillChange={(event) => {
                 setCurrentTab(event.detail.tab)
             }} onIonTabsDidChange={props.onTabsDidChange}  {...props} >
-                <IonTabBar slot={props.slot || "top"}>
+                <IonTabBar  slot={props.slot || "top"}>
                     {props.tabs.map((tab, i) => <IonTabButton key={i} style={currentTab === tab.path ? { "--color": "var(--ion-color-" + props.selectedColor || "primary" } : {}} tab={tab.path}>
                         <AppIcon icon={tab.icon} />
                         <AppLabel>

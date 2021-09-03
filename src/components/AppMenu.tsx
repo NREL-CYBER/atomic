@@ -13,6 +13,6 @@ interface appMenuProps {
 /**
  * Component for Side Drawer Menus
  */
-const AppMenu: React.FC<appMenuProps> = (props) => <IonMenu type="" {...props} />
+const AppMenu: React.FC<appMenuProps> = (props) => <IonMenu  {...props} />
 
 export default AppMenu;

@@ -46,6 +46,9 @@ const ExampleConfig: AppConfig = {
     about: "example application information....",
     serialization: {
         mode: "local",
+        authentication: {
+            provider: "email"
+        },
         encryption: "AES256",
     }
 }

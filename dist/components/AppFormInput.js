@@ -77,7 +77,7 @@ const AppFormInput = props => {
   }, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: statusColor
-  }, propertyFormattedName), useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ? /*#__PURE__*/React.createElement(AppInput, {
+  }, propertyFormattedName), useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ? /*#__PURE__*/React.createElement(AppInput, {
     color: "dark",
     type: inputMode,
     value: value,

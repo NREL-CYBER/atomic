@@ -5,6 +5,7 @@ import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTit
 import { useCompletion } from '../../hooks';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
+import useTitle from '../../hooks/useAppTitle';
 import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';
 import AppSearchBar from '../AppSearchBar';
@@ -36,10 +37,19 @@ const AppTopToolbar = ({
     darkMode
   } = useAppSettings();
   const breadcrumbs = useAppLayout(x => x.breadCrumbs);
+  const allRoutes = useAppLayout(x => x.allRoutesFlattened);
   const isHome = pathname === '/';
+  const {
+    title,
+    setTitle
+  } = useTitle();
   useEffect(() => {
     update(pathname);
-  }, [pathname, update, paths]);
+
+    if (allRoutes.map(x => x.path).includes(pathname)) {
+      setTitle(undefined);
+    }
+  }, [pathname, update, paths, setTitle, allRoutes]);
   const [showAbout, setShowAbout] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const titleColor = darkMode ? "tertiary" : "secondary";
@@ -79,7 +89,10 @@ const AppTopToolbar = ({
     routerLink: breadCrumb.path
   }, /*#__PURE__*/React.createElement(AppTitle, null, breadCrumb.title, " "), "  ", /*#__PURE__*/React.createElement(AppIcon, {
     icon: breadCrumb.icon
-  }))), children), /*#__PURE__*/React.createElement(AppButtons, {
+  }))), title && /*#__PURE__*/React.createElement(AppButton, {
+    color: "tertiary",
+    fill: "solid"
+  }, /*#__PURE__*/React.createElement(AppTitle, null, title)), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppModal, {
     onDismiss: () => {
