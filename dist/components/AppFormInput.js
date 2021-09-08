@@ -86,6 +86,7 @@ const AppFormInput = props => {
       setValue(val);
     }
   }) : /*#__PURE__*/React.createElement(AppTextArea, {
+    rows: property === "description" ? 5 : 2,
     placeholder: description,
     color: "dark",
     inputMode: inputMode || "text",

@@ -4,7 +4,7 @@ import create from "zustand";
 
 /**
  */
-type TitleStatus = {
+type PageTitleStatus = {
     title: string | undefined,
     setTitle: (title?: string) => void
 }
@@ -12,10 +12,10 @@ type TitleStatus = {
 /**
 *  Application Cache status
 */
-const useTitle = create<TitleStatus>((set) => ({
-    title: "",
+const usePageTitle = create<PageTitleStatus>((set) => ({
+    title: undefined,
     setTitle: (title) => {
         set({ title })
     }
 }));
-export default useTitle;
+export default usePageTitle;

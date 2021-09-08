@@ -5,7 +5,7 @@ import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTit
 import { useCompletion } from '../../hooks';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
-import useTitle from '../../hooks/useAppTitle';
+import useTitle from '../../hooks/usePageTitle';
 import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';
 import AppSearchBar from '../AppSearchBar';

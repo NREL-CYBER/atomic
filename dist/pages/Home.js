@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
-import useTitle from '../hooks/useAppTitle';
+import usePageTitle from '../hooks/usePageTitle';
 export const palletSchema = {
   $id: "pallete",
   title: "Pallete",
@@ -62,7 +62,7 @@ const Home = () => {
   const [medal, setMedal] = useState("");
   const {
     setTitle
-  } = useTitle();
+  } = usePageTitle();
   useEffect(() => {
     setTitle("Awesome");
   }, [setTitle]);

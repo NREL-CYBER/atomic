@@ -1,4 +1,3 @@
-import { useIonViewWillLeave } from '@ionic/react';
 import { homeOutline, searchOutline } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
@@ -6,7 +5,7 @@ import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTit
 import { useCompletion } from '../../hooks';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
-import useTitle from '../../hooks/useAppTitle';
+import useTitle from '../../hooks/usePageTitle';
 import { AppConfig } from '../../util';
 import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';

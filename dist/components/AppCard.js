@@ -14,7 +14,7 @@ const AppCard = ({
   subTitle,
   subTitleColor,
   contentColor = "paper",
-  headerColor
+  headerColor = "light"
 }) => {
   return /*#__PURE__*/React.createElement(IonCard, {
     color: contentColor,
