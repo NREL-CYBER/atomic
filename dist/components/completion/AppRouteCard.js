@@ -15,7 +15,11 @@ const AppRouteCard = ({
   } = useCompletion();
   const routeColor = pathStatusColor(path);
   return /*#__PURE__*/React.createElement(AppCard, {
-    title: /*#__PURE__*/React.createElement(AppList, null, /*#__PURE__*/React.createElement(AppItem, {
+    headerColor: "paper",
+    title: /*#__PURE__*/React.createElement(AppList, {
+      lines: "inset"
+    }, /*#__PURE__*/React.createElement(AppItem, {
+      color: "clear",
       routerLink: isUnlocked(path) ? path : undefined
     }, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"

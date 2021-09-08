@@ -1,6 +1,6 @@
 {
   "name": "atomic",
-  "version": "3.4.14159265",
+  "version": "3.4.159265358",
   "private": true,
   "main": "dist/entry.js",
   "types": "dist/entry.d.ts",

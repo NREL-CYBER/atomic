@@ -7,10 +7,10 @@ import { useCompletion } from "../../hooks";
 const AppRouteCard: FC<AppRoute> = ({ path, icon, title }) => {
     const { pathStatusColor, isUnlocked, isValid } = useCompletion();
     const routeColor = pathStatusColor(path);
-    return <AppCard
+    return <AppCard headerColor="paper"
         title={
-            <AppList>
-                <AppItem routerLink={isUnlocked(path) ? path : undefined} >
+            <AppList lines="inset">
+                <AppItem color="clear" routerLink={isUnlocked(path) ? path : undefined} >
                     <AppButtons slot="start">
                         <AppIcon color={routeColor} size="large" icon={icon} />
                         <AppTitle color={routeColor}>

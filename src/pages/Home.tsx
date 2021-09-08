@@ -1,8 +1,10 @@
+import { useAppAccount } from 'atomic';
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
+import { useAppLayout, useCompletion } from '../hooks';
 import usePageTitle from '../hooks/usePageTitle';
 
 export const palletSchema = {
@@ -71,19 +73,23 @@ const Home: React.FC = () => {
   useEffect(() => {
     setTitle("Awesome");
   }, [setTitle])
+
+
+  const { setPathState } = useCompletion()
+  useEffect(() => {
+
+    setPathState("/form", "unlocked")
+  }, [setPathState])
   return <AppPage >
     <AppContent next>
       <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
-
-        <AppTabs height={1000} slot='bottom' selectedTab='tab1' tabs={[{
+        <AppTabs height={1000} slot='bottom' selectedTab='tab2' tabs={[{
           icon: listOutline, path: "tab1", title: "Tab 1", component: () => <div>
-            <AppForm data={{}} onSubmit={() => { }} rootSchema={palletSchema} objectSchema={palletSchema.definitions.pallete_element}>
-
-            </AppForm>
+            <AppForm data={{}} onSubmit={() => { }} rootSchema={palletSchema} objectSchema={palletSchema.definitions.pallete_element} />
           </div>
         }, {
           icon: peopleOutline, path: "tab2", title: "Tab 2", component: () => <>
-            This is another tab
+            <AppRouteCard icon={""} path="/form" title="form" />
           </>
         }]} />
 

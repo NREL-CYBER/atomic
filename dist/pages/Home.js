@@ -1,8 +1,9 @@
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
+import { useCompletion } from '../hooks';
 import usePageTitle from '../hooks/usePageTitle';
 export const palletSchema = {
   $id: "pallete",
@@ -66,6 +67,12 @@ const Home = () => {
   useEffect(() => {
     setTitle("Awesome");
   }, [setTitle]);
+  const {
+    setPathState
+  } = useCompletion();
+  useEffect(() => {
+    setPathState("/form", "unlocked");
+  }, [setPathState]);
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     next: true
   }, /*#__PURE__*/React.createElement(AppCard, {
@@ -76,7 +83,7 @@ const Home = () => {
   }, /*#__PURE__*/React.createElement(AppTabs, {
     height: 1000,
     slot: "bottom",
-    selectedTab: "tab1",
+    selectedTab: "tab2",
     tabs: [{
       icon: listOutline,
       path: "tab1",
@@ -91,7 +98,11 @@ const Home = () => {
       icon: peopleOutline,
       path: "tab2",
       title: "Tab 2",
-      component: () => /*#__PURE__*/React.createElement(React.Fragment, null, "This is another tab")
+      component: () => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRouteCard, {
+        icon: "",
+        path: "/form",
+        title: "form"
+      }))
     }]
   }), /*#__PURE__*/React.createElement(AppChip, {
     color: "success"
