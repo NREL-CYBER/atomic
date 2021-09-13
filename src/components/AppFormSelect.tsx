@@ -1,5 +1,4 @@
 import React, { MutableRefObject, useCallback, useEffect, useState } from 'react';
-import { AppButtons } from '.';
 import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
 import { InputStatus, inputStatusColorMap } from './AppFormInput';
@@ -52,23 +51,23 @@ const AppFormSelect = (props: formSelectInputProps) => {
 
 
 
-    return <AppItem>
-        <AppButtons slot={"start"}>
-            <AppLabel position="stacked" color={inputStatusColor} >
+    return <>
+        <AppItem>
+            <AppLabel color={inputStatusColor} >
                 {propertyFormattedName}
             </AppLabel>
-        </AppButtons>
-        <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
-            setValue(selection);
-        }}>
-            {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
-        </AppSelect>
+            <AppSelect interface="alert" value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
+                setValue(selection);
+            }}>
+                {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
+            </AppSelect>
+        </AppItem>
         <AppLabel position='stacked' color='danger'>
             {errors && errors.map(error => <AppText>
                 {error}
             </AppText>)}
         </AppLabel>
-    </AppItem>
+    </>
 }
 
 export default AppFormSelect;

@@ -35,7 +35,6 @@ const AppUploader = ({
   };
 
   const handleSubmit = async fileWithMeta => {
-    console.log("submit");
     const {
       meta,
       file

@@ -43,7 +43,6 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
     }
 
     const handleSubmit: (successFile: IFileWithMeta) => Promise<void> = async (fileWithMeta) => {
-        console.log("submit");
         const { meta, file } = fileWithMeta;
         const fileBuffer = await file.arrayBuffer()
         onFileReceived(meta,

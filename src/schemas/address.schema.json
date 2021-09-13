@@ -20,6 +20,7 @@
                     "contentMediaType": "image/png"
                 },
                 "city": {
+                    "title": "A CITY ELEMENT ###",
                     "type": "string"
                 },
                 "state": {
@@ -42,6 +43,7 @@
                     "type": "string"
                 },
                 "city": {
+                    "title": "A CITY ELEMENT ###",
                     "type": "string"
                 },
                 "state": {

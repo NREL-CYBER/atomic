@@ -1,4 +1,4 @@
-import { IonApp, IonFooter } from '@ionic/react';
+import { IonApp, IonCol, IonContent, IonFooter, IonGrid, IonRow } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 import "@ionic/react/css/display.css";
@@ -12,13 +12,13 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import useCache from '../hooks/useCache';
 import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
 import { AppContent, AppSerializer } from '.';
 import { useAppLayout } from '../hooks';
 import useAppAccount from '../hooks/useAppAccount';
 import { useAppSettings } from '../hooks/useAppSettings';
+import useCache from '../hooks/useCache';
 import useIndexDBStorage from '../hooks/useLocalSerialization';
 import { useRestSerializeation } from '../hooks/useRestSerialization';
 import "../theme/variables.css";
@@ -33,18 +33,18 @@ import AppTitle from './AppTitle';
 import AppToolbar from './AppToolbar';
 import AppCompletion from './completion/AppCompletion';
 import { AppBottomBar } from './global/AppBottomBar';
-import AppMainMenu from './global/AppMainMenu';
+import AppMainMenu, { AppFixedMainMenu } from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
-import AppGuidance from './guidance/AppGuidance';
 /**
  * Component that stores the root of the application and control current theme
  */
 
 
 const AppRoot: React.FC<AppConfig> = (config) => {
-    const { routes, sections, bottomBar, topBar, children,
+    const { routes, mainMenu, topBar, bottomBar, children,
         serialization, title, version, cache } = config;
+    const { sections } = mainMenu || { sections: {} };
     const { initialize, status } = useAppLayout();
     const { darkMode } = useAppSettings();
     const initializeAccounts = useAppAccount(x => x.initialize);
@@ -107,7 +107,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             </AppContent>
         </IonApp>
     }
-
+    const fixedMainMenu = typeof mainMenu?.fixed !== "undefined" && mainMenu.fixed
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
         {serverStatus !== "connected" && cache &&
             < AppSerializer
@@ -123,26 +123,36 @@ const AppRoot: React.FC<AppConfig> = (config) => {
             cache={cache} />}
         {status === "synchronizing" && <>
             <AppToolbar />
-            <AppPage fullscreen>
+            <AppPage fullscreen id="loading">
                 <AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} />
             </AppPage>
         </>}
-        {status === "idle" && <AppRouter animated={config.animated} id={"root"}>
-            {/**Side Menu  */}
-            <AppCompletion config={config} />
-            {sections && <AppMainMenu sections={sections} />}
-            {topBar ? { topBar } : <AppTopToolbar config={config} />}
-            {routes && routes.map(route =>
-                <Route key={route.path} {...route} />
-            )}
-            <AppNotifications />
-            <AppGuidance />
 
+        {status === "idle" && <><AppRouter animated={config.animated} id={"root"}>
+            <AppCompletion config={config} />
+            {topBar ? { topBar } : <AppTopToolbar config={config} />}
+            {fixedMainMenu ? <IonContent style={{ height: "100%" }} >  <IonGrid style={{ height: "100%" }}>
+                <IonRow style={{ height: "100%" }}>
+                    <IonCol size="4">
+                        {sections && < AppFixedMainMenu sections={sections} />}
+                    </IonCol>
+                    <IonCol size="20">
+                        {routes.map(route => <Route key={route.path} {...route} />)}
+                    </IonCol>
+                </IonRow>
+            </IonGrid> </IonContent> : <IonContent style={{ height: "100%" }}>
+                {sections && < AppMainMenu sections={sections} />}
+                {routes.map(route => <Route key={route.path} {...route} />)}
+            </IonContent>}
             {bottomBar && <IonFooter>
                 <AppBottomBar config={config} />
             </IonFooter>}
+
             {children}
-        </AppRouter>}
+        </AppRouter>
+
+
+        </>}
     </IonApp >
 }
 export default memo(AppRoot);

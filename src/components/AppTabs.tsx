@@ -23,7 +23,8 @@ interface tabsProps {
  * Component to display text with optional color
  */
 const AppTabs: React.FC<tabsProps> = (props) => {
-    const [currentTab, setCurrentTab] = useState<string>(props.selectedTab)
+    const { selectedTab, ...otherProps } = props;
+    const [currentTab, setCurrentTab] = useState<string>(selectedTab)
     const [tabs] = useState<Record<string, AppTab>>(props.tabs
         .map((t) => ({ [t.path]: t }))
         .reduce((a, b) => ({ ...a, ...b }), {})
@@ -32,8 +33,8 @@ const AppTabs: React.FC<tabsProps> = (props) => {
         <div style={{ minHeight: props.height, maxHeight: props.height }}>
             <IonTabs onIonTabsWillChange={(event) => {
                 setCurrentTab(event.detail.tab)
-            }} onIonTabsDidChange={props.onTabsDidChange}  {...props} >
-                <IonTabBar  slot={props.slot || "top"}>
+            }} onIonTabsDidChange={props.onTabsDidChange}  {...otherProps} >
+                <IonTabBar slot={props.slot || "top"}>
                     {props.tabs.map((tab, i) => <IonTabButton key={i} style={currentTab === tab.path ? { "--color": "var(--ion-color-" + props.selectedColor || "primary" } : {}} tab={tab.path}>
                         <AppIcon icon={tab.icon} />
                         <AppLabel>
@@ -45,6 +46,7 @@ const AppTabs: React.FC<tabsProps> = (props) => {
                     </IonTabButton>)}
                 </IonTabBar>
                 <IonRouterOutlet>
+
                     <Route path="*"
                         component={tabs[currentTab].component} />
                 </IonRouterOutlet>

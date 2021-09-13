@@ -38,20 +38,28 @@ export interface AppCompletionConfig {
 export interface AppBottomBarConfig {
     start?: React.FC
     end?: React.FC
-    hideNext?: boolean
+    showNext?: boolean
     settings?: React.FC
 }
 
 export interface AppConfig {
-    search?: React.FC<{ query: string, dismiss: () => void }>,
-    about?: React.ReactFragment,
+    search?: React.FC<{ query: string, filters?: string[], dismiss: () => void }>,
+    about?: {
+        component: React.ReactFragment
+        hidden?: boolean
+    },
     animated?: boolean
     appId: string,
     bottomBar?: AppBottomBarConfig,
     cache?: AppCacheIndex
     completion?: AppCompletionConfig,
     darkMode?: boolean
-    sections?: Record<string, AppRoute[]>
+    mainMenu?: {
+        sections?: Record<string, AppRoute[]>
+        side?: "left" | "right"
+        fixed?: boolean,
+        type?: "overlay" | "push"
+    }
     title: string
     topBar?: React.FC
     routes: AppRoute[],

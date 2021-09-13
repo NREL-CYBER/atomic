@@ -1,3 +1,5 @@
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 import { IonLabel } from '@ionic/react';
 import React from 'react';
 
@@ -5,7 +7,11 @@ import React from 'react';
  * A text label
  */
 const AppLabel = props => {
-  return /*#__PURE__*/React.createElement(IonLabel, props);
+  return /*#__PURE__*/React.createElement(IonLabel, _extends({
+    style: {
+      paddingLeft: 5
+    }
+  }, props));
 };
 
 export default AppLabel;

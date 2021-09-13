@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { AppCol } from '.';
 import { prettyTitle } from '../util';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
@@ -72,12 +73,12 @@ const AppFormInput = props => {
   const statusColor = inputStatusColorMap[inputStatus];
   const inputMode = calculateType();
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
-    color: "clear",
     lines: "none"
+  }, /*#__PURE__*/React.createElement(AppCol, {
+    size: "6"
   }, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
     color: statusColor
-  }, propertyFormattedName), useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ? /*#__PURE__*/React.createElement(AppInput, {
+  }, propertyFormattedName)), useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ? /*#__PURE__*/React.createElement(AppInput, {
     color: "dark",
     type: inputMode,
     value: value,

@@ -31,7 +31,7 @@ export const AppSettingsModal: React.FC<{ config: AppConfig }> = ({ config }) =>
     }
     const showServer = typeof config.settings?.show?.server === "undefined" ? false : config.settings.show.server
     const showDarkMode = typeof config.settings?.show?.darkmode === "undefined" ? true : config.settings.show.darkmode
-    return showSettings ? <AppModal isOpen={showSettings} onDismiss={() => { setShowSettings(false) }}>
+    return showSettings ? <><AppModal isOpen={showSettings} onDismiss={() => { setShowSettings(false) }}>
         < AppCard title={title + " Settings"} headerColor="tertiary" >
             {showDarkMode && <AppItem>
                 <AppChip>
@@ -69,7 +69,11 @@ export const AppSettingsModal: React.FC<{ config: AppConfig }> = ({ config }) =>
         }}>
             OK
         </AppButton>
-    </AppModal > : <AppButton onClick={() => {
+    </AppModal >
+        <AppButton onClick={() => {
+            setShowSettings(false);
+        }}><AppIcon icon={settingsOutline} /></AppButton>
+    </> : <AppButton onClick={() => {
         setShowSettings(true);
     }}>
         <AppIcon icon={settingsOutline} />

@@ -4,5 +4,6 @@ import React from 'react';
  */
 declare const AppPage: React.FC<{
     fullscreen?: boolean;
+    id?: string;
 }>;
 export default AppPage;

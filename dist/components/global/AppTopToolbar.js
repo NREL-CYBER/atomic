@@ -55,6 +55,7 @@ const AppTopToolbar = ({
   const titleColor = darkMode ? "tertiary" : "secondary";
   const bgColor = darkMode ? "paper" : "tertiary";
   const searchBar = useRef(null);
+  const hideAbout = about?.hidden === true;
   useEffect(() => {
     const listener = e => {
       if (!searchBar.current?.contains(e.target)) {
@@ -94,7 +95,7 @@ const AppTopToolbar = ({
     fill: "solid"
   }, /*#__PURE__*/React.createElement(AppTitle, null, title)), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, /*#__PURE__*/React.createElement(AppModal, {
+  }, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
     onDismiss: () => {
       setShowAbout(false);
     },
@@ -106,7 +107,7 @@ const AppTopToolbar = ({
     title: appTitle + " " + version
   }, /*#__PURE__*/React.createElement(AppItemDivider, {
     color: "clear"
-  }), about, /*#__PURE__*/React.createElement(AppItemDivider, {
+  }), about?.component, /*#__PURE__*/React.createElement(AppItemDivider, {
     color: "clear"
   })), /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
@@ -114,7 +115,7 @@ const AppTopToolbar = ({
     onClick: () => {
       setShowAbout(false);
     }
-  }, "OK ")), /*#__PURE__*/React.createElement(AppButton, {
+  }, "OK ")), !hideAbout && /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
     onClick: () => {
       setShowAbout(x => !x);
@@ -123,7 +124,7 @@ const AppTopToolbar = ({
     color: titleColor
   }, appTitle, /*#__PURE__*/React.createElement(AppChip, {
     color: titleColor
-  }, version))), search && /*#__PURE__*/React.createElement(AppButton, {
+  }, version))), search && !showSearch && /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setShowSearch(x => !x);
     }
@@ -144,6 +145,7 @@ const AppTopToolbar = ({
   }, /*#__PURE__*/React.createElement(AppToolbar, {
     color: "paper"
   }, /*#__PURE__*/React.createElement(AppSearchBar, {
+    focus: showSearch,
     onQuery: q => {
       setQuery(q);
     }

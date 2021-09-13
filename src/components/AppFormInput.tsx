@@ -1,5 +1,6 @@
 import React, { MutableRefObject, useEffect, useMemo, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
+import { AppCol } from '.';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
 import AppInput from './AppInput';
@@ -85,10 +86,13 @@ const AppFormInput = (props: formInputProps<any>) => {
 
     const inputMode = calculateType();
     return <>
-        <AppItem color="clear" lines="none">
-            <AppLabel position="stacked" color={statusColor} >
-                {propertyFormattedName}
-            </AppLabel>
+        <AppItem lines="none">
+            <AppCol size="6">
+                <AppLabel  color={statusColor} >
+                    {propertyFormattedName}
+                </AppLabel>
+            </AppCol>
+
             {useMemo(() => <>{property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
                 <AppInput color="dark" type={inputMode} value={value} placeholder={description || ""} onInputChange={(val) => {
                     setValue(val)

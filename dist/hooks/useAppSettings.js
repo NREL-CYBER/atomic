@@ -7,6 +7,7 @@ import { set as idbSet, get } from "idb-keyval";
 export const useAppSettings = create((set, settings) => ({
   serverStatus: "unknown",
   darkMode: true,
+  sections: {},
   initialized: false,
   authorized: false,
   initialize: async appConfig => {
@@ -29,7 +30,8 @@ export const useAppSettings = create((set, settings) => ({
       darkMode,
       authorized,
       endpoint,
-      initialized: true
+      initialized: true,
+      sections: appConfig.mainMenu?.sections || {}
     });
     settings().serialize();
   },

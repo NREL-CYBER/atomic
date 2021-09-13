@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { AppCol } from 'atomic';
 import React, { useEffect, useMemo, useState } from 'react';
 import { AppItem, AppLabel, AppText } from '..';
 import { prettyTitle } from '../../util';
@@ -36,10 +37,11 @@ const AppFormInteger = props => {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear",
     lines: "none"
+  }, /*#__PURE__*/React.createElement(AppCol, {
+    size: "6"
   }, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
     color: statusColor
-  }, propertyFormattedName), useMemo(() => /*#__PURE__*/React.createElement(AppInput, {
+  }, propertyFormattedName)), useMemo(() => /*#__PURE__*/React.createElement(AppInput, {
     min: propertyInfo?.minumum,
     max: propertyInfo?.maximum,
     type: "number",

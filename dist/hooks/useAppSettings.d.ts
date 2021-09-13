@@ -1,4 +1,5 @@
 import { AppConfig } from "../util";
+import { AppRoute } from "../core/routing";
 export declare type ServerStatus = "unknown" | "connected" | "needs-permission" | "connecting" | "error";
 export interface AppSettingsProperties {
     encryption?: string;
@@ -15,6 +16,7 @@ export interface AppSettingCache extends AppSettingsProperties {
     setDarkMode: (isDark: boolean) => void;
     setAuthorized: (authorized: boolean) => void;
     serialize: () => void;
+    sections: Record<string, AppRoute[]>;
 }
 /**
 *  Application Cache status

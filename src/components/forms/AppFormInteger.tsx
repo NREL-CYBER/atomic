@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { AppCol } from 'atomic';
 import React, { MutableRefObject, useEffect, useMemo, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppItem, AppLabel, AppText } from '..';
@@ -42,9 +43,12 @@ const AppFormInteger = (props: formInputProps) => {
     const statusColor = inputStatusColorMap[inputStatus];
     return <>
         <AppItem color="clear" lines="none">
-            <AppLabel position="stacked" color={statusColor} >
-                {propertyFormattedName}
-            </AppLabel>
+            <AppCol size="6">
+                <AppLabel  color={statusColor} >
+                    {propertyFormattedName}
+                </AppLabel>
+            </AppCol>
+
             {useMemo(() => <AppInput min={(propertyInfo as any)?.minumum} max={(propertyInfo as any)?.maximum} type={"number"} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
                 setValue(val)
             }} />, [])}

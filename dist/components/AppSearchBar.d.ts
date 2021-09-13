@@ -1,6 +1,7 @@
 import React from 'react';
 interface searchProps {
     placeholder?: string;
+    focus?: boolean;
     onQuery?: (query: string) => void;
     value?: string;
 }

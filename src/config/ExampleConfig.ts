@@ -27,8 +27,7 @@ const ExampleConfig: AppConfig = {
     title: "Atomic Example",
     appId: "nrel.atomic.example",
     search: ExampleSearchWidget,
-    version: "3.3.3",
-    sections: { nice: routes },
+    version: "3.6.9",
     routes,
     completion: {
         default: "unlocked",
@@ -41,9 +40,16 @@ const ExampleConfig: AppConfig = {
             server: false,
         }
     },
+    mainMenu: {
+        sections: { example: routes.filter(x => x.path !== "/") },
+        fixed: true
+    },
     darkMode: false,
     bottomBar: { start: ExampleBottomBar },
-    about: "example application information....",
+    about: {
+        hidden: true,
+        component: "example application information...."
+    },
     serialization: {
         mode: "local",
         authentication: {

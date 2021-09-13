@@ -1,6 +1,6 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-import { IonApp, IonFooter } from '@ionic/react';
+import { IonApp, IonCol, IonContent, IonFooter, IonGrid, IonRow } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
 
 import "@ionic/react/css/core.css";
@@ -17,13 +17,13 @@ import "@ionic/react/css/structure.css";
 import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/typography.css";
-import useCache from '../hooks/useCache';
 import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
 import { AppContent, AppSerializer } from '.';
 import { useAppLayout } from '../hooks';
 import useAppAccount from '../hooks/useAppAccount';
 import { useAppSettings } from '../hooks/useAppSettings';
+import useCache from '../hooks/useCache';
 import useIndexDBStorage from '../hooks/useLocalSerialization';
 import { useRestSerializeation } from '../hooks/useRestSerialization';
 import "../theme/variables.css";
@@ -37,10 +37,9 @@ import AppTitle from './AppTitle';
 import AppToolbar from './AppToolbar';
 import AppCompletion from './completion/AppCompletion';
 import { AppBottomBar } from './global/AppBottomBar';
-import AppMainMenu from './global/AppMainMenu';
+import AppMainMenu, { AppFixedMainMenu } from './global/AppMainMenu';
 import AppNotifications from './global/AppNotifications';
 import AppTopToolbar from './global/AppTopToolbar';
-import AppGuidance from './guidance/AppGuidance';
 /**
  * Component that stores the root of the application and control current theme
  */
@@ -48,15 +47,20 @@ import AppGuidance from './guidance/AppGuidance';
 const AppRoot = config => {
   const {
     routes,
-    sections,
-    bottomBar,
+    mainMenu,
     topBar,
+    bottomBar,
     children,
     serialization,
     title,
     version,
     cache
   } = config;
+  const {
+    sections
+  } = mainMenu || {
+    sections: {}
+  };
   const {
     initialize,
     status
@@ -126,6 +130,7 @@ const AppRoot = config => {
     })));
   }
 
+  const fixedMainMenu = typeof mainMenu?.fixed !== "undefined" && mainMenu.fixed;
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
   }, serverStatus !== "connected" && cache && /*#__PURE__*/React.createElement(AppSerializer, {
@@ -139,27 +144,52 @@ const AppRoot = config => {
     serialization: customizedSerialization,
     cache: cache
   }), status === "synchronizing" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, null), /*#__PURE__*/React.createElement(AppPage, {
-    fullscreen: true
+    fullscreen: true,
+    id: "loading"
   }, /*#__PURE__*/React.createElement(AppLoadingCard, {
     color: "tertiary",
     title: prettyTitle(status),
     message: ""
-  }))), status === "idle" && /*#__PURE__*/React.createElement(AppRouter, {
+  }))), status === "idle" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRouter, {
     animated: config.animated,
     id: "root"
   }, /*#__PURE__*/React.createElement(AppCompletion, {
     config: config
-  }), sections && /*#__PURE__*/React.createElement(AppMainMenu, {
-    sections: sections
   }), topBar ? {
     topBar
   } : /*#__PURE__*/React.createElement(AppTopToolbar, {
     config: config
-  }), routes && routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
+  }), fixedMainMenu ? /*#__PURE__*/React.createElement(IonContent, {
+    style: {
+      height: "100%"
+    }
+  }, "  ", /*#__PURE__*/React.createElement(IonGrid, {
+    style: {
+      height: "100%"
+    }
+  }, /*#__PURE__*/React.createElement(IonRow, {
+    style: {
+      height: "100%"
+    }
+  }, /*#__PURE__*/React.createElement(IonCol, {
+    size: "4"
+  }, sections && /*#__PURE__*/React.createElement(AppFixedMainMenu, {
+    sections: sections
+  })), /*#__PURE__*/React.createElement(IonCol, {
+    size: "20"
+  }, routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path
-  }, route))), /*#__PURE__*/React.createElement(AppNotifications, null), /*#__PURE__*/React.createElement(AppGuidance, null), bottomBar && /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomBar, {
+  }, route)))))), " ") : /*#__PURE__*/React.createElement(IonContent, {
+    style: {
+      height: "100%"
+    }
+  }, sections && /*#__PURE__*/React.createElement(AppMainMenu, {
+    sections: sections
+  }), routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
+    key: route.path
+  }, route)))), bottomBar && /*#__PURE__*/React.createElement(IonFooter, null, /*#__PURE__*/React.createElement(AppBottomBar, {
     config: config
-  })), children));
+  })), children)));
 };
 
 export default /*#__PURE__*/memo(AppRoot);

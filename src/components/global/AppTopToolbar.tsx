@@ -40,6 +40,7 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
     const titleColor = darkMode ? "tertiary" : "secondary";
     const bgColor = darkMode ? "paper" : "tertiary";
     const searchBar = useRef<HTMLDivElement>(null)
+    const hideAbout = about?.hidden === true
     useEffect(() => {
         const listener = (e: MouseEvent) => {
             if (!searchBar.current?.contains(e.target as any)) {
@@ -73,24 +74,24 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
                 {children}
             </AppButtons>
             <AppButtons slot='end'>
-                <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
+                {!hideAbout && <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
                     <AppCard contentColor="light" headerColor={bgColor} titleColor={titleColor} title={appTitle + " " + version}>
                         <AppItemDivider color="clear" />
-                        {about}
+                        {about?.component}
                         <AppItemDivider color="clear" />
                     </AppCard>
                     <AppButton expand={"full"} fill={"solid"} onClick={() => { setShowAbout(false) }} >OK </AppButton>
-                </AppModal >
+                </AppModal >}
 
-                <AppButton fill="clear" onClick={() => { setShowAbout(x => !x) }}>
+                {!hideAbout && <AppButton fill="clear" onClick={() => { setShowAbout(x => !x) }}>
                     <AppTitle color={titleColor}>
                         {appTitle}
                         <AppChip color={titleColor}>
                             {version}
                         </AppChip>
                     </AppTitle>
-                </AppButton>
-                {search && <AppButton onClick={() => { setShowSearch(x => !x) }}>
+                </AppButton>}
+                {search && !showSearch && <AppButton onClick={() => { setShowSearch(x => !x) }}>
                     <AppTitle>
                         <AppIcon color={showSearch ? "primary" : "medium"} icon={searchOutline} />
                     </AppTitle>
@@ -100,7 +101,7 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
         </AppToolbar >
         {showSearch && <div ref={searchBar} id='searchbar' style={{ position: "absolute", top: 50, left: 0, right: 0, height: 60, zIndex: 1000 }}>
             <AppToolbar color='paper'>
-                <AppSearchBar onQuery={(q) => { setQuery(q) }} />
+                <AppSearchBar focus={showSearch} onQuery={(q) => { setQuery(q) }} />
             </AppToolbar>
             {query && config.search && <config.search query={query} dismiss={() => {
                 setQuery("");

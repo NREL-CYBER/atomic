@@ -42,7 +42,7 @@ export const AppSettingsModal = ({
 
   const showServer = typeof config.settings?.show?.server === "undefined" ? false : config.settings.show.server;
   const showDarkMode = typeof config.settings?.show?.darkmode === "undefined" ? true : config.settings.show.darkmode;
-  return showSettings ? /*#__PURE__*/React.createElement(AppModal, {
+  return showSettings ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppModal, {
     isOpen: showSettings,
     onDismiss: () => {
       setShowSettings(false);
@@ -80,7 +80,13 @@ export const AppSettingsModal = ({
     onClick: () => {
       setShowSettings(false);
     }
-  }, "OK")) : /*#__PURE__*/React.createElement(AppButton, {
+  }, "OK")), /*#__PURE__*/React.createElement(AppButton, {
+    onClick: () => {
+      setShowSettings(false);
+    }
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: settingsOutline
+  }))) : /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setShowSettings(true);
     }

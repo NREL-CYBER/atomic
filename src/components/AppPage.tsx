@@ -1,17 +1,14 @@
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage } from '@ionic/react';
 import React from 'react';
 
 
 /**
  * Functional Component that wraps any root page
  */
-const AppPage: React.FC<{ fullscreen?: boolean }> = ({ children, fullscreen = false }) => {
-    return (<IonPage id='main'>
-        {!fullscreen && <div style={{ height: 55 }} />}
-        <IonContent slot="fixed">
-            {children}
-        </IonContent>
-        {!fullscreen && <div style={{ height: 55 }} />}
+const AppPage: React.FC<{ fullscreen?: boolean, id?: string }> = ({ children, fullscreen = false, id }) => {
+    console.log("page");
+    return (<IonPage id={id || "main"}>
+        {children}
     </IonPage>
     );
 };

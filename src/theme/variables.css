@@ -54,7 +54,9 @@ ion-split-pane > ion-list:hover
 * https://www.ionicframework.com/docs/theming/color-generator
 */
 
-
+.dzu-previewContainer{
+  border-bottom: 0px;
+}
 ion-progress-bar{
   --buffer-background: #333;
  height:8px!important;

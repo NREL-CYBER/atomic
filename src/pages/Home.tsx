@@ -1,10 +1,8 @@
-import { useAppAccount } from 'atomic';
 import { listOutline, peopleOutline } from 'ionicons/icons';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
-import { useAppLayout, useCompletion } from '../hooks';
+import { useCompletion } from '../hooks';
 import usePageTitle from '../hooks/usePageTitle';
 
 export const palletSchema = {
@@ -27,6 +25,7 @@ export const palletSchema = {
       properties: {
         name: {
           title: "Pallete Color Name",
+          description:"ITS AN AMAZING COLORFUL WORLD OUT THERE",
           type: 'string',
         },
         a: {
@@ -83,7 +82,7 @@ const Home: React.FC = () => {
   return <AppPage >
     <AppContent next>
       <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
-        <AppTabs height={1000} slot='bottom' selectedTab='tab2' tabs={[{
+        <AppTabs height={600} slot='bottom' selectedTab='tab2' tabs={[{
           icon: listOutline, path: "tab1", title: "Tab 1", component: () => <div>
             <AppForm data={{}} onSubmit={() => { }} rootSchema={palletSchema} objectSchema={palletSchema.definitions.pallete_element} />
           </div>

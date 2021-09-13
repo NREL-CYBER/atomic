@@ -10,7 +10,11 @@ import { AppCard } from '.';
  * Component to display text with optional color
  */
 const AppTabs = props => {
-  const [currentTab, setCurrentTab] = useState(props.selectedTab);
+  const {
+    selectedTab,
+    ...otherProps
+  } = props;
+  const [currentTab, setCurrentTab] = useState(selectedTab);
   const [tabs] = useState(props.tabs.map(t => ({
     [t.path]: t
   })).reduce((a, b) => ({ ...a,
@@ -26,7 +30,7 @@ const AppTabs = props => {
       setCurrentTab(event.detail.tab);
     },
     onIonTabsDidChange: props.onTabsDidChange
-  }, props), /*#__PURE__*/React.createElement(IonTabBar, {
+  }, otherProps), /*#__PURE__*/React.createElement(IonTabBar, {
     slot: props.slot || "top"
   }, props.tabs.map((tab, i) => /*#__PURE__*/React.createElement(IonTabButton, {
     key: i,

@@ -9,7 +9,7 @@ const ExampleForm: React.FC = () => {
     const { schema, insert, all } = useAddress.getState();
     const [status, setStatus] = useState<"idle" | "editing">("idle")
     return <AppPage>
-        <AppContent center>
+        <AppContent>
             {status === "editing" ? <AppFormComposer
                 objectSchema={findSchemaDefinition(schema, 'address_book')}
                 rootSchema={schema}

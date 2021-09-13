@@ -19,6 +19,7 @@ export declare const palletSchema: {
             properties: {
                 name: {
                     title: string;
+                    description: string;
                     type: string;
                 };
                 a: {

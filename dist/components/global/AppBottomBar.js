@@ -27,7 +27,7 @@ export const AppBottomBar = ({
   const {
     darkMode
   } = useAppSettings();
-  const showContinue = !(bottomBar && bottomBar.hideNext);
+  const showContinue = bottomBar && bottomBar.showNext;
   return /*#__PURE__*/React.createElement(AppToolbar, {
     color: darkMode ? "paper" : "tertiary"
   }, /*#__PURE__*/React.createElement(AppButtons, {

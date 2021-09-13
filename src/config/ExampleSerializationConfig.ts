@@ -61,10 +61,9 @@ export const preload: (namespace: string, StoreApi: () => Store<any>) => Promise
             })
         })
 
-        db.collection(namespaced_collection + "-workspace").doc("instance").onSnapshot((doc) => {
+        db.collection(namespaced_collection + "-workspace").doc("instance").onSnapshot((doc: any) => {
             store().setWorkspaceInstance(doc.data())
         })
 
     })
-
 }

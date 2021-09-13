@@ -1,6 +1,5 @@
 import { listOutline, peopleOutline } from 'ionicons/icons';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 import { useCompletion } from '../hooks';
@@ -25,6 +24,7 @@ export const palletSchema = {
       properties: {
         name: {
           title: "Pallete Color Name",
+          description: "ITS AN AMAZING COLORFUL WORLD OUT THERE",
           type: 'string'
         },
         a: {
@@ -81,7 +81,7 @@ const Home = () => {
     title: "Welcome to atomic",
     subTitle: "atomic"
   }, /*#__PURE__*/React.createElement(AppTabs, {
-    height: 1000,
+    height: 600,
     slot: "bottom",
     selectedTab: "tab2",
     tabs: [{

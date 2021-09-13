@@ -12,9 +12,7 @@ const ExampleForm = () => {
     all
   } = useAddress.getState();
   const [status, setStatus] = useState("idle");
-  return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
-    center: true
-  }, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
+  return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
     objectSchema: findSchemaDefinition(schema, 'address_book'),
     rootSchema: schema,
     title: "Address",
