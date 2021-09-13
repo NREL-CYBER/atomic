@@ -1,9 +1,11 @@
 import React from 'react';
+import { CSSProperties } from 'react';
 import { AppColor } from '../theme/AppColor';
 interface textProps {
     className?: string;
     color?: AppColor;
-    style?: Record<string, any>;
+    style?: CSSProperties;
+    size?: number;
     onBlur?: () => void;
 }
 /**

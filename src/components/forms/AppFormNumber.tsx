@@ -2,7 +2,7 @@
 import { IonLabel, IonRange } from '@ionic/react';
 import React, { MutableRefObject, useMemo, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
-import { AppItem, AppLabel, AppText } from '..';
+import { AppCol, AppItem, AppLabel, AppText } from '..';
 import { prettyTitle } from '../../util';
 import { InputStatus, inputStatusColorMap } from '../AppFormInput';
 import { formFieldChangeEvent } from './AppForm';
@@ -31,9 +31,11 @@ const AppFormNumber = (props: formInputProps) => {
     const min = (propertyInfo as any).minimum || 0;
     return <>
         <AppItem color="clear" lines="none">
-            <AppLabel color={statusColor} >
-                {propertyFormattedName}
-            </AppLabel>
+            <AppCol>
+                <AppText size={11} color={statusColor} >
+                    {propertyFormattedName}
+                </AppText>
+            </AppCol>
             <IonRange value={value * 1000 * (max - min)} max={1000} min={0} onIonChange={(v) => {
                 const scaledValue = (v.detail.value as number / 1000) * (max - min)
                 onChange(property, scaledValue).then(([validationStatus, validationErrors]) => {

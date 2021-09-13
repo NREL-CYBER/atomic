@@ -27,15 +27,15 @@ export const AppFixedMainMenu = ({
         key: r.path,
         detail: false,
         routerLink: isPathUnlocked ? r.path : undefined,
-        color: isOnPath ? 'tertiary' : "clear"
+        color: "clear"
       }, /*#__PURE__*/React.createElement(AppButtons, {
         slot: "start"
       }, /*#__PURE__*/React.createElement(AppIcon, {
-        color: isOnPath ? "medium" : pathColor,
+        color: isOnPath ? "tertiary" : pathColor,
         slot: "start",
         icon: r.icon
       })), /*#__PURE__*/React.createElement(AppLabel, {
-        color: isOnPath ? "medium" : pathColor
+        color: isOnPath ? "tertiary" : pathColor
       }, r.title));
     });
   }

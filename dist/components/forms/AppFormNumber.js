@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { IonLabel, IonRange } from '@ionic/react';
 import React, { useMemo, useState } from 'react';
-import { AppItem, AppLabel, AppText } from '..';
+import { AppCol, AppItem, AppLabel, AppText } from '..';
 import { prettyTitle } from '../../util';
 import { inputStatusColorMap } from '../AppFormInput';
 
@@ -25,9 +25,10 @@ const AppFormNumber = props => {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear",
     lines: "none"
-  }, /*#__PURE__*/React.createElement(AppLabel, {
+  }, /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppText, {
+    size: 11,
     color: statusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(IonRange, {
+  }, propertyFormattedName)), /*#__PURE__*/React.createElement(IonRange, {
     value: value * 1000 * (max - min),
     max: 1000,
     min: 0,

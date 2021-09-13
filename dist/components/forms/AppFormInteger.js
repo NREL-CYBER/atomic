@@ -39,7 +39,8 @@ const AppFormInteger = props => {
     lines: "none"
   }, /*#__PURE__*/React.createElement(AppCol, {
     size: "6"
-  }, /*#__PURE__*/React.createElement(AppLabel, {
+  }, /*#__PURE__*/React.createElement(AppText, {
+    size: 11,
     color: statusColor
   }, propertyFormattedName)), useMemo(() => /*#__PURE__*/React.createElement(AppInput, {
     min: propertyInfo?.minumum,

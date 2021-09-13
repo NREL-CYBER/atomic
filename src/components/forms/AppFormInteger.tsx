@@ -44,9 +44,9 @@ const AppFormInteger = (props: formInputProps) => {
     return <>
         <AppItem color="clear" lines="none">
             <AppCol size="6">
-                <AppLabel  color={statusColor} >
+                <AppText size={11} color={statusColor} >
                     {propertyFormattedName}
-                </AppLabel>
+                </AppText>
             </AppCol>
 
             {useMemo(() => <AppInput min={(propertyInfo as any)?.minumum} max={(propertyInfo as any)?.maximum} type={"number"} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {

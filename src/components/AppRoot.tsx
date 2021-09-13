@@ -131,16 +131,17 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         {status === "idle" && <><AppRouter animated={config.animated} id={"root"}>
             <AppCompletion config={config} />
             {topBar ? { topBar } : <AppTopToolbar config={config} />}
-            {fixedMainMenu ? <IonContent style={{ height: "100%" }} >  <IonGrid style={{ height: "100%" }}>
-                <IonRow style={{ height: "100%" }}>
-                    <IonCol size="4">
-                        {sections && < AppFixedMainMenu sections={sections} />}
-                    </IonCol>
-                    <IonCol size="20">
-                        {routes.map(route => <Route key={route.path} {...route} />)}
-                    </IonCol>
-                </IonRow>
-            </IonGrid> </IonContent> : <IonContent style={{ height: "100%" }}>
+            {fixedMainMenu ? <IonContent style={{ height: "100%" }} >
+                <IonGrid style={{ height: "100%", padding: "0px", margin: "0px" }}>
+                    <IonRow style={{ height: "100%", padding: "0px", margin: "0px" }}>
+                        <IonCol size="4" style={{ height: "100%", padding: "0px", margin: "0px" }}>
+                            {sections && < AppFixedMainMenu sections={sections} />}
+                        </IonCol>
+                        <IonCol size="20">
+                            {routes.map(route => <Route key={route.path} {...route} />)}
+                        </IonCol>
+                    </IonRow>
+                </IonGrid> </IonContent> : <IonContent style={{ height: "100%" }}>
                 {sections && < AppMainMenu sections={sections} />}
                 {routes.map(route => <Route key={route.path} {...route} />)}
             </IonContent>}

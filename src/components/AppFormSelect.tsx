@@ -1,3 +1,4 @@
+import { AppButtons } from 'atomic';
 import React, { MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
@@ -53,10 +54,13 @@ const AppFormSelect = (props: formSelectInputProps) => {
 
     return <>
         <AppItem>
-            <AppLabel color={inputStatusColor} >
-                {propertyFormattedName}
-            </AppLabel>
-            <AppSelect interface="alert" value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
+            <AppButtons slot="start">
+
+                <AppText size={11} color={inputStatusColor} >
+                    {propertyFormattedName}
+                </AppText>
+            </AppButtons>
+            <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
                 setValue(selection);
             }}>
                 {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}

@@ -5,6 +5,7 @@ import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTit
 import { useCompletion } from '../../hooks';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
+import useMediaQuery from '../../hooks/useMediaQuery';
 import useTitle from '../../hooks/usePageTitle';
 import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';
@@ -72,6 +73,8 @@ const AppTopToolbar = ({
       window.removeEventListener("mousedown", listener);
     }
   }, [showSearch]);
+  const isDesktop = useMediaQuery("only screen and (min-width: 500px)");
+  console.log(isDesktop);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: bgColor
   }, /*#__PURE__*/React.createElement(AppButtons, {
@@ -88,7 +91,7 @@ const AppTopToolbar = ({
     color: breadCrumb.path === pathname ? "tertiary" : undefined,
     fill: breadCrumb.path === pathname ? "solid" : "clear",
     routerLink: breadCrumb.path
-  }, /*#__PURE__*/React.createElement(AppTitle, null, breadCrumb.title, " "), "  ", /*#__PURE__*/React.createElement(AppIcon, {
+  }, isDesktop && /*#__PURE__*/React.createElement(AppTitle, null, breadCrumb.title, " "), /*#__PURE__*/React.createElement(AppIcon, {
     icon: breadCrumb.icon
   }))), title && /*#__PURE__*/React.createElement(AppButton, {
     color: "tertiary",

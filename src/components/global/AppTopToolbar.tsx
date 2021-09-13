@@ -5,6 +5,7 @@ import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTit
 import { useCompletion } from '../../hooks';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
+import useMediaQuery from '../../hooks/useMediaQuery';
 import useTitle from '../../hooks/usePageTitle';
 import { AppConfig } from '../../util';
 import AppItemDivider from '../AppItemDivider';
@@ -55,6 +56,9 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
         }
 
     }, [showSearch])
+
+    const isDesktop = useMediaQuery("only screen and (min-width: 500px)");
+    console.log(isDesktop)
     return <>
         <AppToolbar color={bgColor}>
             <AppButtons slot='start'>
@@ -62,9 +66,15 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
                 <AppButton expand='full' routerLink={"/"}>
                     <AppTitle color={isHome ? titleColor : undefined}><AppIcon icon={homeOutline} /> </AppTitle>
                 </AppButton>
-                {!isHome && breadcrumbs.map(breadCrumb => <AppButton key={breadCrumb.path} color={breadCrumb.path === pathname ? "tertiary" : undefined} fill={breadCrumb.path === pathname ? "solid" : "clear"} routerLink={breadCrumb.path}>
-                    <AppTitle>{breadCrumb.title} </AppTitle>  <AppIcon icon={breadCrumb.icon} />
-                </AppButton>)}
+                {!isHome && breadcrumbs.map(breadCrumb =>
+                    <AppButton key={breadCrumb.path}
+                        color={breadCrumb.path === pathname ? "tertiary" : undefined}
+                        fill={breadCrumb.path === pathname ? "solid" : "clear"}
+                        routerLink={breadCrumb.path}
+                    >
+                        {isDesktop && <AppTitle>{breadCrumb.title} </AppTitle>}
+                        <AppIcon icon={breadCrumb.icon} />
+                    </AppButton>)}
                 {title && <AppButton color="tertiary" fill="solid" >
                     <AppTitle>
                         {title}

@@ -25,7 +25,7 @@ export const palletSchema = {
       properties: {
         name: {
           title: "Pallete Color Name",
-          description:"ITS AN AMAZING COLORFUL WORLD OUT THERE",
+          description:"The name of a color",
           type: 'string',
         },
         a: {
@@ -88,7 +88,7 @@ const Home: React.FC = () => {
           </div>
         }, {
           icon: peopleOutline, path: "tab2", title: "Tab 2", component: () => <>
-            <AppRouteCard icon={""} path="/form" title="form" />
+            <AppRouteCard icon={""} path="/Form" title="form" />
           </>
         }]} />
 

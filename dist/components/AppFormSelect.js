@@ -1,3 +1,4 @@
+import { AppButtons } from 'atomic';
 import React, { useCallback, useEffect, useState } from 'react';
 import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
@@ -44,10 +45,13 @@ const AppFormSelect = props => {
   useEffect(() => {
     updateSelection(value);
   }, [updateSelection, value]);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppText, {
+    size: 11,
     color: inputStatusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelect, {
-    interface: "alert",
+  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppSelect, {
+    interface: "popover",
     value: value,
     placeholder: propertyFormattedName,
     onSelectionChange: selection => {

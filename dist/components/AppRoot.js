@@ -163,16 +163,25 @@ const AppRoot = config => {
     style: {
       height: "100%"
     }
-  }, "  ", /*#__PURE__*/React.createElement(IonGrid, {
+  }, /*#__PURE__*/React.createElement(IonGrid, {
     style: {
-      height: "100%"
+      height: "100%",
+      padding: "0px",
+      margin: "0px"
     }
   }, /*#__PURE__*/React.createElement(IonRow, {
     style: {
-      height: "100%"
+      height: "100%",
+      padding: "0px",
+      margin: "0px"
     }
   }, /*#__PURE__*/React.createElement(IonCol, {
-    size: "4"
+    size: "4",
+    style: {
+      height: "100%",
+      padding: "0px",
+      margin: "0px"
+    }
   }, sections && /*#__PURE__*/React.createElement(AppFixedMainMenu, {
     sections: sections
   })), /*#__PURE__*/React.createElement(IonCol, {

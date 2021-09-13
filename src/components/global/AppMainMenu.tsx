@@ -29,11 +29,11 @@ export const AppFixedMainMenu: React.FC<MenuProps> = ({ sections }) => {
         const isPathUnlocked = isUnlocked(r.path);
         const isOnPath = path === r.path;
         return (
-          <AppItem key={r.path} detail={false} routerLink={isPathUnlocked ? r.path : undefined} color={isOnPath ? 'tertiary' : "clear"}>
+          <AppItem key={r.path} detail={false} routerLink={isPathUnlocked ? r.path : undefined} color={"clear"}>
             <AppButtons slot="start">
-              <AppIcon color={isOnPath ? "medium" : pathColor} slot="start" icon={r.icon} />
+              <AppIcon color={isOnPath ? "tertiary" : pathColor} slot="start" icon={r.icon} />
             </AppButtons>
-            <AppLabel color={isOnPath ? "medium" : pathColor}>{r.title}</AppLabel>
+            <AppLabel color={isOnPath ? "tertiary" : pathColor}>{r.title}</AppLabel>
           </AppItem>
         )
       });

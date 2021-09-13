@@ -24,7 +24,7 @@ export const palletSchema = {
       properties: {
         name: {
           title: "Pallete Color Name",
-          description: "ITS AN AMAZING COLORFUL WORLD OUT THERE",
+          description: "The name of a color",
           type: 'string'
         },
         a: {
@@ -100,7 +100,7 @@ const Home = () => {
       title: "Tab 2",
       component: () => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRouteCard, {
         icon: "",
-        path: "/form",
+        path: "/Form",
         title: "form"
       }))
     }]

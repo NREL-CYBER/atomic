@@ -30,7 +30,7 @@ const AppContent = props => {
       
           /* Handle on hover */
           ::-webkit-scrollbar-thumb:hover {
-            background: #b30000; 
+            background: rgb(90,90,90); 
           }
         `;
     contentRef.current?.shadowRoot?.appendChild(styles);

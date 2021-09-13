@@ -88,9 +88,9 @@ const AppFormInput = (props: formInputProps<any>) => {
     return <>
         <AppItem lines="none">
             <AppCol size="6">
-                <AppLabel  color={statusColor} >
+                <AppText size={11} color={statusColor} >
                     {propertyFormattedName}
-                </AppLabel>
+                </AppText>
             </AppCol>
 
             {useMemo(() => <>{property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
