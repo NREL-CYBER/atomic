@@ -24,13 +24,13 @@
   -o-animation: fadein 1s;
   }
 
-ion-split-pane > ion-list
-{
-  min-width: 88px; 
-  max-width: 88px; 
-  transition: all 1s ease-in-out;
-}
-ion-split-pane > ion-list:hover
+  ion-split-pane > ion-list
+  {
+    min-width: 60px; 
+    max-width: 60px; 
+    transition: all 1s ease-in-out;
+  }
+  ion-split-pane > ion-list:hover
 {
   transition: all 1s ease-in-out;
   min-width: 270px; 
