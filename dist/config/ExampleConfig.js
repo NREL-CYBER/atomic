@@ -12,7 +12,7 @@ const ExampleConfig = {
   title: "Atomic Example",
   appId: "nrel.atomic.example",
   search: ExampleSearchWidget,
-  version: "3.3.3",
+  version: "3.6.9",
   routes,
   completion: {
     default: "unlocked"

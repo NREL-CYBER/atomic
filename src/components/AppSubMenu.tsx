@@ -5,6 +5,7 @@ import AppIcon from './AppIcon';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import { AppRoute } from '../core/routing';
+import { AppButtons } from 'atomic';
 
 
 
@@ -24,7 +25,9 @@ const AppSubMenu: React.FC<SubMenuProps> = ({ pages }) => {
             const currentPathStatusColor = isCurrentPath ? "dark" : pathStatusColor(p.path);
             return <AppItem lines="none" key={p.path
             } color={isCurrentPath ? 'tertiary' : "clear"} routerLink={isUnlocked(p.path) ? p.path : undefined}>
-                <AppIcon color={currentPathStatusColor} slot="start" icon={p.icon} />
+                <AppButtons slot="start">
+                    <AppIcon color={currentPathStatusColor} slot="start" icon={p.icon} />
+                </AppButtons>
                 <AppLabel color={currentPathStatusColor} >{p.title}</AppLabel>
             </AppItem>
         }

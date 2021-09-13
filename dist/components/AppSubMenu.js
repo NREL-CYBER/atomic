@@ -4,6 +4,7 @@ import useCompletion from '../hooks/useCompletion';
 import AppIcon from './AppIcon';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
+import { AppButtons } from 'atomic';
 
 const AppSubMenu = ({
   pages
@@ -21,11 +22,13 @@ const AppSubMenu = ({
       key: p.path,
       color: isCurrentPath ? 'tertiary' : "clear",
       routerLink: isUnlocked(p.path) ? p.path : undefined
+    }, /*#__PURE__*/React.createElement(AppButtons, {
+      slot: "start"
     }, /*#__PURE__*/React.createElement(AppIcon, {
       color: currentPathStatusColor,
       slot: "start",
       icon: p.icon
-    }), /*#__PURE__*/React.createElement(AppLabel, {
+    })), /*#__PURE__*/React.createElement(AppLabel, {
       color: currentPathStatusColor
     }, p.title));
   }));
