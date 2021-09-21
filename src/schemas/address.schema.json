@@ -19,9 +19,10 @@
                     "type": "string",
                     "contentMediaType": "image/png"
                 },
-                "city": {
-                    "title": "A CITY ELEMENT ###",
-                    "type": "string"
+                "email": {
+                    "title": "email",
+                    "type": "string",
+                    "format": "email"
                 },
                 "state": {
                     "type": "string"
@@ -29,9 +30,8 @@
             },
             "required": [
                 "street_address",
-                "city",
-                "state",
-                "street_view"
+                "email",
+                "state"
             ]
         },
         "address_with_street_view": {

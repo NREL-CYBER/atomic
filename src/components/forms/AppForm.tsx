@@ -137,9 +137,12 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         const property = data.property
         const resolve = deferedValidationPromises[uuid]
         setIsValid(allErrors.length === 0)
-        const parsedErrors = allErrors.map((x: any) => x.instancePath.split("/").join("") + " " + x.keyword + " " + x.message);
+        console.log(allErrors);
+
+        const parsedErrors = allErrors.map((x: any) => "" + ((x.instancePath.split("/").join("")).length > 0 ? "'"+x.instancePath.split("/").join("") + "'" : "'"+x.params?.missingProperty + "'") + " " + x.keyword + " " + x.message);
         const propertyErrors = parsedErrors.filter((x: string) => x.includes("'" + property + "'"))
-        setErrors(parsedErrors)
+        const otherErrors = parsedErrors.filter((x: string) => !x.includes("'" + property + "'"))
+        setErrors(otherErrors);
         if (allErrors.length === 0) {
             autoSubmit && onSubmit(instance.current);
         }
@@ -154,7 +157,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     const handleInputReceived: formFieldChangeEvent = (property: string, value: any) => {
         return new Promise<formFieldValidationStatus>(async (resolve) => {
-            if (objectSchema.type === "string" || objectSchema.type === "array") {
+            if (objectSchema.type === "string" || objectSchema.type === "array" || objectSchema.type === "number") {
                 instance.current = value;
             } else if (objectSchema.type === "object") {
                 instance.current = { ...instance.current, [property]: value === "" ? undefined : value };

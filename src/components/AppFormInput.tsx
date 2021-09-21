@@ -1,3 +1,4 @@
+import { AppChip } from 'atomic';
 import React, { MutableRefObject, useEffect, useMemo, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
 import { AppCol } from '.';
@@ -5,7 +6,6 @@ import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
-import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
 import { formFieldChangeEvent } from './forms/AppForm';
@@ -70,6 +70,7 @@ const AppFormInput = (props: formInputProps<any>) => {
         }
         if (value === null || value === "" || typeof value === "undefined") {
             setInputStatus("empty");
+            setErrors([]);
             return;
         }
         const formValue = value === "" ? undefined : value;
@@ -104,11 +105,11 @@ const AppFormInput = (props: formInputProps<any>) => {
         </AppItem>
 
         {errors && errors.length > 0 && <AppItem>
-            <AppLabel position='stacked' color='danger'>
+            <AppChip color='danger'>
                 {errors.map((error, i) => <AppText key={i}>
                     {error}
                 </AppText>)}
-            </AppLabel>
+            </AppChip>
         </AppItem>}
     </>
 }

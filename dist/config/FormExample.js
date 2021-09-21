@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { v4 } from "uuid";
 import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
-import { findSchemaDefinition } from "../components/forms/AppForm";
 import { useAddress } from "./ExampleConfig";
 
 const ExampleForm = () => {
@@ -13,7 +12,7 @@ const ExampleForm = () => {
   } = useAddress.getState();
   const [status, setStatus] = useState("idle");
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
-    objectSchema: findSchemaDefinition(schema, 'address_book'),
+    objectSchema: schema.definitions.address,
     rootSchema: schema,
     title: "Address",
     onSubmit: data => {
@@ -39,9 +38,7 @@ const ExampleForm = () => {
     }, /*#__PURE__*/React.createElement(AppLabel, {
       position: "floating",
       color: "primary"
-    }, "Address"), /*#__PURE__*/React.createElement(AppTitle, {
-      color: "medium"
-    }, country_name, "-", street_address, " ", region), street_view && /*#__PURE__*/React.createElement(AppLabel, {
+    }, street_address), street_view && /*#__PURE__*/React.createElement(AppLabel, {
       position: "floating",
       color: "primary"
     }, "Street View"), /*#__PURE__*/React.createElement(AppTitle, null, street_view && /*#__PURE__*/React.createElement(AppBinaryImg, {

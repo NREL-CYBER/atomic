@@ -80,31 +80,7 @@ const Home = () => {
     titleColor: "secondary",
     title: "Welcome to atomic",
     subTitle: "atomic"
-  }, /*#__PURE__*/React.createElement(AppTabs, {
-    height: 600,
-    slot: "bottom",
-    selectedTab: "tab2",
-    tabs: [{
-      icon: listOutline,
-      path: "tab1",
-      title: "Tab 1",
-      component: () => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(AppForm, {
-        data: {},
-        onSubmit: () => {},
-        rootSchema: palletSchema,
-        objectSchema: palletSchema.definitions.pallete_element
-      }))
-    }, {
-      icon: peopleOutline,
-      path: "tab2",
-      title: "Tab 2",
-      component: () => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRouteCard, {
-        icon: "",
-        path: "/Form",
-        title: "form"
-      }))
-    }]
-  }), /*#__PURE__*/React.createElement(AppChip, {
+  }, /*#__PURE__*/React.createElement(AppChip, {
     color: "success"
   }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppInput, {
     debounce: 500,
@@ -182,7 +158,31 @@ const Home = () => {
     value: "Development"
   }), /*#__PURE__*/React.createElement(AppSelectOption, {
     value: "Production"
-  }))))));
+  })))), /*#__PURE__*/React.createElement(AppTabs, {
+    height: 600,
+    slot: "bottom",
+    selectedTab: "tab2",
+    tabs: [{
+      icon: listOutline,
+      path: "tab1",
+      title: "Tab 1",
+      component: () => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(AppForm, {
+        data: {},
+        onSubmit: () => {},
+        rootSchema: palletSchema,
+        objectSchema: palletSchema.definitions.pallete_element
+      }))
+    }, {
+      icon: peopleOutline,
+      path: "tab2",
+      title: "Tab 2",
+      component: () => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRouteCard, {
+        icon: "",
+        path: "/Form",
+        title: "form"
+      }))
+    }]
+  })));
 };
 
 export default Home;

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { v4 } from "uuid";
 import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
-import { findSchemaDefinition } from "../components/forms/AppForm";
 import { useAddress } from "./ExampleConfig";
 
 const ExampleForm: React.FC = () => {
@@ -11,7 +10,7 @@ const ExampleForm: React.FC = () => {
     return <AppPage>
         <AppContent>
             {status === "editing" ? <AppFormComposer
-                objectSchema={findSchemaDefinition(schema, 'address_book')}
+                objectSchema={schema.definitions!.address}
                 rootSchema={schema}
                 title={"Address"}
                 onSubmit={(data: any) => {
@@ -25,11 +24,8 @@ const ExampleForm: React.FC = () => {
                     {all().map(({ street_address, country_name, street_view, region }, i) => {
                         return <AppCard key={i} contentColor="light">
                             <AppLabel position="floating" color="primary" >
-                                Address
+                                {street_address}
                             </AppLabel>
-                            <AppTitle color="medium">
-                                {country_name}-{street_address} {region}
-                            </AppTitle>
                             {street_view && <AppLabel position="floating" color="primary" >
                                 Street View
                             </AppLabel>}

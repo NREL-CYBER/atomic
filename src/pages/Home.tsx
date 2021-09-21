@@ -25,7 +25,7 @@ export const palletSchema = {
       properties: {
         name: {
           title: "Pallete Color Name",
-          description:"The name of a color",
+          description: "The name of a color",
           type: 'string',
         },
         a: {
@@ -82,15 +82,6 @@ const Home: React.FC = () => {
   return <AppPage >
     <AppContent next>
       <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
-        <AppTabs height={600} slot='bottom' selectedTab='tab2' tabs={[{
-          icon: listOutline, path: "tab1", title: "Tab 1", component: () => <div>
-            <AppForm data={{}} onSubmit={() => { }} rootSchema={palletSchema} objectSchema={palletSchema.definitions.pallete_element} />
-          </div>
-        }, {
-          icon: peopleOutline, path: "tab2", title: "Tab 2", component: () => <>
-            <AppRouteCard icon={""} path="/Form" title="form" />
-          </>
-        }]} />
 
         <AppChip color="success">
           Check out the examples to get started
@@ -193,6 +184,16 @@ const Home: React.FC = () => {
           </AppSelect>
         </AppItem>
       </AppCard>
+      <AppTabs height={600} slot='bottom' selectedTab='tab2' tabs={[{
+        icon: listOutline, path: "tab1", title: "Tab 1", component: () => <div>
+          <AppForm data={{}} onSubmit={() => { }} rootSchema={palletSchema} objectSchema={palletSchema.definitions.pallete_element} />
+        </div>
+      }, {
+        icon: peopleOutline, path: "tab2", title: "Tab 2", component: () => <>
+          <AppRouteCard icon={""} path="/Form" title="form" />
+        </>
+      }]} />
+
     </AppContent >
   </AppPage >
 }

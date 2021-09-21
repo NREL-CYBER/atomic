@@ -1,9 +1,9 @@
+import { AppChip } from 'atomic';
 import React, { useEffect, useMemo, useState } from 'react';
 import { AppCol } from '.';
 import { prettyTitle } from '../util';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
-import AppLabel from './AppLabel';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
 export const inputStatusColorMap = {
@@ -59,6 +59,7 @@ const AppFormInput = props => {
 
     if (value === null || value === "" || typeof value === "undefined") {
       setInputStatus("empty");
+      setErrors([]);
       return;
     }
 
@@ -96,8 +97,7 @@ const AppFormInput = props => {
     onTextChange: val => {
       setValue(val); // eslint-disable-next-line react-hooks/exhaustive-deps
     }
-  })), [input])), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
+  })), [input])), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, {
     color: "danger"
   }, errors.map((error, i) => /*#__PURE__*/React.createElement(AppText, {
     key: i
