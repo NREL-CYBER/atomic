@@ -5,11 +5,14 @@ import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from 
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
+import AppBadge from "./AppBadge";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
+import { AppFormLabel } from "./forms/AppFormLabel";
 
 
 interface formInputProps {
+    required?: boolean
     inline?: boolean,
     property: string
     propertyInfo: PropertyDefinitionRef
@@ -48,7 +51,8 @@ export const findShortestValue = (val: any) => {
  */
 const AppFormArrayInput = (props: formInputProps) => {
     const { property, instanceRef, onChange, customTitleFunction,
-        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema, customItemComponent } = props;
+        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, required,
+        objectSchema, rootSchema, customItemComponent } = props;
     const existing_data: any[] = instanceRef.current[property] ? instanceRef.current[property] : [];
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length > 0 ? "valid" : "empty");
@@ -85,18 +89,14 @@ const AppFormArrayInput = (props: formInputProps) => {
         setIsInsertingItem(false);
         selectedItemData && onSubmitItem(selectedItemData);
     }, [onSubmitItem, selectedItemData])
-    return <AppRow>
-        <AppToolbar color="clear">
-            <AppButtons slot='start'>
-                <AppButton fill="clear" onClick={() => {
-                    beginInsertItem()
-                    setSelectedItemData(undefined);
-                }} color={inputStatusColor} >
-                    {propertyFormattedName}
-                </AppButton>
-            </AppButtons>
+    return <>
+        <AppItem>
+            <AppFormLabel required={required} onClick={() => {
+                beginInsertItem()
+                setSelectedItemData(undefined);
+            }} name={propertyFormattedName} color={inputStatusColor} />
             <AppButtons>
-                {value && value.map((val, i) => {
+                {value && value.filter(Boolean).map((val, i) => {
                     return <AppChip key={i} onClick={() => removeAndbeginInsert(val)}>
                         {customTitleFunction ? customTitleFunction(val) : <>
                             {typeof val === "string" && val}
@@ -111,7 +111,9 @@ const AppFormArrayInput = (props: formInputProps) => {
                 </AppButton>
             </AppButtons>
             <div hidden={!isInsertingItem}>
-                {<AppModal isOpen={isInsertingItem} onDismiss={() => setIsInsertingItem(false)}>
+                {<AppModal isOpen={isInsertingItem} onDismiss={() =>
+                    setIsInsertingItem(false)
+                }>
                     <AppContent>
                         {useMemo(() => customItemComponent ? customItemComponent : <AppFormComposer
                             showFields={showFields}
@@ -127,7 +129,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                     </AppContent>
                 </AppModal>}
             </div>
-        </AppToolbar>
+        </AppItem>
         {
             errors && errors.length > 0 && < AppItem >
 
@@ -138,7 +140,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                 </AppLabel>
             </AppItem>
         }
-    </AppRow >
+    </ >
 }
 
 export default AppFormArrayInput;

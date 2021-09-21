@@ -1,19 +1,21 @@
-import React, { MutableRefObject, useCallback, useState } from 'react';
+import { AppButtons } from 'atomic';
+import { STATUS_CODES } from 'http';
+import React, { useCallback, useState } from 'react';
 import { AppSelectArray } from '.';
 import { prettyTitle } from '../util';
+import AppButton from './AppButton';
 import { InputStatus, inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
-import { formFieldChangeEvent } from './forms/AppForm';
+import { formElementProps } from './forms/AppForm';
+import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
+import { AppFormLabel } from './forms/AppFormLabel';
 
 
-export interface formSelectArrayInputProps {
-    property: string,
+export interface formSelectArrayInputProps extends formElementProps {
     propertyInfo: { title: string, description: string, enum: string[] }
-    instanceRef: MutableRefObject<any>
-    onChange: formFieldChangeEvent
     multiple?: boolean
 }
 
@@ -47,19 +49,13 @@ const AppFormSelectArray = (props: formSelectArrayInputProps) => {
 
 
     return <AppItem>
-        <AppLabel position="stacked" color={inputStatusColor} >
-            {propertyFormattedName}
-        </AppLabel>
+        <AppFormLabel color={inputStatusColor} name={propertyFormattedName} />
         <AppSelectArray multiple={multiple} value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
             updateSelection(selection);
         }}>
             {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={prettyTitle(enumValue)} />)}
         </AppSelectArray>
-        <AppLabel position='stacked' color='danger'>
-            {errors && errors.map(error => <AppText>
-                {error}
-            </AppText>)}
-        </AppLabel>
+        <AppFormErrorsItem errors={errors} />
     </AppItem>
 }
 

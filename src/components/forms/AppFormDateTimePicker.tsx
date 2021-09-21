@@ -1,16 +1,12 @@
-import React, { MutableRefObject, useEffect, useState } from 'react';
-import { PropertyDefinitionRef } from 'validator';
-import { AppItem, AppLabel, AppText } from '..';
+import React, { useEffect, useState } from 'react';
+import { AppItem, AppLabel } from '..';
 import { prettyTitle } from '../../util';
 import { AppDateTime, dateTimeFormat } from '../AppDateTime';
 import { InputStatus, inputStatusColorMap } from '../AppFormInput';
-import { formFieldChangeEvent } from './AppForm';
+import { formElementProps } from './AppForm';
+import { AppFormErrorsItem } from './AppFormErrorsItem';
 
-interface formInputProps {
-    propertyInfo: PropertyDefinitionRef
-    property: string
-    instanceRef: MutableRefObject<any>
-    onChange: formFieldChangeEvent
+interface formDateTimePickerProps extends formElementProps {
     format?: string
 }
 
@@ -19,7 +15,7 @@ interface formInputProps {
 /**
  * Component for input that displays validation errors
  */
-const AppFormDateTimePicker = (props: formInputProps) => {
+const AppFormDateTimePicker = (props: formDateTimePickerProps) => {
     const { property, instanceRef, onChange, propertyInfo, format = "date" } = props;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
@@ -41,6 +37,7 @@ const AppFormDateTimePicker = (props: formInputProps) => {
     const dateTimeFormat: dateTimeFormat = format === "date-time" ? "YYYY-MM-DDThh:mm:ssZ" : "YYYY-MM-DD"
     return <>
         <AppItem color="clear" lines="none">
+
             <AppLabel position="stacked" color={statusColor} >
                 {propertyFormattedName}
             </AppLabel>
@@ -50,14 +47,7 @@ const AppFormDateTimePicker = (props: formInputProps) => {
 
             }} />
         </AppItem>
-
-        {errors && errors.length > 0 && <AppItem>
-            <AppLabel position='stacked' color='danger'>
-                {errors.map((error, i) => <AppText key={i}>
-                    {error}
-                </AppText>)}
-            </AppLabel>
-        </AppItem>}
+        <AppFormErrorsItem errors={errors} />
     </>
 }
 

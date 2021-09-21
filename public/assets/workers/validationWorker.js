@@ -7,9 +7,6 @@ importScripts("./ajv.js")
 const ajv = new self.ajv7.default({ strict: true, allErrors: true, inlineRefs: false, code: { es5: true }, passContext: true })
 
 
-
-
-
 function fmtDef(validate, compare) {
     return { validate, compare };
 }

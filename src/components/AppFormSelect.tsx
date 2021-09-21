@@ -1,4 +1,4 @@
-import { AppButtons } from 'atomic';
+import { AppButton, AppButtons, AppCol, AppRow } from 'atomic';
 import React, { MutableRefObject, useCallback, useEffect, useState } from 'react';
 import { prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
@@ -9,12 +9,15 @@ import AppSelect from './AppSelect';
 import AppSelectOption from './AppSelectOption';
 import AppText from './AppText';
 import { formFieldChangeEvent } from './forms/AppForm';
+import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
+import { AppFormLabel } from './forms/AppFormLabel';
 
 
 export interface formSelectInputProps {
     property: string,
     propertyInfo: { title: string, description: string, enum: string[] }
     instanceRef: MutableRefObject<any>
+    required?: boolean,
     onChange: formFieldChangeEvent
 }
 
@@ -22,7 +25,7 @@ export interface formSelectInputProps {
  * Component for input that displays validation errors
  */
 const AppFormSelect = (props: formSelectInputProps) => {
-    const { propertyInfo, instanceRef, onChange, property } = props;
+    const { propertyInfo, instanceRef, onChange, property, required } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     let instanceValue = instanceRef.current && (instanceRef.current as any)[property];
@@ -32,7 +35,7 @@ const AppFormSelect = (props: formSelectInputProps) => {
     const [value, setValue] = useState<string>(instanceValue);
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
 
-    const inputStatusColor = inputStatusColorMap[inputStatus];
+    const statusColor = inputStatusColorMap[inputStatus];
 
     const updateSelection = useCallback((val: string) => {
         if (val === "" || typeof val === "undefined" || val === null) {
@@ -54,23 +57,19 @@ const AppFormSelect = (props: formSelectInputProps) => {
 
     return <>
         <AppItem>
-            <AppButtons slot="start">
+            <AppFormLabel required={required}
+                name={propertyFormattedName}
+                color={statusColor} />
+            <AppCol>
 
-                <AppText size={11} color={inputStatusColor} >
-                    {propertyFormattedName}
-                </AppText>
-            </AppButtons>
-            <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
-                setValue(selection);
-            }}>
-                {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
-            </AppSelect>
+                <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(selection) => {
+                    setValue(selection);
+                }}>
+                    {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
+                </AppSelect>
+            </AppCol>
         </AppItem>
-        <AppLabel position='stacked' color='danger'>
-            {errors && errors.map(error => <AppText>
-                {error}
-            </AppText>)}
-        </AppLabel>
+        <AppFormErrorsItem errors={errors} />
     </>
 }
 

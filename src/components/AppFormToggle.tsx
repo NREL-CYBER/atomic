@@ -1,5 +1,4 @@
-import React, { MutableRefObject, useState } from 'react';
-import { PropertyDefinitionRef } from 'validator';
+import React, { useState } from 'react';
 import { AppButtons } from '.';
 import titleCase from '../util/titleCase';
 import { InputStatus, inputStatusColorMap } from './AppFormInput';
@@ -7,21 +6,14 @@ import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import AppSelectButtons from './AppSelectButtons';
 import AppText from './AppText';
-import { formFieldChangeEvent } from './forms/AppForm';
+import { formElementProps } from './forms/AppForm';
 
-
-interface formToggleProps<T> {
-    property: string,
-    propertyInfo: PropertyDefinitionRef
-    instanceRef: MutableRefObject<T>
-    onChange: formFieldChangeEvent
-}
 
 
 /**
  * Component for toggle that displays validation errors
  */
-const AppFormToggle = (props: formToggleProps<any>) => {
+const AppFormToggle = (props: formElementProps) => {
     const { propertyInfo, instanceRef, onChange, property } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");

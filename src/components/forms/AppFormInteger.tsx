@@ -7,6 +7,8 @@ import { prettyTitle } from '../../util';
 import { InputStatus, inputStatusColorMap } from '../AppFormInput';
 import AppInput from '../AppInput';
 import { formFieldChangeEvent } from './AppForm';
+import { AppFormErrorsItem } from './AppFormErrorsItem';
+import { AppFormLabel } from './AppFormLabel';
 
 
 interface formInputProps {
@@ -14,6 +16,7 @@ interface formInputProps {
     property: string
     instanceRef: MutableRefObject<any>
     onChange: formFieldChangeEvent
+    required?: boolean
 }
 
 
@@ -21,7 +24,7 @@ interface formInputProps {
  * Component for input that displays validation errors
  */
 const AppFormInteger = (props: formInputProps) => {
-    const { property, instanceRef, onChange, propertyInfo } = props;
+    const { property, instanceRef, onChange, propertyInfo, required } = props;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
     const [value, setValue] = useState<string>((instanceRef.current && (instanceRef.current as any)[property]) || null)
@@ -43,24 +46,14 @@ const AppFormInteger = (props: formInputProps) => {
     const statusColor = inputStatusColorMap[inputStatus];
     return <>
         <AppItem color="clear" lines="none">
-            <AppCol size="6">
-                <AppText size={11} color={statusColor} >
-                    {propertyFormattedName}
-                </AppText>
-            </AppCol>
+            <AppFormLabel required={required} name={propertyFormattedName} color={statusColor} />
 
             {useMemo(() => <AppInput min={(propertyInfo as any)?.minumum} max={(propertyInfo as any)?.maximum} type={"number"} value={value} placeholder={propertyFormattedName} onInputChange={(val) => {
                 setValue(val)
             }} />, [])}
         </AppItem>
 
-        {errors && errors.length > 0 && <AppItem>
-            <AppLabel position='stacked' color='danger'>
-                {errors.map((error, i) => <AppText key={i}>
-                    {error}
-                </AppText>)}
-            </AppLabel>
-        </AppItem>}
+        <AppFormErrorsItem errors={errors} />
     </>
 }
 

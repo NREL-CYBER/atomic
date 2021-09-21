@@ -2,6 +2,23 @@
     "$id": "address",
     "type": "object",
     "definitions": {
+        "property": {
+            "title": "Property",
+            "$id": "#/definitions/property",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "name",
+                "value"
+            ]
+        },
         "address": {
             "title": "Address",
             "$id": "#/definitions/address",
@@ -19,10 +36,12 @@
                     "type": "string",
                     "contentMediaType": "image/png"
                 },
-                "email": {
-                    "title": "email",
-                    "type": "string",
-                    "format": "email"
+                "props": {
+                    "title": "Properties",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/property"
+                    }
                 },
                 "state": {
                     "type": "string"
@@ -30,7 +49,7 @@
             },
             "required": [
                 "street_address",
-                "email",
+                "props",
                 "state"
             ]
         },

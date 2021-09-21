@@ -1,25 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { IonLabel, IonRange } from '@ionic/react';
-import React, { MutableRefObject, useMemo, useState } from 'react';
-import { PropertyDefinitionRef } from 'validator';
-import { AppCol, AppItem, AppLabel, AppText } from '..';
+import { AppButtons, AppCol } from 'atomic';
+import React, { useState } from 'react';
+import { AppItem } from '..';
 import { prettyTitle } from '../../util';
 import { InputStatus, inputStatusColorMap } from '../AppFormInput';
-import { formFieldChangeEvent } from './AppForm';
+import { formElementProps } from './AppForm';
+import { AppFormErrorsItem } from './AppFormErrorsItem';
+import { AppFormLabel } from './AppFormLabel';
 
 
-interface formInputProps {
-    propertyInfo: PropertyDefinitionRef
-    property: string
-    instanceRef: MutableRefObject<any>
-    onChange: formFieldChangeEvent
-}
 
 
 /**
  * Component for input that displays validation errors
  */
-const AppFormNumber = (props: formInputProps) => {
+const AppFormNumber = (props: formElementProps) => {
     const { property, instanceRef, onChange, propertyInfo } = props;
     const [errors, setErrors] = useState<string[]>([]);
     const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
@@ -31,11 +27,7 @@ const AppFormNumber = (props: formInputProps) => {
     const min = (propertyInfo as any).minimum || 0;
     return <>
         <AppItem color="clear" lines="none">
-            <AppCol>
-                <AppText size={11} color={statusColor} >
-                    {propertyFormattedName}
-                </AppText>
-            </AppCol>
+            <AppFormLabel name={propertyFormattedName} color={statusColor} />
             <IonRange value={value * 1000 * (max - min)} max={1000} min={0} onIonChange={(v) => {
                 const scaledValue = (v.detail.value as number / 1000) * (max - min)
                 onChange(property, scaledValue).then(([validationStatus, validationErrors]) => {
@@ -49,14 +41,7 @@ const AppFormNumber = (props: formInputProps) => {
                 <IonLabel slot="end">{max}</IonLabel>
             </IonRange>
         </AppItem>
-
-        {useMemo(() => errors && errors.length > 0 && <AppItem>
-            <AppLabel position='stacked' color='danger'>
-                {errors.map((error, i) => <AppText key={i}>
-                    {error}
-                </AppText>)}
-            </AppLabel>
-        </AppItem>, [errors])}
+        <AppFormErrorsItem errors={errors} />
     </>
 }
 

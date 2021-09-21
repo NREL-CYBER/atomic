@@ -5,7 +5,7 @@ import AppBinaryImg from "../components/AppBinaryImg";
 import { useAddress } from "./ExampleConfig";
 
 const ExampleForm: React.FC = () => {
-    const { schema, insert, all } = useAddress.getState();
+    const { schema, insert, all } = useAddress();
     const [status, setStatus] = useState<"idle" | "editing">("idle")
     return <AppPage>
         <AppContent>

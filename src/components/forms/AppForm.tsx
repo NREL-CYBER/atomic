@@ -58,21 +58,31 @@ export interface formProps {
 export type formFieldValidationStatus = [formFieldStatus, string[] | undefined]
 export type formFieldChangeEvent = (property: string, value: any) => Promise<formFieldValidationStatus>;
 
-interface formElementProps {
+export interface formElementProps {
+    required?: boolean
     property: string
+    propertyInfo: PropertyDefinitionRef
     instanceRef: MutableRefObject<any>
     rootSchema: RootSchemaObject
     objectSchema: SchemaObjectDefinition
     onChange: formFieldChangeEvent
 }
 export interface nestedFormProps {
+    required?: boolean,
+    inline?: boolean,
     property: string
-    inline?: boolean
-    instanceRef: MutableRefObject<any>
     propertyInfo: PropertyDefinitionRef
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>,
-    onChange: formFieldChangeEvent
+    instanceRef: MutableRefObject<any>
+    objectSchema: SchemaObjectDefinition,
+    rootSchema: RootSchemaObject,
+    onChange: formFieldChangeEvent,
+    showFields?: string[],
+    hiddenFields?: string[],
+    lockedFields?: string[],
+    customTitleFunction?: (value: any) => string,
+    customComponentMap?: Record<string, React.FC<nestedFormProps>>
 }
+
 
 interface lockedFieldProps {
     property: string,
@@ -137,9 +147,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         const property = data.property
         const resolve = deferedValidationPromises[uuid]
         setIsValid(allErrors.length === 0)
-        console.log(allErrors);
 
-        const parsedErrors = allErrors.map((x: any) => "" + ((x.instancePath.split("/").join("")).length > 0 ? "'"+x.instancePath.split("/").join("") + "'" : "'"+x.params?.missingProperty + "'") + " " + x.keyword + " " + x.message);
+        const parsedErrors = allErrors.map((x: any) => "" + ((x.instancePath.split("/").join("")).length > 0 ? "'" + x.instancePath.split("/").join("") + "'" : "'" + x.params?.missingProperty + "'") + " " + x.keyword + " " + x.message);
         const propertyErrors = parsedErrors.filter((x: string) => x.includes("'" + property + "'"))
         const otherErrors = parsedErrors.filter((x: string) => !x.includes("'" + property + "'"))
         setErrors(otherErrors);
@@ -229,7 +238,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     }
 
 
-    const FormElement: React.FC<formElementProps> = ({ instanceRef, property, rootSchema, objectSchema }) => {
+    const FormElement: React.FC<formElementProps> = ({ required, instanceRef, property, rootSchema, objectSchema }) => {
         const propertyInfo = objectSchema.properties && objectSchema.properties[property];
 
         if (typeof propertyInfo === "undefined") {
@@ -256,17 +265,20 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
         // Custom component by property name
         if (customComponentMap && customComponentMap[property]) {
-            return customComponentMap[property]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children })
+            return customComponentMap[property]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children, objectSchema, rootSchema })
         }
         // Custom component by property identifier
         if (customComponentMap && propertyInfo.$id && customComponentMap[propertyInfo.$id]) {
-            return customComponentMap[propertyInfo.$id]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children })
+            return customComponentMap[propertyInfo.$id]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children, objectSchema, rootSchema })
         }
 
 
         if ("enum" in propertyInfo) {
             if ((propertyInfo as any)["type"] === "array") {
                 return <AppFormSelectArray
+                    rootSchema={rootSchema}
+                    objectSchema={objectSchema}
+                    required={required}
                     instanceRef={instanceRef}
                     propertyInfo={propertyInfo}
                     property={property}
@@ -275,6 +287,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 />
             } else {
                 return <AppFormSelect
+                    required={required}
                     instanceRef={instanceRef}
                     propertyInfo={propertyInfo}
                     property={property}
@@ -285,6 +298,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
         if (propertyType === "boolean") {
             return <AppFormToggle
+                rootSchema={rootSchema}
+                objectSchema={objectSchema}
+                required={required}
                 instanceRef={instanceRef}
                 propertyInfo={refPropertyInfo}
                 property={property}
@@ -294,6 +310,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
         if (propertyType === "string" && propertyFormat && propertyFormat.includes("date")) {
             return <AppFormDateTimePicker
+                rootSchema={rootSchema}
+                objectSchema={objectSchema}
                 format={propertyFormat}
                 instanceRef={instanceRef}
                 propertyInfo={refPropertyInfo}
@@ -314,6 +332,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
         if (propertyType === "number") {
             return <AppFormNumber
+                rootSchema={rootSchema}
+                objectSchema={objectSchema}
+                required={required}
                 instanceRef={instanceRef}
                 propertyInfo={refPropertyInfo}
                 property={property}
@@ -326,6 +347,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         if (propertyType === "array") {
             return typeof propertyInfo.items?.anyOf === "undefined" ? <AppFormArrayInput
                 rootSchema={rootSchema}
+                required={required}
                 objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
@@ -337,6 +359,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 customComponentMap={customComponentMap}
                 key={property}
             /> : <AppFormAnyOfArrayInput
+                required={required}
                 rootSchema={rootSchema}
                 objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                 onChange={handleInputReceived}
@@ -346,13 +369,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 lockedFields={lockedFields}
                 showFields={showFields}
                 property={property}
-                customComponentMap={customComponentMap}
+                customComponentMap={customComponentMap as any}
                 key={property}
             />
         }
 
         if (propertyType === "object" && !propertyInfo.properties && (propertyInfo as any).additionalProperties && (propertyInfo as any).additionalProperties.allOf) {
             return <AppFormDictionaryInput
+                required={required}
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
                 customComponentMap={customComponentMap}
@@ -372,6 +396,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
         if (propertyType === "string") {
             return <AppFormInput
+                objectSchema={objectSchema}
+                rootSchema={rootSchema}
+                required={required}
                 input={"text"}
                 propertyInfo={propertyInfo}
                 instanceRef={instanceRef}
@@ -384,6 +411,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
         if (propertyType === "object") {
             return < ComposeNestedFormElement
+                objectSchema={objectSchema}
+                rootSchema={rootSchema}
+                required={required}
                 inline={inlineFields && inlineFields.includes(property)}
                 onChange={handleInputReceived}
                 customComponentMap={customComponentMap}
@@ -404,6 +434,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             if (hiddenFields && hiddenFields.includes(property))
                 return <Fragment key={property}></Fragment>
             return <FormElement
+                propertyInfo={objectSchema.properties![property] as any}
+                required={true}
                 rootSchema={rootSchema}
                 objectSchema={objectSchema}
                 key={property}
@@ -436,6 +468,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {useMemo(() => <RequiredFormFields />, [])}
                         {objectSchema.type === "string" && <>
                             <AppFormInput
+                                rootSchema={rootSchema}
+                                objectSchema={objectSchema}
                                 propertyInfo={objectSchema as PropertyDefinitionRef}
                                 property={objectSchema.title || ""}
                                 input={"text"}
@@ -445,6 +479,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         </>}
                         {objectSchema.type === "boolean" && <>
                             <AppFormToggle
+                                rootSchema={rootSchema}
+                                objectSchema={objectSchema}
                                 propertyInfo={objectSchema as PropertyDefinitionRef}
                                 property={objectSchema.title || ""}
                                 instanceRef={instance}
@@ -481,6 +517,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                                         if (hiddenFields && hiddenFields.includes(property))
                                             return <Fragment key={property}></Fragment>
                                         return <FormElement
+                                            propertyInfo={objectSchema.properties![property]}
+                                            required={false}
                                             rootSchema={rootSchema}
                                             objectSchema={objectSchema}
                                             key={property}

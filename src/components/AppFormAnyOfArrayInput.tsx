@@ -1,28 +1,15 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
-import React, { MutableRefObject, Suspense, useCallback, useState } from 'react';
-import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
+import React, { Suspense, useCallback, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { findShortestValue } from "./AppFormArrayInput";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
-import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
+import { findSubSchema, formElementProps, nestedFormProps } from './forms/AppForm';
 
 
-interface formInputProps {
-    inline?: boolean,
-    property: string
-    propertyInfo: PropertyDefinitionRef
-    instanceRef: MutableRefObject<any>
-    objectSchema: SchemaObjectDefinition,
-    rootSchema: RootSchemaObject,
-    onChange: formFieldChangeEvent,
-    showFields?: string[],
-    hiddenFields?: string[],
-    lockedFields?: string[],
-    customTitleFunction?: (value: any) => string,
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>
+interface formArrayOfInputProps extends nestedFormProps, formElementProps {
 }
 
 
@@ -32,8 +19,8 @@ interface formInputProps {
  * Find a way to keep this DRY there is too much overlap with standard array editor
  * Add a parameter and provide this functionality there when we actually need this component
  */
-const AppFormAnyOfArrayInput = (props: formInputProps) => {
-    const { property, instanceRef, onChange, customTitleFunction,
+const AppFormAnyOfArrayInput = (props: formArrayOfInputProps) => {
+    const { property, instanceRef, onChange,
         propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema } = props;
     const existing_data = (instanceRef.current[property] ? instanceRef.current[property] : []);
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
@@ -84,7 +71,7 @@ const AppFormAnyOfArrayInput = (props: formInputProps) => {
             <AppButtons>
                 {status === "idle" && value && value.map((val, i) => {
                     return <AppChip key={i} onClick={() => removeAndbeginInsert(val)}>
-                        {customTitleFunction ? customTitleFunction(val) : <>
+                        {<>
                             {typeof val === "string" && val}
                             {typeof val === "object" && findShortestValue(val)}
                         </>}
@@ -112,7 +99,7 @@ const AppFormAnyOfArrayInput = (props: formInputProps) => {
                                 showFields={showFields}
                                 hiddenFields={hiddenFields}
                                 lockedFields={lockedFields}
-                                customComponentMap={customComponentMap}
+                                customComponentMap={customComponentMap as any}
                                 rootSchema={rootSchema}
                                 objectSchema={findSubSchema(rootSchema, objectSchema, selectedType)}
                                 data={{ ...data }}

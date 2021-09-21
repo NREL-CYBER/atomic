@@ -6,11 +6,13 @@ import { AppColor } from '../../theme';
 import { prettyTitle } from '../../util';
 import AppText from '../AppText';
 import { byteArrayToBase64 } from '../../util/binaryToBase64';
+import { AppFormLabel } from '../forms/AppFormLabel';
 
 export type AppFill = "clear" | "outline" | "solid" | "default" | undefined
 
 
 export interface uploaderProps {
+    required?: boolean,
     title: string,
     description: string,
     file?: File
@@ -22,7 +24,7 @@ export interface uploaderProps {
 /**
  * Upload Component 
  */
-const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFileReceived, uploadParams, file }) => {
+const AppUploader: React.FC<uploaderProps> = ({ accept, required, description, title, onFileReceived, uploadParams, file }) => {
     const [status, setStatus] = useState<StatusValue>("ready");
     const successStatus: StatusValue[] = ["done"];
     const errorStatus: StatusValue[] = ["error_file_size",
@@ -51,11 +53,7 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, description, title, onFi
     }
     return <>
         <AppItem>
-            <AppButtons slot="start">
-                <AppLabel position="stacked" color={statusColor} >
-                    {propertyFormattedName}
-                </AppLabel>
-            </AppButtons>
+            <AppFormLabel required={required} name={propertyFormattedName} color={statusColor} />
             <AppButtons slot="end">
                 <AppChip color={statusColor} >
                     {status}

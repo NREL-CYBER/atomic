@@ -10,26 +10,12 @@ import { InputStatus, inputStatusColorMap } from "../AppFormInput";
 import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './AppForm';
 
 
-interface formInputProps<T> {
-    inline?: boolean,
-    property: string
-    propertyInfo: PropertyDefinitionRef
-    instanceRef: MutableRefObject<any>
-    objectSchema: SchemaObjectDefinition,
-    rootSchema: RootSchemaObject,
-    onChange: formFieldChangeEvent,
-    showFields?: string[],
-    hiddenFields?: string[],
-    lockedFields?: string[],
-    customTitleFunction?: (value: any) => string,
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>
-}
 
 
 /**
  * Component for input that displays validation errors
  */
-const AppFormDictionaryInput = (props: formInputProps<unknown>) => {
+const AppFormDictionaryInput = (props: nestedFormProps) => {
     console.log(props.propertyInfo);
     //destructure props
     const { property, instanceRef, objectSchema, onChange,

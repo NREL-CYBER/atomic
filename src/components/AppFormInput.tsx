@@ -1,22 +1,19 @@
-import { AppChip } from 'atomic';
-import React, { MutableRefObject, useEffect, useMemo, useState } from 'react';
-import { PropertyDefinitionRef } from 'validator';
-import { AppCol } from '.';
+import { AppButtons, AppChip } from 'atomic';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
+import AppButton from './AppButton';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
 import AppText from './AppText';
 import AppTextArea from './AppTextArea';
-import { formFieldChangeEvent } from './forms/AppForm';
+import { formElementProps } from './forms/AppForm';
+import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
+import { AppFormLabel } from './forms/AppFormLabel';
 
 
-interface formInputProps<T> {
-    propertyInfo: PropertyDefinitionRef
-    property: string
-    instanceRef: MutableRefObject<T>
+interface formInputProps extends formElementProps {
     input: "line" | "text" | "array"
-    onChange: formFieldChangeEvent
 }
 
 export type InputStatus = "empty" | "invalid" | "unknown" | "valid";
@@ -28,8 +25,8 @@ type supported_schema_format = "email" | "date" | "time" | undefined
 /**
  * Component for input that displays validation errors
  */
-const AppFormInput = (props: formInputProps<any>) => {
-    const { property, instanceRef, input, onChange, propertyInfo } = props;
+const AppFormInput = (props: formInputProps) => {
+    const { property, instanceRef, input, onChange, propertyInfo, required } = props;
     const { description } = propertyInfo;
     const [errors, setErrors] = useState<string[] | undefined>();
     const [validating, setValidating] = useState<any>();
@@ -88,11 +85,10 @@ const AppFormInput = (props: formInputProps<any>) => {
     const inputMode = calculateType();
     return <>
         <AppItem lines="none">
-            <AppCol size="6">
-                <AppText size={11} color={statusColor} >
-                    {propertyFormattedName}
-                </AppText>
-            </AppCol>
+            <AppFormLabel name={propertyFormattedName}
+                color={statusColor}
+                required={required}
+            />
 
             {useMemo(() => <>{property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ?
                 <AppInput color="dark" type={inputMode} value={value} placeholder={description || ""} onInputChange={(val) => {
@@ -104,13 +100,7 @@ const AppFormInput = (props: formInputProps<any>) => {
                 }} />}</>, [input])}
         </AppItem>
 
-        {errors && errors.length > 0 && <AppItem>
-            <AppChip color='danger'>
-                {errors.map((error, i) => <AppText key={i}>
-                    {error}
-                </AppText>)}
-            </AppChip>
-        </AppItem>}
+        <AppFormErrorsItem errors={errors} />
     </>
 }
 
