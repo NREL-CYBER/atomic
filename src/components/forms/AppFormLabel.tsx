@@ -1,5 +1,6 @@
 import { AppButtons, AppCol, AppColor } from "atomic";
 import AppButton from "../AppButton";
+import React from "react"
 
 export const AppFormLabel: React.FC<{ name: string, onClick?: () => void, color: AppColor, info?: string, required?: boolean }> = ({ name, color, info, required, onClick }) =>
     <span style={{ minWidth: 200 }}>

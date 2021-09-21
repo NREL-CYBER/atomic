@@ -1,5 +1,5 @@
-/// <reference types="react" />
 import { AppColor } from "atomic";
+import React from "react";
 export declare const AppFormLabel: React.FC<{
     name: string;
     onClick?: () => void;
