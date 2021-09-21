@@ -205,10 +205,9 @@ const AppForm = props => {
     instanceRef,
     property,
     rootSchema,
-    objectSchema
+    objectSchema,
+    propertyInfo
   }) => {
-    const propertyInfo = objectSchema.properties && objectSchema.properties[property];
-
     if (typeof propertyInfo === "undefined") {
       return /*#__PURE__*/React.createElement(React.Fragment, null, "Undefined property... is your JSON schema OK?");
     }
@@ -431,7 +430,7 @@ const AppForm = props => {
       key: property
     });
     return /*#__PURE__*/React.createElement(FormElement, {
-      propertyInfo: objectSchema.properties[property],
+      propertyInfo: objectSchema.properties && objectSchema.properties[property],
       required: true,
       rootSchema: rootSchema,
       objectSchema: objectSchema,

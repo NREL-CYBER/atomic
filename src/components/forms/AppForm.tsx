@@ -238,8 +238,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     }
 
 
-    const FormElement: React.FC<formElementProps> = ({ required, instanceRef, property, rootSchema, objectSchema }) => {
-        const propertyInfo = objectSchema.properties && objectSchema.properties[property];
+    const FormElement: React.FC<formElementProps> = ({ required, instanceRef, property, rootSchema, objectSchema, propertyInfo }) => {
 
         if (typeof propertyInfo === "undefined") {
             return <>Undefined property... is your JSON schema OK?</>;
@@ -280,7 +279,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     objectSchema={objectSchema}
                     required={required}
                     instanceRef={instanceRef}
-                    propertyInfo={propertyInfo}
+                    propertyInfo={propertyInfo as any}
                     property={property}
                     onChange={handleInputReceived}
                     key={property}
@@ -289,7 +288,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 return <AppFormSelect
                     required={required}
                     instanceRef={instanceRef}
-                    propertyInfo={propertyInfo}
+                    propertyInfo={propertyInfo as any}
                     property={property}
                     onChange={handleInputReceived}
                     key={property}
@@ -434,7 +433,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             if (hiddenFields && hiddenFields.includes(property))
                 return <Fragment key={property}></Fragment>
             return <FormElement
-                propertyInfo={objectSchema.properties![property] as any}
+                propertyInfo={objectSchema.properties && objectSchema.properties[property]}
                 required={true}
                 rootSchema={rootSchema}
                 objectSchema={objectSchema}

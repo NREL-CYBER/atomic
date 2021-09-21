@@ -15,7 +15,8 @@ const AppFormNumber = props => {
     property,
     instanceRef,
     onChange,
-    propertyInfo
+    propertyInfo,
+    required
   } = props;
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
@@ -28,6 +29,7 @@ const AppFormNumber = props => {
     color: "clear",
     lines: "none"
   }, /*#__PURE__*/React.createElement(AppFormLabel, {
+    required: required,
     name: propertyFormattedName,
     color: statusColor
   }), /*#__PURE__*/React.createElement(IonRange, {

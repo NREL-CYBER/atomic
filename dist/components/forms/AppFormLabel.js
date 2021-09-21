@@ -6,7 +6,11 @@ export const AppFormLabel = ({
   info,
   required,
   onClick
-}) => /*#__PURE__*/React.createElement(AppButtons, {
+}) => /*#__PURE__*/React.createElement("span", {
+  style: {
+    minWidth: 200
+  }
+}, /*#__PURE__*/React.createElement(AppButtons, {
   slot: "start"
 }, /*#__PURE__*/React.createElement(AppCol, {
   size: "6"
@@ -22,4 +26,4 @@ export const AppFormLabel = ({
     top: 5,
     "position": "absolute"
   }
-}, "*"))));
+}, "*")))));
