@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { IonLabel, IonRange } from '@ionic/react';
-import React, { useMemo, useState } from 'react';
-import { AppCol, AppItem, AppLabel, AppText } from '..';
+import React, { useState } from 'react';
+import { AppItem } from '..';
 import { prettyTitle } from '../../util';
 import { inputStatusColorMap } from '../AppFormInput';
-
+import { AppFormErrorsItem } from './AppFormErrorsItem';
+import { AppFormLabel } from './AppFormLabel';
 /**
  * Component for input that displays validation errors
  */
+
 const AppFormNumber = props => {
   const {
     property,
@@ -25,10 +27,10 @@ const AppFormNumber = props => {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear",
     lines: "none"
-  }, /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppText, {
-    size: 11,
+  }, /*#__PURE__*/React.createElement(AppFormLabel, {
+    name: propertyFormattedName,
     color: statusColor
-  }, propertyFormattedName)), /*#__PURE__*/React.createElement(IonRange, {
+  }), /*#__PURE__*/React.createElement(IonRange, {
     value: value * 1000 * (max - min),
     max: 1000,
     min: 0,
@@ -44,12 +46,9 @@ const AppFormNumber = props => {
     slot: "start"
   }, min), /*#__PURE__*/React.createElement(IonLabel, {
     slot: "end"
-  }, max))), useMemo(() => errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
-    color: "danger"
-  }, errors.map((error, i) => /*#__PURE__*/React.createElement(AppText, {
-    key: i
-  }, error)))), [errors]));
+  }, max))), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+    errors: errors
+  }));
 };
 
 export default AppFormNumber;

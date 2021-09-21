@@ -9,7 +9,6 @@ const AppPage = ({
   fullscreen = false,
   id
 }) => {
-  console.log("page");
   return /*#__PURE__*/React.createElement(IonPage, {
     id: id || "main"
   }, children);

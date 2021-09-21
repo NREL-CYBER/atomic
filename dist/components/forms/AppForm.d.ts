@@ -29,13 +29,29 @@ export interface formProps {
 }
 export declare type formFieldValidationStatus = [formFieldStatus, string[] | undefined];
 export declare type formFieldChangeEvent = (property: string, value: any) => Promise<formFieldValidationStatus>;
-export interface nestedFormProps {
+export interface formElementProps {
+    required?: boolean;
     property: string;
-    inline?: boolean;
-    instanceRef: MutableRefObject<any>;
     propertyInfo: PropertyDefinitionRef;
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>;
+    instanceRef: MutableRefObject<any>;
+    rootSchema: RootSchemaObject;
+    objectSchema: SchemaObjectDefinition;
     onChange: formFieldChangeEvent;
+}
+export interface nestedFormProps {
+    required?: boolean;
+    inline?: boolean;
+    property: string;
+    propertyInfo: PropertyDefinitionRef;
+    instanceRef: MutableRefObject<any>;
+    objectSchema: SchemaObjectDefinition;
+    rootSchema: RootSchemaObject;
+    onChange: formFieldChangeEvent;
+    showFields?: string[];
+    hiddenFields?: string[];
+    lockedFields?: string[];
+    customTitleFunction?: (value: any) => string;
+    customComponentMap?: Record<string, React.FC<nestedFormProps>>;
 }
 export declare type formFieldStatus = "valid" | "invalid" | "unknown" | "empty";
 declare const AppForm: React.FC<formNodeProps>;

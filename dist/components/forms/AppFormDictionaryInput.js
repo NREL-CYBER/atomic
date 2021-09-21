@@ -7,10 +7,10 @@ import { prettyTitle } from "../../util";
 import { findShortestValue } from "../AppFormArrayInput";
 import { inputStatusColorMap } from "../AppFormInput";
 import { findSubSchema } from './AppForm';
-
 /**
  * Component for input that displays validation errors
  */
+
 const AppFormDictionaryInput = props => {
   console.log(props.propertyInfo); //destructure props
 

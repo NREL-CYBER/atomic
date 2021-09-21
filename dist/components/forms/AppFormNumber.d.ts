@@ -1,14 +1,6 @@
-import { MutableRefObject } from 'react';
-import { PropertyDefinitionRef } from 'validator';
-import { formFieldChangeEvent } from './AppForm';
-interface formInputProps {
-    propertyInfo: PropertyDefinitionRef;
-    property: string;
-    instanceRef: MutableRefObject<any>;
-    onChange: formFieldChangeEvent;
-}
+import { formElementProps } from './AppForm';
 /**
  * Component for input that displays validation errors
  */
-declare const AppFormNumber: (props: formInputProps) => JSX.Element;
+declare const AppFormNumber: (props: formElementProps) => JSX.Element;
 export default AppFormNumber;

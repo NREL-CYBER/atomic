@@ -1,11 +1,10 @@
-import { AppChip } from 'atomic';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AppCol } from '.';
 import { prettyTitle } from '../util';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
-import AppText from './AppText';
 import AppTextArea from './AppTextArea';
+import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
+import { AppFormLabel } from './forms/AppFormLabel';
 export const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",
@@ -22,7 +21,8 @@ const AppFormInput = props => {
     instanceRef,
     input,
     onChange,
-    propertyInfo
+    propertyInfo,
+    required
   } = props;
   const {
     description
@@ -75,12 +75,11 @@ const AppFormInput = props => {
   const inputMode = calculateType();
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     lines: "none"
-  }, /*#__PURE__*/React.createElement(AppCol, {
-    size: "6"
-  }, /*#__PURE__*/React.createElement(AppText, {
-    size: 11,
-    color: statusColor
-  }, propertyFormattedName)), useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ? /*#__PURE__*/React.createElement(AppInput, {
+  }, /*#__PURE__*/React.createElement(AppFormLabel, {
+    name: propertyFormattedName,
+    color: statusColor,
+    required: required
+  }), useMemo(() => /*#__PURE__*/React.createElement(React.Fragment, null, property === "name" || property === "title" || input === "line" || inputMode === "email" || inputMode === "password" || inputMode === "time" || inputMode === "date" ? /*#__PURE__*/React.createElement(AppInput, {
     color: "dark",
     type: inputMode,
     value: value,
@@ -97,11 +96,9 @@ const AppFormInput = props => {
     onTextChange: val => {
       setValue(val); // eslint-disable-next-line react-hooks/exhaustive-deps
     }
-  })), [input])), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, {
-    color: "danger"
-  }, errors.map((error, i) => /*#__PURE__*/React.createElement(AppText, {
-    key: i
-  }, error)))));
+  })), [input])), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+    errors: errors
+  }));
 };
 
 export default AppFormInput;

@@ -1,14 +1,6 @@
-import { MutableRefObject } from 'react';
-import { PropertyDefinitionRef } from 'validator';
-import { formFieldChangeEvent } from './forms/AppForm';
-interface formToggleProps<T> {
-    property: string;
-    propertyInfo: PropertyDefinitionRef;
-    instanceRef: MutableRefObject<T>;
-    onChange: formFieldChangeEvent;
-}
+import { formElementProps } from './forms/AppForm';
 /**
  * Component for toggle that displays validation errors
  */
-declare const AppFormToggle: (props: formToggleProps<any>) => JSX.Element;
+declare const AppFormToggle: (props: formElementProps) => JSX.Element;
 export default AppFormToggle;

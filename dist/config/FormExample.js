@@ -9,7 +9,7 @@ const ExampleForm = () => {
     schema,
     insert,
     all
-  } = useAddress.getState();
+  } = useAddress();
   const [status, setStatus] = useState("idle");
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
     objectSchema: schema.definitions.address,

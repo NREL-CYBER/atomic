@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { AppItem, AppLabel, AppText } from '..';
+import { AppItem, AppLabel } from '..';
 import { prettyTitle } from '../../util';
 import { AppDateTime } from '../AppDateTime';
 import { inputStatusColorMap } from '../AppFormInput';
+import { AppFormErrorsItem } from './AppFormErrorsItem';
 
 /**
  * Component for input that displays validation errors
@@ -44,12 +45,9 @@ const AppFormDateTimePicker = props => {
     onDateEntered: val => {
       format === "date-time" ? setValue(val) : setValue(val.split("T")[0]);
     }
-  })), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
-    color: "danger"
-  }, errors.map((error, i) => /*#__PURE__*/React.createElement(AppText, {
-    key: i
-  }, error)))));
+  })), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+    errors: errors
+  }));
 };
 
 export default AppFormDateTimePicker;

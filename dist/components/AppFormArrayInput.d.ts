@@ -2,6 +2,7 @@ import React, { MutableRefObject } from 'react';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
 interface formInputProps {
+    required?: boolean;
     inline?: boolean;
     property: string;
     propertyInfo: PropertyDefinitionRef;

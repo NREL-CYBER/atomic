@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { AppCol } from 'atomic';
 import React, { useEffect, useMemo, useState } from 'react';
-import { AppItem, AppLabel, AppText } from '..';
+import { AppItem } from '..';
 import { prettyTitle } from '../../util';
 import { inputStatusColorMap } from '../AppFormInput';
 import AppInput from '../AppInput';
+import { AppFormErrorsItem } from './AppFormErrorsItem';
+import { AppFormLabel } from './AppFormLabel';
 
 /**
  * Component for input that displays validation errors
@@ -14,7 +15,8 @@ const AppFormInteger = props => {
     property,
     instanceRef,
     onChange,
-    propertyInfo
+    propertyInfo,
+    required
   } = props;
   const [errors, setErrors] = useState([]);
   const [inputStatus, setInputStatus] = useState("empty");
@@ -37,12 +39,11 @@ const AppFormInteger = props => {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear",
     lines: "none"
-  }, /*#__PURE__*/React.createElement(AppCol, {
-    size: "6"
-  }, /*#__PURE__*/React.createElement(AppText, {
-    size: 11,
+  }, /*#__PURE__*/React.createElement(AppFormLabel, {
+    required: required,
+    name: propertyFormattedName,
     color: statusColor
-  }, propertyFormattedName)), useMemo(() => /*#__PURE__*/React.createElement(AppInput, {
+  }), useMemo(() => /*#__PURE__*/React.createElement(AppInput, {
     min: propertyInfo?.minumum,
     max: propertyInfo?.maximum,
     type: "number",
@@ -51,12 +52,9 @@ const AppFormInteger = props => {
     onInputChange: val => {
       setValue(val);
     }
-  }), [])), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
-    color: "danger"
-  }, errors.map((error, i) => /*#__PURE__*/React.createElement(AppText, {
-    key: i
-  }, error)))));
+  }), [])), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+    errors: errors
+  }));
 };
 
 export default AppFormInteger;

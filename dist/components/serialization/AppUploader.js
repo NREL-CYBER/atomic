@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
-import { AppButtons, AppChip, AppItem, AppLabel } from '..';
+import { AppButtons, AppChip, AppItem } from '..';
 import { prettyTitle } from '../../util';
 import AppText from '../AppText';
 import { byteArrayToBase64 } from '../../util/binaryToBase64';
+import { AppFormLabel } from '../forms/AppFormLabel';
 
 /**
  * Upload Component 
  */
 const AppUploader = ({
   accept,
+  required,
   description,
   title,
   onFileReceived,
@@ -43,12 +45,11 @@ const AppUploader = ({
     onFileReceived(meta, byteArrayToBase64(new Uint8Array(fileBuffer)));
   };
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "start"
-  }, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppFormLabel, {
+    required: required,
+    name: propertyFormattedName,
     color: statusColor
-  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, {
+  }), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppChip, {
     color: statusColor

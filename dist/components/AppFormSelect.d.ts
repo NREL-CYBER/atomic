@@ -8,6 +8,7 @@ export interface formSelectInputProps {
         enum: string[];
     };
     instanceRef: MutableRefObject<any>;
+    required?: boolean;
     onChange: formFieldChangeEvent;
 }
 /**

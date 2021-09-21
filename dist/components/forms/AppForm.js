@@ -88,7 +88,6 @@ const AppForm = props => {
     const property = data.property;
     const resolve = deferedValidationPromises[uuid];
     setIsValid(allErrors.length === 0);
-    console.log(allErrors);
     const parsedErrors = allErrors.map(x => "" + (x.instancePath.split("/").join("").length > 0 ? "'" + x.instancePath.split("/").join("") + "'" : "'" + x.params?.missingProperty + "'") + " " + x.keyword + " " + x.message);
     const propertyErrors = parsedErrors.filter(x => x.includes("'" + property + "'"));
     const otherErrors = parsedErrors.filter(x => !x.includes("'" + property + "'"));
@@ -202,6 +201,7 @@ const AppForm = props => {
   };
 
   const FormElement = ({
+    required,
     instanceRef,
     property,
     rootSchema,
@@ -248,7 +248,9 @@ const AppForm = props => {
         onChange: handleInputReceived,
         property,
         propertyInfo,
-        children
+        children,
+        objectSchema,
+        rootSchema
       });
     } // Custom component by property identifier
 
@@ -260,13 +262,18 @@ const AppForm = props => {
         onChange: handleInputReceived,
         property,
         propertyInfo,
-        children
+        children,
+        objectSchema,
+        rootSchema
       });
     }
 
     if ("enum" in propertyInfo) {
       if (propertyInfo["type"] === "array") {
         return /*#__PURE__*/React.createElement(AppFormSelectArray, {
+          rootSchema: rootSchema,
+          objectSchema: objectSchema,
+          required: required,
           instanceRef: instanceRef,
           propertyInfo: propertyInfo,
           property: property,
@@ -275,6 +282,7 @@ const AppForm = props => {
         });
       } else {
         return /*#__PURE__*/React.createElement(AppFormSelect, {
+          required: required,
           instanceRef: instanceRef,
           propertyInfo: propertyInfo,
           property: property,
@@ -286,6 +294,9 @@ const AppForm = props => {
 
     if (propertyType === "boolean") {
       return /*#__PURE__*/React.createElement(AppFormToggle, {
+        rootSchema: rootSchema,
+        objectSchema: objectSchema,
+        required: required,
         instanceRef: instanceRef,
         propertyInfo: refPropertyInfo,
         property: property,
@@ -296,6 +307,8 @@ const AppForm = props => {
 
     if (propertyType === "string" && propertyFormat && propertyFormat.includes("date")) {
       return /*#__PURE__*/React.createElement(AppFormDateTimePicker, {
+        rootSchema: rootSchema,
+        objectSchema: objectSchema,
         format: propertyFormat,
         instanceRef: instanceRef,
         propertyInfo: refPropertyInfo,
@@ -317,6 +330,9 @@ const AppForm = props => {
 
     if (propertyType === "number") {
       return /*#__PURE__*/React.createElement(AppFormNumber, {
+        rootSchema: rootSchema,
+        objectSchema: objectSchema,
+        required: required,
         instanceRef: instanceRef,
         propertyInfo: refPropertyInfo,
         property: property,
@@ -328,6 +344,7 @@ const AppForm = props => {
     if (propertyType === "array") {
       return typeof propertyInfo.items?.anyOf === "undefined" ? /*#__PURE__*/React.createElement(AppFormArrayInput, {
         rootSchema: rootSchema,
+        required: required,
         objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
         onChange: handleInputReceived,
         instanceRef: instanceRef,
@@ -339,6 +356,7 @@ const AppForm = props => {
         customComponentMap: customComponentMap,
         key: property
       }) : /*#__PURE__*/React.createElement(AppFormAnyOfArrayInput, {
+        required: required,
         rootSchema: rootSchema,
         objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
         onChange: handleInputReceived,
@@ -355,6 +373,7 @@ const AppForm = props => {
 
     if (propertyType === "object" && !propertyInfo.properties && propertyInfo.additionalProperties && propertyInfo.additionalProperties.allOf) {
       return /*#__PURE__*/React.createElement(AppFormDictionaryInput, {
+        required: required,
         onChange: handleInputReceived,
         instanceRef: instanceRef,
         customComponentMap: customComponentMap,
@@ -371,6 +390,9 @@ const AppForm = props => {
 
     if (propertyType === "string") {
       return /*#__PURE__*/React.createElement(AppFormInput, {
+        objectSchema: objectSchema,
+        rootSchema: rootSchema,
+        required: required,
         input: "text",
         propertyInfo: propertyInfo,
         instanceRef: instanceRef,
@@ -382,6 +404,9 @@ const AppForm = props => {
 
     if (propertyType === "object") {
       return /*#__PURE__*/React.createElement(ComposeNestedFormElement, {
+        objectSchema: objectSchema,
+        rootSchema: rootSchema,
+        required: required,
         inline: inlineFields && inlineFields.includes(property),
         onChange: handleInputReceived,
         customComponentMap: customComponentMap,
@@ -406,6 +431,8 @@ const AppForm = props => {
       key: property
     });
     return /*#__PURE__*/React.createElement(FormElement, {
+      propertyInfo: objectSchema.properties[property],
+      required: true,
       rootSchema: rootSchema,
       objectSchema: objectSchema,
       key: property,
@@ -433,12 +460,16 @@ const AppForm = props => {
   }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), objectSchema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
+    rootSchema: rootSchema,
+    objectSchema: objectSchema,
     propertyInfo: objectSchema,
     property: objectSchema.title || "",
     input: "text",
     instanceRef: instance,
     onChange: handleInputReceived
   })), objectSchema.type === "boolean" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormToggle, {
+    rootSchema: rootSchema,
+    objectSchema: objectSchema,
     propertyInfo: objectSchema,
     property: objectSchema.title || "",
     instanceRef: instance,
@@ -472,6 +503,8 @@ const AppForm = props => {
       key: property
     });
     return /*#__PURE__*/React.createElement(FormElement, {
+      propertyInfo: objectSchema.properties[property],
+      required: false,
       rootSchema: rootSchema,
       objectSchema: objectSchema,
       key: property,

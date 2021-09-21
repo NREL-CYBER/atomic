@@ -6,6 +6,7 @@ interface formInputProps {
     property: string;
     instanceRef: MutableRefObject<any>;
     onChange: formFieldChangeEvent;
+    required?: boolean;
 }
 /**
  * Component for input that displays validation errors

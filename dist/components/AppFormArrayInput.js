@@ -1,11 +1,12 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { useCallback, useMemo, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppText } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema } from './forms/AppForm';
+import { AppFormLabel } from "./forms/AppFormLabel";
 export const findShortestValue = val => {
   /**This looks like vooodooo, but it is just displaying the value 
                    * that is the shortest, which is usually the title || name */
@@ -34,6 +35,7 @@ const AppFormArrayInput = props => {
     hiddenFields,
     lockedFields,
     showFields,
+    required,
     objectSchema,
     rootSchema,
     customItemComponent
@@ -77,18 +79,15 @@ const AppFormArrayInput = props => {
     setIsInsertingItem(false);
     selectedItemData && onSubmitItem(selectedItemData);
   }, [onSubmitItem, selectedItemData]);
-  return /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppToolbar, {
-    color: "clear"
-  }, /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "start"
-  }, /*#__PURE__*/React.createElement(AppButton, {
-    fill: "clear",
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppFormLabel, {
+    required: required,
     onClick: () => {
       beginInsertItem();
       setSelectedItemData(undefined);
     },
+    name: propertyFormattedName,
     color: inputStatusColor
-  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && value.map((val, i) => {
+  }), /*#__PURE__*/React.createElement(AppButtons, null, value && value.filter(Boolean).map((val, i) => {
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
       onClick: () => removeAndbeginInsert(val)

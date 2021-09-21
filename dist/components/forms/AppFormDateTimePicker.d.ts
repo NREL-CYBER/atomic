@@ -1,15 +1,9 @@
-import { MutableRefObject } from 'react';
-import { PropertyDefinitionRef } from 'validator';
-import { formFieldChangeEvent } from './AppForm';
-interface formInputProps {
-    propertyInfo: PropertyDefinitionRef;
-    property: string;
-    instanceRef: MutableRefObject<any>;
-    onChange: formFieldChangeEvent;
+import { formElementProps } from './AppForm';
+interface formDateTimePickerProps extends formElementProps {
     format?: string;
 }
 /**
  * Component for input that displays validation errors
  */
-declare const AppFormDateTimePicker: (props: formInputProps) => JSX.Element;
+declare const AppFormDateTimePicker: (props: formDateTimePickerProps) => JSX.Element;
 export default AppFormDateTimePicker;

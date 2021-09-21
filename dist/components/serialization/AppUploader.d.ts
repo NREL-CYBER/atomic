@@ -3,6 +3,7 @@ import { IFileWithMeta, IMeta, IUploadParams } from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
 export declare type AppFill = "clear" | "outline" | "solid" | "default" | undefined;
 export interface uploaderProps {
+    required?: boolean;
     title: string;
     description: string;
     file?: File;

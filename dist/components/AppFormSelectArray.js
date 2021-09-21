@@ -3,9 +3,9 @@ import { AppSelectArray } from '.';
 import { prettyTitle } from '../util';
 import { inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
-import AppLabel from './AppLabel';
 import AppSelectOption from './AppSelectOption';
-import AppText from './AppText';
+import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
+import { AppFormLabel } from './forms/AppFormLabel';
 
 /**
  * Component for input that displays validation errors
@@ -42,10 +42,10 @@ const AppFormSelectArray = props => {
       setErrors(validationErrors);
     });
   }, [onChange, property]);
-  return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
-    color: inputStatusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppSelectArray, {
+  return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppFormLabel, {
+    color: inputStatusColor,
+    name: propertyFormattedName
+  }), /*#__PURE__*/React.createElement(AppSelectArray, {
     multiple: multiple,
     value: value,
     placeholder: propertyFormattedName,
@@ -56,10 +56,9 @@ const AppFormSelectArray = props => {
     key: enumValue,
     value: enumValue,
     children: prettyTitle(enumValue)
-  }))), /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
-    color: "danger"
-  }, errors && errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error))));
+  }))), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+    errors: errors
+  }));
 };
 
 export default AppFormSelectArray;

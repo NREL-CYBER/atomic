@@ -1,14 +1,10 @@
-import { MutableRefObject } from 'react';
-import { formFieldChangeEvent } from './forms/AppForm';
-export interface formSelectArrayInputProps {
-    property: string;
+import { formElementProps } from './forms/AppForm';
+export interface formSelectArrayInputProps extends formElementProps {
     propertyInfo: {
         title: string;
         description: string;
         enum: string[];
     };
-    instanceRef: MutableRefObject<any>;
-    onChange: formFieldChangeEvent;
     multiple?: boolean;
 }
 /**

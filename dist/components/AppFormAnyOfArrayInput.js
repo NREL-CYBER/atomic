@@ -17,7 +17,6 @@ const AppFormAnyOfArrayInput = props => {
     property,
     instanceRef,
     onChange,
-    customTitleFunction,
     propertyInfo,
     customComponentMap,
     hiddenFields,
@@ -80,7 +79,7 @@ const AppFormAnyOfArrayInput = props => {
     return /*#__PURE__*/React.createElement(AppChip, {
       key: i,
       onClick: () => removeAndbeginInsert(val)
-    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val)));
+    }, /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val)));
   })), status === "selecting" && /*#__PURE__*/React.createElement(React.Fragment, null, propertyInfo.items.anyOf.map(x => /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setSelectedType(x);
