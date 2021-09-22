@@ -25,20 +25,31 @@
   }
 
 
-  ion-split-pane > ion-list
-  {
-    min-width: 60px; 
-    max-width: 60px; 
+
+
+  ion-split-pane>ion-list {
+    min-width: 60px !important;
+    max-width: 60px !important;
     transition: all 1s ease-in-out;
     overflow: hidden;
   }
-  ion-split-pane > ion-list:hover
-{
-  transition: all 1s ease-in-out;
-  min-width: 270px; 
-  max-width: 270px; 
-}
 
+  ion-split-pane>ion-list>ion-label {
+    word-wrap: normal !important;
+    background-color: aqua !important;
+  }
+
+  ion-split-pane>ion-list>ion-item>ion-buttons>ion-label {
+    overflow: hidden !important;
+    white-space: pre!important;
+    width: 200px;
+  }
+
+  ion-split-pane>ion-list:hover {
+    transition: all 1s ease-in-out;
+    min-width: 270px !important;
+    max-width: 270px !important;
+  }
 /*
 * Atomic Colors
 * ----------------------------------------------------------------------------
