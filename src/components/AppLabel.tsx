@@ -12,6 +12,6 @@ interface labelProps {
  * A text label
  */
 const AppLabel: React.FC<labelProps> = (props) => {
-    return <IonLabel style={{ paddingLeft: 5 }} {...props} />
+    return <IonLabel className="ion-text-wrap" style={{ paddingLeft: 5 }} {...props} />
 };
 export default AppLabel;

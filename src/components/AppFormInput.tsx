@@ -1,11 +1,8 @@
-import { AppButtons, AppChip } from 'atomic';
 import React, { useEffect, useMemo, useState } from 'react';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
-import AppButton from './AppButton';
 import AppInput from './AppInput';
 import AppItem from './AppItem';
-import AppText from './AppText';
 import AppTextArea from './AppTextArea';
 import { formElementProps } from './forms/AppForm';
 import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
@@ -84,7 +81,7 @@ const AppFormInput = (props: formInputProps) => {
 
     const inputMode = calculateType();
     return <>
-        <AppItem lines="none">
+        <AppItem >
             <AppFormLabel name={propertyFormattedName}
                 color={statusColor}
                 required={required}

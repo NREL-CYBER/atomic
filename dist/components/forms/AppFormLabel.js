@@ -1,5 +1,4 @@
-import { AppButtons, AppCol } from "atomic";
-import AppButton from "../AppButton";
+import { AppLabel } from "atomic";
 import React from "react";
 export const AppFormLabel = ({
   name,
@@ -9,22 +8,13 @@ export const AppFormLabel = ({
   onClick
 }) => /*#__PURE__*/React.createElement("span", {
   style: {
-    minWidth: 200
+    minWidth: 200,
+    fontSize: 11
   }
-}, /*#__PURE__*/React.createElement(AppButtons, {
-  slot: "start"
-}, /*#__PURE__*/React.createElement(AppCol, {
-  size: "6"
-}, /*#__PURE__*/React.createElement(AppButton, {
-  fill: "clear",
-  disabled: typeof onClick === "undefined",
-  onClick: onClick,
+}, /*#__PURE__*/React.createElement(AppLabel, {
   color: color
-}, name, required && color !== "favorite" && /*#__PURE__*/React.createElement("span", {
+}, required && color !== "favorite" && /*#__PURE__*/React.createElement("span", {
   style: {
-    "color": "crimson",
-    left: -7,
-    top: 5,
-    "position": "absolute"
+    color: "red"
   }
-}, "*")))));
+}, "*"), "            ", name));

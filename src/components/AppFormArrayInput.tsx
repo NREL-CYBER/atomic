@@ -1,5 +1,5 @@
 import produce from "immer";
-import { addOutline } from 'ionicons/icons';
+import { addOutline, closeOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useCallback, useMemo, useState } from 'react';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
@@ -8,6 +8,7 @@ import prettyTitle from '../util/prettyTitle';
 import AppBadge from "./AppBadge";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
+import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
 import { AppFormLabel } from "./forms/AppFormLabel";
 
 
@@ -58,20 +59,18 @@ const AppFormArrayInput = (props: formInputProps) => {
     const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length > 0 ? "valid" : "empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<any[]>(existing_data)
-    const [selectedItemData, setSelectedItemData] = useState<any>({})
+    const [edittingItemIndex, setEditingItemIndex] = useState<number | undefined>()
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
         if (typeof (value) === "undefined") {
             setValue([])
         };
-        setSelectedItemData(val);
         setIsInsertingItem(true)
     };
-    const removeAndbeginInsert = (val: any) => {
-        const valueRemoved = remove<unknown>((item) => item === val, value);
-        setValue(valueRemoved);
-        beginInsertItem(val);
+    const editItem = (index: number) => {
+        setEditingItemIndex(index);
+        beginInsertItem();
     }
 
     const onSubmitItem = useCallback(async (item: any) => {
@@ -87,59 +86,60 @@ const AppFormArrayInput = (props: formInputProps) => {
 
     const onBackPressed = useCallback(() => {
         setIsInsertingItem(false);
-        selectedItemData && onSubmitItem(selectedItemData);
-    }, [onSubmitItem, selectedItemData])
+    }, [])
     return <>
-        <AppItem>
+        <AppItem href={"javascript:void(0)"} onClick={() => {
+            beginInsertItem()
+        }}>
             <AppFormLabel required={required} onClick={() => {
                 beginInsertItem()
-                setSelectedItemData(undefined);
             }} name={propertyFormattedName} color={inputStatusColor} />
-            <AppButtons>
-                {value && value.filter(Boolean).map((val, i) => {
-                    return <AppChip key={i} onClick={() => removeAndbeginInsert(val)}>
-                        {customTitleFunction ? customTitleFunction(val) : <>
-                            {typeof val === "string" && val}
-                            {typeof val === "object" && findShortestValue(val)}
-                        </>}
-                    </AppChip>
-                })}
-            </AppButtons>
             <AppButtons slot="end">
                 <AppButton onClick={() => { beginInsertItem() }} fill='solid' color={"primary"} >
                     <AppIcon icon={addOutline} />
                 </AppButton>
             </AppButtons>
-            <div hidden={!isInsertingItem}>
-                {<AppModal isOpen={isInsertingItem} onDismiss={() =>
-                    setIsInsertingItem(false)
-                }>
-                    <AppContent>
-                        {useMemo(() => customItemComponent ? customItemComponent : <AppFormComposer
-                            showFields={showFields}
-                            hiddenFields={hiddenFields}
-                            lockedFields={lockedFields}
-                            customComponentMap={customComponentMap}
-                            rootSchema={rootSchema}
-                            objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
-                            data={{ ...selectedItemData }}
-                            onSubmit={onSubmitItem} >
-                            <AppBackButton onClick={onBackPressed} />
-                        </AppFormComposer>, [customComponentMap, customItemComponent, selectedItemData, hiddenFields, lockedFields, objectSchema, onBackPressed, onSubmitItem, propertyInfo, rootSchema, showFields])}
-                    </AppContent>
-                </AppModal>}
-            </div>
         </AppItem>
-        {
-            errors && errors.length > 0 && < AppItem >
+        <div hidden={!isInsertingItem}>
+            {<AppModal isOpen={isInsertingItem} onDismiss={() =>
+                onBackPressed()
+            }>
+                <AppContent>
+                    {useMemo(() => customItemComponent ? customItemComponent : <AppFormComposer
+                        showFields={showFields}
+                        hiddenFields={hiddenFields}
+                        lockedFields={lockedFields}
+                        customComponentMap={customComponentMap}
+                        rootSchema={rootSchema}
+                        objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
+                        data={typeof edittingItemIndex !== "undefined" ? value[edittingItemIndex] : {}}
+                        onSubmit={onSubmitItem} >
+                        <AppBackButton onClick={() => onBackPressed()} />
+                    </AppFormComposer>, [customItemComponent, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, propertyInfo, edittingItemIndex, value, onSubmitItem, onBackPressed])}
+                </AppContent>
+            </AppModal>}
+        </div>
+        {value && value.filter(Boolean).map((val, i) => {
+            return <AppItem >
+                <AppButtons slot="start">
 
-                <AppLabel position='stacked' color='danger'>
-                    {errors.map(error => <AppText>
-                        {error}
-                    </AppText>)}
-                </AppLabel>
+                </AppButtons>
+                <AppChip key={i} onClick={() => editItem(i)}>
+                    {customTitleFunction ? customTitleFunction(val) : <>
+                        {typeof val === "string" && val}
+                        {typeof val === "object" && findShortestValue(val)}
+                    </>}
+                </AppChip>
+                <AppButtons slot="end">
+                    <AppButton onClick={() => {
+                        setValue(x => x.map((_, index) => i !== index));
+                    }}>
+                        <AppIcon icon={closeOutline} />
+                    </AppButton>
+                </AppButtons>
             </AppItem>
-        }
+        })}
+        <AppFormErrorsItem errors={errors} />
     </ >
 }
 

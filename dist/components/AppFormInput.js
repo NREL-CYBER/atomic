@@ -73,9 +73,7 @@ const AppFormInput = props => {
   }, [input, onChange, property, value]);
   const statusColor = inputStatusColorMap[inputStatus];
   const inputMode = calculateType();
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
-    lines: "none"
-  }, /*#__PURE__*/React.createElement(AppFormLabel, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppFormLabel, {
     name: propertyFormattedName,
     color: statusColor,
     required: required

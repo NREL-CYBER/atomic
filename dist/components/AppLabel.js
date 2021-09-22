@@ -8,6 +8,7 @@ import React from 'react';
  */
 const AppLabel = props => {
   return /*#__PURE__*/React.createElement(IonLabel, _extends({
+    className: "ion-text-wrap",
     style: {
       paddingLeft: 5
     }
