@@ -28,9 +28,11 @@ const AppSubMenu = ({
       color: currentPathStatusColor,
       slot: "start",
       icon: p.icon
-    })), /*#__PURE__*/React.createElement(AppLabel, {
+    })), /*#__PURE__*/React.createElement(AppButtons, {
+      slot: "start"
+    }, /*#__PURE__*/React.createElement(AppLabel, {
       color: currentPathStatusColor
-    }, p.title));
+    }, p.title)));
   }));
 };
 

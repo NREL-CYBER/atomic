@@ -30,8 +30,7 @@ const ExampleConfig = {
   mainMenu: {
     sections: {
       example: routes.filter(x => x.path !== "/")
-    },
-    fixed: true
+    }
   },
   darkMode: false,
   bottomBar: {

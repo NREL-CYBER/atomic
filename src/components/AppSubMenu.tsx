@@ -28,7 +28,9 @@ const AppSubMenu: React.FC<SubMenuProps> = ({ pages }) => {
                 <AppButtons slot="start">
                     <AppIcon color={currentPathStatusColor} slot="start" icon={p.icon} />
                 </AppButtons>
-                <AppLabel color={currentPathStatusColor} >{p.title}</AppLabel>
+                <AppButtons slot="start">
+                    <AppLabel color={currentPathStatusColor} >{p.title}</AppLabel>
+                </AppButtons>
             </AppItem>
         }
         )}</>
