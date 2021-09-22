@@ -1,5 +1,6 @@
 import produce from "immer";
 import { addOutline, closeOutline } from 'ionicons/icons';
+import { isArray } from "lodash";
 import React, { MutableRefObject, useCallback, useMemo, useState } from 'react';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
@@ -33,11 +34,14 @@ interface formInputProps {
 export const findShortestValue = (val: any) => {
     /**This looks like vooodooo, but it is just displaying the value 
                      * that is the shortest, which is usually the title || name */
-    const standard_values = ["name", "title"]
+    const standard_values = ["name", "title", "id"]
     const keys = Object.keys(val);
     const standard_keys = keys.filter((k) => standard_values.includes(k))
     if (standard_keys.length > 0) {
         return val[standard_keys[0]];
+    }
+    if (isArray(val['values'])) {
+        return val['values'].map(x => String(x)).join(' ')
     }
     return String(
         Object
