@@ -2,10 +2,9 @@ import produce from "immer";
 import { addOutline, closeOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useCallback, useMemo, useState } from 'react';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
-import { remove, removeAtIndex } from '../util';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
+import { removeAtIndex, isUndefined } from '../util';
 import prettyTitle from '../util/prettyTitle';
-import AppBadge from "./AppBadge";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
@@ -63,7 +62,7 @@ const AppFormArrayInput = (props: formInputProps) => {
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
-        if (typeof (value) === "undefined") {
+        if (isUndefined(value)) {
             setValue([])
         };
         setIsInsertingItem(true)
@@ -75,20 +74,25 @@ const AppFormArrayInput = (props: formInputProps) => {
 
     const onSubmitItem = useCallback(async (item: any) => {
         const newValue = produce(value, (draftValue) => {
-            draftValue.push(item);
+            if (typeof edittingItemIndex !== "undefined") {
+                draftValue[edittingItemIndex] = item
+            } else {
+                draftValue.push(item);
+            }
         });
         const [validationStatus, errors] = await onChange(property, newValue);
         setIsInsertingItem(false);
         setValue(newValue);
         setInputStatus(validationStatus);
         setErrors(errors);
-    }, [onChange, property, value])
+        setEditingItemIndex(undefined);
+    }, [edittingItemIndex, onChange, property, value])
 
     const onBackPressed = useCallback(() => {
         setIsInsertingItem(false);
     }, [])
     return <>
-        <AppItem href={"javascript:void(0)"} onClick={() => {
+        <AppItem href={"javascript:void(0)"} onClick={(e) => {
             beginInsertItem()
         }}>
             <AppFormLabel required={required} onClick={() => {
@@ -120,18 +124,22 @@ const AppFormArrayInput = (props: formInputProps) => {
             </AppModal>}
         </div>
         {value && value.filter(Boolean).map((val, i) => {
-            return <AppItem >
+            return <AppItem href={"javascript:void(0)"} onClick={(e) => {
+                const isCloseButton = (e.target as any).className.split(' ').includes("close-button")
+                if (!isCloseButton) {
+                    editItem(i)
+                }
+            }} lines="full">
                 <AppButtons slot="start">
-
                 </AppButtons>
-                <AppChip key={i} onClick={() => editItem(i)}>
+                <AppChip key={i} >
                     {customTitleFunction ? customTitleFunction(val) : <>
                         {typeof val === "string" && val}
                         {typeof val === "object" && findShortestValue(val)}
                     </>}
                 </AppChip>
                 <AppButtons slot="end">
-                    <AppButton onClick={() => {
+                    <AppButton className={"close-button"} onClick={() => {
                         setValue(x => removeAtIndex(i, x));
                     }}>
                         <AppIcon icon={closeOutline} />

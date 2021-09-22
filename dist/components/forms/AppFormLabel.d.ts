@@ -1,8 +1,8 @@
 import { AppColor } from "atomic";
-import React from "react";
+import React, { MouseEventHandler } from "react";
 export declare const AppFormLabel: React.FC<{
     name: string;
-    onClick?: () => void;
+    onClick?: MouseEventHandler;
     color: AppColor;
     info?: string;
     required?: boolean;

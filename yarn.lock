@@ -1545,10 +1545,10 @@
   resolved "https://registry.yarnpkg.com/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha512-wdppn25U8z/2yiaT6YGquE6X8sSv7hNMWSXYSSU1jGv/yd6XqjXgTDJ8KP4NgjTXfJ3GbRjeeb8RTV7a/VpM+w==
 
-"@ionic/core@5.6.13", "@ionic/core@^5.6.7":
-  version "5.6.13"
-  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-5.6.13.tgz#59eedc1208008c2eca536da6d0f67f4a00bb1546"
-  integrity sha512-stN80Q4zdLT7pmUoNNqp+lVjTIhcLSjDN2rzP/gYz8YAkz1L5AB2CkudD5VHWFTBbAEsylih34gAMOrygVNoJQ==
+"@ionic/core@5.8.1", "@ionic/core@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@ionic/core/-/core-5.8.1.tgz#9f0b4869d3e7010103b7107b77040e6a55b03cb8"
+  integrity sha512-twAPHhrGMYvHW0NgebMBfN70xDUkFxW+Zcxeus7jrhuJh1uWp/3MwawLi4InCwpyuFQiBo8yAaqC1hB1wTZmLA==
   dependencies:
     "@stencil/core" "^2.4.0"
     ionicons "^5.5.3"
@@ -1561,12 +1561,12 @@
   dependencies:
     tslib "*"
 
-"@ionic/react@^5.6.7":
-  version "5.6.13"
-  resolved "https://registry.yarnpkg.com/@ionic/react/-/react-5.6.13.tgz#c583738c990d4540f2fb1554be11e54adf89c612"
-  integrity sha512-WjsPeA1eFZaX6efrS7b6uAqM2e+ZKvdPfS6ZcjqxCv1NKpsi7bPy1muJbyC5fjvnIRZJU+IPONhzv+tvQZHDAA==
+"@ionic/react@^5.8.1":
+  version "5.8.1"
+  resolved "https://registry.yarnpkg.com/@ionic/react/-/react-5.8.1.tgz#7d3f333a712143beed1e751305ad634eb3005f12"
+  integrity sha512-SjvNwtl4ASuWnWsFx6uvK1udOfITlonH29VAc6gZyFbV8AMa0o8RINI9HSnPZRiNORi9QK/WqAL2uauRTprDig==
   dependencies:
-    "@ionic/core" "5.6.13"
+    "@ionic/core" "5.8.1"
     ionicons "^5.1.2"
     tslib "*"
 
@@ -3546,6 +3546,16 @@ ajv-keywords@^3.1.0, ajv-keywords@^3.4.1, ajv-keywords@^3.5.2:
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-3.5.2.tgz#31f29da5ab6e00d1c2d329acf7b5929614d5014d"
   integrity sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
 
+"ajv@  ^7.1.1", ajv@^7.0.0, ajv@^7.2.1:
+  version "7.2.4"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.2.4.tgz#8e239d4d56cf884bccca8cca362f508446dc160f"
+  integrity sha512-nBeQgg/ZZA3u3SYxyaDvpvDtgZ/EZPF547ARgZBrG9Bhu1vKDwAIjtIf+sDtJUKa2zOcEbmRLBRSyMraS/Oy1A==
+  dependencies:
+    fast-deep-equal "^3.1.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+    uri-js "^4.2.2"
+
 ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2, ajv@^6.12.4, ajv@^6.12.5:
   version "6.12.6"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.6.tgz#baf5a62e802b07d977034586f8c3baf5adf26df4"
@@ -3554,16 +3564,6 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.2, ajv@^6.12.4, ajv@^6.12.5:
     fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
-    uri-js "^4.2.2"
-
-ajv@^7.0.0, ajv@^7.1.1, ajv@^7.2.1:
-  version "7.2.4"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.2.4.tgz#8e239d4d56cf884bccca8cca362f508446dc160f"
-  integrity sha512-nBeQgg/ZZA3u3SYxyaDvpvDtgZ/EZPF547ARgZBrG9Bhu1vKDwAIjtIf+sDtJUKa2zOcEbmRLBRSyMraS/Oy1A==
-  dependencies:
-    fast-deep-equal "^3.1.1"
-    json-schema-traverse "^1.0.0"
-    require-from-string "^2.0.2"
     uri-js "^4.2.2"
 
 ajv@^8.0.1:

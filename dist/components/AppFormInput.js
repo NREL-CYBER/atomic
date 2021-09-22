@@ -85,8 +85,12 @@ const AppFormInput = props => {
     onInputChange: val => {
       setValue(val);
     }
-  }) : /*#__PURE__*/React.createElement(AppTextArea, {
-    rows: property === "description" ? 5 : 2,
+  }) : /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: "100%"
+    }
+  }, /*#__PURE__*/React.createElement(AppTextArea, {
+    rows: property === "description" ? 5 : 3,
     placeholder: description,
     color: "dark",
     inputMode: inputMode || "text",
@@ -94,7 +98,7 @@ const AppFormInput = props => {
     onTextChange: val => {
       setValue(val); // eslint-disable-next-line react-hooks/exhaustive-deps
     }
-  })), [input])), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+  }))), [input])), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
     errors: errors
   }));
 };

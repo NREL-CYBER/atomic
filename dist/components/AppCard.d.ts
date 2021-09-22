@@ -1,4 +1,4 @@
-import React, { ReactFragment } from 'react';
+import React, { MouseEventHandler, ReactFragment } from 'react';
 import { AppColor } from '../theme/AppColor';
 interface cardProps {
     title?: ReactFragment;
@@ -8,7 +8,7 @@ interface cardProps {
     contentColor?: AppColor;
     headerColor?: AppColor;
     id?: string;
-    onClick?: () => void;
+    onClick?: MouseEventHandler;
 }
 /**
  * Provides an area with padding, and title

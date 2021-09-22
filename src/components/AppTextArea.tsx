@@ -19,7 +19,7 @@ interface textProps {
  * https://ionicframework.com/docs/api/textarea
  * As it says in ionic doc, this is not for inline children text, set the inner value by using the value param
  */
-const AppTextArea: React.FC<textProps> = ({ onTextChange, rows = 2, ...props }) => {
+const AppTextArea: React.FC<textProps> = ({ onTextChange, rows = 3, ...props }) => {
     return <IonTextarea
         debounce={100}
         rows={rows}

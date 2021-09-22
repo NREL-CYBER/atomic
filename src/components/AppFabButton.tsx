@@ -1,9 +1,9 @@
 import { IonFabButton } from '@ionic/react';
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
 
 interface itemProps {
-    onClick?: () => void
+    onClick?: MouseEventHandler
     disabled?: boolean
 }
 

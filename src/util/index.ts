@@ -6,6 +6,7 @@ import prettyTitle from "./prettyTitle"
 import { binaryToFileUri } from "./binaryToFileUri";
 import { openUri } from "./openUri";
 import { hash_sensitive_info } from "../components/AppLogin"
-export { remove, removeAtIndex, titleCase, unique, prettyTitle, binaryToFileUri, openUri, hash_sensitive_info };
+import { isDefined, isNull, isNumber, isObject, isUndefined } from "./isDefined";
+export { remove, removeAtIndex, isDefined, isNull, isNumber, isObject, isUndefined, titleCase, unique, prettyTitle, binaryToFileUri, openUri, hash_sensitive_info };
 export type { AppConfig };
 

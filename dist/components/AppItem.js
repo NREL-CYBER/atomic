@@ -18,6 +18,7 @@ import React from 'react';
  */
 const AppItem = props => {
   return /*#__PURE__*/React.createElement(IonItem, _extends({
+    onClick: () => {},
     lines: props.lines ? props.lines : "none",
     color: props.color ? props.color : "clear"
   }, props));

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { AppColor } from '../theme/AppColor';
 interface appToolbarProps {
     color?: AppColor;
     slot?: "top" | "bottom";
-    onClick?: () => void;
+    onClick?: MouseEventHandler;
 }
 /**
  * Toolbar component!

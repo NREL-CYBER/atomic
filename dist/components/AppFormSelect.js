@@ -1,6 +1,6 @@
 import { AppCol } from 'atomic';
 import React, { useCallback, useEffect, useState } from 'react';
-import { prettyTitle } from '../util';
+import { isUndefined, prettyTitle } from '../util';
 import titleCase from '../util/titleCase';
 import { inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
@@ -24,7 +24,7 @@ const AppFormSelect = props => {
   const [inputStatus, setInputStatus] = useState("empty");
   let instanceValue = instanceRef.current && instanceRef.current[property];
 
-  if (typeof instanceValue === "undefined") {
+  if (isUndefined(instanceValue)) {
     instanceRef.current[property] = "";
   }
 

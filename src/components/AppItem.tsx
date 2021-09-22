@@ -1,5 +1,5 @@
 import { IonItem } from '@ionic/react';
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { AppColor } from '../theme/AppColor';
 import { AppRoute } from '../core/routing';
 
@@ -7,7 +7,7 @@ import { AppRoute } from '../core/routing';
 interface itemProps {
     destination?: AppRoute
     color?: AppColor
-    onClick?: () => void
+    onClick?: MouseEventHandler
     detail?: boolean
     routerLink?: string
     href?: string
@@ -30,6 +30,6 @@ interface itemProps {
  * </AppItem>
  */
 const AppItem: React.FC<itemProps> = (props) => {
-    return <IonItem lines={props.lines ? props.lines : "none"} color={props.color ? props.color : "clear"} {...props} />
+    return <IonItem onClick={() => { }} lines={props.lines ? props.lines : "none"} color={props.color ? props.color : "clear"} {...props} />
 };
 export default AppItem;

@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { AppColor } from '../theme/AppColor';
 interface chipProps {
     color?: AppColor;
     className?: string;
-    onClick?: () => void;
+    onClick?: MouseEventHandler;
     style?: Record<string, any>;
 }
 /**

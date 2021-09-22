@@ -1,5 +1,6 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
+import { isUndefined } from "lodash";
 import React, { Suspense, useCallback, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
@@ -32,7 +33,7 @@ const AppFormAnyOfArrayInput = (props: formArrayOfInputProps) => {
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
-        if (typeof (value) === "undefined") {
+        if (isUndefined(value)) {
             setValue([])
         };
         setData(val);

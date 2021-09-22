@@ -11,7 +11,7 @@ import React from 'react';
  */
 const AppTextArea = ({
   onTextChange,
-  rows = 2,
+  rows = 3,
   ...props
 }) => {
   return /*#__PURE__*/React.createElement(IonTextarea, _extends({

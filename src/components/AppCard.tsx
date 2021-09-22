@@ -1,5 +1,5 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
-import React, { ReactFragment } from 'react';
+import React, { MouseEventHandler, ReactFragment } from 'react';
 import { AppColor } from '../theme/AppColor';
 import AppTitle from './AppTitle';
 
@@ -11,7 +11,7 @@ interface cardProps {
     contentColor?: AppColor
     headerColor?: AppColor
     id?: string
-    onClick?: () => void
+    onClick?: MouseEventHandler
 }
 
 /**

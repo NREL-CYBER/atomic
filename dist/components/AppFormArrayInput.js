@@ -2,7 +2,7 @@ import produce from "immer";
 import { addOutline, closeOutline } from 'ionicons/icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
-import { removeAtIndex } from '../util';
+import { removeAtIndex, isUndefined } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema } from './forms/AppForm';
@@ -51,7 +51,7 @@ const AppFormArrayInput = props => {
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
   const beginInsertItem = (val = {}) => {
-    if (typeof value === "undefined") {
+    if (isUndefined(value)) {
       setValue([]);
     }
 
@@ -66,20 +66,25 @@ const AppFormArrayInput = props => {
 
   const onSubmitItem = useCallback(async item => {
     const newValue = produce(value, draftValue => {
-      draftValue.push(item);
+      if (typeof edittingItemIndex !== "undefined") {
+        draftValue[edittingItemIndex] = item;
+      } else {
+        draftValue.push(item);
+      }
     });
     const [validationStatus, errors] = await onChange(property, newValue);
     setIsInsertingItem(false);
     setValue(newValue);
     setInputStatus(validationStatus);
     setErrors(errors);
-  }, [onChange, property, value]);
+    setEditingItemIndex(undefined);
+  }, [edittingItemIndex, onChange, property, value]);
   const onBackPressed = useCallback(() => {
     setIsInsertingItem(false);
   }, []);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     href: "javascript:void(0)",
-    onClick: () => {
+    onClick: e => {
       beginInsertItem();
     }
   }, /*#__PURE__*/React.createElement(AppFormLabel, {
@@ -116,14 +121,24 @@ const AppFormArrayInput = props => {
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => onBackPressed()
   })), [customItemComponent, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, propertyInfo, edittingItemIndex, value, onSubmitItem, onBackPressed])))), value && value.filter(Boolean).map((val, i) => {
-    return /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+    return /*#__PURE__*/React.createElement(AppItem, {
+      href: "javascript:void(0)",
+      onClick: e => {
+        const isCloseButton = e.target.className.split(' ').includes("close-button");
+
+        if (!isCloseButton) {
+          editItem(i);
+        }
+      },
+      lines: "full"
+    }, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }), /*#__PURE__*/React.createElement(AppChip, {
-      key: i,
-      onClick: () => editItem(i)
+      key: i
     }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val))), /*#__PURE__*/React.createElement(AppButtons, {
       slot: "end"
     }, /*#__PURE__*/React.createElement(AppButton, {
+      className: "close-button",
       onClick: () => {
         setValue(x => removeAtIndex(i, x));
       }

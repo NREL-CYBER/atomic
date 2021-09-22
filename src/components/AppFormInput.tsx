@@ -91,10 +91,10 @@ const AppFormInput = (props: formInputProps) => {
                 <AppInput color="dark" type={inputMode} value={value} placeholder={description || ""} onInputChange={(val) => {
                     setValue(val)
                 }} />
-                : <AppTextArea rows={property === "description" ? 5 : 2} placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
+                : <span style={{ width: "100%" }}><AppTextArea rows={property === "description" ? 5 : 3} placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
                     setValue(val);
                     // eslint-disable-next-line react-hooks/exhaustive-deps
-                }} />}</>, [input])}
+                }} /></span>}</>, [input])}
         </AppItem>
 
         <AppFormErrorsItem errors={errors} />

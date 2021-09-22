@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import { AppColor } from '../theme/AppColor';
 import { AppRoute } from '../core/routing';
 interface itemProps {
     destination?: AppRoute;
     color?: AppColor;
-    onClick?: () => void;
+    onClick?: MouseEventHandler;
     detail?: boolean;
     routerLink?: string;
     href?: string;
