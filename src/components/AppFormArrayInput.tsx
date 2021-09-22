@@ -3,7 +3,7 @@ import { addOutline, closeOutline } from 'ionicons/icons';
 import React, { MutableRefObject, useCallback, useMemo, useState } from 'react';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '.';
-import { remove } from '../util';
+import { remove, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import AppBadge from "./AppBadge";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
@@ -132,7 +132,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                 </AppChip>
                 <AppButtons slot="end">
                     <AppButton onClick={() => {
-                        setValue(x => x.map((_, index) => i !== index));
+                        setValue(x => removeAtIndex(i, x));
                     }}>
                         <AppIcon icon={closeOutline} />
                     </AppButton>

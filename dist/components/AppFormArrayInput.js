@@ -2,6 +2,7 @@ import produce from "immer";
 import { addOutline, closeOutline } from 'ionicons/icons';
 import React, { useCallback, useMemo, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
+import { removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema } from './forms/AppForm';
@@ -124,7 +125,7 @@ const AppFormArrayInput = props => {
       slot: "end"
     }, /*#__PURE__*/React.createElement(AppButton, {
       onClick: () => {
-        setValue(x => x.map((_, index) => i !== index));
+        setValue(x => removeAtIndex(i, x));
       }
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: closeOutline
