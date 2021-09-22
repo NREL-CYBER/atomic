@@ -23,7 +23,7 @@ const AppUploader = ({
   const successStatus = ["done"];
   const errorStatus = ["error_file_size", "error_upload", "error_upload_params", "error_validation", "aborted", "rejected_file_type"];
   const normalStatus = ["ready", "preparing", "getting_upload_params"];
-  const statusColor = normalStatus.includes(status) ? "primary" : successStatus.includes(status) ? "favorite" : errorStatus.includes(status) ? "danger" : "clear";
+  const statusColor = normalStatus.includes(status) ? "medium" : successStatus.includes(status) ? "favorite" : errorStatus.includes(status) ? "danger" : "clear";
   const propertyFormattedName = prettyTitle(title); // called every time a file's `status` changes
 
   const handleChangeStatus = (fileWithMeta, status) => {
