@@ -209,7 +209,7 @@ const AppForm = props => {
       rootSchema: rootSchema,
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       onSubmit: nestedObjectValue => {
-        setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) => typeof ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value]));
+        setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) => ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]));
         setNestedFormStatus("valid");
         onChange(property, nestedObjectValue);
         setShowNestedFrom(false);

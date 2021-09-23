@@ -26,7 +26,6 @@ import AppFormInteger from './AppFormInteger';
 import { AppFormLabel } from './AppFormLabel';
 import AppFormNumber from './AppFormNumber';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
-
 export interface propertyKeyValue {
     property: string,
     value: string
@@ -242,7 +241,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                             objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                             onSubmit={(nestedObjectValue) => {
                                 setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) =>
-                                    typeof ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value]
+                                    ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]
                                 ))
                                 setNestedFormStatus("valid");
                                 onChange(property, nestedObjectValue);
