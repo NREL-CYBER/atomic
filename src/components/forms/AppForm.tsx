@@ -191,8 +191,16 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ required, customComponentMap, propertyInfo, property, inline, instanceRef, onChange }) => {
         const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
-        const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>("empty");
-        const [nestedFormVisual, setNestedFormVisual] = useState<[string, string][] | undefined>();
+        const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>(typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
+        const [nestedFormVisual, setNestedFormVisual] = useState<[string, string][] | undefined>(
+            Object
+                .entries(
+                    { ...instanceRef.current[property] })
+                .map(([key, value]) =>
+                    ["string", "number"]
+                        .includes(typeof value) ?
+                        [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]
+                ));
         const nestedFormColor = inputStatusColorMap[nestedFormStatus];
         const formated_title = titleCase((property || title || '').split("_").join(" "));
         return inline ? <AppFormComposer
