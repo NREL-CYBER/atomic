@@ -182,9 +182,9 @@ const AppRoot = config => {
       padding: "0px",
       margin: "0px"
     }
-  }, sections && /*#__PURE__*/React.createElement(AppFixedMainMenu, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, sections && /*#__PURE__*/React.createElement(AppFixedMainMenu, {
     sections: sections
-  })), /*#__PURE__*/React.createElement(IonCol, {
+  }))), /*#__PURE__*/React.createElement(IonCol, {
     size: "20"
   }, routes.map(route => /*#__PURE__*/React.createElement(Route, _extends({
     key: route.path

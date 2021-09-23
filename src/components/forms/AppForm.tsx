@@ -1,6 +1,6 @@
 /* eslint-disable no-script-url */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { chevronDownOutline, chevronForwardOutline } from 'ionicons/icons';
+import { chevronDownOutline, chevronForwardOutline, pencilOutline } from 'ionicons/icons';
 import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useMemo, useRef, useState } from 'react';
 import { v4 } from 'uuid';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from 'validator';
@@ -15,6 +15,7 @@ import {
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormAnyOfArrayInput from '../AppFormAnyOfArrayInput';
+import { inputStatusColorMap } from '../AppFormInput';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
 import AppUploader from '../serialization/AppUploader';
@@ -22,6 +23,7 @@ import { validationCacheWorker } from "./../../workers/validationCacheWorker";
 import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
+import { AppFormLabel } from './AppFormLabel';
 import AppFormNumber from './AppFormNumber';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
@@ -187,10 +189,12 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             )
         })
     }
-    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ customComponentMap, propertyInfo, property, inline, instanceRef, onChange }) => {
+    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ required, customComponentMap, propertyInfo, property, inline, instanceRef, onChange }) => {
         const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
         const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>("empty");
+        const [nestedFormVisual, setNestedFormVisual] = useState<[string, string][] | undefined>();
+        const nestedFormColor = inputStatusColorMap[nestedFormStatus];
         const formated_title = titleCase((property || title || '').split("_").join(" "));
         return inline ? <AppFormComposer
             data={instanceRef.current[property]}
@@ -210,12 +214,24 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 });
             }}
         >
-        </AppFormComposer> : <AppItem>
-            <AppButtons slot="start">
-                <AppButton color={nestedFormStatus === "valid" ? "success" : "primary"} fill="outline" onClick={() => setShowNestedFrom(x => !x)} >
-                    {formated_title}
-                </AppButton>
-            </AppButtons>
+        </AppFormComposer> : <>
+            <AppItem href="javascript:void(0)" onClick={() => setShowNestedFrom(x => !x)}>
+                <AppFormLabel name={formated_title} required={required} color={nestedFormColor} />
+                <AppButtons slot="end">
+                    <AppButton fill="solid" color="primary">
+                        < AppIcon icon={pencilOutline} />
+                    </AppButton>
+                </AppButtons>
+            </AppItem >
+            {nestedFormVisual?.map(([prop, val]) => <AppItem>
+                <AppButtons slot="start">
+                </AppButtons>
+                <AppFormLabel color={"favorite"} name={prop} />
+                <AppChip >
+                    {val}
+                </AppChip>
+            </AppItem>
+            )}
             <Suspense fallback={<></>}>
                 <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
                     <AppContent>
@@ -225,6 +241,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                             rootSchema={rootSchema}
                             objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                             onSubmit={(nestedObjectValue) => {
+                                setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) =>
+                                    typeof ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value]
+                                ))
                                 setNestedFormStatus("valid");
                                 onChange(property, nestedObjectValue);
                                 setShowNestedFrom(false);
@@ -234,7 +253,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     </AppContent>
                 </AppModal>
             </Suspense>
-        </AppItem >
+
+        </>
     }
 
 
@@ -255,7 +275,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 instanceRef={instanceRef} />
         }
         if ((propertyInfo as any)["contentMediaType"]) {
-            return <AppUploader accept={(propertyInfo as any)["contentMediaType"]}
+            return <AppUploader
+                required={required}
+                accept={(propertyInfo as any)["contentMediaType"]}
                 description={propertyInfo.description || ""} title={propertyInfo.title || property}
                 onFileReceived={(meta, uri) => {
                     handleInputReceived(property, uri);

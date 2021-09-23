@@ -1,4 +1,4 @@
-import { AppButtons } from 'atomic';
+import { AppButtons, AppContent } from 'atomic';
 import React, { memo, useState } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
 import { AppRoute } from '../../core/routing';
@@ -79,12 +79,15 @@ const AppMainMenu: React.FC<MenuProps> = ({ sections }) => {
 
 
   return <AppMenu type='overlay' side='start' contentId={"main"} >
-    {pageSections.map(([section, routes]) =>
-      <AppList lines="none" key={section}>
-        <AppListHeader>{section}</AppListHeader>
-        {renderlistItems(routes)}
-      </AppList>
-    )}
+    <AppContent>
+
+      {pageSections.map(([section, routes]) =>
+        <AppList lines="none" key={section}>
+          <AppListHeader>{section}</AppListHeader>
+          {renderlistItems(routes)}
+        </AppList>
+      )}
+    </AppContent>
   </AppMenu >
 
 };

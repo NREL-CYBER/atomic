@@ -1,4 +1,4 @@
-import { AppButtons } from 'atomic';
+import { AppButtons, AppContent } from 'atomic';
 import React, { memo, useState } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
 import { useAppLayout, useCompletion } from '../../hooks';
@@ -89,10 +89,10 @@ const AppMainMenu = ({
     type: "overlay",
     side: "start",
     contentId: "main"
-  }, pageSections.map(([section, routes]) => /*#__PURE__*/React.createElement(AppList, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, pageSections.map(([section, routes]) => /*#__PURE__*/React.createElement(AppList, {
     lines: "none",
     key: section
-  }, /*#__PURE__*/React.createElement(AppListHeader, null, section), renderlistItems(routes))));
+  }, /*#__PURE__*/React.createElement(AppListHeader, null, section), renderlistItems(routes)))));
 };
 
 export default /*#__PURE__*/memo(AppMainMenu);

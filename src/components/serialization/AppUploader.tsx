@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Dropzone, { IFileWithMeta, IMeta, IUploadParams, StatusValue } from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
-import { AppButtons, AppChip, AppItem, AppLabel } from '..';
+import { AppButtons, AppChip, AppItem } from '..';
 import { AppColor } from '../../theme';
 import { prettyTitle } from '../../util';
-import AppText from '../AppText';
 import { byteArrayToBase64 } from '../../util/binaryToBase64';
+import AppText from '../AppText';
 import { AppFormLabel } from '../forms/AppFormLabel';
 
 export type AppFill = "clear" | "outline" | "solid" | "default" | undefined

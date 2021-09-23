@@ -1,12 +1,13 @@
 /* eslint-disable no-script-url */
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { chevronDownOutline, chevronForwardOutline } from 'ionicons/icons';
+import { chevronDownOutline, chevronForwardOutline, pencilOutline } from 'ionicons/icons';
 import React, { Fragment, Suspense, useMemo, useRef, useState } from 'react';
 import { v4 } from 'uuid';
 import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormAnyOfArrayInput from '../AppFormAnyOfArrayInput';
+import { inputStatusColorMap } from '../AppFormInput';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
 import AppUploader from '../serialization/AppUploader';
@@ -14,6 +15,7 @@ import { validationCacheWorker } from "./../../workers/validationCacheWorker";
 import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
+import { AppFormLabel } from './AppFormLabel';
 import AppFormNumber from './AppFormNumber';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
@@ -144,6 +146,7 @@ const AppForm = props => {
   };
 
   const ComposeNestedFormElement = ({
+    required,
     customComponentMap,
     propertyInfo,
     property,
@@ -156,6 +159,8 @@ const AppForm = props => {
     } = propertyInfo;
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState("empty");
+    const [nestedFormVisual, setNestedFormVisual] = useState();
+    const nestedFormColor = inputStatusColorMap[nestedFormStatus];
     const formated_title = titleCase((property || title || '').split("_").join(" "));
     return inline ? /*#__PURE__*/React.createElement(AppFormComposer, {
       data: instanceRef.current[property],
@@ -174,13 +179,26 @@ const AppForm = props => {
           setShowNestedFrom(false);
         });
       }
-    }) : /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
-      slot: "start"
-    }, /*#__PURE__*/React.createElement(AppButton, {
-      color: nestedFormStatus === "valid" ? "success" : "primary",
-      fill: "outline",
+    }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
+      href: "javascript:void(0)",
       onClick: () => setShowNestedFrom(x => !x)
-    }, formated_title)), /*#__PURE__*/React.createElement(Suspense, {
+    }, /*#__PURE__*/React.createElement(AppFormLabel, {
+      name: formated_title,
+      required: required,
+      color: nestedFormColor
+    }), /*#__PURE__*/React.createElement(AppButtons, {
+      slot: "end"
+    }, /*#__PURE__*/React.createElement(AppButton, {
+      fill: "solid",
+      color: "primary"
+    }, /*#__PURE__*/React.createElement(AppIcon, {
+      icon: pencilOutline
+    })))), nestedFormVisual?.map(([prop, val]) => /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+      slot: "start"
+    }), /*#__PURE__*/React.createElement(AppFormLabel, {
+      color: "favorite",
+      name: prop
+    }), /*#__PURE__*/React.createElement(AppChip, null, val))), /*#__PURE__*/React.createElement(Suspense, {
       fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
     }, /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
@@ -191,6 +209,7 @@ const AppForm = props => {
       rootSchema: rootSchema,
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       onSubmit: nestedObjectValue => {
+        setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) => typeof ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value]));
         setNestedFormStatus("valid");
         onChange(property, nestedObjectValue);
         setShowNestedFrom(false);
@@ -230,6 +249,7 @@ const AppForm = props => {
 
     if (propertyInfo["contentMediaType"]) {
       return /*#__PURE__*/React.createElement(AppUploader, {
+        required: required,
         accept: propertyInfo["contentMediaType"],
         description: propertyInfo.description || "",
         title: propertyInfo.title || property,

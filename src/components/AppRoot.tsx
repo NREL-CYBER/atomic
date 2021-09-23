@@ -135,7 +135,9 @@ const AppRoot: React.FC<AppConfig> = (config) => {
                 <IonGrid style={{ height: "100%", padding: "0px", margin: "0px" }}>
                     <IonRow style={{ height: "100%", padding: "0px", margin: "0px" }}>
                         <IonCol size="4" style={{ height: "100%", padding: "0px", margin: "0px" }}>
-                            {sections && < AppFixedMainMenu sections={sections} />}
+                            <AppContent>
+                                {sections && < AppFixedMainMenu sections={sections} />}
+                            </AppContent>
                         </IonCol>
                         <IonCol size="20">
                             {routes.map(route => <Route key={route.path} {...route} />)}

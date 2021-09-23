@@ -19,6 +19,16 @@
                 "value"
             ]
         },
+        "alias": {
+            "$id": "#/definitions/alias",
+            "title": "Alias",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "address": {
             "title": "Address",
             "$id": "#/definitions/address",
@@ -31,10 +41,8 @@
                         "business"
                     ]
                 },
-                "street_view": {
-                    "title": "Street View",
-                    "type": "string",
-                    "contentMediaType": "image/png"
+                "alias": {
+                    "$ref": "#/definitions/alias"
                 },
                 "props": {
                     "title": "Properties",
