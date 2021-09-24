@@ -60,6 +60,7 @@ const AppForm = props => {
   const [reRenderDependents, setReRenderDependents] = useState(0);
   const requiredProperties = objectSchema.required || [];
   const dependentFields = Object.values(objectSchema.dependencies || {}).flatMap(x => x);
+  const triggeringFields = Object.keys(objectSchema.dependencies || {});
   const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true).filter(x => !dependentFields.includes(x));
   let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
   requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
@@ -132,7 +133,7 @@ const AppForm = props => {
         }
       }
 
-      if (dependentFields.includes(property)) {
+      if (triggeringFields.includes(property)) {
         setReRenderDependents(x => x + 1);
       }
 

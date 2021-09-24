@@ -21,7 +21,7 @@ const AppFormSelect = props => {
     required
   } = props;
   const [errors, setErrors] = useState(undefined);
-  const [inputStatus, setInputStatus] = useState("empty");
+  const [inputStatus, setInputStatus] = useState(typeof instanceRef.current === "undefined" ? "empty" : "valid");
   let instanceValue = instanceRef.current && instanceRef.current[property];
 
   if (isUndefined(instanceValue)) {

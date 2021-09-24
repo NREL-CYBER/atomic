@@ -74,7 +74,6 @@ const AppTopToolbar = ({
     }
   }, [showSearch]);
   const isDesktop = useMediaQuery("only screen and (min-width: 500px)");
-  console.log(isDesktop);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: bgColor
   }, /*#__PURE__*/React.createElement(AppButtons, {
