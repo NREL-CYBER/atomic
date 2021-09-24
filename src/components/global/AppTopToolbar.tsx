@@ -58,7 +58,6 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
     }, [showSearch])
 
     const isDesktop = useMediaQuery("only screen and (min-width: 500px)");
-    console.log(isDesktop)
     return <>
         <AppToolbar color={bgColor}>
             <AppButtons slot='start'>

@@ -123,6 +123,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const requiredProperties = objectSchema.required || [];
 
     const dependentFields = Object.values((objectSchema as any).dependencies || {}).flatMap(x => x as string);
+    const triggeringFields = Object.keys((objectSchema as any).dependencies || {});
     const optionalFields = ((!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true)).filter(x => !dependentFields.includes(x));
     let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
@@ -182,7 +183,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     }
                 }
             }
-            if (dependentFields.includes(property)) {
+            if (triggeringFields.includes(property)) {
                 setReRenderDependents(x => x + 1)
             }
             const uuid = v4()

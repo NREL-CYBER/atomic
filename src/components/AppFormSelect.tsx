@@ -25,7 +25,7 @@ export interface formSelectInputProps {
 const AppFormSelect = (props: formSelectInputProps) => {
     const { propertyInfo, instanceRef, onChange, property, required } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
-    const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
+    const [inputStatus, setInputStatus] = useState<InputStatus>(typeof instanceRef.current === "undefined" ? "empty" : "valid");
     let instanceValue = instanceRef.current && (instanceRef.current as any)[property];
     if (isUndefined(instanceValue)) {
         instanceRef.current[property] = "";
