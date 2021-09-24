@@ -119,11 +119,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         throw "Schema must have a type"
     }
     const [schemaProperties] = useState<string[]>(Object.keys({ ...objectSchema.properties }));
+    const [reRenderDependents, setReRenderDependents] = useState<number>(0);
     const requiredProperties = objectSchema.required || [];
 
-    const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
+    const dependentFields = Object.values((objectSchema as any).dependencies || {}).flatMap(x => x as string);
+    const optionalFields = ((!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true)).filter(x => !dependentFields.includes(x));
     let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
-    requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
+    requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
+
     const instance = useRef<any>(objectSchema.type === "object" ? { ...data } : objectSchema.type === "array" ? [...data] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
@@ -178,6 +181,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         instance.current = { ...instance.current, [calculatedFieldValue.property]: calculatedFieldValue.value };
                     }
                 }
+            }
+            if (dependentFields.includes(property)) {
+                setReRenderDependents(x => x + 1)
             }
             const uuid = v4()
             setDefferedValidationResultPromises(x => ({ ...x, [uuid]: resolve }));
@@ -471,6 +477,23 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 instanceRef={instance}
                 property={property} />
         })}</>
+    const DependentFormFields = () => <>{
+        dependentFields.map(property => {
+            if (lockedFields && lockedFields.includes(property))
+                return <LockedField key={property} property={property} value={instance.current[property]} />
+            if (hiddenFields && hiddenFields.includes(property))
+                return <Fragment key={property}></Fragment>
+            return <FormElement
+                propertyInfo={objectSchema.properties && objectSchema.properties[property]}
+                required={true}
+                rootSchema={rootSchema}
+                objectSchema={objectSchema}
+                key={property}
+                onChange={handleInputReceived}
+                instanceRef={instance}
+                property={property} />
+        })}</>
+
 
 
 
@@ -494,6 +517,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 <Suspense fallback={<AppLoadingCard />}>
                     <AppList color="clear">
                         {useMemo(() => <RequiredFormFields />, [])}
+                        {useMemo(() => <DependentFormFields />, [reRenderDependents])}
                         {objectSchema.type === "string" && <>
                             <AppFormInput
                                 rootSchema={rootSchema}

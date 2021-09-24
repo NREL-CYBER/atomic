@@ -57,10 +57,12 @@ const AppForm = props => {
 
   const [schemaProperties] = useState(Object.keys({ ...objectSchema.properties
   }));
+  const [reRenderDependents, setReRenderDependents] = useState(0);
   const requiredProperties = objectSchema.required || [];
-  const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true);
+  const dependentFields = Object.values(objectSchema.dependencies || {}).flatMap(x => x);
+  const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true).filter(x => !dependentFields.includes(x));
   let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
-  requiredFields = showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields;
+  requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
   const instance = useRef(objectSchema.type === "object" ? { ...data
   } : objectSchema.type === "array" ? [...data] : undefined);
   const [isValid, setIsValid] = useState(false);
@@ -128,6 +130,10 @@ const AppForm = props => {
             };
           }
         }
+      }
+
+      if (dependentFields.includes(property)) {
+        setReRenderDependents(x => x + 1);
       }
 
       const uuid = v4();
@@ -462,6 +468,27 @@ const AppForm = props => {
     });
   }));
 
+  const DependentFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, dependentFields.map(property => {
+    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+      key: property,
+      property: property,
+      value: instance.current[property]
+    });
+    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+      key: property
+    });
+    return /*#__PURE__*/React.createElement(FormElement, {
+      propertyInfo: objectSchema.properties && objectSchema.properties[property],
+      required: true,
+      rootSchema: rootSchema,
+      objectSchema: objectSchema,
+      key: property,
+      onChange: handleInputReceived,
+      instanceRef: instance,
+      property: property
+    });
+  }));
+
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
   }, /*#__PURE__*/React.createElement(AppCard, {
@@ -479,7 +506,7 @@ const AppForm = props => {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
   }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
-  }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), objectSchema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
+  }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), useMemo(() => /*#__PURE__*/React.createElement(DependentFormFields, null), [reRenderDependents]), objectSchema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     rootSchema: rootSchema,
     objectSchema: objectSchema,
     propertyInfo: objectSchema,
