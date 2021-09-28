@@ -128,7 +128,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
 
-    const instance = useRef<any>(objectSchema.type === "object" ? { ...data ? data : {} } : objectSchema.type === "array" ? [...data ? data : []] : undefined)
+    const instance = useRef<any>(objectSchema.type === "object" ? { ...data ? data : {} } : objectSchema.type === "array" ? [...Array.isArray(data) ? data : []] : undefined)
     const [isValid, setIsValid] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[]>([]);
 
