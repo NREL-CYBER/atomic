@@ -69,8 +69,8 @@ const AppForm = props => {
   const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true).filter(x => !dependentFields.includes(x));
   let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
   requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
-  const instance = useRef(objectSchema.type === "object" ? { ...data
-  } : objectSchema.type === "array" ? [...data] : undefined);
+  const instance = useRef(objectSchema.type === "object" ? { ...(data ? data : {})
+  } : objectSchema.type === "array" ? [...(data ? data : [])] : undefined);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
   const [optionalStatus, setOptionalStatus] = useState(requiredFields.length === 0 ? "show" : "hidden");
