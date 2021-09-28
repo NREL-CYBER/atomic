@@ -16,6 +16,7 @@ export interface formProps {
     onSubmit: (validData: any) => void;
     children?: ReactFragment;
     lockedFields?: string[];
+    dependencyMap?: Record<string, string[]>;
     hiddenFields?: string[];
     inlineFields?: string[];
     calculatedFields?: calculatedPropertyMap;

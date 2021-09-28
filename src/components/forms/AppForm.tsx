@@ -44,6 +44,7 @@ export interface formProps {
     onSubmit: (validData: any) => void,
     children?: ReactFragment,
     lockedFields?: string[]
+    dependencyMap?: Record<string, string[]>
     hiddenFields?: string[]
     inlineFields?: string[]
     calculatedFields?: calculatedPropertyMap
@@ -110,7 +111,7 @@ export type formFieldStatus = "valid" | "invalid" | "unknown" | "empty";
 
 const AppForm: React.FC<formNodeProps> = (props) => {
     const { rootSchema, data, onSubmit, children, lockedFields, hiddenFields,
-        description, title, requiredOnly, calculatedFields, showFields,
+        description, title, requiredOnly, calculatedFields, showFields, dependencyMap,
         customSubmit, autoSubmit, customComponentMap, inlineFields } = props
     const objectSchema = props.objectSchema || props.rootSchema;
     const [deferedValidationPromises, setDefferedValidationResultPromises] = useState<Record<string, (status: formFieldValidationStatus) => void>>({})
@@ -121,9 +122,8 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const [schemaProperties] = useState<string[]>(Object.keys({ ...objectSchema.properties }));
     const [reRenderDependents, setReRenderDependents] = useState<number>(0);
     const requiredProperties = objectSchema.required || [];
-
-    const dependentFields = Object.values((objectSchema as any).dependencies || {}).flatMap(x => x as string);
-    const triggeringFields = Object.keys((objectSchema as any).dependencies || {});
+    const dependentFields = Object.values({ ...objectSchema.dependencies, ...dependencyMap }).flatMap(x => x) as string[];
+    const triggeringFields = Object.keys({ ...objectSchema.dependencies, ...dependentFields });
     const optionalFields = ((!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true)).filter(x => !dependentFields.includes(x));
     let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
@@ -216,6 +216,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
             requiredOnly={requiredOnly}
             autoSubmit={true}
+            dependencyMap={dependencyMap}
             calculatedFields={calculatedFields}
             hiddenFields={hiddenFields}
             lockedFields={lockedFields}
@@ -253,6 +254,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                             data={instanceRef.current[property]}
                             customComponentMap={customComponentMap as any}
                             rootSchema={rootSchema}
+                            dependencyMap={dependencyMap}
                             objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                             onSubmit={(nestedObjectValue) => {
                                 setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) =>

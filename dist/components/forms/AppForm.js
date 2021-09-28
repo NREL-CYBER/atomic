@@ -42,6 +42,7 @@ const AppForm = props => {
     requiredOnly,
     calculatedFields,
     showFields,
+    dependencyMap,
     customSubmit,
     autoSubmit,
     customComponentMap,
@@ -59,8 +60,12 @@ const AppForm = props => {
   }));
   const [reRenderDependents, setReRenderDependents] = useState(0);
   const requiredProperties = objectSchema.required || [];
-  const dependentFields = Object.values(objectSchema.dependencies || {}).flatMap(x => x);
-  const triggeringFields = Object.keys(objectSchema.dependencies || {});
+  const dependentFields = Object.values({ ...objectSchema.dependencies,
+    ...dependencyMap
+  }).flatMap(x => x);
+  const triggeringFields = Object.keys({ ...objectSchema.dependencies,
+    ...dependentFields
+  });
   const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true).filter(x => !dependentFields.includes(x));
   let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
   requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
@@ -176,6 +181,7 @@ const AppForm = props => {
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       requiredOnly: requiredOnly,
       autoSubmit: true,
+      dependencyMap: dependencyMap,
       calculatedFields: calculatedFields,
       hiddenFields: hiddenFields,
       lockedFields: lockedFields,
@@ -215,6 +221,7 @@ const AppForm = props => {
       data: instanceRef.current[property],
       customComponentMap: customComponentMap,
       rootSchema: rootSchema,
+      dependencyMap: dependencyMap,
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       onSubmit: nestedObjectValue => {
         setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) => ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]));
