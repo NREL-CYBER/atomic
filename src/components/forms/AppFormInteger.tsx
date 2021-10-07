@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { AppCol } from 'atomic';
 import React, { MutableRefObject, useEffect, useMemo, useState } from 'react';
 import { PropertyDefinitionRef } from 'validator';
-import { AppItem, AppLabel, AppText } from '..';
+import { AppItem } from '..';
 import { prettyTitle } from '../../util';
 import { InputStatus, inputStatusColorMap } from '../AppFormInput';
 import AppInput from '../AppInput';

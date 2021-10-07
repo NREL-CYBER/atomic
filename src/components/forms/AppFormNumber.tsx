@@ -17,7 +17,7 @@ import { AppFormLabel } from './AppFormLabel';
 const AppFormNumber = (props: formElementProps) => {
     const { property, instanceRef, onChange, propertyInfo, required } = props;
     const [errors, setErrors] = useState<string[]>([]);
-    const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
+    const [inputStatus, setInputStatus] = useState<InputStatus>(typeof instanceRef.current && (instanceRef.current as any)[property] ? "valid" : "empty");
     const [value, setValue] = useState<number>((instanceRef.current && (instanceRef.current as any)[property]) || 0)
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
 
@@ -26,7 +26,7 @@ const AppFormNumber = (props: formElementProps) => {
     const min = (propertyInfo as any).minimum || 0;
     return <>
         <AppItem color="clear" lines="none">
-                <AppFormLabel required={required} name={propertyFormattedName} color={statusColor} />
+            <AppFormLabel required={required} name={propertyFormattedName} color={statusColor} />
             <IonRange value={value * 1000 * (max - min)} max={1000} min={0} onIonChange={(v) => {
                 const scaledValue = (v.detail.value as number / 1000) * (max - min)
                 onChange(property, scaledValue).then(([validationStatus, validationErrors]) => {

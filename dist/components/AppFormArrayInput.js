@@ -1,9 +1,10 @@
+/* eslint-disable no-script-url */
 import produce from "immer";
 import { addOutline, closeOutline } from 'ionicons/icons';
 import { isArray } from "lodash";
 import React, { useCallback, useMemo, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
-import { removeAtIndex, isUndefined } from '../util';
+import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema } from './forms/AppForm';

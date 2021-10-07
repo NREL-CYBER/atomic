@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { AppItem, AppLabel } from '..';
+import { AppItem } from '..';
 import { prettyTitle } from '../../util';
 import { AppDateTime } from '../AppDateTime';
 import { inputStatusColorMap } from '../AppFormInput';
 import { AppFormErrorsItem } from './AppFormErrorsItem';
+import { AppFormLabel } from './AppFormLabel';
 
 /**
  * Component for input that displays validation errors
@@ -14,10 +15,11 @@ const AppFormDateTimePicker = props => {
     instanceRef,
     onChange,
     propertyInfo,
-    format = "date"
+    format = "date",
+    required
   } = props;
   const [errors, setErrors] = useState([]);
-  const [inputStatus, setInputStatus] = useState("empty");
+  const [inputStatus, setInputStatus] = useState(typeof (instanceRef.current && instanceRef.current[property]) === "undefined" ? "empty" : "valid");
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || null);
   const propertyFormattedName = prettyTitle(propertyInfo.title || property);
   useEffect(() => {
@@ -35,10 +37,11 @@ const AppFormDateTimePicker = props => {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     color: "clear",
     lines: "none"
-  }, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "stacked",
+  }, /*#__PURE__*/React.createElement(AppFormLabel, {
+    name: propertyFormattedName,
+    required: required,
     color: statusColor
-  }, propertyFormattedName), /*#__PURE__*/React.createElement(AppDateTime, {
+  }), /*#__PURE__*/React.createElement(AppDateTime, {
     displayFormat: dateTimeFormat,
     pickerFormat: dateTimeFormat,
     value: value,

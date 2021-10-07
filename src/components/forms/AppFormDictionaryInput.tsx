@@ -1,13 +1,12 @@
 import produce from "immer";
 import { addOutline } from 'ionicons/icons';
-import React, { MutableRefObject, useState } from 'react';
+import React, { useState } from 'react';
 import { v4 } from 'uuid';
-import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { prettyTitle } from "../../util";
 import { findShortestValue } from "../AppFormArrayInput";
 import { InputStatus, inputStatusColorMap } from "../AppFormInput";
-import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './AppForm';
+import { findSubSchema, nestedFormProps } from './AppForm';
 
 
 
