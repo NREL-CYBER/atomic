@@ -6,6 +6,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
+import AppCard from "./AppCard";
 import { inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
@@ -51,7 +52,7 @@ const AppFormArrayInput = props => {
   const [inputStatus, setInputStatus] = useState(existing_data.length > 0 ? "valid" : "empty");
   const [isInsertingItem, setIsInsertingItem] = useState(false);
   const [value, setValue] = useState(existing_data);
-  const [edittingItemIndex, setEditingItemIndex] = useState();
+  const [editingItemIndex, setEditingItemIndex] = useState();
   const propertyFormattedName = prettyTitle(propertyInfo.title || property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
@@ -71,21 +72,22 @@ const AppFormArrayInput = props => {
 
   const onSubmitItem = useCallback(async item => {
     const newValue = produce(value, draftValue => {
-      if (typeof edittingItemIndex !== "undefined") {
-        draftValue[edittingItemIndex] = item;
+      if (typeof editingItemIndex !== "undefined") {
+        draftValue[editingItemIndex] = item;
       } else {
         draftValue.push(item);
       }
     });
     const validationResult = onChange(property, newValue);
-    const [validationStatus, errors] = await validationResult;
-    setIsInsertingItem(false);
-    setValue(newValue);
-    setInputStatus(validationStatus);
-    setErrors(errors);
-    setEditingItemIndex(undefined);
+    validationResult.then(([validationStatus, errors]) => {
+      setIsInsertingItem(false);
+      setValue(newValue);
+      setInputStatus(validationStatus);
+      setErrors(errors);
+      setEditingItemIndex(undefined);
+    });
     return validationResult;
-  }, [edittingItemIndex, onChange, property, value]);
+  }, [editingItemIndex, onChange, property, value]);
   const onBackPressed = useCallback(() => {
     setIsInsertingItem(false);
   }, []);
@@ -118,29 +120,31 @@ const AppFormArrayInput = props => {
   }, /*#__PURE__*/React.createElement(AppModal, {
     isOpen: isInsertingItem,
     onDismiss: () => onBackPressed()
-  }, /*#__PURE__*/React.createElement(AppContent, null, useMemo(() => customItemComponent ? customItemComponent({
+  }, /*#__PURE__*/React.createElement(AppContent, null, useMemo(() => customItemComponent ? /*#__PURE__*/React.createElement(AppCard, {
+    title: propertyFormattedName + "[" + (editingItemIndex || '0') + "]"
+  }, customItemComponent({
     showFields,
     hiddenFields,
     lockedFields,
     customComponentMap,
     rootSchema,
-    objectSchema,
+    objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
     onChange: onSubmitItem,
     instanceRef: instanceRef,
-    property: property + edittingItemIndex,
+    property: property + (typeof editingItemIndex !== "undefined" ? editingItemIndex : '0'),
     propertyInfo
-  }) : /*#__PURE__*/React.createElement(AppFormComposer, {
+  })) : /*#__PURE__*/React.createElement(AppFormComposer, {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
     customComponentMap: customComponentMap,
     rootSchema: rootSchema,
     objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
-    data: typeof edittingItemIndex !== "undefined" ? value[edittingItemIndex] : {},
+    data: typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {},
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => onBackPressed()
-  })), [customItemComponent, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, onSubmitItem, instanceRef, propertyInfo, edittingItemIndex, value, onBackPressed])))), value && value.filter(Boolean).map((val, i) => {
+  })), [customItemComponent, propertyFormattedName, editingItemIndex, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, onSubmitItem, instanceRef, property, propertyInfo, value, onBackPressed])))), value && value.filter(Boolean).map((val, i) => {
     return /*#__PURE__*/React.createElement(AppItem, {
       href: "javascript:void(0)",
       onClick: e => {

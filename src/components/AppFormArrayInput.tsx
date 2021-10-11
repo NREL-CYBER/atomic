@@ -7,6 +7,7 @@ import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from 
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
+import AppCard from "./AppCard";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
@@ -62,7 +63,7 @@ const AppFormArrayInput = (props: formInputProps) => {
     const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length > 0 ? "valid" : "empty");
     const [isInsertingItem, setIsInsertingItem] = useState<boolean>(false);
     const [value, setValue] = useState<any[]>(existing_data)
-    const [edittingItemIndex, setEditingItemIndex] = useState<number | undefined>()
+    const [editingItemIndex, setEditingItemIndex] = useState<number | undefined>()
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
     const beginInsertItem = (val: any = {}) => {
@@ -78,21 +79,22 @@ const AppFormArrayInput = (props: formInputProps) => {
 
     const onSubmitItem = useCallback(async (item: any) => {
         const newValue = produce(value, (draftValue) => {
-            if (typeof edittingItemIndex !== "undefined") {
-                draftValue[edittingItemIndex] = item
+            if (typeof editingItemIndex !== "undefined") {
+                draftValue[editingItemIndex] = item
             } else {
                 draftValue.push(item);
             }
         });
         const validationResult = onChange(property, newValue)
-        const [validationStatus, errors] = await validationResult
-        setIsInsertingItem(false);
-        setValue(newValue);
-        setInputStatus(validationStatus);
-        setErrors(errors);
-        setEditingItemIndex(undefined);
+        validationResult.then(([validationStatus, errors]) => {
+            setIsInsertingItem(false);
+            setValue(newValue);
+            setInputStatus(validationStatus);
+            setErrors(errors);
+            setEditingItemIndex(undefined);
+        })
         return validationResult;
-    }, [edittingItemIndex, onChange, property, value])
+    }, [editingItemIndex, onChange, property, value])
 
     const onBackPressed = useCallback(() => {
         setIsInsertingItem(false);
@@ -117,28 +119,28 @@ const AppFormArrayInput = (props: formInputProps) => {
                 onBackPressed()
             }>
                 <AppContent>
-                    {useMemo(() => customItemComponent ? customItemComponent({
+                    {useMemo(() => customItemComponent ? <AppCard title={propertyFormattedName + "[" + (editingItemIndex || '0') + "]"}>{customItemComponent({
                         showFields,
                         hiddenFields,
                         lockedFields,
                         customComponentMap,
-                        rootSchema, objectSchema,
+                        rootSchema, objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
                         onChange: onSubmitItem,
                         instanceRef: instanceRef,
-                        property: property + edittingItemIndex,
+                        property: property + (typeof editingItemIndex !== "undefined" ? editingItemIndex : '0'),
                         propertyInfo,
-
-                    }) : <AppFormComposer
+                    })}
+                    </AppCard> : <AppFormComposer
                         showFields={showFields}
                         hiddenFields={hiddenFields}
                         lockedFields={lockedFields}
                         customComponentMap={customComponentMap}
                         rootSchema={rootSchema}
                         objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
-                        data={typeof edittingItemIndex !== "undefined" ? value[edittingItemIndex] : {}}
+                        data={typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {}}
                         onSubmit={onSubmitItem} >
                         <AppBackButton onClick={() => onBackPressed()} />
-                    </AppFormComposer>, [customItemComponent, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, onSubmitItem, instanceRef, propertyInfo, edittingItemIndex, value, onBackPressed])}
+                    </AppFormComposer>, [customItemComponent, propertyFormattedName, editingItemIndex, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, onSubmitItem, instanceRef, property, propertyInfo, value, onBackPressed])}
                 </AppContent>
             </AppModal>}
         </div>

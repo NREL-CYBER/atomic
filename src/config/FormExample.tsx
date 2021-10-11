@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { v4 } from "uuid";
-import { AppButton, AppCard, AppContent, AppFormComposer, AppFormInput, AppItem, AppLabel, AppPage, AppTitle } from "../components";
+import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
 import { useAddress } from "./ExampleConfig";
 
@@ -10,7 +10,12 @@ const ExampleForm: React.FC = () => {
     return <AppPage>
         <AppContent>
             {status === "editing" ? <AppFormComposer
-                customComponentMap={{ "#/definitions/property": (props) => <AppFormInput input={"line"} {...props}/> }}
+                customComponentMap={{
+                    "#/definitions/property": (props) => <>
+                        {props.propertyInfo.$id}{console.log(props)}
+                        {props.property}
+                    </>
+                }}
                 objectSchema={schema.definitions!.address}
                 rootSchema={schema}
                 title={"Address"}
