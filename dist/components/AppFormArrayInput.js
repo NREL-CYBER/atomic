@@ -2,7 +2,7 @@
 import produce from "immer";
 import { addOutline, closeOutline } from 'ionicons/icons';
 import { isArray } from "lodash";
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
@@ -120,7 +120,7 @@ const AppFormArrayInput = props => {
   }, /*#__PURE__*/React.createElement(AppModal, {
     isOpen: isInsertingItem,
     onDismiss: () => onBackPressed()
-  }, /*#__PURE__*/React.createElement(AppContent, null, useMemo(() => customItemComponent ? /*#__PURE__*/React.createElement(AppCard, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, customItemComponent ? /*#__PURE__*/React.createElement(AppCard, {
     title: propertyFormattedName + "[" + (editingItemIndex || '0') + "]"
   }, customItemComponent({
     showFields,
@@ -144,7 +144,7 @@ const AppFormArrayInput = props => {
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => onBackPressed()
-  })), [customItemComponent, propertyFormattedName, editingItemIndex, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, onSubmitItem, instanceRef, property, propertyInfo, value, onBackPressed])))), value && value.filter(Boolean).map((val, i) => {
+  }))))), value && value.filter(Boolean).map((val, i) => {
     return /*#__PURE__*/React.createElement(AppItem, {
       href: "javascript:void(0)",
       onClick: e => {

@@ -119,7 +119,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                 onBackPressed()
             }>
                 <AppContent>
-                    {useMemo(() => customItemComponent ? <AppCard title={propertyFormattedName + "[" + (editingItemIndex || '0') + "]"}>{customItemComponent({
+                    {customItemComponent ? <AppCard title={propertyFormattedName + "[" + (editingItemIndex || '0') + "]"}>{customItemComponent({
                         showFields,
                         hiddenFields,
                         lockedFields,
@@ -140,7 +140,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                         data={typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {}}
                         onSubmit={onSubmitItem} >
                         <AppBackButton onClick={() => onBackPressed()} />
-                    </AppFormComposer>, [customItemComponent, propertyFormattedName, editingItemIndex, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, onSubmitItem, instanceRef, property, propertyInfo, value, onBackPressed])}
+                    </AppFormComposer>}
                 </AppContent>
             </AppModal>}
         </div>
