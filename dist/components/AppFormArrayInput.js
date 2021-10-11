@@ -77,13 +77,14 @@ const AppFormArrayInput = props => {
         draftValue.push(item);
       }
     });
-    const [validationStatus, errors] = await onChange(property, newValue);
+    const validationResult = onChange(property, newValue);
+    const [validationStatus, errors] = await validationResult;
     setIsInsertingItem(false);
     setValue(newValue);
     setInputStatus(validationStatus);
     setErrors(errors);
     setEditingItemIndex(undefined);
-    return onChange(property, newValue);
+    return validationResult;
   }, [edittingItemIndex, onChange, property, value]);
   const onBackPressed = useCallback(() => {
     setIsInsertingItem(false);
@@ -126,7 +127,7 @@ const AppFormArrayInput = props => {
     objectSchema,
     onChange: onSubmitItem,
     instanceRef: instanceRef,
-    property: "0",
+    property: property + edittingItemIndex,
     propertyInfo
   }) : /*#__PURE__*/React.createElement(AppFormComposer, {
     showFields: showFields,
