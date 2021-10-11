@@ -1,6 +1,8 @@
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 import React, { useState } from "react";
 import { v4 } from "uuid";
-import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
+import { AppButton, AppCard, AppContent, AppFormComposer, AppFormInput, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
 import { useAddress } from "./ExampleConfig";
 
@@ -12,6 +14,11 @@ const ExampleForm = () => {
   } = useAddress();
   const [status, setStatus] = useState("idle");
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
+    customComponentMap: {
+      "#/definitions/property": props => /*#__PURE__*/React.createElement(AppFormInput, _extends({
+        input: "line"
+      }, props))
+    },
     objectSchema: schema.definitions.address,
     rootSchema: schema,
     title: "Address",

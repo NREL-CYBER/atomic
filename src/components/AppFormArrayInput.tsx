@@ -27,7 +27,6 @@ interface formInputProps {
     lockedFields?: string[],
     customTitleFunction?: (value: any) => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
-    customItemComponent?: React.FC<nestedFormProps>
 }
 
 
@@ -57,7 +56,7 @@ export const findShortestValue = (val: any) => {
 const AppFormArrayInput = (props: formInputProps) => {
     const { property, instanceRef, onChange, customTitleFunction,
         propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, required,
-        objectSchema, rootSchema, customItemComponent } = props;
+        objectSchema, rootSchema } = props;
     const existing_data: any[] = instanceRef.current[property] ? instanceRef.current[property] : [];
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length > 0 ? "valid" : "empty");
@@ -91,11 +90,14 @@ const AppFormArrayInput = (props: formInputProps) => {
         setInputStatus(validationStatus);
         setErrors(errors);
         setEditingItemIndex(undefined);
+        return onChange(property, newValue);
     }, [edittingItemIndex, onChange, property, value])
 
     const onBackPressed = useCallback(() => {
         setIsInsertingItem(false);
     }, [])
+    const itemId = propertyInfo.items?.$ref?.toString() || ""
+    const customItemComponent = customComponentMap && customComponentMap[itemId]
     return <>
         <AppItem href={"javascript:void(0)"} onClick={(e) => {
             beginInsertItem()
@@ -114,7 +116,18 @@ const AppFormArrayInput = (props: formInputProps) => {
                 onBackPressed()
             }>
                 <AppContent>
-                    {useMemo(() => customItemComponent ? customItemComponent : <AppFormComposer
+                    {useMemo(() => customItemComponent ? customItemComponent({
+                        showFields,
+                        hiddenFields,
+                        lockedFields,
+                        customComponentMap,
+                        rootSchema, objectSchema,
+                        onChange: onSubmitItem,
+                        instanceRef: instanceRef,
+                        property: "0",
+                        propertyInfo,
+
+                    }) : <AppFormComposer
                         showFields={showFields}
                         hiddenFields={hiddenFields}
                         lockedFields={lockedFields}
@@ -124,7 +137,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                         data={typeof edittingItemIndex !== "undefined" ? value[edittingItemIndex] : {}}
                         onSubmit={onSubmitItem} >
                         <AppBackButton onClick={() => onBackPressed()} />
-                    </AppFormComposer>, [customItemComponent, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, propertyInfo, edittingItemIndex, value, onSubmitItem, onBackPressed])}
+                    </AppFormComposer>, [customItemComponent, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, onSubmitItem, instanceRef, propertyInfo, edittingItemIndex, value, onBackPressed])}
                 </AppContent>
             </AppModal>}
         </div>

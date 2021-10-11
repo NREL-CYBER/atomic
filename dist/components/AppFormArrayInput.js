@@ -44,8 +44,7 @@ const AppFormArrayInput = props => {
     showFields,
     required,
     objectSchema,
-    rootSchema,
-    customItemComponent
+    rootSchema
   } = props;
   const existing_data = instanceRef.current[property] ? instanceRef.current[property] : [];
   const [errors, setErrors] = useState(undefined);
@@ -84,10 +83,13 @@ const AppFormArrayInput = props => {
     setInputStatus(validationStatus);
     setErrors(errors);
     setEditingItemIndex(undefined);
+    return onChange(property, newValue);
   }, [edittingItemIndex, onChange, property, value]);
   const onBackPressed = useCallback(() => {
     setIsInsertingItem(false);
   }, []);
+  const itemId = propertyInfo.items?.$ref?.toString() || "";
+  const customItemComponent = customComponentMap && customComponentMap[itemId];
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     href: "javascript:void(0)",
     onClick: e => {
@@ -115,7 +117,18 @@ const AppFormArrayInput = props => {
   }, /*#__PURE__*/React.createElement(AppModal, {
     isOpen: isInsertingItem,
     onDismiss: () => onBackPressed()
-  }, /*#__PURE__*/React.createElement(AppContent, null, useMemo(() => customItemComponent ? customItemComponent : /*#__PURE__*/React.createElement(AppFormComposer, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, useMemo(() => customItemComponent ? customItemComponent({
+    showFields,
+    hiddenFields,
+    lockedFields,
+    customComponentMap,
+    rootSchema,
+    objectSchema,
+    onChange: onSubmitItem,
+    instanceRef: instanceRef,
+    property: "0",
+    propertyInfo
+  }) : /*#__PURE__*/React.createElement(AppFormComposer, {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
@@ -126,7 +139,7 @@ const AppFormArrayInput = props => {
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => onBackPressed()
-  })), [customItemComponent, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, propertyInfo, edittingItemIndex, value, onSubmitItem, onBackPressed])))), value && value.filter(Boolean).map((val, i) => {
+  })), [customItemComponent, showFields, hiddenFields, lockedFields, customComponentMap, rootSchema, objectSchema, onSubmitItem, instanceRef, propertyInfo, edittingItemIndex, value, onBackPressed])))), value && value.filter(Boolean).map((val, i) => {
     return /*#__PURE__*/React.createElement(AppItem, {
       href: "javascript:void(0)",
       onClick: e => {

@@ -521,6 +521,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     <AppList color="clear">
                         {useMemo(() => <RequiredFormFields />, [])}
                         {useMemo(() => <DependentFormFields />, [reRenderDependents])}
+
                         {objectSchema.type === "string" && <>
                             <AppFormInput
                                 rootSchema={rootSchema}
