@@ -101,6 +101,7 @@ const AppFormArrayInput = (props: formInputProps) => {
     }, [])
     const itemId = propertyInfo.items?.$ref?.toString() || ""
     const customItemComponent = customComponentMap && customComponentMap[itemId]
+    const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
     return <>
         <AppItem href={"javascript:void(0)"} onClick={(e) => {
             beginInsertItem()
@@ -124,10 +125,20 @@ const AppFormArrayInput = (props: formInputProps) => {
                         hiddenFields,
                         lockedFields,
                         customComponentMap,
-                        rootSchema, objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
-                        onChange: onSubmitItem,
-                        instanceRef: instanceRef,
-                        property: property + (typeof editingItemIndex !== "undefined" ? editingItemIndex : '0'),
+                        rootSchema, objectSchema: subSchema,
+                        onChange: (_, value) => {
+                            return onSubmitItem(value);
+                        },
+                        instanceRef: {
+                            current: {
+                                item: value && typeof editingItemIndex !== 'undefined' ?
+                                    value[editingItemIndex] ?
+                                        subSchema.type === "object" ?
+                                            {} : subSchema.type === "array" ?
+                                                [] : undefined : undefined : undefined
+                            }
+                        },
+                        property: "item",
                         propertyInfo,
                     })}
                     </AppCard> : <AppFormComposer
@@ -136,7 +147,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                         lockedFields={lockedFields}
                         customComponentMap={customComponentMap}
                         rootSchema={rootSchema}
-                        objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
+                        objectSchema={subSchema}
                         data={typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {}}
                         onSubmit={onSubmitItem} >
                         <AppBackButton onClick={() => onBackPressed()} />
