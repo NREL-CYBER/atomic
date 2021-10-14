@@ -113,11 +113,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const { rootSchema, data, onSubmit, children, lockedFields, hiddenFields,
         description, title, requiredOnly, calculatedFields, showFields, dependencyMap,
         customSubmit, autoSubmit, customComponentMap, inlineFields } = props
-    const objectSchema = props.objectSchema || props.rootSchema;
+    let objectSchema = props.objectSchema || props.rootSchema;
     const [deferedValidationPromises, setDefferedValidationResultPromises] = useState<Record<string, (status: formFieldValidationStatus) => void>>({})
     if (typeof objectSchema.type === "undefined") {
-        // eslint-disable-next-line no-throw-literal
-        throw "Schema must have a type"
+        objectSchema = findSubSchema(rootSchema, objectSchema, { ...objectSchema } as any)
+        if (typeof objectSchema.type === "undefined") {
+            // eslint-disable-next-line no-throw-literal
+            throw "Schema must have a type"
+        }
     }
     const [schemaProperties] = useState<string[]>(Object.keys({ ...objectSchema.properties }));
     const [reRenderDependents, setReRenderDependents] = useState<number>(0);

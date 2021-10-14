@@ -48,12 +48,17 @@ const AppForm = props => {
     customComponentMap,
     inlineFields
   } = props;
-  const objectSchema = props.objectSchema || props.rootSchema;
+  let objectSchema = props.objectSchema || props.rootSchema;
   const [deferedValidationPromises, setDefferedValidationResultPromises] = useState({});
 
   if (typeof objectSchema.type === "undefined") {
-    // eslint-disable-next-line no-throw-literal
-    throw "Schema must have a type";
+    objectSchema = findSubSchema(rootSchema, objectSchema, { ...objectSchema
+    });
+
+    if (typeof objectSchema.type === "undefined") {
+      // eslint-disable-next-line no-throw-literal
+      throw "Schema must have a type";
+    }
   }
 
   const [schemaProperties] = useState(Object.keys({ ...objectSchema.properties
