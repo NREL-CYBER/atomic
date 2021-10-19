@@ -525,7 +525,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         {useMemo(() => <RequiredFormFields />, [])}
                         {useMemo(() => <DependentFormFields />, [reRenderDependents])}
 
-                        {objectSchema.type === "string" && <>
+                        {objectSchema.type === "string" ? typeof (objectSchema as any)['enum'] === "undefined" ? <>
                             <AppFormInput
                                 rootSchema={rootSchema}
                                 objectSchema={objectSchema}
@@ -535,7 +535,12 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                                 instanceRef={instance}
                                 onChange={handleInputReceived}
                             />
-                        </>}
+                        </> : <AppFormSelect
+                            propertyInfo={objectSchema as any}
+                            property={objectSchema.title || "enum"}
+                            instanceRef={instance}
+                            onChange={handleInputReceived}
+                        /> : <></>}
                         {objectSchema.type === "boolean" && <>
                             <AppFormToggle
                                 rootSchema={rootSchema}

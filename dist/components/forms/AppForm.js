@@ -519,7 +519,7 @@ const AppForm = props => {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
   }, /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
-  }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), useMemo(() => /*#__PURE__*/React.createElement(DependentFormFields, null), [reRenderDependents]), objectSchema.type === "string" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
+  }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), useMemo(() => /*#__PURE__*/React.createElement(DependentFormFields, null), [reRenderDependents]), objectSchema.type === "string" ? typeof objectSchema['enum'] === "undefined" ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     rootSchema: rootSchema,
     objectSchema: objectSchema,
     propertyInfo: objectSchema,
@@ -527,7 +527,12 @@ const AppForm = props => {
     input: "text",
     instanceRef: instance,
     onChange: handleInputReceived
-  })), objectSchema.type === "boolean" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormToggle, {
+  })) : /*#__PURE__*/React.createElement(AppFormSelect, {
+    propertyInfo: objectSchema,
+    property: objectSchema.title || "enum",
+    instanceRef: instance,
+    onChange: handleInputReceived
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null), objectSchema.type === "boolean" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormToggle, {
     rootSchema: rootSchema,
     objectSchema: objectSchema,
     propertyInfo: objectSchema,
