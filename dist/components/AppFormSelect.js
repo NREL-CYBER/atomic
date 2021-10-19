@@ -21,7 +21,7 @@ const AppFormSelect = props => {
     required
   } = props;
   const [errors, setErrors] = useState(undefined);
-  const [inputStatus, setInputStatus] = useState(typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
+  const [inputStatus, setInputStatus] = useState(instanceRef.current && typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
   let instanceValue = instanceRef.current && instanceRef.current[property];
   const [value, setValue] = useState(instanceValue);
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
