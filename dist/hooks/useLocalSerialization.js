@@ -8,9 +8,9 @@ const useIndexDBStorage = create(() => ({
   provider: "index-db",
 
   async synchronize(serialization, namespace, store, uid = "", onComplete) {
-    const collection_key = namespace + "-" + store().collection;
-    const collection_workspace_key = collection_key + "-workspace";
-    const collection_active_key = collection_key + "-active";
+    const collection_key = namespace + "_" + store().collection;
+    const collection_workspace_key = collection_key + "_workspace";
+    const collection_active_key = collection_key + "_active";
     const serialized_store_string = await get(collection_key);
 
     try {

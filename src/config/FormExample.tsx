@@ -3,21 +3,15 @@ import { v4 } from "uuid";
 import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
 import { useAddress } from "./ExampleConfig";
-
+import oscal_schema from "../schemas/address.schema.json"
 const ExampleForm: React.FC = () => {
     const { schema, insert, all } = useAddress();
     const [status, setStatus] = useState<"idle" | "editing">("idle")
     return <AppPage>
         <AppContent>
             {status === "editing" ? <AppFormComposer
-                customComponentMap={{
-                    "#/definitions/property": (props) => <>
-                        {props.propertyInfo.$id}{console.log(props)}
-                        {props.property}
-                    </>
-                }}
-                objectSchema={schema.definitions!.address}
-                rootSchema={schema}
+                objectSchema={oscal_schema.definitions.assessment_plan as any}
+                rootSchema={oscal_schema}
                 title={"Address"}
                 onSubmit={(data: any) => {
                     insert(v4(), data).then(() => {

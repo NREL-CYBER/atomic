@@ -18,9 +18,9 @@ const useIndexDBStorage = create<SynchronizationContext>(() => ({
     provider: "index-db",
     async synchronize<T>(serialization: AppSerializationConfig, namespace: string, store: () => Store<T>, uid: string = "", onComplete?: () => void) {
 
-        const collection_key = namespace + "-" + store().collection;
-        const collection_workspace_key = collection_key + "-workspace";
-        const collection_active_key = collection_key + "-active";
+        const collection_key = namespace + "_" + store().collection;
+        const collection_workspace_key = collection_key + "_workspace";
+        const collection_active_key = collection_key + "_active";
 
         const serialized_store_string = await get(collection_key);
         try {
