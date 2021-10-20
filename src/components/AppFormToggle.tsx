@@ -22,11 +22,13 @@ const AppFormToggle = (props: formElementProps) => {
     const propertyFormattedName = titleCase(propertyInfo.title ? propertyInfo.title : propertyInfo.description ? propertyInfo.description : property);
 
     const inputStatusColor = inputStatusColorMap[inputStatus];
-    return <AppItem>
-        <AppButtons slot="start">
-            <AppLabel position="stacked" color={inputStatusColor} >
-                {propertyFormattedName}
-            </AppLabel>
+    return <>
+        <AppItem>
+            <AppButtons slot="start">
+                <AppLabel position="stacked" color={inputStatusColor} >
+                    {propertyFormattedName}
+                </AppLabel>
+            </AppButtons>
             <AppSelectButtons selected={typeof checked === "undefined" ? [] : checked ? ["true"] : ["false"]} onSelectionChange={(selection) => {
                 const isChecked = selection.includes("true");
                 selection.length > 0 && setChecked(isChecked);
@@ -41,13 +43,13 @@ const AppFormToggle = (props: formElementProps) => {
                 color: "danger",
                 text: "False", value: "false"
             }]} />
-        </AppButtons>
+        </AppItem >
         <AppLabel position='stacked' color='danger'>
             {errors && errors.map(error => <AppText>
                 {error}
             </AppText>)}
         </AppLabel>
-    </AppItem >
+    </>
 }
 
 export default AppFormToggle;

@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { v4 } from "uuid";
 import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
+import oscal_schema from "../schemas/address.schema.json";
 import { useAddress } from "./ExampleConfig";
-import oscal_schema from "../schemas/address.schema.json"
 const ExampleForm: React.FC = () => {
     const { schema, insert, all } = useAddress();
     const [status, setStatus] = useState<"idle" | "editing">("idle")
     return <AppPage>
         <AppContent>
             {status === "editing" ? <AppFormComposer
-                objectSchema={oscal_schema.definitions.assessment_plan as any}
+                objectSchema={oscal_schema.definitions.pallete_element as any}
                 rootSchema={oscal_schema}
                 title={"Address"}
                 onSubmit={(data: any) => {

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { v4 } from "uuid";
 import { AppButton, AppCard, AppContent, AppFormComposer, AppItem, AppLabel, AppPage, AppTitle } from "../components";
 import AppBinaryImg from "../components/AppBinaryImg";
-import { useAddress } from "./ExampleConfig";
 import oscal_schema from "../schemas/address.schema.json";
+import { useAddress } from "./ExampleConfig";
 
 const ExampleForm = () => {
   const {
@@ -13,7 +13,7 @@ const ExampleForm = () => {
   } = useAddress();
   const [status, setStatus] = useState("idle");
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
-    objectSchema: oscal_schema.definitions.assessment_plan,
+    objectSchema: oscal_schema.definitions.pallete_element,
     rootSchema: oscal_schema,
     title: "Address",
     onSubmit: data => {

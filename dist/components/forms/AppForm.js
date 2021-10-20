@@ -529,7 +529,8 @@ const AppForm = props => {
     onChange: handleInputReceived
   })) : /*#__PURE__*/React.createElement(AppFormSelect, {
     propertyInfo: objectSchema,
-    property: objectSchema.title || "enum",
+    required: true,
+    property: objectSchema.title || "",
     instanceRef: instance,
     onChange: handleInputReceived
   }) : /*#__PURE__*/React.createElement(React.Fragment, null), objectSchema.type === "boolean" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormToggle, {
