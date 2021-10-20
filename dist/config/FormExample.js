@@ -15,6 +15,9 @@ const ExampleForm = () => {
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, status === "editing" ? /*#__PURE__*/React.createElement(AppFormComposer, {
     objectSchema: oscal_schema.definitions.pallete_element,
     rootSchema: oscal_schema,
+    dependencyMap: {
+      "name": ['type']
+    },
     title: "Address",
     onSubmit: data => {
       insert(v4(), data).then(() => {

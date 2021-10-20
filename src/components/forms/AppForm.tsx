@@ -126,7 +126,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const [reRenderDependents, setReRenderDependents] = useState<number>(0);
     const requiredProperties = objectSchema.required || [];
     const dependentFields = Object.values({ ...objectSchema.dependencies, ...dependencyMap }).flatMap(x => x) as string[];
-    const triggeringFields = Object.keys({ ...objectSchema.dependencies, ...dependentFields });
+    const triggeringFields = Object.keys({ ...objectSchema.dependencies, ...dependencyMap });
     const optionalFields = ((!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true)).filter(x => !dependentFields.includes(x));
     let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []
     requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
@@ -483,22 +483,25 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 instanceRef={instance}
                 property={property} />
         })}</>
-    const DependentFormFields = () => <>{
-        dependentFields.map(property => {
-            if (lockedFields && lockedFields.includes(property))
-                return <LockedField key={property} property={property} value={instance.current[property]} />
-            if (hiddenFields && hiddenFields.includes(property))
-                return <Fragment key={property}></Fragment>
-            return <FormElement
-                propertyInfo={objectSchema.properties && objectSchema.properties[property]}
-                required={true}
-                rootSchema={rootSchema}
-                objectSchema={objectSchema}
-                key={property}
-                onChange={handleInputReceived}
-                instanceRef={instance}
-                property={property} />
-        })}</>
+    const DependentFormFields = () => {
+        console.log("render Dependents");
+        return <>{
+            dependentFields.map(property => {
+                if (lockedFields && lockedFields.includes(property))
+                    return <LockedField key={property} property={property} value={instance.current[property]} />
+                if (hiddenFields && hiddenFields.includes(property))
+                    return <Fragment key={property}></Fragment>
+                return <FormElement
+                    propertyInfo={objectSchema.properties && objectSchema.properties[property]}
+                    required={true}
+                    rootSchema={rootSchema}
+                    objectSchema={objectSchema}
+                    key={property}
+                    onChange={handleInputReceived}
+                    instanceRef={instance}
+                    property={property} />
+            })}</>
+    }
 
 
 

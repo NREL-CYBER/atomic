@@ -69,7 +69,7 @@ const AppForm = props => {
     ...dependencyMap
   }).flatMap(x => x);
   const triggeringFields = Object.keys({ ...objectSchema.dependencies,
-    ...dependentFields
+    ...dependencyMap
   });
   const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true).filter(x => !dependentFields.includes(x));
   let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
@@ -481,26 +481,29 @@ const AppForm = props => {
     });
   }));
 
-  const DependentFormFields = () => /*#__PURE__*/React.createElement(React.Fragment, null, dependentFields.map(property => {
-    if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
-      key: property,
-      property: property,
-      value: instance.current[property]
-    });
-    if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
-      key: property
-    });
-    return /*#__PURE__*/React.createElement(FormElement, {
-      propertyInfo: objectSchema.properties && objectSchema.properties[property],
-      required: true,
-      rootSchema: rootSchema,
-      objectSchema: objectSchema,
-      key: property,
-      onChange: handleInputReceived,
-      instanceRef: instance,
-      property: property
-    });
-  }));
+  const DependentFormFields = () => {
+    console.log("render Dependents");
+    return /*#__PURE__*/React.createElement(React.Fragment, null, dependentFields.map(property => {
+      if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
+        key: property,
+        property: property,
+        value: instance.current[property]
+      });
+      if (hiddenFields && hiddenFields.includes(property)) return /*#__PURE__*/React.createElement(Fragment, {
+        key: property
+      });
+      return /*#__PURE__*/React.createElement(FormElement, {
+        propertyInfo: objectSchema.properties && objectSchema.properties[property],
+        required: true,
+        rootSchema: rootSchema,
+        objectSchema: objectSchema,
+        key: property,
+        onChange: handleInputReceived,
+        instanceRef: instance,
+        property: property
+      });
+    }));
+  };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)

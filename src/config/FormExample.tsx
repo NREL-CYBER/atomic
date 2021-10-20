@@ -12,6 +12,9 @@ const ExampleForm: React.FC = () => {
             {status === "editing" ? <AppFormComposer
                 objectSchema={oscal_schema.definitions.pallete_element as any}
                 rootSchema={oscal_schema}
+                dependencyMap={{
+                    "name": ['type']
+                }}
                 title={"Address"}
                 onSubmit={(data: any) => {
                     insert(v4(), data).then(() => {
