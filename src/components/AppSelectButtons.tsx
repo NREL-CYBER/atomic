@@ -4,11 +4,13 @@ import AppButton, { buttonProps } from './AppButton';
 import AppList from './AppList';
 import { AppItem } from '.';
 import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/react';
+import { RogueColor } from '../theme/AppColor';
 
 export interface selectButtonProps extends buttonProps {
     value: string
     text: string,
     color?: AppColor,
+    colorOverride?: RogueColor
 }
 export interface selectButtonsProps {
     buttons: selectButtonProps[]

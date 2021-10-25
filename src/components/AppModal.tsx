@@ -1,5 +1,7 @@
 import { IonModal } from '@ionic/react';
+import { AppContent } from 'atomic';
 import React, { ReactFragment } from 'react';
+import { AppCard } from '.';
 import { useAppSettings } from '../hooks/useAppSettings';
 import { AppColor } from '../theme/AppColor';
 
@@ -11,6 +13,8 @@ interface appModalProps {
     backdropDismiss?: boolean,
     children: ReactFragment
     onDismiss: () => void
+    smol?: boolean
+    closeBar?: boolean
 }
 
 /**
@@ -18,8 +22,13 @@ interface appModalProps {
  *  
  */
 const AppModal: React.FC<appModalProps> = (props) => {
+    const { children, smol, ...otherProps } = props;
     const { darkMode } = useAppSettings();
-    return <IonModal cssClass={darkMode ? "dark-theme" : "light-theme"} onDidDismiss={props.onDismiss && props.onDismiss} {...props} />
+    return <IonModal animated={true} cssClass={[smol ? "smol" : "", darkMode ? "dark-theme" : "light-theme"]}
+        onDidDismiss={props.onDismiss && props.onDismiss}
+        {...otherProps} >
+        {children}
+    </IonModal >
 }
 
 export default AppModal;

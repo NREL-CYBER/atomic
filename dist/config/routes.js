@@ -1,6 +1,7 @@
 import { AppPage } from "atomic";
-import { documentOutline, homeOutline } from "ionicons/icons";
+import { documentOutline, homeOutline, searchOutline } from "ionicons/icons";
 import Home from "../pages/Home";
+import { ExamplePaginationAndSearch } from "./ExamplePaginationAndSearch";
 import { ExampleSubMenu } from "./ExampleSubMenu";
 import ExampleForm from "./FormExample";
 export const submenuRoute = {
@@ -16,16 +17,10 @@ export const submenuRoute = {
     component: ExampleForm,
     exact: true
   }, {
-    icon: documentOutline,
-    path: "/submenu/form2",
-    title: "Form2",
-    component: ExampleForm,
-    exact: true
-  }, {
-    icon: documentOutline,
-    path: "/submenu/form2",
-    title: "Form2",
-    component: ExampleForm,
+    icon: searchOutline,
+    path: "/pagination",
+    title: "Pagination",
+    component: ExamplePaginationAndSearch,
     exact: true
   }]
 };
@@ -34,6 +29,12 @@ const routes = [{
   path: "/",
   title: "",
   component: Home,
+  exact: true
+}, {
+  icon: searchOutline,
+  path: "/pagination",
+  title: "Pagination",
+  component: ExamplePaginationAndSearch,
   exact: true
 }, {
   icon: documentOutline,

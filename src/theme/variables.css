@@ -77,12 +77,12 @@ ion-progress-bar{
 width: 0px!important;  /* Remove scrollbar space */
 background: transparent!important;  /* Optional: just make scrollbar invisible */
 }
-ion-modal{
---width: 85%!important;
---height: 85%!important;
+ion-modal .smol{
+--width: 45%!important;
+--height: 45%!important;
 --border-radius: 0;
-
 }
+
 .dzu-dropzone{
   border-color:rgba(0.5,0.5,0.5,0.2);
   border-radius: 5px;

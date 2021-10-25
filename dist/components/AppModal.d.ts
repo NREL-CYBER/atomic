@@ -6,6 +6,8 @@ interface appModalProps {
     backdropDismiss?: boolean;
     children: ReactFragment;
     onDismiss: () => void;
+    smol?: boolean;
+    closeBar?: boolean;
 }
 /**
  * Component for modals

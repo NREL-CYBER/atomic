@@ -1,10 +1,11 @@
 import React, { MouseEventHandler } from 'react';
-import { AppColor } from '../theme/AppColor';
+import { AppColor, RogueColor } from '../theme/AppColor';
 export declare type AppFill = "clear" | "outline" | "solid" | "default" | undefined;
 export interface buttonProps {
     expand?: "full" | "block";
     routerLink?: string;
     color?: AppColor;
+    colorOverride?: RogueColor;
     className?: string;
     onClick?: MouseEventHandler;
     fill?: AppFill;

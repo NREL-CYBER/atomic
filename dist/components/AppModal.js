@@ -10,12 +10,18 @@ import { useAppSettings } from '../hooks/useAppSettings';
  */
 const AppModal = props => {
   const {
+    children,
+    smol,
+    ...otherProps
+  } = props;
+  const {
     darkMode
   } = useAppSettings();
   return /*#__PURE__*/React.createElement(IonModal, _extends({
-    cssClass: darkMode ? "dark-theme" : "light-theme",
+    animated: true,
+    cssClass: [smol ? "smol" : "", darkMode ? "dark-theme" : "light-theme"],
     onDidDismiss: props.onDismiss && props.onDismiss
-  }, props));
+  }, otherProps), children);
 };
 
 export default AppModal;

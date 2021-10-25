@@ -65,10 +65,10 @@ const AppForm = props => {
   }));
   const [reRenderDependents, setReRenderDependents] = useState(0);
   const requiredProperties = objectSchema.required || [];
-  const dependentFields = Object.values({ ...objectSchema.dependencies,
+  const dependentFields = Object.values({ ...objectSchema.dependentRequired,
     ...dependencyMap
   }).flatMap(x => x);
-  const triggeringFields = Object.keys({ ...objectSchema.dependencies,
+  const triggeringFields = Object.keys({ ...objectSchema.dependentRequired,
     ...dependencyMap
   });
   const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true).filter(x => !dependentFields.includes(x));
@@ -482,7 +482,6 @@ const AppForm = props => {
   }));
 
   const DependentFormFields = () => {
-    console.log("render Dependents");
     return /*#__PURE__*/React.createElement(React.Fragment, null, dependentFields.map(property => {
       if (lockedFields && lockedFields.includes(property)) return /*#__PURE__*/React.createElement(LockedField, {
         key: property,
