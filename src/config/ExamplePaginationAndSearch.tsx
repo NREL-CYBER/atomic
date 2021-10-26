@@ -1,4 +1,4 @@
-import { AppButtons, AppLabel, AppText } from "atomic";
+import { AppButtons, AppCol, AppLabel, AppText } from "atomic";
 import { AppChip, AppContent, AppFoldingNode, AppModal, AppTitle, AppItem, AppCard } from "../components";
 import { AppPaginatedList } from "../components/AppPaginatedList";
 import { useAttack } from "./ExampleConfig";
@@ -9,18 +9,24 @@ export const ExamplePaginationAndSearch: React.FC = () => {
         <AppModal smol isOpen={typeof selected !== 'undefined'} onDismiss={() => {
             setActive(undefined);
         }}>
+            <AppContent>
+                {selected && <AppCard title={selected["name"] || "Relationship"}>
+                    {Object.keys(selected || {}).map((k) => <AppItem>
+                        <AppLabel>
+                            {k}
+                        </AppLabel>
+                        {typeof selected[k] === 'string' && <AppText color='medium'>{selected[k]}</AppText>}
+                        {typeof selected[k] === 'object' && typeof selected[k].map === "function" && <AppText color='medium'>{selected[k].map((x: any) => <AppChip>
+                            {typeof x === 'string' && <AppText color='medium'>{x}</AppText>}
+                            {typeof x === 'object' && <AppText color='medium'>{Object.values(x)}</AppText>}
 
-            <AppCard>
-                {Object.keys(selected || {}).map((k) => <AppItem>
-                    <AppLabel>
-                        {k}
-                    </AppLabel>
-                    {typeof selected[k] === 'string' && <AppText color='medium'>{selected[k]}</AppText>}
-                </AppItem>)}
-            </AppCard>
-        </AppModal>
+                        </AppChip>)}</AppText>}
+                    </AppItem>)}
+                </AppCard>}
+            </AppContent>
+        </AppModal >
 
-        <AppPaginatedList render=
+        <AppPaginatedList filterCategories={{ "type": { multi: false, options: [{ value: "malware" }, { value: "attack-pattern" }] } }} renderItem=
             {({ item }) => {
                 return <AppItem href={"javascript:void"} onClick={() => {
                     setActive(item.id)
@@ -36,5 +42,5 @@ export const ExamplePaginationAndSearch: React.FC = () => {
             }}
             store={useAttack}
         />
-    </AppContent>
+    </AppContent >
 }

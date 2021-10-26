@@ -4,7 +4,7 @@ import { buttonProps } from './AppButton';
 import { RogueColor } from '../theme/AppColor';
 export interface selectButtonProps extends buttonProps {
     value: string;
-    text: string;
+    text?: string;
     color?: AppColor;
     colorOverride?: RogueColor;
 }
@@ -15,6 +15,7 @@ export interface selectButtonsProps {
     multi?: boolean;
     display?: "horizontal" | "vertical";
     segment?: boolean;
+    allowEmpty?: boolean;
 }
 /**
  * Component for a select interface via buttons

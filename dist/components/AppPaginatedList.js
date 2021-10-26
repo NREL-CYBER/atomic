@@ -1,12 +1,15 @@
-import { AppButton, AppButtons, AppCard, AppChip, AppGrid, AppRow, AppSearchBar, AppSelectButtons } from "./";
+import { AppButton, AppButtons, AppCard, AppChip, AppCol, AppGrid, AppRow, AppSearchBar, AppSelectButtons } from "./";
 import React, { useEffect, useState } from "react";
 import AppItem from "./AppItem";
-import AppLoadingCard from "./AppLoadingCard";
+import { AppSpinner } from "atomic";
 export const AppPaginatedList = ({
-  render,
+  renderItem,
   store,
   filterCategories,
-  pageSize = 10
+  pageSize = 10,
+  itemSize = {
+    xs: "24"
+  }
 }) => {
   const [query, setQuery] = useState();
   const [options] = useState(filterCategories || {});
@@ -16,6 +19,11 @@ export const AppPaginatedList = ({
   } = store();
   const [pageNumber, setPageNumber] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState({});
+  const {
+    lg,
+    md,
+    xs
+  } = itemSize;
   useEffect(() => {
     paginate({
       pageSize,
@@ -34,6 +42,7 @@ export const AppPaginatedList = ({
     }), /*#__PURE__*/React.createElement(AppGrid, null, Object.entries(options).map(([property, optionParams], i) => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRow, {
       key: i
     }, /*#__PURE__*/React.createElement(AppChip, null, property), /*#__PURE__*/React.createElement(AppSelectButtons, {
+      allowEmpty: true,
       multi: optionParams.multi,
       selected: selectedOptions[property] || [],
       onSelectionChange: selection => {
@@ -42,11 +51,15 @@ export const AppPaginatedList = ({
         }));
         setPageNumber(1);
       },
-      buttons: optionParams.values
+      buttons: optionParams.options
     }))))))
-  }, page ? page.map(i => render({
-    item: i
-  })) : /*#__PURE__*/React.createElement(AppLoadingCard, null)), /*#__PURE__*/React.createElement(AppItem, {
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, page ? page.map(item => /*#__PURE__*/React.createElement(AppCol, {
+    sizeLg: lg,
+    sizeMd: md,
+    sizeXs: xs
+  }, renderItem({
+    item
+  }))) : /*#__PURE__*/React.createElement(AppSpinner, null)))), /*#__PURE__*/React.createElement(AppItem, {
     color: "light"
   }, pageNumber !== 1 && page && page.length !== 0 && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"

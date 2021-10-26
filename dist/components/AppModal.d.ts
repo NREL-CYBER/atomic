@@ -8,6 +8,8 @@ interface appModalProps {
     onDismiss: () => void;
     smol?: boolean;
     closeBar?: boolean;
+    title?: React.ReactFragment;
+    closeButton?: boolean;
 }
 /**
  * Component for modals

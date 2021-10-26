@@ -1,9 +1,13 @@
 import { IonModal } from '@ionic/react';
 import { AppContent } from 'atomic';
-import React, { ReactFragment } from 'react';
-import { AppCard } from '.';
+import { closeOutline } from 'ionicons/icons';
+import React, { ReactFragment, useRef } from 'react';
 import { useAppSettings } from '../hooks/useAppSettings';
 import { AppColor } from '../theme/AppColor';
+import AppCard from './AppCard';
+import AppFab from './AppFab';
+import AppFabButton from './AppFabButton';
+import AppIcon from './AppIcon';
 
 
 
@@ -15,6 +19,9 @@ interface appModalProps {
     onDismiss: () => void
     smol?: boolean
     closeBar?: boolean
+    title?: React.ReactFragment
+    closeButton?: boolean
+
 }
 
 /**
@@ -22,12 +29,21 @@ interface appModalProps {
  *  
  */
 const AppModal: React.FC<appModalProps> = (props) => {
-    const { children, smol, ...otherProps } = props;
+    const { children, smol, title, ...otherProps } = props;
     const { darkMode } = useAppSettings();
-    return <IonModal animated={true} cssClass={[smol ? "smol" : "", darkMode ? "dark-theme" : "light-theme"]}
+    const ref = useRef<HTMLIonModalElement>(null);
+    return <IonModal ref={ref} animated={true} cssClass={[smol ? "smol" : "", darkMode ? "dark-theme" : "light-theme"]}
         onDidDismiss={props.onDismiss && props.onDismiss}
         {...otherProps} >
-        {children}
+        <AppFab vertical="top" horizontal="end" >
+            <AppFabButton size="small" color="light" onClick={() => {
+                ref.current?.dismiss()
+            }}>
+                <AppIcon icon={closeOutline} /></AppFabButton>
+        </AppFab>
+        <AppContent>
+            {children}
+        </AppContent>
     </IonModal >
 }
 

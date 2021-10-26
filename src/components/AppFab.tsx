@@ -15,6 +15,6 @@ interface itemProps {
  * use vertical and horizontal props for positioning
  */
 const AppFab: React.FC<itemProps> = (props) => {
-    return <IonFab {...props} />
+    return <IonFab  {...props} />
 };
 export default AppFab;

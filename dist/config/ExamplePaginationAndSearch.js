@@ -16,10 +16,28 @@ export const ExamplePaginationAndSearch = () => {
     onDismiss: () => {
       setActive(undefined);
     }
-  }, /*#__PURE__*/React.createElement(AppCard, null, Object.keys(selected || {}).map(k => /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, k), typeof selected[k] === 'string' && /*#__PURE__*/React.createElement(AppText, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, selected && /*#__PURE__*/React.createElement(AppCard, {
+    title: selected["name"] || "Relationship"
+  }, Object.keys(selected || {}).map(k => /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, k), typeof selected[k] === 'string' && /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
-  }, selected[k]))))), /*#__PURE__*/React.createElement(AppPaginatedList, {
-    render: ({
+  }, selected[k]), typeof selected[k] === 'object' && typeof selected[k].map === "function" && /*#__PURE__*/React.createElement(AppText, {
+    color: "medium"
+  }, selected[k].map(x => /*#__PURE__*/React.createElement(AppChip, null, typeof x === 'string' && /*#__PURE__*/React.createElement(AppText, {
+    color: "medium"
+  }, x), typeof x === 'object' && /*#__PURE__*/React.createElement(AppText, {
+    color: "medium"
+  }, Object.values(x)))))))))), /*#__PURE__*/React.createElement(AppPaginatedList, {
+    filterCategories: {
+      "type": {
+        multi: false,
+        options: [{
+          value: "malware"
+        }, {
+          value: "attack-pattern"
+        }]
+      }
+    },
+    renderItem: ({
       item
     }) => {
       return /*#__PURE__*/React.createElement(AppItem, {

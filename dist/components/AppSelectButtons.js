@@ -11,6 +11,7 @@ import { IonLabel, IonSegment, IonSegmentButton } from '@ionic/react';
  */
 const AppSelectButtons = ({
   segment,
+  allowEmpty,
   selected,
   buttons,
   onSelectionChange,
@@ -20,14 +21,16 @@ const AppSelectButtons = ({
   const selectButtons = buttons.map((button, i) => /*#__PURE__*/React.createElement(AppButton, _extends({
     key: i,
     fill: selected.includes(button.value) ? "solid" : "outline",
-    children: button.text
+    children: button.text || button.value
   }, button, {
     onClick: () => {
       if (multi) {
         const newselected = selected.includes(button.value) ? selected.filter(v => v !== button.value) : [...selected, button.value];
         onSelectionChange(newselected);
       } else {
-        onSelectionChange([button.value]);
+        const [selectedValue] = selected;
+        const isAlreadySelected = selectedValue === button.value && allowEmpty;
+        isAlreadySelected ? onSelectionChange([]) : onSelectionChange([button.value]);
       }
     }
   })));

@@ -8,7 +8,7 @@ import { RogueColor } from '../theme/AppColor';
 
 export interface selectButtonProps extends buttonProps {
     value: string
-    text: string,
+    text?: string,
     color?: AppColor,
     colorOverride?: RogueColor
 }
@@ -19,23 +19,26 @@ export interface selectButtonsProps {
     multi?: boolean
     display?: "horizontal" | "vertical"
     segment?: boolean
+    allowEmpty?: boolean
 }
 
 /**
  * Component for a select interface via buttons
  */
-const AppSelectButtons: React.FC<selectButtonsProps> = ({ segment, selected, buttons, onSelectionChange, multi, display = "horizontal" }) => {
+const AppSelectButtons: React.FC<selectButtonsProps> = ({ segment, allowEmpty, selected, buttons, onSelectionChange, multi, display = "horizontal" }) => {
 
     const selectButtons =
         buttons.map((button, i) => <AppButton key={i}
             fill={selected.includes(button.value) ? "solid" : "outline"}
-            children={button.text} {...button}
+            children={button.text || button.value} {...button}
             onClick={() => {
                 if (multi) {
                     const newselected = selected.includes(button.value) ? selected.filter(v => v !== button.value) : [...selected, button.value];
                     onSelectionChange(newselected);
                 } else {
-                    onSelectionChange([button.value]);
+                    const [selectedValue] = selected;
+                    const isAlreadySelected = selectedValue === button.value && allowEmpty
+                    isAlreadySelected ? onSelectionChange([]) : onSelectionChange([button.value]);
                 }
             }} />)
 
