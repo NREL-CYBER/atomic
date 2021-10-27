@@ -2,7 +2,7 @@ import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import { isUndefined } from "lodash";
 import React, { Suspense, useCallback, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { findShortestValue } from "./AppFormArrayInput";
@@ -100,11 +100,12 @@ const AppFormAnyOfArrayInput = props => {
   }))), /*#__PURE__*/React.createElement("div", {
     hidden: !(status === "inserting")
   }, /*#__PURE__*/React.createElement(AppModal, {
+    title: propertyFormattedName,
     isOpen: status === "inserting",
     onDismiss: () => setStatus("idle")
   }, /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
-  }, /*#__PURE__*/React.createElement(AppContent, null, selectedType && /*#__PURE__*/React.createElement(AppFormComposer, {
+  }, selectedType && /*#__PURE__*/React.createElement(AppFormComposer, {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
@@ -116,7 +117,7 @@ const AppFormAnyOfArrayInput = props => {
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: onBackPressed
-  }))))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
+  })))))), errors && errors.length > 0 && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, {
     position: "stacked",
     color: "danger"
   }, errors.map(error => /*#__PURE__*/React.createElement(AppText, null, error)))));

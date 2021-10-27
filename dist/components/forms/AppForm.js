@@ -4,7 +4,7 @@
 import { chevronDownOutline, chevronForwardOutline, pencilOutline } from 'ionicons/icons';
 import React, { Fragment, Suspense, useMemo, useRef, useState } from 'react';
 import { v4 } from 'uuid';
-import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppContent, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
+import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormAnyOfArrayInput from '../AppFormAnyOfArrayInput';
 import { inputStatusColorMap } from '../AppFormInput';
@@ -46,7 +46,8 @@ const AppForm = props => {
     customSubmit,
     autoSubmit,
     customComponentMap,
-    inlineFields
+    inlineFields,
+    hideTitle
   } = props;
   let objectSchema = props.objectSchema || props.rootSchema;
   const [deferedValidationPromises, setDefferedValidationResultPromises] = useState({});
@@ -199,7 +200,6 @@ const AppForm = props => {
         });
       }
     }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
-      href: "javascript:void(0)",
       onClick: () => setShowNestedFrom(x => !x)
     }, /*#__PURE__*/React.createElement(AppFormLabel, {
       name: formated_title,
@@ -222,7 +222,7 @@ const AppForm = props => {
     }, /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
       isOpen: showNestedForm
-    }, /*#__PURE__*/React.createElement(AppContent, null, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
+    }, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
       data: instanceRef.current[property],
       customComponentMap: customComponentMap,
       rootSchema: rootSchema,
@@ -236,7 +236,7 @@ const AppForm = props => {
       }
     }, /*#__PURE__*/React.createElement(AppBackButton, {
       onClick: () => setShowNestedFrom(false)
-    }))))));
+    })))));
   };
 
   const FormElement = ({
@@ -508,13 +508,13 @@ const AppForm = props => {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
   }, /*#__PURE__*/React.createElement(AppCard, {
     contentColor: "light",
-    title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
+    title: !hideTitle ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
       color: "clear"
     }, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }, children, /*#__PURE__*/React.createElement(AppTitle, {
       color: isValid ? "favorite" : "tertiary"
-    }, prettyTitle(title || objectSchema.title)))))
+    }, prettyTitle(title || objectSchema.title))))) : /*#__PURE__*/React.createElement(React.Fragment, null)
   }, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
   }, description ? description : objectSchema.description)), /*#__PURE__*/React.createElement(Suspense, {
@@ -550,7 +550,6 @@ const AppForm = props => {
   })))), /*#__PURE__*/React.createElement(AppList, {
     color: "clear"
   }, !requiredOnly && optionalFields.length > 0 && /*#__PURE__*/React.createElement(AppItem, {
-    href: 'javascript:void(0)',
     color: "clear",
     onClick: toggleOptionalFields
   }, /*#__PURE__*/React.createElement(AppIcon, {

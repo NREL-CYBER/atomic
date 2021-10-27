@@ -13,7 +13,7 @@ export const AppFormLabel = ({
     slot: "start"
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      minWidth: 200,
+      minWidth: 130,
       fontSize: 11
     }
   }, /*#__PURE__*/React.createElement(AppLabel, {

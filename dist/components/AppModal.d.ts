@@ -1,5 +1,6 @@
 import React, { ReactFragment } from 'react';
 import { AppColor } from '../theme/AppColor';
+import { selectButtonsProps } from './AppSelectButtons';
 interface appModalProps {
     color?: AppColor;
     isOpen: boolean;
@@ -8,8 +9,11 @@ interface appModalProps {
     onDismiss: () => void;
     smol?: boolean;
     closeBar?: boolean;
-    title?: React.ReactFragment;
+    title?: string;
+    titleColor?: AppColor;
+    headerColor?: AppColor;
     closeButton?: boolean;
+    buttons?: selectButtonsProps;
 }
 /**
  * Component for modals

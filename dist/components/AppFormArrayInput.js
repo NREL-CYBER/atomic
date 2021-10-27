@@ -1,9 +1,10 @@
 /* eslint-disable no-script-url */
+import { AppLabel } from "atomic";
 import produce from "immer";
-import { addOutline, closeOutline } from 'ionicons/icons';
+import { addSharp, closeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray } from "lodash";
 import React, { useCallback, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import AppCard from "./AppCard";
@@ -26,7 +27,7 @@ export const findShortestValue = val => {
     return val['values'].map(x => String(x)).join(' ');
   }
 
-  return String(Object.values(val).sort((a, b) => String(a).length - String(b).length).filter(x => x.length > 2)[0]);
+  return String(Object.values(val).sort((a, b) => String(a).length - String(b).length).filter(x => x.length > 0)[0]);
 };
 /**
  * Component for input that displays validation errors
@@ -94,35 +95,37 @@ const AppFormArrayInput = props => {
   const itemId = propertyInfo.items?.$ref?.toString() || "";
   const customItemComponent = customComponentMap && customComponentMap[itemId];
   const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
+  const elementTitle = propertyFormattedName + "[" + (editingItemIndex || '0') + "]";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
-    href: "javascript:void(0)",
     onClick: e => {
       beginInsertItem();
     }
-  }, /*#__PURE__*/React.createElement(AppFormLabel, {
+  }, /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppLabel, {
+    color: inputStatusColor
+  }, "(", value.length, ")")), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  }, /*#__PURE__*/React.createElement(AppButton, {
+    fill: "clear",
+    color: "primary",
+    className: "close-button"
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: addSharp
+  }))), /*#__PURE__*/React.createElement(AppFormLabel, {
     required: required,
     onClick: () => {
       beginInsertItem();
     },
-    name: propertyFormattedName,
+    name: propertyFormattedName + " ",
     color: inputStatusColor
-  }), /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "end"
-  }, /*#__PURE__*/React.createElement(AppButton, {
-    onClick: () => {
-      beginInsertItem();
-    },
-    fill: "solid",
-    color: "primary"
-  }, /*#__PURE__*/React.createElement(AppIcon, {
-    icon: addOutline
-  })))), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     hidden: !isInsertingItem
   }, /*#__PURE__*/React.createElement(AppModal, {
     isOpen: isInsertingItem,
     onDismiss: () => onBackPressed()
-  }, /*#__PURE__*/React.createElement(AppContent, null, customItemComponent ? /*#__PURE__*/React.createElement(AppCard, {
-    title: propertyFormattedName + "[" + (editingItemIndex || '0') + "]"
+  }, customItemComponent ? /*#__PURE__*/React.createElement(AppCard, {
+    title: elementTitle
   }, customItemComponent({
     showFields,
     hiddenFields,
@@ -141,6 +144,7 @@ const AppFormArrayInput = props => {
     property: "item",
     propertyInfo
   })) : /*#__PURE__*/React.createElement(AppFormComposer, {
+    title: elementTitle,
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
@@ -151,9 +155,9 @@ const AppFormArrayInput = props => {
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => onBackPressed()
-  }))))), value && value.filter(Boolean).map((val, i) => {
+  })))), value && value.filter(Boolean).map((val, i) => {
     return /*#__PURE__*/React.createElement(AppItem, {
-      href: "javascript:void(0)",
+      color: "paper",
       onClick: e => {
         const isCloseButton = e.target.className.split(' ').includes("close-button");
 
@@ -164,11 +168,15 @@ const AppFormArrayInput = props => {
       lines: "full"
     }, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
-    }), /*#__PURE__*/React.createElement(AppChip, {
+    }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppIcon, {
+      icon: returnDownForwardOutline
+    }))), /*#__PURE__*/React.createElement(AppChip, {
       key: i
     }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val))), /*#__PURE__*/React.createElement(AppButtons, {
       slot: "end"
     }, /*#__PURE__*/React.createElement(AppButton, {
+      fill: "clear",
+      color: "danger",
       className: "close-button",
       onClick: () => {
         setValue(x => removeAtIndex(i, x));

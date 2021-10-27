@@ -1,11 +1,9 @@
 import { AppCol } from 'atomic';
 import React, { useState } from 'react';
 import { prettyTitle } from '../util';
-import titleCase from '../util/titleCase';
 import { inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
-import AppSelect from './AppSelect';
-import AppSelectOption from './AppSelectOption';
+import AppSelectButtons from './AppSelectButtons';
 import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
 import { AppFormLabel } from './forms/AppFormLabel';
 
@@ -30,22 +28,23 @@ const AppFormSelect = props => {
     required: required,
     name: propertyFormattedName,
     color: statusColor
-  }), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppSelect, {
-    interface: "popover",
-    value: value,
-    placeholder: propertyFormattedName,
-    onSelectionChange: val => {
+  }), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppSelectButtons, {
+    display: propertyInfo.enum.length > 4 ? "vertical" : "horizontal",
+    segment: true,
+    selected: [value],
+    onSelectionChange: ([val]) => {
       setValue(val);
       onChange(property, val).then(([validationStatus, validationErrors]) => {
         setInputStatus(validationStatus);
         setErrors(validationErrors);
       });
-    }
-  }, propertyInfo.enum.map(enumValue => /*#__PURE__*/React.createElement(AppSelectOption, {
-    key: enumValue,
-    value: enumValue,
-    children: titleCase(enumValue)
-  }))))), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+    },
+    buttons: propertyInfo.enum.map(enumValue => ({
+      color: value === enumValue ? "favorite" : "medium",
+      value: enumValue,
+      text: prettyTitle(enumValue)
+    }))
+  }))), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
     errors: errors
   }));
 };

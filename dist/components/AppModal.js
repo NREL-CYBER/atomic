@@ -1,12 +1,11 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 import { IonModal } from '@ionic/react';
-import { AppContent } from 'atomic';
 import { closeOutline } from 'ionicons/icons';
 import React, { useRef } from 'react';
+import { AppButtons, AppContent, AppItem, AppSelectButtons, AppTitle } from '.';
 import { useAppSettings } from '../hooks/useAppSettings';
-import AppFab from './AppFab';
-import AppFabButton from './AppFabButton';
+import AppButton from './AppButton';
 import AppIcon from './AppIcon';
 
 /**
@@ -18,6 +17,9 @@ const AppModal = props => {
     children,
     smol,
     title,
+    buttons,
+    titleColor,
+    headerColor,
     ...otherProps
   } = props;
   const {
@@ -33,19 +35,21 @@ const AppModal = props => {
     animated: true,
     cssClass: darkMode ? "dark-theme" : "light-theme",
     onDidDismiss: props.onDismiss
-  }, otherProps), /*#__PURE__*/React.createElement(AppFab, {
-    vertical: "top",
-    horizontal: "end"
-  }, /*#__PURE__*/React.createElement(AppFabButton, {
-    size: "small",
-    color: "clear",
+  }, otherProps), title && /*#__PURE__*/React.createElement(AppItem, {
+    color: headerColor || 'light'
+  }, /*#__PURE__*/React.createElement(AppTitle, {
+    color: titleColor || 'tertiary'
+  }, title), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  }, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       ref.current?.dismiss();
-    }
-  }, /*#__PURE__*/React.createElement(AppIcon, {
+    },
     color: "danger",
+    fill: "clear"
+  }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: closeOutline
-  }))), /*#__PURE__*/React.createElement(AppContent, null, children));
+  })))), /*#__PURE__*/React.createElement(AppContent, null, children), /*#__PURE__*/React.createElement(React.Fragment, null), buttons && /*#__PURE__*/React.createElement(AppSelectButtons, buttons));
 };
 
 export default AppModal;

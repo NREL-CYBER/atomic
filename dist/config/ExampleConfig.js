@@ -1,14 +1,16 @@
 import { composeStore } from "store";
 import AddressSchema from "../schemas/address.schema.json";
-import routes from "./routes";
+import Attack10 from "./ATTACK10.json";
 import { ExampleBottomBar } from "./ExampleBottomBar";
 import { ExampleSearchWidget } from "./ExampleSearchWidget";
-import Attack10 from "./ATTACK10.json";
+import routes from "./routes";
 const useAddress = composeStore({
   schema: AddressSchema,
-  definition: "address"
+  definition: "pallete_element",
+  identifier: "name"
 });
 export const useAttack = composeStore({
+  identifier: "id",
   initial: Attack10.objects.map(x => ({
     [x.id]: { ...x
     }

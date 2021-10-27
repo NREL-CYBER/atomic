@@ -1,15 +1,14 @@
 import { Store } from "store";
-import { AppConfig } from "../util/AppConfig";
 import { UseBoundStore } from "zustand";
-declare type Address = {
-    post_office_box?: string;
-    street_address?: string;
-    locality: string;
-    region: string;
-    country_name: string;
-    street_view: string;
+import { AppConfig } from "../util/AppConfig";
+declare type PalleteItem = {
+    name: string;
+    type: string;
+    r: number;
+    g: number;
+    b: number;
 };
-declare const useAddress: UseBoundStore<Store<Address>>;
+declare const useAddress: UseBoundStore<Store<PalleteItem>>;
 export interface MitreNode extends Record<string, any> {
     type: string;
     name: string;

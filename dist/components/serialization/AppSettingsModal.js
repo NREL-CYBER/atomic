@@ -1,7 +1,7 @@
 import axios from "axios";
 import { settingsOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
-import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppInput, AppItem, AppModal, AppTitle, AppToggle } from "..";
+import { AppButton, AppButtons, AppChip, AppIcon, AppInput, AppItem, AppModal, AppTitle, AppToggle } from "..";
 import { useAppSettings } from "../../hooks/useAppSettings";
 export const AppSettingsModal = ({
   config
@@ -43,13 +43,11 @@ export const AppSettingsModal = ({
   const showServer = typeof config.settings?.show?.server === "undefined" ? false : config.settings.show.server;
   const showDarkMode = typeof config.settings?.show?.darkmode === "undefined" ? true : config.settings.show.darkmode;
   return showSettings ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppModal, {
+    title: title + " Settings",
     isOpen: showSettings,
     onDismiss: () => {
       setShowSettings(false);
     }
-  }, /*#__PURE__*/React.createElement(AppCard, {
-    title: title + " Settings",
-    headerColor: "tertiary"
   }, showDarkMode && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppChip, null, darkMode ? "Dark Mode" : "Light Mode"), /*#__PURE__*/React.createElement(AppToggle, {
     checked: darkMode,
     onToggleChange: isDark => {
@@ -73,7 +71,7 @@ export const AppSettingsModal = ({
     expand: "full"
   }, "Synchronize with server"), serverStatus === "connected" && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppTitle, {
     color: "favorite"
-  }, "Synchronizing data with ", endpoint)), config.settings?.component), /*#__PURE__*/React.createElement(AppButton, {
+  }, "Synchronizing data with ", endpoint)), config.settings?.component, /*#__PURE__*/React.createElement(AppButton, {
     color: "primary",
     fill: "outline",
     expand: "full",

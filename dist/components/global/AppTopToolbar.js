@@ -1,13 +1,13 @@
+import { AppGrid } from 'atomic';
 import { homeOutline, searchOutline } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
-import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
+import { AppButton, AppButtons, AppChip, AppIcon, AppMenuButton, AppRow, AppTitle, AppToolbar } from '..';
 import { useCompletion } from '../../hooks';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import useTitle from '../../hooks/usePageTitle';
-import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';
 import AppSearchBar from '../AppSearchBar';
 /**
@@ -98,18 +98,12 @@ const AppTopToolbar = ({
   }, /*#__PURE__*/React.createElement(AppTitle, null, title)), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
+    title: appTitle + " (" + version + ")",
     onDismiss: () => {
       setShowAbout(false);
     },
     isOpen: showAbout
-  }, /*#__PURE__*/React.createElement(AppCard, {
-    titleColor: "tertiary",
-    title: appTitle + " " + version
-  }, /*#__PURE__*/React.createElement(AppItemDivider, {
-    color: "clear"
-  }), about?.component, /*#__PURE__*/React.createElement(AppItemDivider, {
-    color: "clear"
-  }))), !hideAbout && /*#__PURE__*/React.createElement(AppButton, {
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, about?.component))), !hideAbout && /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
     onClick: () => {
       setShowAbout(x => !x);

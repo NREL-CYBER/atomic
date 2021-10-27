@@ -19,7 +19,6 @@ const AppAccordion = ({
   React.createElement(React.Fragment, {
     key: i
   }, /*#__PURE__*/React.createElement(AppItem, {
-    href: "javascript:void(0)",
     color: unlockedIndex === i ? selectedColor : itemColor,
     onClick: () => {
       if (unlockedIndex === i) {

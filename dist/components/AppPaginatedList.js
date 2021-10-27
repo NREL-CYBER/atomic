@@ -1,9 +1,10 @@
 import { arrowBackOutline, arrowForwardOutline } from "ionicons/icons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { AppButton, AppButtons, AppCard, AppChip, AppCol, AppGrid, AppRow, AppSearchBar, AppSelectButtons } from "./";
 import AppIcon from "./AppIcon";
 import AppItem from "./AppItem";
 import AppLoadingCard from "./AppLoadingCard";
+import AppTitle from "./AppTitle";
 export const AppPaginatedList = ({
   search,
   renderItem,
@@ -12,7 +13,8 @@ export const AppPaginatedList = ({
   pageSize = 10,
   itemSize = {
     xs: "24"
-  }
+  },
+  title
 }) => {
   const [queryText, setQueryText] = useState("");
   const [options] = useState(filterCategories || {});
@@ -31,17 +33,15 @@ export const AppPaginatedList = ({
   useEffect(() => {
     query({
       pageSize,
-      page: pageNumber,
-      identifier: "id"
+      page: pageNumber
     }, { ...selectedOptions
     }, queryText).then(results => {
       setQueryResults(results);
     });
   }, [pageNumber, pageSize, query, queryText, selectedOptions, index]);
-  console.log(search);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, " ", /*#__PURE__*/React.createElement(AppCard, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "light",
-    title: /*#__PURE__*/React.createElement(React.Fragment, null, search && /*#__PURE__*/React.createElement(AppSearchBar, {
+    title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, null, title), search && /*#__PURE__*/React.createElement(AppSearchBar, {
       debounce: 200,
       onQuery: q => {
         setQueryText(q);
@@ -60,11 +60,11 @@ export const AppPaginatedList = ({
       },
       buttons: optionParams.options
     }))), Object.keys(options).length > 3 && /*#__PURE__*/React.createElement(AppButton, null, "More Filters")))
-  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, queryResults ? queryResults.map(item => /*#__PURE__*/React.createElement(AppCol, {
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, useMemo(() => queryResults ? queryResults.map(item => /*#__PURE__*/React.createElement(AppCol, {
     sizeLg: lg,
     sizeMd: md,
     sizeXs: xs
-  }, renderItem(item))) : /*#__PURE__*/React.createElement(AppLoadingCard, null)))), /*#__PURE__*/React.createElement(AppItem, {
+  }, renderItem(item))) : /*#__PURE__*/React.createElement(AppLoadingCard, null), [lg, md, queryResults, renderItem, xs])))), /*#__PURE__*/React.createElement(AppItem, {
     color: "clear"
   }, pageNumber !== 0 && queryResults && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"

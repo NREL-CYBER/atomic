@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppColor } from '../theme';
-import { buttonProps } from './AppButton';
 import { RogueColor } from '../theme/AppColor';
+import { buttonProps } from './AppButton';
 export interface selectButtonProps extends buttonProps {
     value: string;
     text?: string;

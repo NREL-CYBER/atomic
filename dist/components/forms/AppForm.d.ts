@@ -11,6 +11,7 @@ export interface formNodeProps extends formProps {
 }
 export interface formProps {
     data: any;
+    hideTitle?: boolean;
     rootSchema: RootSchemaObject;
     objectSchema?: SchemaObjectDefinition;
     onSubmit: (validData: any) => void;

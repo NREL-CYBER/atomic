@@ -5,6 +5,7 @@ interface selectStringProps {
     placeholder?: string;
     value?: string;
     color?: AppColor;
+    ref?: any;
     onSelectionChange?: (value: string) => void;
 }
 /**
