@@ -17,7 +17,8 @@ export const AppPaginatedList = ({
   const [queryText, setQueryText] = useState("");
   const [options] = useState(filterCategories || {});
   const {
-    query
+    query,
+    index
   } = store();
   const [queryResults, setQueryResults] = useState();
   const [pageNumber, setPageNumber] = useState(0);
@@ -36,7 +37,7 @@ export const AppPaginatedList = ({
     }, queryText).then(results => {
       setQueryResults(results);
     });
-  }, [pageNumber, pageSize, query, queryText, selectedOptions]);
+  }, [pageNumber, pageSize, query, queryText, selectedOptions, index]);
   console.log(search);
   return /*#__PURE__*/React.createElement(React.Fragment, null, " ", /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "light",

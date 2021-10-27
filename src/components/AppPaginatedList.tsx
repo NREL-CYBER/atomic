@@ -19,7 +19,7 @@ export const AppPaginatedList: React.FC<{
 }> = ({ search, renderItem, store, filterCategories, pageSize = 10, itemSize = { xs: "24" } }) => {
     const [queryText, setQueryText] = useState<string>("")
     const [options] = useState(filterCategories || {})
-    const { query } = store()
+    const { query, index } = store()
     const [queryResults, setQueryResults] = useState<any[] | undefined>()
     const [pageNumber, setPageNumber] = useState<number>(0);
     const [selectedOptions, setSelectedOptions] = useState<Record<string, string[]>>({});
@@ -28,7 +28,7 @@ export const AppPaginatedList: React.FC<{
         query({ pageSize, page: pageNumber, identifier: "id" }, { ...selectedOptions }, queryText).then((results) => {
             setQueryResults(results);
         })
-    }, [pageNumber, pageSize, query, queryText, selectedOptions])
+    }, [pageNumber, pageSize, query, queryText, selectedOptions, index])
     console.log(search);
     return <> <AppCard headerColor="light" title={
         <>
