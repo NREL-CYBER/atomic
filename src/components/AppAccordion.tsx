@@ -22,7 +22,7 @@ const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor, exp
 
     return <AppList>{items.map((accordionItem, i) =>
         // eslint-disable-next-line no-script-url
-        <React.Fragment key={i}><AppItem href={"javascript:void(0)"} color={unlockedIndex === i ? selectedColor : itemColor} onClick={() => {
+        <React.Fragment key={i}><AppItem color={unlockedIndex === i ? selectedColor : itemColor} onClick={() => {
             if (unlockedIndex === i) {
                 setUnlockedIndex(-1);
             } else {

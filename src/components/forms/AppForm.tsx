@@ -6,10 +6,7 @@ import { v4 } from 'uuid';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from 'validator';
 import {
     AppBackButton, AppButton, AppButtons,
-    AppCard, AppChip, AppCol,
-    AppContent,
-
-    AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel,
+    AppCard, AppChip, AppCol, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel,
     AppList, AppLoadingCard, AppModal, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
@@ -39,6 +36,7 @@ export interface formNodeProps extends formProps {
 
 export interface formProps {
     data: any,
+    hideTitle?: boolean,
     rootSchema: RootSchemaObject
     objectSchema?: SchemaObjectDefinition
     onSubmit: (validData: any) => void,
@@ -112,7 +110,7 @@ export type formFieldStatus = "valid" | "invalid" | "unknown" | "empty";
 const AppForm: React.FC<formNodeProps> = (props) => {
     const { rootSchema, data, onSubmit, children, lockedFields, hiddenFields,
         description, title, requiredOnly, calculatedFields, showFields, dependencyMap,
-        customSubmit, autoSubmit, customComponentMap, inlineFields } = props
+        customSubmit, autoSubmit, customComponentMap, inlineFields, hideTitle } = props
     let objectSchema = props.objectSchema || props.rootSchema;
     const [deferedValidationPromises, setDefferedValidationResultPromises] = useState<Record<string, (status: formFieldValidationStatus) => void>>({})
     if (typeof objectSchema.type === "undefined") {
@@ -233,7 +231,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             }}
         >
         </AppFormComposer> : <>
-            <AppItem href="javascript:void(0)" onClick={() => setShowNestedFrom(x => !x)}>
+            <AppItem onClick={() => setShowNestedFrom(x => !x)}>
                 <AppFormLabel name={formated_title} required={required} color={nestedFormColor} />
                 <AppButtons slot="end">
                     <AppButton fill="solid" color="primary">
@@ -252,24 +250,22 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             )}
             <Suspense fallback={<></>}>
                 <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
-                    <AppContent>
-                        {showNestedForm && <AppFormComposer
-                            data={instanceRef.current[property]}
-                            customComponentMap={customComponentMap as any}
-                            rootSchema={rootSchema}
-                            dependencyMap={dependencyMap}
-                            objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
-                            onSubmit={(nestedObjectValue) => {
-                                setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) =>
-                                    ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]
-                                ))
-                                setNestedFormStatus("valid");
-                                onChange(property, nestedObjectValue);
-                                setShowNestedFrom(false);
-                            }}
-                        ><AppBackButton onClick={() => setShowNestedFrom(false)} />
-                        </AppFormComposer>}
-                    </AppContent>
+                    {showNestedForm && <AppFormComposer
+                        data={instanceRef.current[property]}
+                        customComponentMap={customComponentMap as any}
+                        rootSchema={rootSchema}
+                        dependencyMap={dependencyMap}
+                        objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
+                        onSubmit={(nestedObjectValue) => {
+                            setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) =>
+                                ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]
+                            ))
+                            setNestedFormStatus("valid");
+                            onChange(property, nestedObjectValue);
+                            setShowNestedFrom(false);
+                        }}
+                    ><AppBackButton onClick={() => setShowNestedFrom(false)} />
+                    </AppFormComposer>}
                 </AppModal>
             </Suspense>
 
@@ -507,7 +503,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     return <>
         <Suspense fallback={<AppLoadingCard />}>
-            <AppCard contentColor={"light"} title={<>
+            <AppCard contentColor={"light"} title={!hideTitle ? <>
                 <AppToolbar color="clear">
                     <AppButtons slot="start">
                         {children}
@@ -516,7 +512,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         </AppTitle>}
                     </AppButtons>
                 </AppToolbar>
-            </>}>
+            </> : <></>}>
                 <AppItem>
                     <AppText color="medium">
                         {description ? description : objectSchema.description}
@@ -566,7 +562,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 </Suspense>
 
                 {<AppList color={"clear"}>
-                    {!requiredOnly && optionalFields.length > 0 && <AppItem href={'javascript:void(0)'} color="clear" onClick={toggleOptionalFields}>
+                    {!requiredOnly && optionalFields.length > 0 && <AppItem color="clear" onClick={toggleOptionalFields}>
                         {<AppIcon icon={optionalStatus === 'show' ? chevronDownOutline : chevronForwardOutline} />}
 
                         <AppTitle color='medium'>

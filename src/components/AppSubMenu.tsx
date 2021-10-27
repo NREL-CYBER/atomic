@@ -24,7 +24,7 @@ const AppSubMenu: React.FC<SubMenuProps> = ({ pages }) => {
             const isCurrentPath = currentPath === p.path;
             const currentPathStatusColor = isCurrentPath ? "dark" : pathStatusColor(p.path);
             return <AppItem lines="none" key={p.path
-            } color={isCurrentPath ? 'tertiary' : "clear"} routerLink={isUnlocked(p.path) ? p.path : undefined}>
+            } color={isCurrentPath ? 'tertiary' : "clear"}  routerLink={isUnlocked(p.path) ? p.path : undefined}>
                 <AppButtons slot="start">
                     <AppIcon color={currentPathStatusColor} slot="start" icon={p.icon} />
                 </AppButtons>

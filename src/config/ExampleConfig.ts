@@ -1,28 +1,27 @@
 import { composeStore, Store } from "store";
+import { UseBoundStore } from "zustand";
 import AddressSchema from "../schemas/address.schema.json";
 import { AppConfig } from "../util/AppConfig";
-import routes from "./routes";
+import Attack10 from "./ATTACK10.json";
 import { ExampleBottomBar } from "./ExampleBottomBar";
 import { ExampleSearchWidget } from "./ExampleSearchWidget";
-import Attack10 from "./ATTACK10.json"
-import { UseBoundStore, UseStore } from "zustand";
+import routes from "./routes";
 
-type Address = {
-    post_office_box?: string
-    street_address?: string
-    locality: string
-    region: string
-    country_name: string,
-    street_view: string
+type PalleteItem = {
+    name: string,
+    type: string,
+    r: number,
+    g: number,
+    b: number
 }
 
-
-const useAddress: UseBoundStore<Store<Address>> = composeStore<Address>(
-    { schema: AddressSchema, definition: "address" }
+const useAddress: UseBoundStore<Store<PalleteItem>> = composeStore<PalleteItem>(
+    { schema: AddressSchema, definition: "pallete_element", identifier: "name" }
 );
 export interface MitreNode extends Record<string, any> { type: string, name: string, id: string }
 export const useAttack = composeStore<MitreNode>(
     {
+        identifier: "id",
         initial: Attack10.objects.map(x => ({ [x.id]: { ...x } })).reduce((a, b) => ({ ...a, ...b }), {}),
         schema: {}, definition: "identity",
     },

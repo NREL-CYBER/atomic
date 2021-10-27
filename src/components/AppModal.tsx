@@ -1,13 +1,12 @@
 import { IonModal } from '@ionic/react';
-import { AppContent } from 'atomic';
 import { closeOutline } from 'ionicons/icons';
 import React, { ReactFragment, useRef } from 'react';
+import { AppButtons, AppContent, AppItem, AppSelectButtons, AppTitle } from '.';
 import { useAppSettings } from '../hooks/useAppSettings';
 import { AppColor } from '../theme/AppColor';
-import AppCard from './AppCard';
-import AppFab from './AppFab';
-import AppFabButton from './AppFabButton';
+import AppButton from './AppButton';
 import AppIcon from './AppIcon';
+import { selectButtonsProps } from './AppSelectButtons';
 
 
 
@@ -19,9 +18,11 @@ interface appModalProps {
     onDismiss: () => void
     smol?: boolean
     closeBar?: boolean
-    title?: React.ReactFragment
+    title?: string,
+    titleColor?: AppColor,
+    headerColor?: AppColor,
     closeButton?: boolean
-
+    buttons?: selectButtonsProps
 }
 
 /**
@@ -29,20 +30,29 @@ interface appModalProps {
  *  
  */
 const AppModal: React.FC<appModalProps> = (props) => {
-    const { children, smol, title, ...otherProps } = props;
+    const { children, smol, title, buttons, titleColor, headerColor, ...otherProps } = props;
     const { darkMode } = useAppSettings();
     const ref = useRef<HTMLIonModalElement>(null);
     return <IonModal css={smol ? { "--height": 300, "--width": 400 } : undefined} ref={ref} animated={true} cssClass={darkMode ? "dark-theme" : "light-theme"}
         onDidDismiss={props.onDismiss}
         {...otherProps} >
-        <AppFab vertical="top" horizontal="end" >
-            <AppFabButton size="small" color="clear" onClick={() => {
-                ref.current?.dismiss()
-            }}><AppIcon color='danger' icon={closeOutline} /></AppFabButton>
-        </AppFab>
+        {title && <AppItem color={headerColor || 'light'}>
+            <AppTitle color={titleColor || 'tertiary'}>
+                {title}
+            </AppTitle>
+            <AppButtons slot='end'>
+                <AppButton onClick={() => {
+                    ref.current?.dismiss();
+                }} color="danger" fill="clear">
+                    <AppIcon icon={closeOutline} />
+                </AppButton>
+            </AppButtons>
+        </AppItem>}
         <AppContent>
             {children}
         </AppContent>
+        <></>
+        {buttons && <AppSelectButtons {...buttons} />}
     </IonModal >
 }
 

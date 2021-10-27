@@ -1,14 +1,14 @@
+import { AppGrid } from 'atomic';
 import { homeOutline, searchOutline } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
-import { AppButton, AppButtons, AppCard, AppChip, AppIcon, AppMenuButton, AppTitle, AppToolbar } from '..';
+import { AppButton, AppButtons, AppChip, AppIcon, AppMenuButton, AppRow, AppTitle, AppToolbar } from '..';
 import { useCompletion } from '../../hooks';
 import useAppLayout from '../../hooks/useAppLayout';
 import { useAppSettings } from '../../hooks/useAppSettings';
 import useMediaQuery from '../../hooks/useMediaQuery';
 import useTitle from '../../hooks/usePageTitle';
 import { AppConfig } from '../../util';
-import AppItemDivider from '../AppItemDivider';
 import AppModal from '../AppModal';
 import AppSearchBar from '../AppSearchBar';
 
@@ -83,12 +83,12 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
                 {children}
             </AppButtons>
             <AppButtons slot='end'>
-                {!hideAbout && <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
-                    <AppCard titleColor={"tertiary"} title={appTitle + " " + version}>
-                        <AppItemDivider color="clear" />
-                        {about?.component}
-                        <AppItemDivider color="clear" />
-                    </AppCard>
+                {!hideAbout && <AppModal title={appTitle + " (" + version + ")"} onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
+                    <AppGrid>
+                        <AppRow>
+                            {about?.component}
+                        </AppRow>
+                    </AppGrid>
                 </AppModal >}
 
                 {!hideAbout && <AppButton fill="clear" onClick={() => { setShowAbout(x => !x) }}>

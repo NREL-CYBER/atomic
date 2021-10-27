@@ -451,7 +451,7 @@ color: var(--ion-color-primary);
 --ion-color-medium-tint: #9d9fa6;
 
 /** light **/
---ion-color-light: #f4f5f8;
+--ion-color-light: #ddd!important;
 --ion-color-light-rgb: 244, 245, 248;
 --ion-color-light-contrast: #000000;
 --ion-color-light-contrast-rgb: 0, 0, 0;
@@ -692,7 +692,7 @@ ion-app .scroll-content {
   --ion-color-medium-shade: #86888f;
   --ion-color-medium-tint: #a2a4ab;
 
-  --ion-color-light: #fff;
+  --ion-color-light: #ddd!important;
   --ion-color-light-rgb: 34,36,40;
   --ion-color-light-contrast: #333;
   --ion-color-light-contrast-rgb: 255,255,255;
@@ -701,7 +701,7 @@ ion-app .scroll-content {
 
   
 
---ion-color-paper: #ddd;
+--ion-color-paper: #eee;
 --ion-color-paper-rgb: 89,86,216;
 --ion-color-paper-contrast: #222;
 --ion-color-paper-contrast-rgb: 255,255,255;

@@ -1,5 +1,5 @@
 import { IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
-import { AppBadge, AppIcon, AppLabel, AppRoute } from 'atomic';
+import { AppBadge, AppContent, AppGrid, AppIcon, AppLabel, AppPage, AppRoute } from 'atomic';
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import { AppCard } from '.';
@@ -29,7 +29,7 @@ const AppTabs: React.FC<tabsProps> = (props) => {
         .map((t) => ({ [t.path]: t }))
         .reduce((a, b) => ({ ...a, ...b }), {})
     )
-    return <>
+    return <AppCard headerColor="clear">
         <div style={{ minHeight: props.height, maxHeight: props.height }}>
             <IonTabs onIonTabsWillChange={(event) => {
                 setCurrentTab(event.detail.tab)
@@ -52,6 +52,6 @@ const AppTabs: React.FC<tabsProps> = (props) => {
                 </IonRouterOutlet>
             </IonTabs>
         </div>
-    </>
+    </AppCard>
 };
 export default AppTabs;

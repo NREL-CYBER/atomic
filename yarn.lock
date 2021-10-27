@@ -13094,7 +13094,7 @@ store2@^2.12.0:
 
 "store@https://github.com/NREL-CYBER/store":
   version "1.8.4"
-  resolved "https://github.com/NREL-CYBER/store#791de59efadea81fd817a0a715d2b008352d1a44"
+  resolved "https://github.com/NREL-CYBER/store#822729915eec08790c61dff014a5e5a877dfe678"
   dependencies:
     ajv "^7.2.1"
     ajv-formats "^1.5.1"

@@ -1,11 +1,9 @@
 import { AppCol } from 'atomic';
 import React, { MutableRefObject, useState } from 'react';
 import { prettyTitle } from '../util';
-import titleCase from '../util/titleCase';
 import { InputStatus, inputStatusColorMap } from './AppFormInput';
 import AppItem from './AppItem';
-import AppSelect from './AppSelect';
-import AppSelectOption from './AppSelectOption';
+import AppSelectButtons from './AppSelectButtons';
 import { formFieldChangeEvent } from './forms/AppForm';
 import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
 import { AppFormLabel } from './forms/AppFormLabel';
@@ -31,21 +29,21 @@ const AppFormSelect = (props: formSelectInputProps) => {
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
     const statusColor = inputStatusColorMap[inputStatus];
     return <>
-        <AppItem>
+        <AppItem >
             <AppFormLabel required={required}
                 name={propertyFormattedName}
                 color={statusColor} />
             <AppCol>
 
-                <AppSelect interface="popover" value={value} placeholder={propertyFormattedName} onSelectionChange={(val) => {
+                <AppSelectButtons display={propertyInfo.enum.length > 4 ? "vertical" : "horizontal"} segment selected={[value]} onSelectionChange={([val]) => {
                     setValue(val);
                     onChange(property, val).then(([validationStatus, validationErrors]) => {
                         setInputStatus(validationStatus);
                         setErrors(validationErrors);
                     });
-                }}>
-                    {propertyInfo.enum.map((enumValue: string) => < AppSelectOption key={enumValue} value={enumValue} children={titleCase(enumValue)} />)}
-                </AppSelect>
+                }} buttons={
+                    propertyInfo.enum.map((enumValue: string) => ({ color: value === enumValue ? "favorite" : "medium", value: enumValue, text: prettyTitle(enumValue) }))
+                } />
             </AppCol>
         </AppItem>
         <AppFormErrorsItem errors={errors} />

@@ -1,145 +1,189 @@
 {
-  "$id": "pallete",
-  "title": "Pallete",
-  "type": "object",
-  "properties": {
-      "pallete": {
-          "type": "array",
-          "items": {
-              "$ref": "#/definitions/pallete_element"
-          }
-      }
-  },
-  "definitions": {
-      "label": {
-          "$id": "#/definitions/label",
-          "type": "object",
-          "properties": {
-              "title": {
-                  "type": "string"
-              },
-              "required": {
-                  "type": "boolean"
-              },
-              "allowCustom": {
-                  "type": "boolean"
-              },
-              "options": {
-                  "title": "Options",
-                  "type": "array",
-                  "items": {
-                      "type": "string"
-                  }
-              }
-          },
-          "dependencies": {
-              "allowCustom": [
-                  "options"
-              ]
-          },
-          "required": [
-              "required",
-              "title",
-              "allowCustom"
-          ]
-      },
-      "pallete_type": {
-          "$id": "#/definitions/pallete_type",
-          "type": "string",
-          "enum": [
-              "error-inject-types"
-          ]
-      },
-      "label_definition": {
-          "$id": "#/definitions/label_definition",
-          "type": "object",
-          "title": "Label Information",
-          "properties": {
-              "identifier": {
-                  "title": "Name",
-                  "type": "string",
-                  "pattern": "^[a-z+-]*"
-              },
-              "any": {
-                  "title": "Use any String a as label",
-                  "type": "boolean"
-              },
-              "enum": {
-                  "title": "Must adhere to these",
-                  "type": "array",
-                  "items": {
-                      "type": "string"
-                  }
-              }
-          },
-          "required": [
-              "identifier",
-              "any"
-          ]
-      },
-      "pallete_element": {
-          "$id": "#/definitions/pallete_element",
-          "type": "object",
-          "title": "Pallet Element (Node or Relationship)",
-          "description": "Color coding element for a node or relationship",
-          "properties": {
-              "name": {
-                  "title": "Name",
-                  "type": "string",
-                  "pattern": "^[a-z+-]*"
-              },
-              "type": {
-                  "title": "Type",
-                  "type": "string",
-                  "enum": [
-                      "relationship",
-                      "node"
-                  ]
-              },
-              "label_definitions": {
-                  "type": "array",
-                  "items": {
-                      "$ref": "#/definitions/label_definition"
-                  }
-              },
-              "source_types": {
-                  "type": "array",
-                  "items": {
-                      "$ref": "#/definitions/pallete_type"
-                  }
-              },
-              "target_types": {
-                  "type": "array",
-                  "items": {
-                      "$ref": "#/definitions/pallete_type"
-                  }
-              },
-              "r": {
-                  "title": "red",
-                  "type": "number",
-                  "minimum": 0,
-                  "maximum": 1
-              },
-              "g": {
-                  "title": "green",
-                  "type": "number",
-                  "minimum": 0,
-                  "maximum": 1
-              },
-              "b": {
-                  "title": "blue",
-                  "type": "number",
-                  "minimum": 0,
-                  "maximum": 1
-              }
-          },
-          "required": [
-              "name",
-              "type",
-              "r",
-              "g",
-              "b"
-          ]
-      }
-  }
+    "$id": "pallete",
+    "title": "Pallete",
+    "type": "object",
+    "properties": {
+        "pallete": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/pallete_element"
+            }
+        }
+    },
+    "definitions": {
+        "label": {
+            "$id": "#/definitions/label",
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "required": {
+                    "type": "boolean"
+                },
+                "allowCustom": {
+                    "type": "boolean"
+                },
+                "options": {
+                    "title": "Options",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "dependencies": {
+                "allowCustom": [
+                    "options"
+                ]
+            },
+            "required": [
+                "required",
+                "title",
+                "allowCustom"
+            ]
+        },
+        "pallete_type": {
+            "$id": "#/definitions/pallete_type",
+            "type": "string",
+            "enum": [
+                "error-inject-types"
+            ]
+        },
+        "allowed_label_string": {
+            "$id": "#/definitions/allowed_label_string",
+            "title": "Allowed Label",
+            "description": "Label that can be used for this type of node / relationship",
+            "type": "string"
+        },
+        "label_definition": {
+            "$id": "#/definitions/label_definition",
+            "type": "object",
+            "title": "Label Information",
+            "properties": {
+                "identifier": {
+                    "title": "Name",
+                    "type": "string",
+                    "pattern": "^[a-z+-]*"
+                },
+                "options": {
+                    "title": "Must adhere to these",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/allowed_label_string"
+                    }
+                }
+            },
+            "required": [
+                "identifier"
+            ]
+        },
+        "property_definition": {
+            "$id": "#/definitions/property_definition",
+            "type": "object",
+            "title": "Property Information",
+            "properties": {
+                "identifier": {
+                    "title": "Name",
+                    "type": "string",
+                    "pattern": "^[a-z+-]*"
+                },
+                "type": {
+                    "title": "Property Type",
+                    "type": "string",
+                    "enum": [
+                        "string",
+                        "number",
+                        "uri",
+                        "date"
+                    ]
+                },
+                "min": {
+                    "type": "integer"
+                },
+                "max": {
+                    "type": "integer"
+                },
+                "enum": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [
+                "identifier",
+                "type"
+            ]
+        },
+        "pallete_element": {
+            "$id": "#/definitions/pallete_element",
+            "type": "object",
+            "title": "Pallet Element (Node or Relationship)",
+            "description": "Color coding element for a node or relationship",
+            "properties": {
+                "name": {
+                    "title": "Name",
+                    "type": "string",
+                    "pattern": "^[a-z+-]*"
+                },
+                "type": {
+                    "title": "Type",
+                    "type": "string",
+                    "enum": [
+                        "relationship",
+                        "node",
+                        "node4",
+                        "relationship2",
+                        "node2"
+                    ]
+                },
+                "label_definitions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/label_definition"
+                    }
+                },
+                "source_types": {
+                    "title": "Allowed Source Types",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pallete_type"
+                    }
+                },
+                "target_types": {
+                    "title": "Allowed Target Types",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/pallete_type"
+                    }
+                },
+                "r": {
+                    "title": "red",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "g": {
+                    "title": "green",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "b": {
+                    "title": "blue",
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "r",
+                "g",
+                "b"
+            ]
+        }
+    }
 }

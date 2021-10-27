@@ -2,7 +2,7 @@ import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import { isUndefined } from "lodash";
 import React, { Suspense, useCallback, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { findShortestValue } from "./AppFormArrayInput";
@@ -93,21 +93,19 @@ const AppFormAnyOfArrayInput = (props: formArrayOfInputProps) => {
                 </AppButton>}
             </AppButtons>
             <div hidden={!(status === "inserting")}>
-                {<AppModal isOpen={status === "inserting"} onDismiss={() => setStatus("idle")}>
+                {<AppModal title={propertyFormattedName} isOpen={status === "inserting"} onDismiss={() => setStatus("idle")}>
                     <Suspense fallback={<AppLoadingCard />}>
-                        <AppContent>
-                            {selectedType && <AppFormComposer
-                                showFields={showFields}
-                                hiddenFields={hiddenFields}
-                                lockedFields={lockedFields}
-                                customComponentMap={customComponentMap as any}
-                                rootSchema={rootSchema}
-                                objectSchema={findSubSchema(rootSchema, objectSchema, selectedType)}
-                                data={{ ...data }}
-                                onSubmit={onSubmitItem} >
-                                <AppBackButton onClick={onBackPressed} />
-                            </AppFormComposer>}
-                        </AppContent>
+                        {selectedType && <AppFormComposer
+                            showFields={showFields}
+                            hiddenFields={hiddenFields}
+                            lockedFields={lockedFields}
+                            customComponentMap={customComponentMap as any}
+                            rootSchema={rootSchema}
+                            objectSchema={findSubSchema(rootSchema, objectSchema, selectedType)}
+                            data={{ ...data }}
+                            onSubmit={onSubmitItem} >
+                            <AppBackButton onClick={onBackPressed} />
+                        </AppFormComposer>}
                     </Suspense>
                 </AppModal>}
             </div>
