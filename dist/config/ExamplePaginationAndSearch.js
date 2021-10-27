@@ -29,6 +29,7 @@ export const ExamplePaginationAndSearch = () => {
   }, x), typeof x === 'object' && /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
   }, Object.values(x)))))))))), /*#__PURE__*/React.createElement(AppPaginatedList, {
+    search: true,
     filterCategories: {
       "type": {
         multi: false,
@@ -39,9 +40,7 @@ export const ExamplePaginationAndSearch = () => {
         }]
       }
     },
-    renderItem: ({
-      item
-    }) => {
+    renderItem: item => {
       return /*#__PURE__*/React.createElement(AppItem, {
         href: "javascript:void",
         onClick: () => {

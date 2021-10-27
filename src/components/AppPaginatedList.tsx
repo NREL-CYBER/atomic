@@ -16,7 +16,7 @@ export const AppPaginatedList: React.FC<{
     pageSize?: number
     itemSize?: { xs?: columnAmount, md?: columnAmount, lg?: columnAmount }
     renderItem: React.FC<Record<string, any>>
-}> = ({ search = false, renderItem, store, filterCategories, pageSize = 10, itemSize = { xs: "24" } }) => {
+}> = ({ search, renderItem, store, filterCategories, pageSize = 10, itemSize = { xs: "24" } }) => {
     const [queryText, setQueryText] = useState<string>("")
     const [options] = useState(filterCategories || {})
     const { query } = store()
@@ -29,6 +29,7 @@ export const AppPaginatedList: React.FC<{
             setQueryResults(results);
         })
     }, [pageNumber, pageSize, query, queryText, selectedOptions])
+    console.log(search);
     return <> <AppCard headerColor="light" title={
         <>
             {search && <AppSearchBar debounce={200} onQuery={(q) => {
@@ -58,13 +59,13 @@ export const AppPaginatedList: React.FC<{
             <AppRow>
                 {queryResults ? queryResults.map((item: any) =>
                     <AppCol sizeLg={lg} sizeMd={md} sizeXs={xs}>
-                        {renderItem({ item })}
+                        {renderItem(item)}
                     </AppCol>
                 ) : <AppLoadingCard />}
             </AppRow>
         </AppGrid>
     </AppCard >
-        <AppItem color='light'>
+        {< AppItem color='clear'>
             {pageNumber !== 0 && queryResults && < AppButtons slot='start'>
                 <AppButton onClick={() => {
                     setPageNumber(x => x - 1)
@@ -81,6 +82,6 @@ export const AppPaginatedList: React.FC<{
 
                 </AppButton>
             </AppButtons>}
-        </AppItem>
+        </AppItem>}
     </>
 }

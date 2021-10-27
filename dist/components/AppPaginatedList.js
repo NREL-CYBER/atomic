@@ -5,7 +5,7 @@ import AppIcon from "./AppIcon";
 import AppItem from "./AppItem";
 import AppLoadingCard from "./AppLoadingCard";
 export const AppPaginatedList = ({
-  search = false,
+  search,
   renderItem,
   store,
   filterCategories,
@@ -37,6 +37,7 @@ export const AppPaginatedList = ({
       setQueryResults(results);
     });
   }, [pageNumber, pageSize, query, queryText, selectedOptions]);
+  console.log(search);
   return /*#__PURE__*/React.createElement(React.Fragment, null, " ", /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "light",
     title: /*#__PURE__*/React.createElement(React.Fragment, null, search && /*#__PURE__*/React.createElement(AppSearchBar, {
@@ -62,10 +63,8 @@ export const AppPaginatedList = ({
     sizeLg: lg,
     sizeMd: md,
     sizeXs: xs
-  }, renderItem({
-    item
-  }))) : /*#__PURE__*/React.createElement(AppLoadingCard, null)))), /*#__PURE__*/React.createElement(AppItem, {
-    color: "light"
+  }, renderItem(item))) : /*#__PURE__*/React.createElement(AppLoadingCard, null)))), /*#__PURE__*/React.createElement(AppItem, {
+    color: "clear"
   }, pageNumber !== 0 && queryResults && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppButton, {

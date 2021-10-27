@@ -26,8 +26,8 @@ export const ExamplePaginationAndSearch: React.FC = () => {
             </AppContent>
         </AppModal >
 
-        <AppPaginatedList filterCategories={{ "type": { multi: false, options: [{ value: "malware" }, { value: "attack-pattern" }] } }} renderItem=
-            {({ item }) => {
+        <AppPaginatedList  search filterCategories={{ "type": { multi: false, options: [{ value: "malware" }, { value: "attack-pattern" }] } }} renderItem=
+            {(item) => {
                 return <AppItem href={"javascript:void"} onClick={() => {
                     setActive(item.id)
                 }} >
