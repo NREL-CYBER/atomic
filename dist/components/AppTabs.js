@@ -4,7 +4,6 @@ import { IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react'
 import { AppBadge, AppIcon, AppLabel } from 'atomic';
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
-import { AppCard } from '.';
 
 /**
  * Component to display text with optional color
@@ -20,7 +19,7 @@ const AppTabs = props => {
   })).reduce((a, b) => ({ ...a,
     ...b
   }), {}));
-  return /*#__PURE__*/React.createElement(AppCard, null, /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     style: {
       minHeight: props.height,
       maxHeight: props.height

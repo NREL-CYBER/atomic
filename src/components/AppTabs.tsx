@@ -29,7 +29,7 @@ const AppTabs: React.FC<tabsProps> = (props) => {
         .map((t) => ({ [t.path]: t }))
         .reduce((a, b) => ({ ...a, ...b }), {})
     )
-    return <AppCard >
+    return <>
         <div style={{ minHeight: props.height, maxHeight: props.height }}>
             <IonTabs onIonTabsWillChange={(event) => {
                 setCurrentTab(event.detail.tab)
@@ -52,6 +52,6 @@ const AppTabs: React.FC<tabsProps> = (props) => {
                 </IonRouterOutlet>
             </IonTabs>
         </div>
-    </AppCard>
+    </>
 };
 export default AppTabs;
