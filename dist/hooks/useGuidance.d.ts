@@ -11,5 +11,5 @@ declare type GuidanceService = {
 /**
 *  Application Guidance
 */
-declare const useGuidance: import("zustand").UseStore<GuidanceService>;
+declare const useGuidance: import("zustand").UseBoundStore<GuidanceService, import("zustand").StoreApi<GuidanceService>>;
 export default useGuidance;

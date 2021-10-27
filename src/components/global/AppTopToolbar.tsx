@@ -41,7 +41,7 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
     const titleColor = darkMode ? "tertiary" : "secondary";
     const bgColor = darkMode ? "paper" : "tertiary";
     const searchBar = useRef<HTMLDivElement>(null)
-    const hideAbout = about?.hidden === true
+    const hideAbout = typeof about === "undefined"
     useEffect(() => {
         const listener = (e: MouseEvent) => {
             if (!searchBar.current?.contains(e.target as any)) {
@@ -84,12 +84,11 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
             </AppButtons>
             <AppButtons slot='end'>
                 {!hideAbout && <AppModal onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
-                    <AppCard contentColor="light" headerColor={bgColor} titleColor={titleColor} title={appTitle + " " + version}>
+                    <AppCard titleColor={"tertiary"} title={appTitle + " " + version}>
                         <AppItemDivider color="clear" />
                         {about?.component}
                         <AppItemDivider color="clear" />
                     </AppCard>
-                    <AppButton expand={"full"} fill={"solid"} onClick={() => { setShowAbout(false) }} >OK </AppButton>
                 </AppModal >}
 
                 {!hideAbout && <AppButton fill="clear" onClick={() => { setShowAbout(x => !x) }}>

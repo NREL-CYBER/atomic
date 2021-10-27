@@ -9,5 +9,5 @@ declare type CompletionService = {
     latestUnockedPath: () => string;
     completion: () => number;
 };
-declare const useCompletion: import("zustand").UseStore<CompletionService>;
+declare const useCompletion: import("zustand").UseBoundStore<CompletionService, import("zustand").StoreApi<CompletionService>>;
 export default useCompletion;

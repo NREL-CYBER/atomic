@@ -11,11 +11,11 @@ const AppSearchBar = props => {
   useLayoutEffect(() => {
     setTimeout(() => {
       searchRef.current && props.focus && searchRef.current.setFocus();
-    }, 100);
-  }, [props.focus, searchRef]);
+    }, props.debounce || 100);
+  }, [props.debounce, props.focus, searchRef]);
   return /*#__PURE__*/React.createElement(IonSearchbar, _extends({
     ref: searchRef,
-    debounce: 100,
+    debounce: props.debounce || 100,
     onIonChange: e => {
       props.onQuery && props.onQuery(e.detail.value);
     }

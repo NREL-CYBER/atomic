@@ -18,5 +18,5 @@ declare type NotificationService = {
 /**
 *  Push Notifications
 */
-declare const useNotifications: import("zustand").UseStore<NotificationService>;
+declare const useNotifications: import("zustand").UseBoundStore<NotificationService, import("zustand").StoreApi<NotificationService>>;
 export default useNotifications;

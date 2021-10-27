@@ -8,5 +8,5 @@ declare type CacheStatus = {
 /**
 *  Application Cache status
 */
-declare const useCache: import("zustand").UseStore<CacheStatus>;
+declare const useCache: import("zustand").UseBoundStore<CacheStatus, import("zustand").StoreApi<CacheStatus>>;
 export default useCache;

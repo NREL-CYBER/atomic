@@ -7,5 +7,5 @@ declare type PageTitleStatus = {
 /**
 *  Application Cache status
 */
-declare const usePageTitle: import("zustand").UseStore<PageTitleStatus>;
+declare const usePageTitle: import("zustand").UseBoundStore<PageTitleStatus, import("zustand").StoreApi<PageTitleStatus>>;
 export default usePageTitle;

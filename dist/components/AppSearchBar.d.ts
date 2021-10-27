@@ -4,6 +4,7 @@ interface searchProps {
     focus?: boolean;
     onQuery?: (query: string) => void;
     value?: string;
+    debounce?: number;
 }
 /**
  * Component for a search interface

@@ -9,23 +9,14 @@ const useAddress = composeStore({
   definition: "address"
 });
 export const useAttack = composeStore({
+  initial: Attack10.objects.map(x => ({
+    [x.id]: { ...x
+    }
+  })).reduce((a, b) => ({ ...a,
+    ...b
+  }), {}),
   schema: {},
-  definition: "identity",
-  paginate: ({
-    page,
-    pageSize
-  }, options) => {
-    return new Promise((resolve, reject) => {
-      const start = page * pageSize;
-      const end = page * pageSize + pageSize;
-      const queryType = options.type;
-      const queryKillChain = options.kill_chain_phase;
-      const queryAny = options.query ? options.query.join("").toLowerCase() : undefined;
-      const objects = queryType && queryType.length > 0 ? Attack10.objects.filter(x => queryType.includes(x.type)) : Attack10.objects;
-      const filteredObjects = queryAny ? objects.filter(x => x.name?.toLowerCase()?.includes(queryAny) || x.description?.toLowerCase()?.includes(queryAny)) : objects;
-      resolve(filteredObjects.slice(start, end));
-    });
-  }
+  definition: "identity"
 });
 export { useAddress };
 const ExampleConfig = {
@@ -58,7 +49,6 @@ const ExampleConfig = {
     start: ExampleBottomBar
   },
   about: {
-    hidden: true,
     component: "example application information...."
   },
   serialization: {

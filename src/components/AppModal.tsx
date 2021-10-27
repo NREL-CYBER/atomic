@@ -32,14 +32,13 @@ const AppModal: React.FC<appModalProps> = (props) => {
     const { children, smol, title, ...otherProps } = props;
     const { darkMode } = useAppSettings();
     const ref = useRef<HTMLIonModalElement>(null);
-    return <IonModal ref={ref} animated={true} cssClass={[smol ? "smol" : "", darkMode ? "dark-theme" : "light-theme"]}
-        onDidDismiss={props.onDismiss && props.onDismiss}
+    return <IonModal css={smol ? { "--height": 300, "--width": 400 } : undefined} ref={ref} animated={true} cssClass={darkMode ? "dark-theme" : "light-theme"}
+        onDidDismiss={props.onDismiss}
         {...otherProps} >
         <AppFab vertical="top" horizontal="end" >
-            <AppFabButton size="small" color="light" onClick={() => {
+            <AppFabButton size="small" color="clear" onClick={() => {
                 ref.current?.dismiss()
-            }}>
-                <AppIcon icon={closeOutline} /></AppFabButton>
+            }}><AppIcon color='danger' icon={closeOutline} /></AppFabButton>
         </AppFab>
         <AppContent>
             {children}

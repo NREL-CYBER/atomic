@@ -1,5 +1,5 @@
 import { AppButtons, AppLabel, AppText } from "atomic";
-import { AppChip, AppContent, AppModal, AppTitle, AppItem, AppCard } from "../components";
+import { AppCard, AppChip, AppContent, AppItem, AppModal, AppTitle } from "../components";
 import { AppPaginatedList } from "../components/AppPaginatedList";
 import { useAttack } from "./ExampleConfig";
 export const ExamplePaginationAndSearch = () => {
@@ -14,11 +14,13 @@ export const ExamplePaginationAndSearch = () => {
     smol: true,
     isOpen: typeof selected !== 'undefined',
     onDismiss: () => {
-      setActive(undefined);
+      setActive("");
     }
   }, /*#__PURE__*/React.createElement(AppContent, null, selected && /*#__PURE__*/React.createElement(AppCard, {
     title: selected["name"] || "Relationship"
-  }, Object.keys(selected || {}).map(k => /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppLabel, null, k), typeof selected[k] === 'string' && /*#__PURE__*/React.createElement(AppText, {
+  }, Object.keys(selected || {}).map((k, i) => /*#__PURE__*/React.createElement(AppItem, {
+    key: i
+  }, /*#__PURE__*/React.createElement(AppLabel, null, k), typeof selected[k] === 'string' && /*#__PURE__*/React.createElement(AppText, {
     color: "medium"
   }, selected[k]), typeof selected[k] === 'object' && typeof selected[k].map === "function" && /*#__PURE__*/React.createElement(AppText, {
     color: "medium"

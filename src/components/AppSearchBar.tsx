@@ -7,6 +7,7 @@ interface searchProps {
     focus?: boolean,
     onQuery?: (query: string) => void
     value?: string,
+    debounce?: number
 }
 
 /**
@@ -17,9 +18,9 @@ const AppSearchBar: React.FC<searchProps> = (props) => {
     useLayoutEffect(() => {
         setTimeout(() => {
             searchRef.current && props.focus && searchRef.current.setFocus()
-        }, 100)
-    }, [props.focus, searchRef])
-    return <IonSearchbar ref={searchRef} debounce={100} onIonChange={(e) => {
+        }, props.debounce || 100)
+    }, [props.debounce, props.focus, searchRef])
+    return <IonSearchbar ref={searchRef} debounce={props.debounce || 100} onIonChange={(e) => {
         props.onQuery && props.onQuery(e.detail.value!)
     }} {...props} />
 };

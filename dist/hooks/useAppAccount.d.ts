@@ -27,5 +27,5 @@ export declare const account: AccountCache;
  *  storing all the routes
  *  and knowing the nested page and determining the next page.
  */
-declare const useAppAccount: UseStore<AppAccountState>;
+declare const useAppAccount: import("zustand").UseBoundStore<AppAccountState, import("zustand").StoreApi<AppAccountState>>;
 export default useAppAccount;

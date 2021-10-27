@@ -82,7 +82,7 @@ ion-modal {
   --min-height: 45%!important;
   --max-width: 85%!important;
   --max-height: 85%!important;
---border-radius: 0;
+  --border-radius: 0;
 }
 
 .dzu-dropzone{

@@ -25,20 +25,25 @@ const AppModal = props => {
   } = useAppSettings();
   const ref = useRef(null);
   return /*#__PURE__*/React.createElement(IonModal, _extends({
+    css: smol ? {
+      "--height": 300,
+      "--width": 400
+    } : undefined,
     ref: ref,
     animated: true,
-    cssClass: [smol ? "smol" : "", darkMode ? "dark-theme" : "light-theme"],
-    onDidDismiss: props.onDismiss && props.onDismiss
+    cssClass: darkMode ? "dark-theme" : "light-theme",
+    onDidDismiss: props.onDismiss
   }, otherProps), /*#__PURE__*/React.createElement(AppFab, {
     vertical: "top",
     horizontal: "end"
   }, /*#__PURE__*/React.createElement(AppFabButton, {
     size: "small",
-    color: "light",
+    color: "clear",
     onClick: () => {
       ref.current?.dismiss();
     }
   }, /*#__PURE__*/React.createElement(AppIcon, {
+    color: "danger",
     icon: closeOutline
   }))), /*#__PURE__*/React.createElement(AppContent, null, children));
 };

@@ -1,8 +1,11 @@
-import { AppButton, AppButtons, AppCard, AppChip, AppCol, AppGrid, AppRow, AppSearchBar, AppSelectButtons } from "./";
+import { arrowBackOutline, arrowForwardOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
+import { AppButton, AppButtons, AppCard, AppChip, AppCol, AppGrid, AppRow, AppSearchBar, AppSelectButtons } from "./";
+import AppIcon from "./AppIcon";
 import AppItem from "./AppItem";
-import { AppSpinner } from "atomic";
+import AppLoadingCard from "./AppLoadingCard";
 export const AppPaginatedList = ({
+  search = false,
   renderItem,
   store,
   filterCategories,
@@ -11,13 +14,13 @@ export const AppPaginatedList = ({
     xs: "24"
   }
 }) => {
-  const [query, setQuery] = useState();
+  const [queryText, setQueryText] = useState("");
   const [options] = useState(filterCategories || {});
   const {
-    page,
-    paginate
+    query
   } = store();
-  const [pageNumber, setPageNumber] = useState(1);
+  const [queryResults, setQueryResults] = useState();
+  const [pageNumber, setPageNumber] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState({});
   const {
     lg,
@@ -25,21 +28,23 @@ export const AppPaginatedList = ({
     xs
   } = itemSize;
   useEffect(() => {
-    paginate({
+    query({
       pageSize,
       page: pageNumber,
       identifier: "id"
-    }, { ...selectedOptions,
-      query: [query]
+    }, { ...selectedOptions
+    }, queryText).then(results => {
+      setQueryResults(results);
     });
-  }, [pageNumber, pageSize, paginate, query, selectedOptions]);
+  }, [pageNumber, pageSize, query, queryText, selectedOptions]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, " ", /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "light",
-    title: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppSearchBar, {
+    title: /*#__PURE__*/React.createElement(React.Fragment, null, search && /*#__PURE__*/React.createElement(AppSearchBar, {
+      debounce: 200,
       onQuery: q => {
-        setQuery(q);
+        setQueryText(q);
       }
-    }), /*#__PURE__*/React.createElement(AppGrid, null, Object.entries(options).map(([property, optionParams], i) => /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRow, {
+    }), /*#__PURE__*/React.createElement(AppGrid, null, Object.entries(options).slice(0, 3).map(([property, optionParams], i) => /*#__PURE__*/React.createElement(AppRow, {
       key: i
     }, /*#__PURE__*/React.createElement(AppChip, null, property), /*#__PURE__*/React.createElement(AppSelectButtons, {
       allowEmpty: true,
@@ -49,29 +54,33 @@ export const AppPaginatedList = ({
         setSelectedOptions(x => ({ ...x,
           [property]: selection
         }));
-        setPageNumber(1);
+        setPageNumber(0);
       },
       buttons: optionParams.options
-    }))))))
-  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, page ? page.map(item => /*#__PURE__*/React.createElement(AppCol, {
+    }))), Object.keys(options).length > 3 && /*#__PURE__*/React.createElement(AppButton, null, "More Filters")))
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, queryResults ? queryResults.map(item => /*#__PURE__*/React.createElement(AppCol, {
     sizeLg: lg,
     sizeMd: md,
     sizeXs: xs
   }, renderItem({
     item
-  }))) : /*#__PURE__*/React.createElement(AppSpinner, null)))), /*#__PURE__*/React.createElement(AppItem, {
+  }))) : /*#__PURE__*/React.createElement(AppLoadingCard, null)))), /*#__PURE__*/React.createElement(AppItem, {
     color: "light"
-  }, pageNumber !== 1 && page && page.length !== 0 && /*#__PURE__*/React.createElement(AppButtons, {
+  }, pageNumber !== 0 && queryResults && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setPageNumber(x => x - 1);
     }
-  }, "Back")), page && page.length === pageSize && /*#__PURE__*/React.createElement(AppButtons, {
+  }, /*#__PURE__*/React.createElement(AppIcon, {
+    icon: arrowBackOutline
+  }), "Back")), queryResults && queryResults.length === pageSize && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
       setPageNumber(x => x + 1);
     }
-  }, "next"))));
+  }, "More", /*#__PURE__*/React.createElement(AppIcon, {
+    icon: arrowForwardOutline
+  })))));
 };

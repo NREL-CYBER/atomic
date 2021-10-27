@@ -56,7 +56,7 @@ const AppTopToolbar = ({
   const titleColor = darkMode ? "tertiary" : "secondary";
   const bgColor = darkMode ? "paper" : "tertiary";
   const searchBar = useRef(null);
-  const hideAbout = about?.hidden === true;
+  const hideAbout = typeof about === "undefined";
   useEffect(() => {
     const listener = e => {
       if (!searchBar.current?.contains(e.target)) {
@@ -103,21 +103,13 @@ const AppTopToolbar = ({
     },
     isOpen: showAbout
   }, /*#__PURE__*/React.createElement(AppCard, {
-    contentColor: "light",
-    headerColor: bgColor,
-    titleColor: titleColor,
+    titleColor: "tertiary",
     title: appTitle + " " + version
   }, /*#__PURE__*/React.createElement(AppItemDivider, {
     color: "clear"
   }), about?.component, /*#__PURE__*/React.createElement(AppItemDivider, {
     color: "clear"
-  })), /*#__PURE__*/React.createElement(AppButton, {
-    expand: "full",
-    fill: "solid",
-    onClick: () => {
-      setShowAbout(false);
-    }
-  }, "OK ")), !hideAbout && /*#__PURE__*/React.createElement(AppButton, {
+  }))), !hideAbout && /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
     onClick: () => {
       setShowAbout(x => !x);

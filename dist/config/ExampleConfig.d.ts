@@ -1,6 +1,6 @@
 import { Store } from "store";
 import { AppConfig } from "../util/AppConfig";
-import { UseStore } from "zustand";
+import { UseBoundStore } from "zustand";
 declare type Address = {
     post_office_box?: string;
     street_address?: string;
@@ -9,8 +9,13 @@ declare type Address = {
     country_name: string;
     street_view: string;
 };
-declare const useAddress: UseStore<Store<Address>>;
-export declare const useAttack: any;
+declare const useAddress: UseBoundStore<Store<Address>>;
+export interface MitreNode extends Record<string, any> {
+    type: string;
+    name: string;
+    id: string;
+}
+export declare const useAttack: UseBoundStore<Store<MitreNode>, import("zustand").StoreApi<Store<MitreNode>>>;
 export { useAddress };
 declare const ExampleConfig: AppConfig;
 export default ExampleConfig;

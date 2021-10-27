@@ -7,5 +7,5 @@ export declare type SynchronizationContext = {
 /**
  * Serialize cache to indexDB any time it changes via store listener
  * */
-declare const useIndexDBStorage: import("zustand").UseStore<SynchronizationContext>;
+declare const useIndexDBStorage: import("zustand").UseBoundStore<SynchronizationContext, import("zustand").StoreApi<SynchronizationContext>>;
 export default useIndexDBStorage;

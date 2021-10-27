@@ -21,4 +21,4 @@ export interface AppSettingCache extends AppSettingsProperties {
 /**
 *  Application Cache status
 */
-export declare const useAppSettings: import("zustand").UseStore<AppSettingCache>;
+export declare const useAppSettings: import("zustand").UseBoundStore<AppSettingCache, import("zustand").StoreApi<AppSettingCache>>;

@@ -1,8 +1,8 @@
-import React, { Children } from 'react';
-import { AppColor } from '../theme';
+import React from 'react';
 import { AppCard } from '.';
-import AppProgress from './AppProgress';
+import { AppColor } from '../theme';
 import AppItemDivider from './AppItemDivider';
+import AppProgress from './AppProgress';
 
 /**
  * Component to show a loading overlay on the application

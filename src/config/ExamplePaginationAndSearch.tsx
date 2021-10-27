@@ -1,5 +1,5 @@
-import { AppButtons, AppCol, AppLabel, AppText } from "atomic";
-import { AppChip, AppContent, AppFoldingNode, AppModal, AppTitle, AppItem, AppCard } from "../components";
+import { AppButtons, AppLabel, AppText } from "atomic";
+import { AppCard, AppChip, AppContent, AppItem, AppModal, AppTitle } from "../components";
 import { AppPaginatedList } from "../components/AppPaginatedList";
 import { useAttack } from "./ExampleConfig";
 export const ExamplePaginationAndSearch: React.FC = () => {
@@ -7,11 +7,11 @@ export const ExamplePaginationAndSearch: React.FC = () => {
     const selected = activeInstance();
     return <AppContent center>
         <AppModal smol isOpen={typeof selected !== 'undefined'} onDismiss={() => {
-            setActive(undefined);
+            setActive("");
         }}>
             <AppContent>
                 {selected && <AppCard title={selected["name"] || "Relationship"}>
-                    {Object.keys(selected || {}).map((k) => <AppItem>
+                    {Object.keys(selected || {}).map((k, i) => <AppItem key={i}>
                         <AppLabel>
                             {k}
                         </AppLabel>

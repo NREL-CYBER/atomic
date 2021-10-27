@@ -28,5 +28,5 @@ declare type AppLayout = {
  *  storing all the routes
  *  and knowing the nested page and determining the next page.
  */
-declare const useAppLayout: import("zustand").UseStore<AppLayout>;
+declare const useAppLayout: import("zustand").UseBoundStore<AppLayout, import("zustand").StoreApi<AppLayout>>;
 export default useAppLayout;

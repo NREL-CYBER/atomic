@@ -46,7 +46,6 @@ export interface AppConfig {
     search?: React.FC<{ query: string, filters?: string[], dismiss: () => void }>,
     about?: {
         component: React.ReactFragment
-        hidden?: boolean
     },
     animated?: boolean
     appId: string,
