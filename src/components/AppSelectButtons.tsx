@@ -6,6 +6,7 @@ import { AppColor } from '../theme';
 import { RogueColor } from '../theme/AppColor';
 import AppButton, { buttonProps } from './AppButton';
 import AppList from './AppList';
+import AppTitle from './AppTitle';
 
 export interface selectButtonProps extends buttonProps {
     value: string
@@ -26,8 +27,9 @@ export interface selectButtonsProps {
 /**
  * Component for a select interface via buttons
  */
-const AppSelectButtons: React.FC<selectButtonsProps> = ({ segment, allowEmpty, selected, buttons, onSelectionChange, multi, display = "horizontal" }) => {
-
+const AppSelectButtons: React.FC<selectButtonsProps> = (props) => {
+    const { segment, allowEmpty, buttons, onSelectionChange, multi, display = "horizontal" } = props
+    const selected = props.selected.filter(Boolean);
     const selectButtons =
         buttons.map((button, i) => <AppButton key={i}
             fill={selected.includes(button.value) ? "solid" : "clear"}
@@ -57,7 +59,7 @@ const AppSelectButtons: React.FC<selectButtonsProps> = ({ segment, allowEmpty, s
             )}
         </IonSegment>
     }
-    return display === "horizontal" ? <>{selectButtons}</> : <AppList>
+    return display === "horizontal" ? <>{selectButtons}</> : selected.length === 0 ? <AppList>
         {buttons.map((button, i) => <AppItem key={i}
             onClick={() => {
                 if (multi) {
@@ -75,6 +77,10 @@ const AppSelectButtons: React.FC<selectButtonsProps> = ({ segment, allowEmpty, s
             </AppText> : <AppChip color={button.color}>{button.text || button.value}</AppChip>}
         </AppItem>)
         }
-    </AppList >
+    </AppList > : <AppItem onClick={() => {
+        onSelectionChange([]);
+    }}>
+        <AppTitle>{selected}</AppTitle>
+    </AppItem>
 };
 export default AppSelectButtons;

@@ -83,7 +83,7 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
                 {children}
             </AppButtons>
             <AppButtons slot='end'>
-                {!hideAbout && <AppModal title={appTitle + " (" + version + ")"} onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
+                {!hideAbout && <AppModal smol title={appTitle + " (" + version + ")"} onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
                     <AppGrid>
                         <AppRow>
                             {about?.component}

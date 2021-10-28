@@ -6,19 +6,21 @@ import React from 'react';
 import { AppItem } from '.';
 import AppButton from './AppButton';
 import AppList from './AppList';
+import AppTitle from './AppTitle';
 
 /**
  * Component for a select interface via buttons
  */
-const AppSelectButtons = ({
-  segment,
-  allowEmpty,
-  selected,
-  buttons,
-  onSelectionChange,
-  multi,
-  display = "horizontal"
-}) => {
+const AppSelectButtons = props => {
+  const {
+    segment,
+    allowEmpty,
+    buttons,
+    onSelectionChange,
+    multi,
+    display = "horizontal"
+  } = props;
+  const selected = props.selected.filter(Boolean);
   const selectButtons = buttons.map((button, i) => /*#__PURE__*/React.createElement(AppButton, _extends({
     key: i,
     fill: selected.includes(button.value) ? "solid" : "clear",
@@ -58,7 +60,7 @@ const AppSelectButtons = ({
     }, text))));
   }
 
-  return display === "horizontal" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : /*#__PURE__*/React.createElement(AppList, null, buttons.map((button, i) => /*#__PURE__*/React.createElement(AppItem, {
+  return display === "horizontal" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : selected.length === 0 ? /*#__PURE__*/React.createElement(AppList, null, buttons.map((button, i) => /*#__PURE__*/React.createElement(AppItem, {
     key: i,
     onClick: () => {
       if (multi) {
@@ -74,7 +76,11 @@ const AppSelectButtons = ({
     color: button.color
   }, button.text || button.value) : /*#__PURE__*/React.createElement(AppChip, {
     color: button.color
-  }, button.text || button.value))));
+  }, button.text || button.value)))) : /*#__PURE__*/React.createElement(AppItem, {
+    onClick: () => {
+      onSelectionChange([]);
+    }
+  }, /*#__PURE__*/React.createElement(AppTitle, null, selected));
 };
 
 export default AppSelectButtons;

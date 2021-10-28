@@ -98,6 +98,7 @@ const AppTopToolbar = ({
   }, /*#__PURE__*/React.createElement(AppTitle, null, title)), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
+    smol: true,
     title: appTitle + " (" + version + ")",
     onDismiss: () => {
       setShowAbout(false);

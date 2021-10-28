@@ -17,7 +17,7 @@ import { AppFormLabel } from './AppFormLabel';
 const AppFormNumber = (props: formElementProps) => {
     const { property, instanceRef, onChange, propertyInfo, required } = props;
     const [errors, setErrors] = useState<string[]>([]);
-    const [inputStatus, setInputStatus] = useState<InputStatus>(typeof instanceRef.current && (instanceRef.current as any)[property] ? "valid" : "empty");
+    const [inputStatus, setInputStatus] = useState<InputStatus>(typeof (instanceRef.current as any)[property] === "number" ? "valid" : "empty");
     const [value, setValue] = useState<number>((instanceRef.current && (instanceRef.current as any)[property]) || 0)
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
 

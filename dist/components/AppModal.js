@@ -26,14 +26,12 @@ const AppModal = props => {
     darkMode
   } = useAppSettings();
   const ref = useRef(null);
-  return /*#__PURE__*/React.createElement(IonModal, _extends({
-    css: smol ? {
-      "--height": 300,
-      "--width": 400
-    } : undefined,
+  return /*#__PURE__*/React.createElement("div", {
+    className: smol ? "smol" : "large"
+  }, /*#__PURE__*/React.createElement(IonModal, _extends({
     ref: ref,
     animated: true,
-    cssClass: darkMode ? "dark-theme" : "light-theme",
+    cssClass: [darkMode ? "dark-theme" : "light-theme"],
     onDidDismiss: props.onDismiss
   }, otherProps), title && /*#__PURE__*/React.createElement(AppItem, {
     color: headerColor || 'light'
@@ -49,7 +47,7 @@ const AppModal = props => {
     fill: "clear"
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: closeOutline
-  })))), /*#__PURE__*/React.createElement(AppContent, null, children), /*#__PURE__*/React.createElement(React.Fragment, null), buttons && /*#__PURE__*/React.createElement(AppSelectButtons, buttons));
+  })))), /*#__PURE__*/React.createElement(AppContent, null, children), /*#__PURE__*/React.createElement(React.Fragment, null), buttons && /*#__PURE__*/React.createElement(AppSelectButtons, buttons)));
 };
 
 export default AppModal;

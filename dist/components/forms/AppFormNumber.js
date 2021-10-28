@@ -19,7 +19,7 @@ const AppFormNumber = props => {
     required
   } = props;
   const [errors, setErrors] = useState([]);
-  const [inputStatus, setInputStatus] = useState(typeof instanceRef.current && instanceRef.current[property] ? "valid" : "empty");
+  const [inputStatus, setInputStatus] = useState(typeof instanceRef.current[property] === "number" ? "valid" : "empty");
   const [value, setValue] = useState(instanceRef.current && instanceRef.current[property] || 0);
   const propertyFormattedName = prettyTitle(propertyInfo.title || property);
   const statusColor = inputStatusColorMap[inputStatus];

@@ -33,27 +33,28 @@ const AppModal: React.FC<appModalProps> = (props) => {
     const { children, smol, title, buttons, titleColor, headerColor, ...otherProps } = props;
     const { darkMode } = useAppSettings();
     const ref = useRef<HTMLIonModalElement>(null);
-    return <IonModal css={smol ? { "--height": 300, "--width": 400 } : undefined} ref={ref} animated={true} cssClass={darkMode ? "dark-theme" : "light-theme"}
-        onDidDismiss={props.onDismiss}
-        {...otherProps} >
-        {title && <AppItem color={headerColor || 'light'}>
-            <AppTitle color={titleColor || 'tertiary'}>
-                {title}
-            </AppTitle>
-            <AppButtons slot='end'>
-                <AppButton onClick={() => {
-                    ref.current?.dismiss();
-                }} color="danger" fill="clear">
-                    <AppIcon icon={closeOutline} />
-                </AppButton>
-            </AppButtons>
-        </AppItem>}
-        <AppContent>
-            {children}
-        </AppContent>
-        <></>
-        {buttons && <AppSelectButtons {...buttons} />}
-    </IonModal >
+    return <div className={smol ? "smol" : "large"}>
+        <IonModal ref={ref} animated={true} cssClass={[darkMode ? "dark-theme" : "light-theme"]}
+            onDidDismiss={props.onDismiss}
+            {...otherProps} >
+            {title && <AppItem color={headerColor || 'light'}>
+                <AppTitle color={titleColor || 'tertiary'}>
+                    {title}
+                </AppTitle>
+                <AppButtons slot='end'>
+                    <AppButton onClick={() => {
+                        ref.current?.dismiss();
+                    }} color="danger" fill="clear">
+                        <AppIcon icon={closeOutline} />
+                    </AppButton>
+                </AppButtons>
+            </AppItem>}
+            <AppContent>
+                {children}
+            </AppContent>
+            <></>
+            {buttons && <AppSelectButtons {...buttons} />}
+        </IonModal ></div>
 }
 
 export default AppModal;
