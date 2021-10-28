@@ -7,9 +7,7 @@ import React from 'react';
  * Component for a select interface for selecting a single string
  */
 const AppSelectString = props => {
-  console.log(props.ref);
   return /*#__PURE__*/React.createElement(IonSelect, _extends({
-    ref: props.ref,
     style: props.color && {
       color: "var(--ion-color-" + props.color + ")",
       "--color": "var(--ion-color-" + props.color + ")",

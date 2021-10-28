@@ -2,7 +2,7 @@ import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import { isUndefined } from "lodash";
 import React, { Suspense, useCallback, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { findShortestValue } from "./AppFormArrayInput";
@@ -95,7 +95,7 @@ const AppFormAnyOfArrayInput = (props: formArrayOfInputProps) => {
             <div hidden={!(status === "inserting")}>
                 {<AppModal title={propertyFormattedName} isOpen={status === "inserting"} onDismiss={() => setStatus("idle")}>
                     <Suspense fallback={<AppLoadingCard />}>
-                        {selectedType && <AppFormComposer
+                        {selectedType && <AppForm
                             showFields={showFields}
                             hiddenFields={hiddenFields}
                             lockedFields={lockedFields}
@@ -105,7 +105,7 @@ const AppFormAnyOfArrayInput = (props: formArrayOfInputProps) => {
                             data={{ ...data }}
                             onSubmit={onSubmitItem} >
                             <AppBackButton onClick={onBackPressed} />
-                        </AppFormComposer>}
+                        </AppForm>}
                     </Suspense>
                 </AppModal>}
             </div>

@@ -47,7 +47,8 @@ const AppForm = props => {
     autoSubmit,
     customComponentMap,
     inlineFields,
-    hideTitle
+    hideTitle,
+    context
   } = props;
   let objectSchema = props.objectSchema || props.rootSchema;
   const [deferedValidationPromises, setDefferedValidationResultPromises] = useState({});
@@ -114,9 +115,9 @@ const AppForm = props => {
     }
 
     if (propertyErrors.length === 0) {
-      resolve(["valid", undefined]);
+      resolve && resolve(["valid", undefined]);
     } else {
-      resolve(["invalid", propertyErrors]);
+      resolve && resolve(["invalid", propertyErrors]);
     }
   };
 
@@ -170,7 +171,8 @@ const AppForm = props => {
     property,
     inline,
     instanceRef,
-    onChange
+    onChange,
+    context
   }) => {
     const {
       title
@@ -181,7 +183,7 @@ const AppForm = props => {
     }).map(([key, value]) => ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]));
     const nestedFormColor = inputStatusColorMap[nestedFormStatus];
     const formated_title = titleCase((property || title || '').split("_").join(" "));
-    return inline ? /*#__PURE__*/React.createElement(AppFormComposer, {
+    return inline ? /*#__PURE__*/React.createElement(AppForm, {
       data: instanceRef.current[property],
       rootSchema: rootSchema,
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
@@ -193,6 +195,7 @@ const AppForm = props => {
       lockedFields: lockedFields,
       showFields: showFields,
       customComponentMap: customComponentMap,
+      context: context,
       onSubmit: nestedObjectValue => {
         onChange(property, nestedObjectValue).then(([validationStatus, errors]) => {
           setNestedFormStatus(validationStatus);
@@ -222,10 +225,11 @@ const AppForm = props => {
     }, /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
       isOpen: showNestedForm
-    }, showNestedForm && /*#__PURE__*/React.createElement(AppFormComposer, {
+    }, showNestedForm && /*#__PURE__*/React.createElement(AppForm, {
       data: instanceRef.current[property],
       customComponentMap: customComponentMap,
       rootSchema: rootSchema,
+      context: context,
       dependencyMap: dependencyMap,
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       onSubmit: nestedObjectValue => {
@@ -245,7 +249,8 @@ const AppForm = props => {
     property,
     rootSchema,
     objectSchema,
-    propertyInfo
+    propertyInfo,
+    context
   }) => {
     if (typeof propertyInfo === "undefined") {
       return /*#__PURE__*/React.createElement(React.Fragment, null, "Undefined property... is your JSON schema OK?");
@@ -285,6 +290,7 @@ const AppForm = props => {
         instanceRef,
         customComponentMap,
         onChange: handleInputReceived,
+        context,
         property,
         propertyInfo,
         children,
@@ -299,6 +305,7 @@ const AppForm = props => {
         instanceRef,
         customComponentMap,
         onChange: handleInputReceived,
+        context,
         property,
         propertyInfo,
         children,
@@ -310,6 +317,7 @@ const AppForm = props => {
     if ("enum" in propertyInfo) {
       if (propertyInfo["type"] === "array") {
         return /*#__PURE__*/React.createElement(AppFormSelectArray, {
+          context: context,
           rootSchema: rootSchema,
           objectSchema: objectSchema,
           required: required,
@@ -321,6 +329,7 @@ const AppForm = props => {
         });
       } else {
         return /*#__PURE__*/React.createElement(AppFormSelect, {
+          context: context,
           required: required,
           instanceRef: instanceRef,
           propertyInfo: propertyInfo,
@@ -391,11 +400,13 @@ const AppForm = props => {
         hiddenFields: hiddenFields,
         lockedFields: lockedFields,
         showFields: showFields,
+        context: context,
         property: property,
         customComponentMap: customComponentMap,
         key: property
       }) : /*#__PURE__*/React.createElement(AppFormAnyOfArrayInput, {
         required: required,
+        context: context,
         rootSchema: rootSchema,
         objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
         onChange: handleInputReceived,
@@ -415,6 +426,7 @@ const AppForm = props => {
         required: required,
         onChange: handleInputReceived,
         instanceRef: instanceRef,
+        context: context,
         customComponentMap: customComponentMap,
         propertyInfo: propertyInfo,
         hiddenFields: hiddenFields,
@@ -434,6 +446,7 @@ const AppForm = props => {
         required: required,
         input: "text",
         propertyInfo: propertyInfo,
+        context: context,
         instanceRef: instanceRef,
         property: property,
         onChange: handleInputReceived,
@@ -445,6 +458,7 @@ const AppForm = props => {
       return /*#__PURE__*/React.createElement(ComposeNestedFormElement, {
         objectSchema: objectSchema,
         rootSchema: rootSchema,
+        context: context,
         required: required,
         inline: inlineFields && inlineFields.includes(property),
         onChange: handleInputReceived,
@@ -472,6 +486,7 @@ const AppForm = props => {
     return /*#__PURE__*/React.createElement(FormElement, {
       propertyInfo: objectSchema.properties && objectSchema.properties[property],
       required: true,
+      context: context,
       rootSchema: rootSchema,
       objectSchema: objectSchema,
       key: property,
@@ -494,6 +509,7 @@ const AppForm = props => {
       return /*#__PURE__*/React.createElement(FormElement, {
         propertyInfo: objectSchema.properties && objectSchema.properties[property],
         required: true,
+        context: context,
         rootSchema: rootSchema,
         objectSchema: objectSchema,
         key: property,
@@ -524,6 +540,7 @@ const AppForm = props => {
   }, useMemo(() => /*#__PURE__*/React.createElement(RequiredFormFields, null), []), useMemo(() => /*#__PURE__*/React.createElement(DependentFormFields, null), [reRenderDependents]), objectSchema.type === "string" ? typeof objectSchema['enum'] === "undefined" ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormInput, {
     rootSchema: rootSchema,
     objectSchema: objectSchema,
+    context: context,
     propertyInfo: objectSchema,
     property: objectSchema.title || "",
     input: "text",
@@ -532,10 +549,12 @@ const AppForm = props => {
   })) : /*#__PURE__*/React.createElement(AppFormSelect, {
     propertyInfo: objectSchema,
     required: true,
+    context: context,
     property: objectSchema.title || "",
     instanceRef: instance,
     onChange: handleInputReceived
   }) : /*#__PURE__*/React.createElement(React.Fragment, null), objectSchema.type === "boolean" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppFormToggle, {
+    context: context,
     rootSchema: rootSchema,
     objectSchema: objectSchema,
     propertyInfo: objectSchema,
@@ -594,9 +613,7 @@ const AppForm = props => {
   }, !customSubmit ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppTitle, null, "Save ", title)) : customSubmit) : /*#__PURE__*/React.createElement(React.Fragment, null), [autoSubmit, customSubmit, isValid, onSubmit])))));
 };
 
-const AppFormComposer = AppForm;
 export default AppForm;
-export { AppFormComposer };
 export function findSubSchema(schema, objectSchema, propertyInfo) {
   const definitions = Object.values(schema.definitions || {});
   const definition_id = propertyInfo.$ref || propertyInfo.items?.$ref;

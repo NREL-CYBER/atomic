@@ -1,12 +1,13 @@
 /* eslint-disable no-script-url */
 import { AppLabel } from "atomic";
 import produce from "immer";
-import { addSharp, closeOutline, returnDownForwardOutline } from 'ionicons/icons';
-import { isArray } from "lodash";
+import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
+import { isArray, values } from "lodash";
 import React, { useCallback, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
+import { uniqueObjects } from "../util/unique";
 import AppCard from "./AppCard";
 import { inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema } from './forms/AppForm';
@@ -72,13 +73,13 @@ const AppFormArrayInput = props => {
   };
 
   const onSubmitItem = useCallback(async item => {
-    const newValue = produce(value, draftValue => {
+    const newValue = uniqueObjects(produce(value, draftValue => {
       if (typeof editingItemIndex !== "undefined") {
         draftValue[editingItemIndex] = item;
       } else {
         draftValue.push(item);
       }
-    });
+    }));
     const validationResult = onChange(property, newValue);
     validationResult.then(([validationStatus, errors]) => {
       setIsInsertingItem(false);
@@ -95,7 +96,8 @@ const AppFormArrayInput = props => {
   const itemId = propertyInfo.items?.$ref?.toString() || "";
   const customItemComponent = customComponentMap && customComponentMap[itemId];
   const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
-  const elementTitle = propertyFormattedName + "[" + (editingItemIndex || '0') + "]";
+  const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
+  console.log(value);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     onClick: e => {
       beginInsertItem();
@@ -104,7 +106,7 @@ const AppFormArrayInput = props => {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppLabel, {
     color: inputStatusColor
-  }, "(", value.length, ")")), /*#__PURE__*/React.createElement(AppButtons, {
+  }, "(", value.length, ")")), values.length === 0 && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
@@ -142,8 +144,9 @@ const AppFormArrayInput = props => {
       }
     },
     property: "item",
-    propertyInfo
-  })) : /*#__PURE__*/React.createElement(AppFormComposer, {
+    propertyInfo,
+    context: value
+  })) : /*#__PURE__*/React.createElement(AppForm, {
     title: elementTitle,
     showFields: showFields,
     hiddenFields: hiddenFields,
@@ -152,6 +155,7 @@ const AppFormArrayInput = props => {
     rootSchema: rootSchema,
     objectSchema: subSchema,
     data: typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {},
+    context: value,
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => onBackPressed()
@@ -182,9 +186,20 @@ const AppFormArrayInput = props => {
         setValue(x => removeAtIndex(i, x));
       }
     }, /*#__PURE__*/React.createElement(AppIcon, {
-      icon: closeOutline
+      icon: removeOutline
     }))));
-  }), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+  }), values.length > 0 && /*#__PURE__*/React.createElement(AppItem, {
+    onClick: beginInsertItem
+  }, /*#__PURE__*/React.createElement(AppLabel, null, /*#__PURE__*/React.createElement(AppIcon, {
+    color: "primary",
+    icon: addSharp
+  })), /*#__PURE__*/React.createElement(AppButton, {
+    expand: "full",
+    fill: "clear",
+    onClick: () => {
+      beginInsertItem();
+    }
+  })), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
     errors: errors
   }));
 };

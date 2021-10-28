@@ -2,7 +2,7 @@ import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import { isUndefined } from "lodash";
 import React, { Suspense, useCallback, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppFormComposer, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
 import { remove } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { findShortestValue } from "./AppFormArrayInput";
@@ -105,7 +105,7 @@ const AppFormAnyOfArrayInput = props => {
     onDismiss: () => setStatus("idle")
   }, /*#__PURE__*/React.createElement(Suspense, {
     fallback: /*#__PURE__*/React.createElement(AppLoadingCard, null)
-  }, selectedType && /*#__PURE__*/React.createElement(AppFormComposer, {
+  }, selectedType && /*#__PURE__*/React.createElement(AppForm, {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,

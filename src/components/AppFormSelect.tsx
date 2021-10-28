@@ -1,4 +1,5 @@
 import { AppCol } from 'atomic';
+import { isArray } from 'lodash';
 import React, { MutableRefObject, useState } from 'react';
 import { prettyTitle } from '../util';
 import { InputStatus, inputStatusColorMap } from './AppFormInput';
@@ -15,19 +16,25 @@ export interface formSelectInputProps {
     instanceRef: MutableRefObject<any>
     required?: boolean,
     onChange: formFieldChangeEvent
+    context?: any
 }
 
 /**
  * Component for input that displays validation errors
  */
 const AppFormSelect = (props: formSelectInputProps) => {
-    const { propertyInfo, instanceRef, onChange, property, required } = props;
+    const { propertyInfo, instanceRef, onChange, property, required, context } = props;
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>(instanceRef.current && typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
     let instanceValue = instanceRef.current && (instanceRef.current as any)[property];
     const [value, setValue] = useState<string>(instanceValue);
     const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
     const statusColor = inputStatusColorMap[inputStatus];
+    let options = propertyInfo.enum;
+    if (context && isArray(context) && context.length > 0 && context[0] === "string") {
+        options = options.filter(x => !context.includes(x))
+    }
+    console.log(context);
     return <>
         <AppItem >
             <AppFormLabel required={required}
@@ -35,14 +42,14 @@ const AppFormSelect = (props: formSelectInputProps) => {
                 color={statusColor} />
             <AppCol>
 
-                <AppSelectButtons display={propertyInfo.enum.length > 4 ? "vertical" : "horizontal"} segment selected={[value]} onSelectionChange={([val]) => {
+                <AppSelectButtons display={options.length > 4 ? "vertical" : "horizontal"} segment selected={[value]} onSelectionChange={([val]) => {
                     setValue(val);
                     onChange(property, val).then(([validationStatus, validationErrors]) => {
                         setInputStatus(validationStatus);
                         setErrors(validationErrors);
                     });
                 }} buttons={
-                    propertyInfo.enum.map((enumValue: string) => ({ color: value === enumValue ? "favorite" : "medium", value: enumValue, text: prettyTitle(enumValue) }))
+                    options.map((enumValue: string) => ({ color: value === enumValue ? "favorite" : "medium", value: enumValue, text: prettyTitle(enumValue) }))
                 } />
             </AppCol>
         </AppItem>

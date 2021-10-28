@@ -28,6 +28,7 @@ export interface formProps {
     autoSubmit?: boolean;
     customSubmit?: ReactFragment;
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
+    context?: any;
 }
 export declare type formFieldValidationStatus = [formFieldStatus, string[] | undefined];
 export declare type formFieldChangeEvent = (property: string, value: any) => Promise<formFieldValidationStatus>;
@@ -39,6 +40,7 @@ export interface formElementProps {
     rootSchema: RootSchemaObject;
     objectSchema: SchemaObjectDefinition;
     onChange: formFieldChangeEvent;
+    context?: any;
 }
 export interface nestedFormProps {
     required?: boolean;
@@ -54,12 +56,11 @@ export interface nestedFormProps {
     lockedFields?: string[];
     customTitleFunction?: (value: any) => string;
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
+    context?: any;
 }
 export declare type formFieldStatus = "valid" | "invalid" | "unknown" | "empty";
 declare const AppForm: React.FC<formNodeProps>;
-declare const AppFormComposer: React.FC<formNodeProps>;
 export default AppForm;
-export { AppFormComposer };
 export declare function findSubSchema(schema: RootSchemaObject, objectSchema: SchemaObjectDefinition, propertyInfo: PropertyDefinitionRef): SchemaObjectDefinition;
 export declare function findSchemaDefinitionId(schema: RootSchemaObject, propertyInfo: PropertyDefinitionRef): string;
 export declare function findSchemaDefinition(schema: RootSchemaObject, definition: string): SchemaObjectDefinition;

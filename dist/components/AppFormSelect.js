@@ -1,4 +1,5 @@
 import { AppCol } from 'atomic';
+import { isArray } from 'lodash';
 import React, { useState } from 'react';
 import { prettyTitle } from '../util';
 import { inputStatusColorMap } from './AppFormInput';
@@ -16,7 +17,8 @@ const AppFormSelect = props => {
     instanceRef,
     onChange,
     property,
-    required
+    required,
+    context
   } = props;
   const [errors, setErrors] = useState(undefined);
   const [inputStatus, setInputStatus] = useState(instanceRef.current && typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
@@ -24,12 +26,19 @@ const AppFormSelect = props => {
   const [value, setValue] = useState(instanceValue);
   const propertyFormattedName = prettyTitle(propertyInfo.title ? propertyInfo.title : property);
   const statusColor = inputStatusColorMap[inputStatus];
+  let options = propertyInfo.enum;
+
+  if (context && isArray(context) && context.length > 0 && context[0] === "string") {
+    options = options.filter(x => !context.includes(x));
+  }
+
+  console.log(context);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppFormLabel, {
     required: required,
     name: propertyFormattedName,
     color: statusColor
   }), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppSelectButtons, {
-    display: propertyInfo.enum.length > 4 ? "vertical" : "horizontal",
+    display: options.length > 4 ? "vertical" : "horizontal",
     segment: true,
     selected: [value],
     onSelectionChange: ([val]) => {
@@ -39,7 +48,7 @@ const AppFormSelect = props => {
         setErrors(validationErrors);
       });
     },
-    buttons: propertyInfo.enum.map(enumValue => ({
+    buttons: options.map(enumValue => ({
       color: value === enumValue ? "favorite" : "medium",
       value: enumValue,
       text: prettyTitle(enumValue)

@@ -1,3 +1,4 @@
+import { isArray } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { AppColor } from '../theme/AppColor';
 import { prettyTitle } from '../util';
@@ -23,7 +24,7 @@ type supported_schema_format = "email" | "date" | "time" | undefined
  * Component for input that displays validation errors
  */
 const AppFormInput = (props: formInputProps) => {
-    const { property, instanceRef, input, onChange, propertyInfo, required } = props;
+    const { property, instanceRef, input, onChange, propertyInfo, required, context } = props;
     const { description } = propertyInfo;
     const [errors, setErrors] = useState<string[] | undefined>();
     const [validating, setValidating] = useState<any>();
@@ -67,6 +68,11 @@ const AppFormInput = (props: formInputProps) => {
             setErrors([]);
             return;
         }
+        if (isArray(context) && context.includes(validating)) {
+            setErrors([value + " already exists"]);
+            setInputStatus("invalid");
+            return;
+        }
         const formValue = value === "" ? undefined : value;
         const propertyValue = input === "array" ? (formValue || "").split("\n") : formValue;
         setValidating(value);
@@ -91,7 +97,7 @@ const AppFormInput = (props: formInputProps) => {
                 <AppInput color="dark" type={inputMode} value={value} placeholder={description || ""} onInputChange={(val) => {
                     setValue(val)
                 }} />
-                : <span style={{ width: "100%" }}><AppTextArea  rows={property === "description" ? 5 : 3} placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
+                : <span style={{ width: "100%" }}><AppTextArea rows={property === "description" ? 5 : 3} placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
                     setValue(val);
                     // eslint-disable-next-line react-hooks/exhaustive-deps
                 }} /></span>}</>, [input])}

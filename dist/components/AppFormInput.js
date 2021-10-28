@@ -1,3 +1,4 @@
+import { isArray } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { prettyTitle } from '../util';
 import AppInput from './AppInput';
@@ -22,7 +23,8 @@ const AppFormInput = props => {
     input,
     onChange,
     propertyInfo,
-    required
+    required,
+    context
   } = props;
   const {
     description
@@ -60,6 +62,12 @@ const AppFormInput = props => {
     if (value === null || value === "" || typeof value === "undefined") {
       setInputStatus("empty");
       setErrors([]);
+      return;
+    }
+
+    if (isArray(context) && context.includes(validating)) {
+      setErrors([value + " already exists"]);
+      setInputStatus("invalid");
       return;
     }
 

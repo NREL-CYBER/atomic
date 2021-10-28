@@ -1,13 +1,14 @@
 /* eslint-disable no-script-url */
-import { AppLabel } from "atomic";
+import { AppGrid, AppLabel, AppRow } from "atomic";
 import produce from "immer";
-import { addSharp, closeOutline, returnDownForwardOutline } from 'ionicons/icons';
-import { isArray } from "lodash";
+import { addSharp, closeOutline, removeOutline, returnDownForward, returnDownForwardOutline, returnDownForwardSharp } from 'ionicons/icons';
+import { isArray, values } from "lodash";
 import React, { MutableRefObject, useCallback, useState } from 'react';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
-import { AppBackButton, AppButton, AppButtons, AppChip, AppFormComposer, AppIcon, AppItem, AppModal } from '.';
-import { isUndefined, removeAtIndex } from '../util';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
+import { isUndefined, removeAtIndex, unique } from '../util';
 import prettyTitle from '../util/prettyTitle';
+import { uniqueObjects } from "../util/unique";
 import AppCard from "./AppCard";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
@@ -29,6 +30,7 @@ interface formInputProps {
     lockedFields?: string[],
     customTitleFunction?: (value: any) => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
+    context?: any
 }
 
 
@@ -79,13 +81,14 @@ const AppFormArrayInput = (props: formInputProps) => {
     }
 
     const onSubmitItem = useCallback(async (item: any) => {
-        const newValue = produce(value, (draftValue) => {
+        const newValue = uniqueObjects(produce(value, (draftValue) => {
             if (typeof editingItemIndex !== "undefined") {
                 draftValue[editingItemIndex] = item
             } else {
                 draftValue.push(item);
             }
-        });
+        }));
+
         const validationResult = onChange(property, newValue)
         validationResult.then(([validationStatus, errors]) => {
             setIsInsertingItem(false);
@@ -103,7 +106,8 @@ const AppFormArrayInput = (props: formInputProps) => {
     const itemId = propertyInfo.items?.$ref?.toString() || ""
     const customItemComponent = customComponentMap && customComponentMap[itemId]
     const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
-    const elementTitle = propertyFormattedName + "[" + (editingItemIndex || '0') + "]";
+    const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
+    console.log(value);
     return <>
         <AppItem onClick={(e) => {
             beginInsertItem()
@@ -111,11 +115,11 @@ const AppFormArrayInput = (props: formInputProps) => {
             <AppButtons slot='start'>
                 <AppLabel color={inputStatusColor}>({value.length})</AppLabel>
             </AppButtons>
-            <AppButtons slot="end">
+            {values.length === 0 && <AppButtons slot="end">
                 <AppButton fill="clear" color='primary' className={"close-button"}>
                     <AppIcon icon={addSharp} />
                 </AppButton>
-            </AppButtons>
+            </AppButtons>}
 
             <AppFormLabel required={required} onClick={() => {
                 beginInsertItem()
@@ -130,7 +134,8 @@ const AppFormArrayInput = (props: formInputProps) => {
                     hiddenFields,
                     lockedFields,
                     customComponentMap,
-                    rootSchema, objectSchema: subSchema,
+                    rootSchema,
+                    objectSchema: subSchema,
                     onChange: (_, value) => {
                         return onSubmitItem(value);
                     },
@@ -145,8 +150,9 @@ const AppFormArrayInput = (props: formInputProps) => {
                     },
                     property: "item",
                     propertyInfo,
+                    context: value
                 })}
-                </AppCard> : <AppFormComposer
+                </AppCard> : <AppForm
                     title={elementTitle}
                     showFields={showFields}
                     hiddenFields={hiddenFields}
@@ -155,38 +161,55 @@ const AppFormArrayInput = (props: formInputProps) => {
                     rootSchema={rootSchema}
                     objectSchema={subSchema}
                     data={typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {}}
+                    context={value}
                     onSubmit={onSubmitItem} >
+
                     <AppBackButton onClick={() => onBackPressed()} />
-                </AppFormComposer>}
+                </AppForm>}
             </AppModal>}
         </div>
-        {value && value.filter(Boolean).map((val, i) => {
-            return <AppItem color='paper' onClick={(e) => {
-                const isCloseButton = (e.target as any).className.split(' ').includes("close-button")
-                if (!isCloseButton) {
-                    editItem(i)
-                }
-            }} lines="full">
-                <AppButtons slot='start'>
-                    <><AppIcon icon={returnDownForwardOutline} /></>
-                </AppButtons>
-                <AppChip key={i} >
-                    {customTitleFunction ? customTitleFunction(val) : <>
-                        {typeof val === "string" && val}
-                        {typeof val === "object" && findShortestValue(val)}
-                    </>}
-                </AppChip>
+        {
+            value && value.filter(Boolean).map((val, i) => {
+                return <AppItem color='paper' onClick={(e) => {
+                    const isCloseButton = (e.target as any).className.split(' ').includes("close-button")
+                    if (!isCloseButton) {
+                        editItem(i)
+                    }
+                }} lines="full">
+                    <AppButtons slot='start'>
+                        <><AppIcon icon={returnDownForwardOutline} /></>
+                    </AppButtons>
+                    <AppChip key={i} >
+                        {customTitleFunction ? customTitleFunction(val) : <>
+                            {typeof val === "string" && val}
+                            {typeof val === "object" && findShortestValue(val)}
+                        </>}
+                    </AppChip>
 
-                <AppButtons slot="end">
+                    <AppButtons slot="end">
 
-                    <AppButton fill="clear" color='danger' className={"close-button"} onClick={() => {
-                        setValue(x => removeAtIndex(i, x));
-                    }}>
-                        <AppIcon icon={closeOutline} />
-                    </AppButton>
-                </AppButtons>
+                        <AppButton fill="clear" color='danger' className={"close-button"} onClick={() => {
+                            setValue(x => removeAtIndex(i, x));
+                        }}>
+                            <AppIcon icon={removeOutline} />
+                        </AppButton>
+                    </AppButtons>
+                </AppItem>
+            })
+        }
+
+        {
+            values.length > 0 && <AppItem onClick={beginInsertItem}>
+                <AppLabel>
+                    <AppIcon color="primary" icon={addSharp} />
+                </AppLabel>
+                <AppButton expand="full" fill="clear" onClick={() => {
+                    beginInsertItem()
+                }} >
+                </AppButton>
             </AppItem>
-        })}
+        }
+
         <AppFormErrorsItem errors={errors} />
     </ >
 }

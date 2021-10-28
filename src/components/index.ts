@@ -54,7 +54,7 @@ import AppToggle from "./AppToggle";
 import AppToolbar from './AppToolbar';
 import AppUuidGenerator from './AppUuidGenerator';
 import AppRouteCard from './completion/AppRouteCard';
-import AppForm, { AppFormComposer } from './forms/AppForm';
+import AppForm from './forms/AppForm';
 import AppFormDictionaryInput from "./forms/AppFormDictionaryInput";
 import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
 import { AppFormLabel } from './forms/AppFormLabel';
@@ -62,5 +62,5 @@ import AppSuggestedInput from './forms/AppSuggestedInput';
 import AppSerializer from './serialization/AppSerializer';
 import AppUploader from './serialization/AppUploader';
 export * from "./AppCard";
-export { AppFormLabel, AppPaginatedList, AppFormErrorsItem, AppFab, AppFabButton, AppTabs, AppSkeletonText, AppTextArea, AppSuggestedInput, AppInput, AppFormComposer, AppFoldingNode, AppLoadingCard, AppDateTime, AppSelect, AppSelectArray, AppFormSelectArray, AppProgress, AppFormDictionaryInput, AppAvatar, AppBinaryImg, AppImg, AppUploader, AppSelectButtons, AppSerializer, AppRouteCard, AppSequence, AppSearchBar, AppAccordion, AppForm, AppRouterOutlet, AppItemDivider, AppSelectOption, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
+export { AppFormLabel, AppPaginatedList, AppFormErrorsItem, AppFab, AppFabButton, AppTabs, AppSkeletonText, AppTextArea, AppSuggestedInput, AppInput, AppFoldingNode, AppLoadingCard, AppDateTime, AppSelect, AppSelectArray, AppFormSelectArray, AppProgress, AppFormDictionaryInput, AppAvatar, AppBinaryImg, AppImg, AppUploader, AppSelectButtons, AppSerializer, AppRouteCard, AppSequence, AppSearchBar, AppAccordion, AppForm, AppRouterOutlet, AppItemDivider, AppSelectOption, AppMenu, AppMenuButton, AppListHeader, AppPage, AppMenuToggle, AppBadge, AppSpinner, AppModal, AppBackButton, AppUuidGenerator, AppFormSelect, AppFormArrayInput, AppToolbar, AppFormInput, AppTitle, AppIcon, AppButton, AppButtons, AppCard, AppCol, AppGrid, AppItem, AppChip, AppContent, AppLabel, AppList, AppRoot, AppRow, AppSideMenu, AppText, AppToggle };
 

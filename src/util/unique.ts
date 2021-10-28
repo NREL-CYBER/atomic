@@ -4,4 +4,25 @@
  * @param ray string array to make unique
  */
 const unique = (ray: string[]) => Array.from(new Set(ray));
+
+
+/**
+ * Deeply check the uniqueness of objects by stringing them
+ * Deeply check the uniqueness of objects by stringing them
+ */
+export const uniqueObjects = (ray: any[]) =>
+    Object.values(
+        ray
+            .map((item) => ({
+                [btoa(JSON.stringify(item))]: item
+            }))
+            .reduce(
+                (a, b) =>
+                    ({ ...a, ...b }),
+                {}
+            )
+    );
+
+
+
 export default unique;

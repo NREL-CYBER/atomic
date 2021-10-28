@@ -2,7 +2,7 @@ import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { v4 } from 'uuid';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppFormComposer, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
+import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppForm, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { prettyTitle } from "../../util";
 import { findShortestValue } from "../AppFormArrayInput";
 import { inputStatusColorMap } from "../AppFormInput";
@@ -95,7 +95,7 @@ const AppFormDictionaryInput = props => {
   }))), /*#__PURE__*/React.createElement(AppModal, {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
-  }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppFormComposer, {
+  }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppForm, {
     customComponentMap: customComponentMap,
     objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
     rootSchema: rootSchema,

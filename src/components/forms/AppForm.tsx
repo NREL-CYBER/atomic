@@ -53,6 +53,7 @@ export interface formProps {
     autoSubmit?: boolean
     customSubmit?: ReactFragment
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
+    context?: any
 }
 
 export type formFieldValidationStatus = [formFieldStatus, string[] | undefined]
@@ -66,6 +67,7 @@ export interface formElementProps {
     rootSchema: RootSchemaObject
     objectSchema: SchemaObjectDefinition
     onChange: formFieldChangeEvent
+    context?: any
 }
 export interface nestedFormProps {
     required?: boolean,
@@ -81,6 +83,7 @@ export interface nestedFormProps {
     lockedFields?: string[],
     customTitleFunction?: (value: any) => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
+    context?: any
 }
 
 
@@ -110,7 +113,7 @@ export type formFieldStatus = "valid" | "invalid" | "unknown" | "empty";
 const AppForm: React.FC<formNodeProps> = (props) => {
     const { rootSchema, data, onSubmit, children, lockedFields, hiddenFields,
         description, title, requiredOnly, calculatedFields, showFields, dependencyMap,
-        customSubmit, autoSubmit, customComponentMap, inlineFields, hideTitle } = props
+        customSubmit, autoSubmit, customComponentMap, inlineFields, hideTitle, context } = props
     let objectSchema = props.objectSchema || props.rootSchema;
     const [deferedValidationPromises, setDefferedValidationResultPromises] = useState<Record<string, (status: formFieldValidationStatus) => void>>({})
     if (typeof objectSchema.type === "undefined") {
@@ -163,9 +166,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
 
         if (propertyErrors.length === 0) {
-            resolve(["valid", undefined])
+            resolve && resolve(["valid", undefined])
         } else {
-            resolve(["invalid", propertyErrors])
+            resolve && resolve(["invalid", propertyErrors])
         }
 
     }
@@ -196,7 +199,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             )
         })
     }
-    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ required, customComponentMap, propertyInfo, property, inline, instanceRef, onChange }) => {
+    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ required, customComponentMap, propertyInfo, property, inline, instanceRef, onChange, context }) => {
         const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
         const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>(typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
@@ -211,7 +214,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 ));
         const nestedFormColor = inputStatusColorMap[nestedFormStatus];
         const formated_title = titleCase((property || title || '').split("_").join(" "));
-        return inline ? <AppFormComposer
+        return inline ? <AppForm
             data={instanceRef.current[property]}
             rootSchema={rootSchema}
             objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
@@ -223,6 +226,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             lockedFields={lockedFields}
             showFields={showFields}
             customComponentMap={customComponentMap as any}
+            context={context}
             onSubmit={(nestedObjectValue) => {
                 onChange(property, nestedObjectValue).then(([validationStatus, errors]) => {
                     setNestedFormStatus(validationStatus);
@@ -230,7 +234,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 });
             }}
         >
-        </AppFormComposer> : <>
+        </AppForm> : <>
             <AppItem onClick={() => setShowNestedFrom(x => !x)}>
                 <AppFormLabel name={formated_title} required={required} color={nestedFormColor} />
                 <AppButtons slot="end">
@@ -250,10 +254,11 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             )}
             <Suspense fallback={<></>}>
                 <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
-                    {showNestedForm && <AppFormComposer
+                    {showNestedForm && <AppForm
                         data={instanceRef.current[property]}
                         customComponentMap={customComponentMap as any}
                         rootSchema={rootSchema}
+                        context={context}
                         dependencyMap={dependencyMap}
                         objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                         onSubmit={(nestedObjectValue) => {
@@ -265,7 +270,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                             setShowNestedFrom(false);
                         }}
                     ><AppBackButton onClick={() => setShowNestedFrom(false)} />
-                    </AppFormComposer>}
+                    </AppForm>}
                 </AppModal>
             </Suspense>
 
@@ -273,7 +278,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     }
 
 
-    const FormElement: React.FC<formElementProps> = ({ required, instanceRef, property, rootSchema, objectSchema, propertyInfo }) => {
+    const FormElement: React.FC<formElementProps> = ({ required, instanceRef, property, rootSchema, objectSchema, propertyInfo, context }) => {
 
         if (typeof propertyInfo === "undefined") {
             return <>Undefined property... is your JSON schema OK?</>;
@@ -301,17 +306,18 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
         // Custom component by property name
         if (customComponentMap && customComponentMap[property]) {
-            return customComponentMap[property]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children, objectSchema, rootSchema })
+            return customComponentMap[property]({ instanceRef, customComponentMap, onChange: handleInputReceived, context, property, propertyInfo, children, objectSchema, rootSchema })
         }
         // Custom component by property identifier
         if (customComponentMap && propertyInfo.$id && customComponentMap[propertyInfo.$id]) {
-            return customComponentMap[propertyInfo.$id]({ instanceRef, customComponentMap, onChange: handleInputReceived, property, propertyInfo, children, objectSchema, rootSchema })
+            return customComponentMap[propertyInfo.$id]({ instanceRef, customComponentMap, onChange: handleInputReceived, context, property, propertyInfo, children, objectSchema, rootSchema })
         }
 
 
         if ("enum" in propertyInfo) {
             if ((propertyInfo as any)["type"] === "array") {
                 return <AppFormSelectArray
+                    context={context}
                     rootSchema={rootSchema}
                     objectSchema={objectSchema}
                     required={required}
@@ -323,6 +329,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 />
             } else {
                 return <AppFormSelect
+                    context={context}
                     required={required}
                     instanceRef={instanceRef}
                     propertyInfo={propertyInfo as any}
@@ -391,11 +398,13 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 hiddenFields={hiddenFields}
                 lockedFields={lockedFields}
                 showFields={showFields}
+                context={context}
                 property={property}
                 customComponentMap={customComponentMap}
                 key={property}
             /> : <AppFormAnyOfArrayInput
                 required={required}
+                context={context}
                 rootSchema={rootSchema}
                 objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                 onChange={handleInputReceived}
@@ -415,6 +424,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 required={required}
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
+                context={context}
                 customComponentMap={customComponentMap}
                 propertyInfo={propertyInfo}
                 hiddenFields={hiddenFields}
@@ -437,6 +447,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 required={required}
                 input={"text"}
                 propertyInfo={propertyInfo}
+                context={context}
                 instanceRef={instanceRef}
                 property={property}
                 onChange={handleInputReceived}
@@ -449,6 +460,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             return < ComposeNestedFormElement
                 objectSchema={objectSchema}
                 rootSchema={rootSchema}
+                context={context}
                 required={required}
                 inline={inlineFields && inlineFields.includes(property)}
                 onChange={handleInputReceived}
@@ -472,6 +484,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             return <FormElement
                 propertyInfo={objectSchema.properties && objectSchema.properties[property]}
                 required={true}
+                context={context}
                 rootSchema={rootSchema}
                 objectSchema={objectSchema}
                 key={property}
@@ -489,6 +502,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 return <FormElement
                     propertyInfo={objectSchema.properties && objectSchema.properties[property]}
                     required={true}
+                    context={context}
                     rootSchema={rootSchema}
                     objectSchema={objectSchema}
                     key={property}
@@ -526,6 +540,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                             <AppFormInput
                                 rootSchema={rootSchema}
                                 objectSchema={objectSchema}
+                                context={context}
                                 propertyInfo={objectSchema as PropertyDefinitionRef}
                                 property={objectSchema.title || ""}
                                 input={"text"}
@@ -535,12 +550,16 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         </> : <AppFormSelect
                             propertyInfo={objectSchema as any}
                             required={true}
+                            context={context}
+
                             property={objectSchema.title || ""}
                             instanceRef={instance}
                             onChange={handleInputReceived}
                         /> : <></>}
                         {objectSchema.type === "boolean" && <>
                             <AppFormToggle
+                                context={context}
+
                                 rootSchema={rootSchema}
                                 objectSchema={objectSchema}
                                 propertyInfo={objectSchema as PropertyDefinitionRef}
@@ -612,9 +631,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         </Suspense>
     </>
 };
-const AppFormComposer = AppForm;
 export default AppForm;
-export { AppFormComposer };
 
 export function findSubSchema(schema: RootSchemaObject, objectSchema: SchemaObjectDefinition, propertyInfo: PropertyDefinitionRef): SchemaObjectDefinition {
     const definitions = Object.values(schema.definitions || {})

@@ -10,6 +10,7 @@ export interface formSelectInputProps {
     instanceRef: MutableRefObject<any>;
     required?: boolean;
     onChange: formFieldChangeEvent;
+    context?: any;
 }
 /**
  * Component for input that displays validation errors
