@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
-import { AppItem } from '..';
+import { AppButtons, AppChip, AppItem } from '..';
 import { prettyTitle } from '../../util';
 import { byteArrayToBase64 } from '../../util/binaryToBase64';
 import { AppFormLabel } from '../forms/AppFormLabel';
@@ -44,13 +44,15 @@ const AppUploader = ({
     onFileReceived(meta, byteArrayToBase64(new Uint8Array(fileBuffer)));
   };
 
-  const dropRef = useRef(null);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppFormLabel, {
     required: required,
     name: propertyFormattedName,
     color: statusColor
-  }), /*#__PURE__*/React.createElement(Dropzone, {
-    ref: dropRef,
+  }), /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "start"
+  }, /*#__PURE__*/React.createElement(AppChip, {
+    color: statusColor
+  }, status)), /*#__PURE__*/React.createElement(Dropzone, {
     initialFiles: file ? [file] : undefined,
     maxFiles: 1,
     multiple: false,

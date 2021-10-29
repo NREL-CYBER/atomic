@@ -32,13 +32,12 @@ const AppFormSelect = props => {
     options = options.filter(x => !context.includes(x));
   }
 
-  console.log(context);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppFormLabel, {
     required: required,
     name: propertyFormattedName,
     color: statusColor
   }), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppSelectButtons, {
-    display: options.length > 4 ? "vertical" : "horizontal",
+    display: "vertical",
     segment: true,
     selected: [value],
     onSelectionChange: ([val]) => {
@@ -49,7 +48,8 @@ const AppFormSelect = props => {
       });
     },
     buttons: options.map(enumValue => ({
-      color: value === enumValue ? "favorite" : "medium",
+      fill: "clear",
+      color: value === enumValue ? "primary" : "medium",
       value: enumValue,
       text: prettyTitle(enumValue)
     }))

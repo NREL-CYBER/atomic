@@ -204,7 +204,7 @@ const AppForm = props => {
       }
     }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
       onClick: () => setShowNestedFrom(x => !x)
-    }, "()", /*#__PURE__*/React.createElement(AppFormLabel, {
+    }, /*#__PURE__*/React.createElement(AppFormLabel, {
       name: formated_title,
       required: required,
       color: nestedFormColor

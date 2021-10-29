@@ -5,7 +5,6 @@ import { AppButtons, AppChip, AppItem } from '..';
 import { AppColor } from '../../theme';
 import { prettyTitle } from '../../util';
 import { byteArrayToBase64 } from '../../util/binaryToBase64';
-import AppText from '../AppText';
 import { AppFormLabel } from '../forms/AppFormLabel';
 
 export type AppFill = "clear" | "outline" | "solid" | "default" | undefined
