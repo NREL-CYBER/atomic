@@ -73,6 +73,18 @@ const AppFormArrayInput = props => {
     beginInsertItem();
   };
 
+  const deleteItem = useCallback(async i => {
+    const newValue = removeAtIndex(i, value);
+    const validationResult = onChange(property, newValue);
+    validationResult.then(([validationStatus, errors]) => {
+      setIsInsertingItem(false);
+      setValue(newValue);
+      setInputStatus(validationStatus);
+      setErrors(errors);
+      setEditingItemIndex(undefined);
+    });
+    return validationResult;
+  }, [onChange, property, value]);
   const onSubmitItem = useCallback(async item => {
     const newValue = uniqueObjects(produce(value, draftValue => {
       if (typeof editingItemIndex !== "undefined") {
@@ -185,7 +197,7 @@ const AppFormArrayInput = props => {
       color: "danger",
       className: "close-button",
       onClick: () => {
-        setValue(x => removeAtIndex(i, x));
+        deleteItem(i);
       }
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: removeOutline

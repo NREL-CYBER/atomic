@@ -3,15 +3,14 @@ import { AppLabel } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
-import React, { MutableRefObject, useCallback, useState } from 'react';
-import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
+import React, { useCallback, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
-import { uniqueObjects } from "../util/unique";
+import { removeObjectFromArray, uniqueObjects } from "../util/unique";
 import AppCard from "./AppCard";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
-import { findSubSchema, formElementProps, formFieldChangeEvent, formNodeProps, nestedFormProps } from './forms/AppForm';
+import { findSubSchema, nestedFormProps } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
 import { AppFormLabel } from "./forms/AppFormLabel";
 
@@ -70,7 +69,20 @@ const AppFormArrayInput = (props: formInputProps) => {
         setEditingItemIndex(index);
         beginInsertItem();
     }
+    const deleteItem = useCallback(async (i: number) => {
 
+
+        const newValue = removeAtIndex(i, value)        
+        const validationResult = onChange(property, newValue)
+        validationResult.then(([validationStatus, errors]) => {
+            setIsInsertingItem(false);
+            setValue(newValue);
+            setInputStatus(validationStatus);
+            setErrors(errors);
+            setEditingItemIndex(undefined);
+        })
+        return validationResult;
+    }, [onChange, property, value])
     const onSubmitItem = useCallback(async (item: any) => {
         const newValue = uniqueObjects(produce(value, (draftValue) => {
             if (typeof editingItemIndex !== "undefined") {
@@ -180,7 +192,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                     <AppButtons slot="end">
 
                         <AppButton fill="clear" color='danger' className={"close-button"} onClick={() => {
-                            setValue(x => removeAtIndex(i, x));
+                            deleteItem(i)
                         }}>
                             <AppIcon icon={removeOutline} />
                         </AppButton>

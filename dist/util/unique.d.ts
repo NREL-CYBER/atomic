@@ -5,8 +5,11 @@
  */
 declare const unique: (ray: string[]) => string[];
 /**
- * Deeply check the uniqueness of objects by stringing them
- * Deeply check the uniqueness of objects by stringing them
+ * Deeply check the uniqueness of objects by stringifying them
  */
 export declare const uniqueObjects: (ray: any[]) => any[];
+/**
+* remove objects via hash match
+*/
+export declare const removeObjectFromArray: (ray: any[], obj: any) => any[];
 export default unique;
