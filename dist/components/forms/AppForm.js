@@ -486,7 +486,7 @@ const AppForm = props => {
     });
     return /*#__PURE__*/React.createElement(FormElement, {
       propertyInfo: objectSchema.properties && objectSchema.properties[property],
-      required: true,
+      required: showFields ? !showFields?.includes(property) : true,
       context: context,
       rootSchema: rootSchema,
       objectSchema: objectSchema,

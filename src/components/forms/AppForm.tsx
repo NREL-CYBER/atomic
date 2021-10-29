@@ -485,7 +485,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 return <Fragment key={property}></Fragment>
             return <FormElement
                 propertyInfo={objectSchema.properties && objectSchema.properties[property]}
-                required={true}
+                required={showFields ? !showFields?.includes(property) : true}
                 context={context}
                 rootSchema={rootSchema}
                 objectSchema={objectSchema}
