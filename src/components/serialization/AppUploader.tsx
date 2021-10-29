@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Dropzone, { IFileWithMeta, IMeta, IUploadParams, StatusValue } from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
 import { AppButtons, AppChip, AppItem } from '..';
@@ -51,11 +51,15 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, required, description, t
             byteArrayToBase64(new Uint8Array(fileBuffer))
         );
     }
-    const dropRef = useRef<Dropzone>(null)
     return <>
         <AppItem>
             <AppFormLabel required={required} name={propertyFormattedName} color={statusColor} />
-            <Dropzone ref={dropRef}
+            <AppButtons slot="start">
+                <AppChip color={statusColor} >
+                    {status}
+                </AppChip>
+            </AppButtons>
+            <Dropzone
                 initialFiles={file ? [file] : undefined}
                 maxFiles={1}
                 multiple={false}
@@ -63,8 +67,8 @@ const AppUploader: React.FC<uploaderProps> = ({ accept, required, description, t
                 autoUpload={true}
                 onChangeStatus={handleChangeStatus}
                 accept={accept}
-            >
-            </Dropzone>
+            />
+
         </AppItem>
     </>
 };

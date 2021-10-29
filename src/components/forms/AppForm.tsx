@@ -236,7 +236,6 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         >
         </AppForm> : <>
             <AppItem onClick={() => setShowNestedFrom(x => !x)}>
-                ()
                 <AppFormLabel name={formated_title} required={required} color={nestedFormColor} />
                 <AppButtons slot="end">
                     <AppButton fill="clear" color="primary">

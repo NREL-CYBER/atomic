@@ -132,8 +132,6 @@
                     "type": "string",
                     "enum": [
                         "relationship",
-                        "node",
-                        "node4",
                         "relationship2",
                         "node2"
                     ]

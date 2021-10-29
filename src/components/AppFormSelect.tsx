@@ -34,7 +34,6 @@ const AppFormSelect = (props: formSelectInputProps) => {
     if (context && isArray(context) && context.length > 0 && context[0] === "string") {
         options = options.filter(x => !context.includes(x))
     }
-    console.log(context);
     return <>
         <AppItem >
             <AppFormLabel required={required}
@@ -42,14 +41,14 @@ const AppFormSelect = (props: formSelectInputProps) => {
                 color={statusColor} />
             <AppCol>
 
-                <AppSelectButtons display={options.length > 4 ? "vertical" : "horizontal"} segment selected={[value]} onSelectionChange={([val]) => {
+                <AppSelectButtons display={"vertical"} segment selected={[value]} onSelectionChange={([val]) => {
                     setValue(val);
                     onChange(property, val).then(([validationStatus, validationErrors]) => {
                         setInputStatus(validationStatus);
                         setErrors(validationErrors);
                     });
                 }} buttons={
-                    options.map((enumValue: string) => ({ color: value === enumValue ? "favorite" : "medium", value: enumValue, text: prettyTitle(enumValue) }))
+                    options.map((enumValue: string) => ({ fill: "clear", color: value === enumValue ? "primary" : "medium", value: enumValue, text: prettyTitle(enumValue) }))
                 } />
             </AppCol>
         </AppItem>
