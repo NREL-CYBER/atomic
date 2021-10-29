@@ -112,7 +112,7 @@ const AppFormArrayInput = (props: formInputProps) => {
             beginInsertItem()
         }}>
             <AppButtons slot='start'>
-                <AppLabel color={inputStatusColor}>({value.length})</AppLabel>
+                <AppLabel color={inputStatusColor}>[{value.length}]</AppLabel>
             </AppButtons>
             {value.length === 0 && <AppButtons slot="end">
                 <AppButton fill="clear" color='primary' className={"close-button"}>

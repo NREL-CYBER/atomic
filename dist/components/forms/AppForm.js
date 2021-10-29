@@ -204,14 +204,14 @@ const AppForm = props => {
       }
     }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
       onClick: () => setShowNestedFrom(x => !x)
-    }, /*#__PURE__*/React.createElement(AppFormLabel, {
+    }, "()", /*#__PURE__*/React.createElement(AppFormLabel, {
       name: formated_title,
       required: required,
       color: nestedFormColor
     }), /*#__PURE__*/React.createElement(AppButtons, {
       slot: "end"
     }, /*#__PURE__*/React.createElement(AppButton, {
-      fill: "solid",
+      fill: "clear",
       color: "primary"
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: pencilOutline
@@ -219,7 +219,7 @@ const AppForm = props => {
       slot: "start"
     }), /*#__PURE__*/React.createElement(AppFormLabel, {
       color: "favorite",
-      name: prop
+      name: prettyTitle(prop)
     }), /*#__PURE__*/React.createElement(AppChip, null, val))), /*#__PURE__*/React.createElement(Suspense, {
       fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
     }, /*#__PURE__*/React.createElement(AppModal, {

@@ -236,9 +236,10 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         >
         </AppForm> : <>
             <AppItem onClick={() => setShowNestedFrom(x => !x)}>
+                ()
                 <AppFormLabel name={formated_title} required={required} color={nestedFormColor} />
                 <AppButtons slot="end">
-                    <AppButton fill="solid" color="primary">
+                    <AppButton fill="clear" color="primary">
                         < AppIcon icon={pencilOutline} />
                     </AppButton>
                 </AppButtons>
@@ -246,7 +247,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             {nestedFormVisual?.map(([prop, val]) => <AppItem>
                 <AppButtons slot="start">
                 </AppButtons>
-                <AppFormLabel color={"favorite"} name={prop} />
+                <AppFormLabel color={"favorite"} name={prettyTitle(prop)} />
                 <AppChip >
                     {val}
                 </AppChip>

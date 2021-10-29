@@ -105,7 +105,7 @@ const AppFormArrayInput = props => {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppLabel, {
     color: inputStatusColor
-  }, "(", value.length, ")")), value.length === 0 && /*#__PURE__*/React.createElement(AppButtons, {
+  }, "[", value.length, "]")), value.length === 0 && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
