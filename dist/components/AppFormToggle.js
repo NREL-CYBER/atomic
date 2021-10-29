@@ -18,9 +18,11 @@ const AppFormToggle = props => {
     property,
     required
   } = props;
+  const val = instanceRef.current[property];
+  const isBoolean = typeof instanceRef.current[property] === "boolean";
   const [errors, setErrors] = useState(undefined);
-  const [inputStatus, setInputStatus] = useState("empty");
-  const [checked, setChecked] = useState(instanceRef.current && instanceRef.current[property] || undefined);
+  const [inputStatus, setInputStatus] = useState(isBoolean ? "valid" : "empty");
+  const [checked, setChecked] = useState(isBoolean ? val : undefined);
   const propertyFormattedName = titleCase(propertyInfo.title ? propertyInfo.title : propertyInfo.description ? propertyInfo.description : property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppFormLabel, {

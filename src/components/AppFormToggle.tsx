@@ -15,9 +15,12 @@ import { formElementProps } from './forms/AppForm';
  */
 const AppFormToggle = (props: formElementProps) => {
     const { propertyInfo, instanceRef, onChange, property, required } = props;
+    const val = instanceRef.current[property];
+    const isBoolean = typeof instanceRef.current[property] === "boolean"
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
-    const [inputStatus, setInputStatus] = useState<InputStatus>("empty");
-    const [checked, setChecked] = useState<boolean | undefined>((instanceRef.current && (instanceRef.current as any)[property]) || undefined)
+
+    const [inputStatus, setInputStatus] = useState<InputStatus>(isBoolean ? "valid" : "empty");
+    const [checked, setChecked] = useState<boolean | undefined>(isBoolean ? val : undefined)
 
     const propertyFormattedName = titleCase(propertyInfo.title ? propertyInfo.title : propertyInfo.description ? propertyInfo.description : property);
 
