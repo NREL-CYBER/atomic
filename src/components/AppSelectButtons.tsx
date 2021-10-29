@@ -59,7 +59,7 @@ const AppSelectButtons: React.FC<selectButtonsProps> = (props) => {
             )}
         </IonSegment>
     }
-    return display === "horizontal" ? <>{selectButtons}</> : selected.length === 0 ? <AppList>
+    return display === "horizontal" ? <>{selectButtons}</> : selected.length === 0 && !multi ? <AppList>
         {buttons.map((button, i) => <AppItem key={i}
             onClick={() => {
                 if (multi) {

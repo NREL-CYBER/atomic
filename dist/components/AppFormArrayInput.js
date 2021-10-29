@@ -97,7 +97,6 @@ const AppFormArrayInput = props => {
   const customItemComponent = customComponentMap && customComponentMap[itemId];
   const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
   const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
-  console.log(value);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     onClick: e => {
       beginInsertItem();
@@ -106,7 +105,7 @@ const AppFormArrayInput = props => {
     slot: "start"
   }, /*#__PURE__*/React.createElement(AppLabel, {
     color: inputStatusColor
-  }, "(", value.length, ")")), values.length === 0 && /*#__PURE__*/React.createElement(AppButtons, {
+  }, "(", value.length, ")")), value.length === 0 && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
@@ -188,7 +187,7 @@ const AppFormArrayInput = props => {
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: removeOutline
     }))));
-  }), values.length > 0 && /*#__PURE__*/React.createElement(AppItem, {
+  }), value.length > 0 && /*#__PURE__*/React.createElement(AppItem, {
     onClick: beginInsertItem
   }, /*#__PURE__*/React.createElement(AppLabel, null, /*#__PURE__*/React.createElement(AppIcon, {
     color: "primary",

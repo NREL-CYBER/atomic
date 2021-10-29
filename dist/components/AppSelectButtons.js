@@ -60,7 +60,7 @@ const AppSelectButtons = props => {
     }, text))));
   }
 
-  return display === "horizontal" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : selected.length === 0 ? /*#__PURE__*/React.createElement(AppList, null, buttons.map((button, i) => /*#__PURE__*/React.createElement(AppItem, {
+  return display === "horizontal" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : selected.length === 0 && !multi ? /*#__PURE__*/React.createElement(AppList, null, buttons.map((button, i) => /*#__PURE__*/React.createElement(AppItem, {
     key: i,
     onClick: () => {
       if (multi) {

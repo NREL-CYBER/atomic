@@ -1,12 +1,12 @@
 /* eslint-disable no-script-url */
-import { AppGrid, AppLabel, AppRow } from "atomic";
+import { AppLabel } from "atomic";
 import produce from "immer";
-import { addSharp, closeOutline, removeOutline, returnDownForward, returnDownForwardOutline, returnDownForwardSharp } from 'ionicons/icons';
+import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
 import React, { MutableRefObject, useCallback, useState } from 'react';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
-import { isUndefined, removeAtIndex, unique } from '../util';
+import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { uniqueObjects } from "../util/unique";
 import AppCard from "./AppCard";
@@ -107,7 +107,6 @@ const AppFormArrayInput = (props: formInputProps) => {
     const customItemComponent = customComponentMap && customComponentMap[itemId]
     const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
     const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
-    console.log(value);
     return <>
         <AppItem onClick={(e) => {
             beginInsertItem()
@@ -115,7 +114,7 @@ const AppFormArrayInput = (props: formInputProps) => {
             <AppButtons slot='start'>
                 <AppLabel color={inputStatusColor}>({value.length})</AppLabel>
             </AppButtons>
-            {values.length === 0 && <AppButtons slot="end">
+            {value.length === 0 && <AppButtons slot="end">
                 <AppButton fill="clear" color='primary' className={"close-button"}>
                     <AppIcon icon={addSharp} />
                 </AppButton>
@@ -163,7 +162,6 @@ const AppFormArrayInput = (props: formInputProps) => {
                     data={typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {}}
                     context={value}
                     onSubmit={onSubmitItem} >
-
                     <AppBackButton onClick={() => onBackPressed()} />
                 </AppForm>}
             </AppModal>}
@@ -199,7 +197,7 @@ const AppFormArrayInput = (props: formInputProps) => {
         }
 
         {
-            values.length > 0 && <AppItem onClick={beginInsertItem}>
+            value.length > 0 && <AppItem onClick={beginInsertItem}>
                 <AppLabel>
                     <AppIcon color="primary" icon={addSharp} />
                 </AppLabel>
