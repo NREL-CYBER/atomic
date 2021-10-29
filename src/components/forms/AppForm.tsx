@@ -81,6 +81,7 @@ export interface nestedFormProps {
     showFields?: string[],
     hiddenFields?: string[],
     lockedFields?: string[],
+    dependencyMap?: Record<string, string[]>,
     customTitleFunction?: (value: any) => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
     context?: any
@@ -393,6 +394,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 required={required}
                 objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                 onChange={handleInputReceived}
+                dependencyMap={dependencyMap}
                 instanceRef={instanceRef}
                 propertyInfo={propertyInfo}
                 hiddenFields={hiddenFields}

@@ -395,6 +395,7 @@ const AppForm = props => {
         required: required,
         objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
         onChange: handleInputReceived,
+        dependencyMap: dependencyMap,
         instanceRef: instanceRef,
         propertyInfo: propertyInfo,
         hiddenFields: hiddenFields,

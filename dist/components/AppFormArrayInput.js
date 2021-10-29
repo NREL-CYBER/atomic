@@ -47,7 +47,8 @@ const AppFormArrayInput = props => {
     showFields,
     required,
     objectSchema,
-    rootSchema
+    rootSchema,
+    dependencyMap
   } = props;
   const existing_data = instanceRef.current[property] ? instanceRef.current[property] : [];
   const [errors, setErrors] = useState(undefined);
@@ -133,6 +134,7 @@ const AppFormArrayInput = props => {
     lockedFields,
     customComponentMap,
     rootSchema,
+    dependencyMap,
     objectSchema: subSchema,
     onChange: (_, value) => {
       return onSubmitItem(value);
@@ -152,6 +154,7 @@ const AppFormArrayInput = props => {
     lockedFields: lockedFields,
     customComponentMap: customComponentMap,
     rootSchema: rootSchema,
+    dependencyMap: dependencyMap,
     objectSchema: subSchema,
     data: typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {},
     context: value,

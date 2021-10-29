@@ -11,23 +11,14 @@ import prettyTitle from '../util/prettyTitle';
 import { uniqueObjects } from "../util/unique";
 import AppCard from "./AppCard";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
-import { findSubSchema, formFieldChangeEvent, nestedFormProps } from './forms/AppForm';
+import { findSubSchema, formElementProps, formFieldChangeEvent, formNodeProps, nestedFormProps } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
 import { AppFormLabel } from "./forms/AppFormLabel";
 
 
-interface formInputProps {
+interface formInputProps extends nestedFormProps {
     required?: boolean
     inline?: boolean,
-    property: string
-    propertyInfo: PropertyDefinitionRef
-    instanceRef: MutableRefObject<any>
-    objectSchema: SchemaObjectDefinition,
-    rootSchema: RootSchemaObject,
-    onChange: formFieldChangeEvent,
-    showFields?: string[],
-    hiddenFields?: string[],
-    lockedFields?: string[],
     customTitleFunction?: (value: any) => string,
     customComponentMap?: Record<string, React.FC<nestedFormProps>>
     context?: any
@@ -60,7 +51,7 @@ export const findShortestValue = (val: any) => {
 const AppFormArrayInput = (props: formInputProps) => {
     const { property, instanceRef, onChange, customTitleFunction,
         propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, required,
-        objectSchema, rootSchema } = props;
+        objectSchema, rootSchema, dependencyMap } = props;
     const existing_data: any[] = instanceRef.current[property] ? instanceRef.current[property] : [];
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length > 0 ? "valid" : "empty");
@@ -134,6 +125,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                     lockedFields,
                     customComponentMap,
                     rootSchema,
+                    dependencyMap,
                     objectSchema: subSchema,
                     onChange: (_, value) => {
                         return onSubmitItem(value);
@@ -158,6 +150,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                     lockedFields={lockedFields}
                     customComponentMap={customComponentMap}
                     rootSchema={rootSchema}
+                    dependencyMap={dependencyMap}
                     objectSchema={subSchema}
                     data={typeof editingItemIndex !== "undefined" ? value[editingItemIndex] : {}}
                     context={value}

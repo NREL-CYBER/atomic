@@ -54,6 +54,7 @@ export interface nestedFormProps {
     showFields?: string[];
     hiddenFields?: string[];
     lockedFields?: string[];
+    dependencyMap?: Record<string, string[]>;
     customTitleFunction?: (value: any) => string;
     customComponentMap?: Record<string, React.FC<nestedFormProps>>;
     context?: any;
