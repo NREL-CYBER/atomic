@@ -126,7 +126,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
     const [schemaProperties] = useState<string[]>(Object.keys({ ...objectSchema.properties }));
     const [reRenderDependents, setReRenderDependents] = useState<number>(0);
     const requiredProperties = objectSchema.required || [];
-    const dependentFields = Object.values({ ...objectSchema.dependentRequired, ...dependencyMap }).flatMap(x => x) as string[];
+    const dependentFields = (Object.values({ ...objectSchema.dependentRequired, ...dependencyMap }).flatMap(x => x) as string[]).filter((y => schemaProperties.includes(y)));
     const triggeringFields = Object.keys({ ...objectSchema.dependentRequired, ...dependencyMap });
     const optionalFields = ((!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true)).filter(x => !dependentFields.includes(x));
     let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : []

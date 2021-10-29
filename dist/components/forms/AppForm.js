@@ -69,7 +69,7 @@ const AppForm = props => {
   const requiredProperties = objectSchema.required || [];
   const dependentFields = Object.values({ ...objectSchema.dependentRequired,
     ...dependencyMap
-  }).flatMap(x => x);
+  }).flatMap(x => x).filter(y => schemaProperties.includes(y));
   const triggeringFields = Object.keys({ ...objectSchema.dependentRequired,
     ...dependencyMap
   });
