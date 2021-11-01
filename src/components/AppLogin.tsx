@@ -72,7 +72,7 @@ const AppLogin: React.FC<{
     authenticate: (email: string, password: string, operation: "create" | "login",
         onAuthenticated: (uid: string) => void) => Promise<string>
 }> = ({ onLoginSuccess, authenticate, serialization }) => {
-
+    console.log("LOGIN PAGE");
     const [status, setStatus] = useState<"booting" | "synchronizing" | "idle" | "login" | "create" | "authenticating">("booting")
     const synchronizeRest = useRestSerializeation(x => x.synchronize);
     const synchronizeLocal = useIndexDBStorage(x => x.synchronize);

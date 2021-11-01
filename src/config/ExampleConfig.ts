@@ -62,11 +62,13 @@ const ExampleConfig: AppConfig = {
         component: "example application information...."
     },
     serialization: {
-        mode: "local",
+        mode: "rest",
         authentication: {
             provider: "email"
         },
-        encryption: "AES256",
+        rest: {
+            endpoint: "http://10.20.49.90:7777/api/v1/"
+        },
     }
 }
 export default ExampleConfig;

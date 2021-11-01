@@ -85,7 +85,9 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         mode: "rest",
         rest: { endpoint }
     }
+    console.log(status, "status");
     if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
+        console.log("needs auth")
         return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
             <AppContent center>
                 <AppNotifications />
@@ -111,7 +113,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
     return <IonApp className={darkMode ? "dark-theme" : "light-theme"}>
         {serverStatus !== "connected" && cache &&
             < AppSerializer
-                context={useIndexDBStorage}
+                context={config.serialization.mode === "local" ? useIndexDBStorage : useRestSerializeation}
                 uid={uid}
                 serialization={serialization!}
                 cache={cache} />}
@@ -124,7 +126,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         {status === "synchronizing" && <>
             <AppToolbar />
             <AppPage fullscreen id="loading">
-                <AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={""} />
+                <AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={"plz wait"} />
             </AppPage>
         </>}
 
