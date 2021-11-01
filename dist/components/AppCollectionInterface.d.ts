@@ -1,9 +1,9 @@
-import { formComposerProps } from "atomic/dist/components/forms/AppForm";
+import { formNodeProps } from "atomic/dist/components/forms/AppForm";
+import React from "react";
 import { Store } from "store";
 import { UseBoundStore } from "zustand";
 import { columnAmount } from "./AppCol";
 import { selectButtonProps } from "./AppSelectButtons";
-import React from "react";
 export declare const AppCollectionInterface: React.FC<{
     title?: React.ReactFragment;
     search?: boolean;
@@ -20,7 +20,8 @@ export declare const AppCollectionInterface: React.FC<{
         lg?: columnAmount;
     };
     renderItem?: React.FC<Record<string, any>>;
-    formProps?: formComposerProps;
+    editFormProps?: Partial<formNodeProps>;
+    createFormProps?: Partial<formNodeProps>;
     showInsert?: boolean;
     renderDetail?: React.FC<Record<string, any>>;
 }>;

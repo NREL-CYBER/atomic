@@ -1,18 +1,20 @@
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 /* eslint-disable react-hooks/exhaustive-deps */
 
 /* eslint-disable no-script-url */
 import { AppButtons, AppText } from "atomic";
 import { addOutline, pencilOutline } from "ionicons/icons";
-import { useState } from "react";
+import React, { useState } from "react";
+import ReactJson from "react-json-view";
 import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";
 import { prettyTitle } from "../util";
 import { AppPaginatedList } from "./AppPaginatedList";
-import ReactJson from "react-json-view";
-import React from "react";
 export const AppCollectionInterface = ({
   store,
   showInsert,
-  formProps,
+  editFormProps,
+  createFormProps,
   pageSize = 7,
   renderDetail,
   renderItem
@@ -23,7 +25,8 @@ export const AppCollectionInterface = ({
     schema,
     collection,
     index,
-    identifier
+    identifier,
+    insert
   } = store();
   const storeStatus = store(x => x.status);
   const selected = activeInstance();
@@ -53,6 +56,10 @@ export const AppCollectionInterface = ({
     return /*#__PURE__*/React.createElement(React.Fragment, null, "Error colleciton has no identifier");
   }
 
+  const formProps = { ...(status === "create" ? { ...createFormProps,
+      ...editFormProps
+    } : editFormProps)
+  };
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
     sizeXs: "24",
     sizeLg: "8",
@@ -92,7 +99,7 @@ export const AppCollectionInterface = ({
     expand: "full",
     onClick: beginInsert
   }, "Add New")), status === "view" && /*#__PURE__*/React.createElement(AppCard, {
-    title: /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, null, prettyTitle(collection) + " # " + selected[identifier]), /*#__PURE__*/React.createElement(AppButtons, {
+    title: /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, null, prettyTitle(collection) + " # " + selected ? selected[identifier] : ""), /*#__PURE__*/React.createElement(AppButtons, {
       slot: "end"
     }, /*#__PURE__*/React.createElement(AppButton, {
       color: "primary",
@@ -107,14 +114,18 @@ export const AppCollectionInterface = ({
     name: false,
     theme: "railscasts",
     src: selected
-  })), schema && schema.definitions && schema.definitions[collection] && (status === "edit" || status === "create") && /*#__PURE__*/React.createElement(AppForm, {
+  })), schema && schema.definitions && schema.definitions[collection] && (status === "edit" || status === "create") && /*#__PURE__*/React.createElement(AppForm, _extends({
     rootSchema: schema,
     objectSchema: schema.definitions[collection],
     data: selected || {},
+    hiddenFields: formProps.hiddenFields
+  }, formProps, {
     onSubmit: s => {
-      beginView(s[identifier]);
+      const id = s[identifier];
+      insert(id, s).then(() => {
+        beginView(id);
+        formProps.onSubmit && formProps.onSubmit(s);
+      });
     }
-  }, () => {
-    console.log("render");
-  })))));
+  }))))));
 };

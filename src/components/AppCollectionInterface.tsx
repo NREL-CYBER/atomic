@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url */
 import { AppButtons, AppText } from "atomic";
-import { formComposerProps } from "atomic/dist/components/forms/AppForm";
+import { formNodeProps } from "atomic/dist/components/forms/AppForm";
 import { addOutline, pencilOutline } from "ionicons/icons";
-import { useState } from "react";
+import React, { useState } from "react";
+import ReactJson from "react-json-view";
 import { Store } from "store";
 import { UseBoundStore } from "zustand";
 import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";
@@ -11,8 +12,6 @@ import { prettyTitle } from "../util";
 import { columnAmount } from "./AppCol";
 import { AppPaginatedList } from "./AppPaginatedList";
 import { selectButtonProps } from "./AppSelectButtons";
-import ReactJson from "react-json-view"
-import React from "react"
 type collectionInterfaceState = "switch" | "idle" | "edit" | "view" | "create"
 
 
@@ -25,11 +24,12 @@ export const AppCollectionInterface: React.FC<{
     pageSize?: number
     itemSize?: { xs?: columnAmount, md?: columnAmount, lg?: columnAmount }
     renderItem?: React.FC<Record<string, any>>
-    formProps?: formComposerProps
+    editFormProps?: Partial<formNodeProps>
+    createFormProps?: Partial<formNodeProps>
     showInsert?: boolean
     renderDetail?: React.FC<Record<string, any>>
-}> = ({ store, showInsert, formProps, pageSize = 7, renderDetail, renderItem }) => {
-    const { setActive, activeInstance, schema, collection, index, identifier } = store()
+}> = ({ store, showInsert, editFormProps, createFormProps, pageSize = 7, renderDetail, renderItem }) => {
+    const { setActive, activeInstance, schema, collection, index, identifier, insert } = store()
     const storeStatus = store(x => x.status);
     const selected = activeInstance();
     const [status, setStatus] = useState<collectionInterfaceState>(selected ? "view" : "idle")
@@ -53,6 +53,9 @@ export const AppCollectionInterface: React.FC<{
     if (!identifier) {
         return <>Error colleciton has no identifier</>
     }
+
+    const formProps = { ...(status === "create" ? { ...createFormProps, ...editFormProps } : editFormProps) };
+
     return <>
         <AppGrid>
             <AppRow>
@@ -97,7 +100,7 @@ export const AppCollectionInterface: React.FC<{
                     {status === "view" && <AppCard title={
                         <AppItem>
                             <AppButtons>
-                                {prettyTitle(collection) + " # " + selected[identifier]}
+                                {prettyTitle(collection) + " # " + selected ? selected[identifier] : ""}
                             </AppButtons>
                             <AppButtons slot="end">
                                 <AppButton color="primary" onClick={() => {
@@ -114,9 +117,15 @@ export const AppCollectionInterface: React.FC<{
 
                     {schema && schema.definitions && schema.definitions[collection] && (status === "edit" || status === "create") && <AppForm
                         rootSchema={schema} objectSchema={schema.definitions![collection]} data={selected || {}}
+                        hiddenFields={formProps.hiddenFields}
+                        {...formProps as any}
                         onSubmit={(s) => {
-                            beginView(s[identifier])
-                        }}  >{() => { console.log("render") }}
+                            const id = s[identifier];
+                            insert(id, s).then(() => {
+                                beginView(id)
+                                formProps.onSubmit && formProps.onSubmit(s);
+                            })
+                        }}  >
                     </AppForm>}
                 </AppCol>
             </AppRow>
