@@ -1,4 +1,5 @@
 /// <reference types="react" />
+import { formComposerProps } from "atomic/dist/components/forms/AppForm";
 import { Store } from "store";
 import { UseBoundStore } from "zustand";
 import { columnAmount } from "./AppCol";
@@ -19,4 +20,7 @@ export declare const AppCollectionInterface: React.FC<{
         lg?: columnAmount;
     };
     renderItem?: React.FC<Record<string, any>>;
+    formProps?: formComposerProps;
+    showInsert?: boolean;
+    renderDetail?: React.FC<Record<string, any>>;
 }>;

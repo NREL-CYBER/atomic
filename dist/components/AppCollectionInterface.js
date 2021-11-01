@@ -2,30 +2,71 @@
 
 /* eslint-disable no-script-url */
 import { AppButtons, AppText } from "atomic";
+import { addOutline, pencilOutline } from "ionicons/icons";
 import { useState } from "react";
-import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppItem, AppRow } from ".";
+import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";
 import { prettyTitle } from "../util";
 import { AppPaginatedList } from "./AppPaginatedList";
+import ReactJson from "react-json-view";
 export const AppCollectionInterface = ({
-  store
+  store,
+  showInsert,
+  formProps,
+  pageSize = 7,
+  renderDetail
 }) => {
   const {
     setActive,
     activeInstance,
     schema,
-    insert,
     collection,
+    index,
     identifier
   } = store();
   const storeStatus = store(x => x.status);
   const selected = activeInstance();
-  const [status, setStatus] = useState(selected ? "activate" : "idle");
+  const [status, setStatus] = useState(selected ? "view" : "idle");
+
+  const beginInsert = () => {
+    changeStatus("edit", "");
+  };
+
+  const beginEdit = active => {
+    changeStatus("edit", active);
+  };
+
+  const changeStatus = (status, active) => {
+    setActive(active);
+    setStatus("switch");
+    setTimeout(() => {
+      setStatus(status);
+    }, 100);
+  };
+
+  const beginView = active => {
+    changeStatus("view", active);
+  };
+
+  if (!identifier) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null, "Error colleciton has no identifier");
+  }
+
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
     sizeXs: "24",
     sizeLg: "8",
     sizeMd: "12"
   }, storeStatus !== "booting" && storeStatus !== "importing", "   ", /*#__PURE__*/React.createElement(AppPaginatedList, {
-    title: prettyTitle(collection) + " Collection",
+    pageSize: pageSize,
+    title: /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
+      slot: "start"
+    }, prettyTitle(collection), " collection (", index.length, ")"), /*#__PURE__*/React.createElement(AppButtons, {
+      slot: "end"
+    }, /*#__PURE__*/React.createElement(AppButton, {
+      color: "primary",
+      onClick: beginInsert
+    }, /*#__PURE__*/React.createElement(AppIcon, {
+      icon: addOutline
+    })))),
     renderItem: item => {
       // eslint-disable-next-line no-script-url
       const bgColor = selected === item ? "light" : undefined;
@@ -34,13 +75,7 @@ export const AppCollectionInterface = ({
       const id = item[idKeyPath];
       return /*#__PURE__*/React.createElement(AppItem, {
         color: bgColor,
-        onClick: () => {
-          setStatus("switch");
-          setActive(id);
-          setTimeout(() => {
-            setStatus("activate");
-          }, 100);
-        }
+        onClick: () => beginView(id)
       }, /*#__PURE__*/React.createElement(AppButtons, {
         slot: "start"
       }, /*#__PURE__*/React.createElement(AppText, {
@@ -53,24 +88,29 @@ export const AppCollectionInterface = ({
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "outline",
     expand: "full",
-    onClick: () => {
-      setActive("");
-      setStatus("switch");
-      setTimeout(() => {
-        setStatus("activate");
-      }, 100);
-    }
-  }, "Add New")), schema && schema.definitions && schema.definitions[collection] && (status === "activate" || status === "create") && /*#__PURE__*/React.createElement(AppForm, {
+    onClick: beginInsert
+  }, "Add New")), status === "view" && /*#__PURE__*/React.createElement(AppCard, {
+    title: /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, null, prettyTitle(collection) + " # " + selected[identifier]), /*#__PURE__*/React.createElement(AppButtons, {
+      slot: "end"
+    }, /*#__PURE__*/React.createElement(AppButton, {
+      color: "primary",
+      onClick: () => {
+        beginEdit(activeInstance()[identifier]);
+      }
+    }, /*#__PURE__*/React.createElement(AppIcon, {
+      icon: pencilOutline
+    }))))
+  }, renderDetail ? renderDetail(selected) : /*#__PURE__*/React.createElement(ReactJson, {
+    enableClipboard: false,
+    name: false,
+    theme: "railscasts",
+    src: selected
+  })), schema && schema.definitions && schema.definitions[collection] && (status === "edit" || status === "create") && /*#__PURE__*/React.createElement(AppForm, {
     rootSchema: schema,
     objectSchema: schema.definitions[collection],
     data: selected || {},
     onSubmit: s => {
-      setStatus("switch");
-      insert(s.name, s).then(zs => {
-        console.log(zs);
-      }).then(() => {
-        setStatus("idle");
-      });
+      beginView(s[identifier]);
     }
   }, () => {
     console.log("render");

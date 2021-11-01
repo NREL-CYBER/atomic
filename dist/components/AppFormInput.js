@@ -65,7 +65,7 @@ const AppFormInput = props => {
       return;
     }
 
-    if (isArray(context) && context.includes(validating)) {
+    if (isArray(context) && typeof context.find(x => x === validating) !== "undefined") {
       setErrors([value + " already exists"]);
       setInputStatus("invalid");
       return;
