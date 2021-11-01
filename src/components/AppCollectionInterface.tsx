@@ -12,6 +12,7 @@ import { columnAmount } from "./AppCol";
 import { AppPaginatedList } from "./AppPaginatedList";
 import { selectButtonProps } from "./AppSelectButtons";
 import ReactJson from "react-json-view"
+import React from "react"
 type collectionInterfaceState = "switch" | "idle" | "edit" | "view" | "create"
 
 

@@ -8,6 +8,7 @@ import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow 
 import { prettyTitle } from "../util";
 import { AppPaginatedList } from "./AppPaginatedList";
 import ReactJson from "react-json-view";
+import React from "react";
 export const AppCollectionInterface = ({
   store,
   showInsert,

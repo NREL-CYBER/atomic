@@ -1,9 +1,9 @@
-/// <reference types="react" />
 import { formComposerProps } from "atomic/dist/components/forms/AppForm";
 import { Store } from "store";
 import { UseBoundStore } from "zustand";
 import { columnAmount } from "./AppCol";
 import { selectButtonProps } from "./AppSelectButtons";
+import React from "react";
 export declare const AppCollectionInterface: React.FC<{
     title?: React.ReactFragment;
     search?: boolean;
