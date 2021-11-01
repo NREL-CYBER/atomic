@@ -54,8 +54,7 @@ const AppForm = props => {
   const [deferedValidationPromises, setDefferedValidationResultPromises] = useState({});
 
   if (typeof objectSchema.type === "undefined") {
-    objectSchema = findSubSchema(rootSchema, objectSchema, {
-      ...objectSchema
+    objectSchema = findSubSchema(rootSchema, objectSchema, { ...objectSchema
     });
 
     if (typeof objectSchema.type === "undefined") {
@@ -64,24 +63,20 @@ const AppForm = props => {
     }
   }
 
-  const [schemaProperties] = useState(Object.keys({
-    ...objectSchema.properties
+  const [schemaProperties] = useState(Object.keys({ ...objectSchema.properties
   }));
   const [reRenderDependents, setReRenderDependents] = useState(0);
   const requiredProperties = objectSchema.required || [];
-  const dependentFields = Object.values({
-    ...objectSchema.dependentRequired,
+  const dependentFields = Object.values({ ...objectSchema.dependentRequired,
     ...dependencyMap
   }).flatMap(x => x).filter(y => schemaProperties.includes(y));
-  const triggeringFields = Object.keys({
-    ...objectSchema.dependentRequired,
+  const triggeringFields = Object.keys({ ...objectSchema.dependentRequired,
     ...dependencyMap
   });
   const optionalFields = (!requiredOnly ? schemaProperties.filter(x => !requiredProperties.includes(x)) : []).filter(o => showFields ? !showFields.includes(o) : true).filter(x => !dependentFields.includes(x));
   let requiredFields = objectSchema.required ? schemaProperties.filter(x => requiredProperties.includes(x)) : [];
   requiredFields = (showFields ? [...requiredFields, ...showFields.filter(x => schemaProperties.includes(x))] : requiredFields).filter(x => !dependentFields.includes(x));
-  const instance = useRef(objectSchema.type === "object" ? {
-    ...(data ? data : {})
+  const instance = useRef(objectSchema.type === "object" ? { ...(data ? data : {})
   } : objectSchema.type === "array" ? [...(Array.isArray(data) ? data : [])] : undefined);
   const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -131,8 +126,7 @@ const AppForm = props => {
       if (objectSchema.type === "string" || objectSchema.type === "array" || objectSchema.type === "number") {
         instance.current = value;
       } else if (objectSchema.type === "object") {
-        instance.current = {
-          ...instance.current,
+        instance.current = { ...instance.current,
           [property]: value === "" ? undefined : value
         };
         const calculateProperties = calculatedFields && calculatedFields.map[property];
@@ -144,8 +138,7 @@ const AppForm = props => {
           });
 
           if (calculatedFieldValue.value) {
-            instance.current = {
-              ...instance.current,
+            instance.current = { ...instance.current,
               [calculatedFieldValue.property]: calculatedFieldValue.value
             };
           }
@@ -157,8 +150,7 @@ const AppForm = props => {
       }
 
       const uuid = v4();
-      setDefferedValidationResultPromises(x => ({
-        ...x,
+      setDefferedValidationResultPromises(x => ({ ...x,
         [uuid]: resolve
       }));
       validationCacheWorker.postMessage({
@@ -187,8 +179,7 @@ const AppForm = props => {
     } = propertyInfo;
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState(typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
-    const [nestedFormVisual, setNestedFormVisual] = useState(Object.entries({
-      ...instanceRef.current[property]
+    const [nestedFormVisual, setNestedFormVisual] = useState(Object.entries({ ...instanceRef.current[property]
     }).map(([key, value]) => ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]));
     const nestedFormColor = inputStatusColorMap[nestedFormStatus];
     const formated_title = titleCase((property || title || '').split("_").join(" "));

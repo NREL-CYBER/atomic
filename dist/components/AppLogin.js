@@ -54,6 +54,7 @@ const AppLogin = ({
   authenticate,
   serialization
 }) => {
+  console.log("LOGIN PAGE");
   const [status, setStatus] = useState("booting");
   const synchronizeRest = useRestSerializeation(x => x.synchronize);
   const synchronizeLocal = useIndexDBStorage(x => x.synchronize);

@@ -106,8 +106,10 @@ const AppRoot = config => {
       endpoint
     }
   };
+  console.log(status, "status");
 
   if (needs_authentication && serialization && serialization.rest && typeof uid === "undefined") {
+    console.log("needs auth");
     return /*#__PURE__*/React.createElement(IonApp, {
       className: darkMode ? "dark-theme" : "light-theme"
     }, /*#__PURE__*/React.createElement(AppContent, {
@@ -134,7 +136,7 @@ const AppRoot = config => {
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
   }, serverStatus !== "connected" && cache && /*#__PURE__*/React.createElement(AppSerializer, {
-    context: useIndexDBStorage,
+    context: config.serialization.mode === "local" ? useIndexDBStorage : useRestSerializeation,
     uid: uid,
     serialization: serialization,
     cache: cache
@@ -149,7 +151,7 @@ const AppRoot = config => {
   }, /*#__PURE__*/React.createElement(AppLoadingCard, {
     color: "tertiary",
     title: prettyTitle(status),
-    message: ""
+    message: "plz wait"
   }))), status === "idle" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRouter, {
     animated: config.animated,
     id: "root"

@@ -79,7 +79,6 @@ export const useRestSerializeation = create<SynchronizationContext>((_, restStor
         } catch (error) {
             console.log(error);
         }
-        onComplete && onComplete();
         store().addListener((key, data, status) => {
             return new Promise((resolve) => {
                 switch (status) {
@@ -105,6 +104,7 @@ export const useRestSerializeation = create<SynchronizationContext>((_, restStor
                 resolve(status);
             });
         })
+        onComplete && onComplete();
     }
 
 })
