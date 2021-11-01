@@ -29,7 +29,7 @@ const AppTabs: React.FC<tabsProps> = (props) => {
         .map((t) => ({ [t.path]: t }))
         .reduce((a, b) => ({ ...a, ...b }), {})
     )
-    return <AppCard headerColor="clear">
+    return <AppCard headerColor="clear" contentColor="clear">
         <div style={{ minHeight: props.height, maxHeight: props.height }}>
             <IonTabs onIonTabsWillChange={(event) => {
                 setCurrentTab(event.detail.tab)

@@ -21,7 +21,8 @@ const AppTabs = props => {
     ...b
   }), {}));
   return /*#__PURE__*/React.createElement(AppCard, {
-    headerColor: "clear"
+    headerColor: "clear",
+    contentColor: "clear"
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       minHeight: props.height,

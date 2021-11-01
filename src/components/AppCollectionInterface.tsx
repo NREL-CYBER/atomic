@@ -28,7 +28,7 @@ export const AppCollectionInterface: React.FC<{
     formProps?: formComposerProps
     showInsert?: boolean
     renderDetail?: React.FC<Record<string, any>>
-}> = ({ store, showInsert, formProps, pageSize = 7, renderDetail }) => {
+}> = ({ store, showInsert, formProps, pageSize = 7, renderDetail, renderItem }) => {
     const { setActive, activeInstance, schema, collection, index, identifier } = store()
     const storeStatus = store(x => x.status);
     const selected = activeInstance();
@@ -68,20 +68,22 @@ export const AppCollectionInterface: React.FC<{
                             </AppButtons>
                         </AppItem>}
                         renderItem=
-                        {(item: any) => {
-                            // eslint-disable-next-line no-script-url
-                            const bgColor = selected === item ? "light" : undefined;
-                            const color = selected === item ? "favorite" : undefined;
-                            const idKeyPath = identifier || "uuid"
-                            const id = item[idKeyPath]
-                            return <AppItem color={bgColor} onClick={() => beginView(id)} >
-                                <AppButtons slot='start'>
-                                    <AppText color={color}>
-                                        {item.name}
-                                    </AppText>
-                                </AppButtons>
-                            </AppItem>
-                        }}
+                        {
+                            (item: any) => {
+                                // eslint-disable-next-line no-script-url
+                                const bgColor = selected === item ? "light" : undefined;
+                                const color = selected === item ? "favorite" : undefined;
+                                const idKeyPath = identifier || "uuid"
+                                const id = item[idKeyPath]
+                                return <AppItem color={bgColor} onClick={() => beginView(id)} >
+                                    {renderItem ? renderItem(item) :
+                                        <AppButtons slot='start'>
+                                            <AppText color={color}>
+                                                {item.name}
+                                            </AppText>
+                                        </AppButtons>}
+                                </AppItem>
+                            }}
                         store={store}
                     />
                 </AppCol>

@@ -14,7 +14,8 @@ export const AppCollectionInterface = ({
   showInsert,
   formProps,
   pageSize = 7,
-  renderDetail
+  renderDetail,
+  renderItem
 }) => {
   const {
     setActive,
@@ -77,7 +78,7 @@ export const AppCollectionInterface = ({
       return /*#__PURE__*/React.createElement(AppItem, {
         color: bgColor,
         onClick: () => beginView(id)
-      }, /*#__PURE__*/React.createElement(AppButtons, {
+      }, renderItem ? renderItem(item) : /*#__PURE__*/React.createElement(AppButtons, {
         slot: "start"
       }, /*#__PURE__*/React.createElement(AppText, {
         color: color
