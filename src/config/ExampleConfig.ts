@@ -64,11 +64,15 @@ const ExampleConfig: AppConfig = {
     serialization: {
         mode: "rest",
         authentication: {
-            provider: "email"
+            provider: {
+                oAuthEndPoint: "http://10.20.49.90:7777/auth/github",
+                type: "oauth",
+                name: "github",
+            }
         },
         rest: {
-            endpoint: "http://10.20.49.90:7777/api/v1/"
-        },
+            endpoint: "http://10.20.49.90:7777/api/v1"
+        }
     }
 }
 export default ExampleConfig;

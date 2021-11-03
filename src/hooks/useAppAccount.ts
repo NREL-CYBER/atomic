@@ -1,6 +1,7 @@
 import { composeStore, Store } from "store";
-import create, { UseStore } from "zustand";
+import create, { UseBoundStore } from "zustand";
 import { AppConfig } from "../util";
+import { authProvider } from "../util/AppConfig";
 
 
 /**
@@ -8,7 +9,7 @@ import { AppConfig } from "../util";
  */
 type AppAccountState = {
     uid?: string,
-    authProvider?: string,
+    authProvider?: authProvider,
     setUid: (uid?: string) => void
     initialize: (config: AppConfig) => void
     authenticated: () => boolean
@@ -23,26 +24,44 @@ const schema = {
     "description": "User ID and Password hash",
     "title": "Account",
     "type": "object",
-    "properties": {
-        "uid": {
-            "type": "string",
+    "definitions": {
+        "user_account": {
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "type": "string",
+                },
+                "name": {
+                    "type": "string",
+                },
+                "roles": {
+                    "type": "string",
+                }
+            },
         },
-        "password_hash": {
-            "type": "string",
-            "writeOnly": true
+        "account_credential": {
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "type": "string",
+                },
+                "password_hash": {
+                    "type": "string",
+                }
+            },
+            "required": [
+                "uid"
+            ]
+
         }
-    },
-    "required": [
-        "uid",
-        "password_hash"
-    ]
+    }
 }
 
 export type AccountCache = {
     /**
      * Credential Store hook
      */
-    credential: UseStore<Store<UserCredential>>
+    credential: UseBoundStore<Store<UserCredential>>
 }
 export const account: AccountCache = {
     credential: composeStore({
