@@ -54,7 +54,6 @@ const AppLogin = ({
   authenticate,
   serialization
 }) => {
-  console.log("LOGIN PAGE");
   const [status, setStatus] = useState("booting");
   const synchronizeRest = useRestSerializeation(x => x.synchronize);
   const synchronizeLocal = useIndexDBStorage(x => x.synchronize);
@@ -64,10 +63,22 @@ const AppLogin = ({
   const insertAccount = account.credential(x => x.insert);
   const credentials = account.credential(x => x.all());
   const hasAccounts = credentials.length > 0;
+  const searchParams = new URLSearchParams(window.location.search);
+  const access_token = searchParams.get("access_token");
+  const uid = searchParams.get("uid");
+  useEffect(() => {
+    if (access_token && uid) {
+      //Verify the token here
+      onLoginSuccess(uid);
+    }
+  }, [access_token, onLoginSuccess, uid]);
   const accountValidOptions = !hasAccounts ? [{
     text: "Create Account",
     value: "create",
     fill: "solid"
+  }] : serialization?.authentication?.provider.type === "oauth" ? [{
+    text: "Login With " + serialization.authentication.provider.name,
+    value: "oauth"
   }] : [{
     text: "New Account",
     value: "create",
@@ -105,6 +116,9 @@ const AppLogin = ({
         setStatus("login");
       } else if (values.includes("create")) {
         setStatus("create");
+      } else if (values.includes("oauth")) {
+        const oAuthLink = serialization?.authentication?.provider.oAuthEndPoint;
+        oAuthLink && window.location.assign(oAuthLink);
       }
     },
     buttons: accountValidOptions
@@ -143,7 +157,7 @@ const AppLogin = ({
             });else post({
               color: "danger",
               id: "credential-failure",
-              message: "Invalid username & Password combination"
+              message: "Invalid usern ame & Password combination"
             });
             break;
 

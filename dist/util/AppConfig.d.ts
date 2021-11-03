@@ -9,7 +9,12 @@ export interface AppRestConfig {
 }
 export declare type serializationMode = "rest" | "local" | "custom";
 export declare type encryptionMode = "plaintext" | "AES256" | "RSA";
-export declare type authProvider = "email" | "oauth";
+export declare type authProvider = {
+    type: "email" | "oauth" | "web3";
+    onLogin?: (info: Record<string, string>) => void;
+    name?: string;
+    oAuthEndPoint?: string;
+};
 export interface AppSerializationConfig {
     mode: serializationMode;
     overide?: {

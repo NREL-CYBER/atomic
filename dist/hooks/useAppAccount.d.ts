@@ -1,12 +1,13 @@
 import { Store } from "store";
-import { UseStore } from "zustand";
+import { UseBoundStore } from "zustand";
 import { AppConfig } from "../util";
+import { authProvider } from "../util/AppConfig";
 /**
  * Type that defines what the useApplayout hook will be capable of
  */
 declare type AppAccountState = {
     uid?: string;
-    authProvider?: string;
+    authProvider?: authProvider;
     setUid: (uid?: string) => void;
     initialize: (config: AppConfig) => void;
     authenticated: () => boolean;
@@ -19,7 +20,7 @@ export declare type AccountCache = {
     /**
      * Credential Store hook
      */
-    credential: UseStore<Store<UserCredential>>;
+    credential: UseBoundStore<Store<UserCredential>>;
 };
 export declare const account: AccountCache;
 /**
@@ -27,5 +28,5 @@ export declare const account: AccountCache;
  *  storing all the routes
  *  and knowing the nested page and determining the next page.
  */
-declare const useAppAccount: import("zustand").UseBoundStore<AppAccountState, import("zustand").StoreApi<AppAccountState>>;
+declare const useAppAccount: UseBoundStore<AppAccountState, import("zustand").StoreApi<AppAccountState>>;
 export default useAppAccount;

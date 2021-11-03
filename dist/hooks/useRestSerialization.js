@@ -88,7 +88,6 @@ export const useRestSerializeation = create((_, restStorage) => ({
       console.log(error);
     }
 
-    onComplete && onComplete();
     store().addListener((key, data, status) => {
       return new Promise(resolve => {
         switch (status) {
@@ -117,6 +116,7 @@ export const useRestSerializeation = create((_, restStorage) => ({
         resolve(status);
       });
     });
+    onComplete && onComplete();
   }
 
 }));

@@ -6,16 +6,34 @@ const schema = {
   "description": "User ID and Password hash",
   "title": "Account",
   "type": "object",
-  "properties": {
-    "uid": {
-      "type": "string"
+  "definitions": {
+    "user_account": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roles": {
+          "type": "string"
+        }
+      }
     },
-    "password_hash": {
-      "type": "string",
-      "writeOnly": true
+    "account_credential": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string"
+        },
+        "password_hash": {
+          "type": "string"
+        }
+      },
+      "required": ["uid"]
     }
-  },
-  "required": ["uid", "password_hash"]
+  }
 };
 export const account = {
   credential: composeStore({
