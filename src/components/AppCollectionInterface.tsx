@@ -28,7 +28,7 @@ export const AppCollectionInterface: React.FC<{
     createFormProps?: Partial<formNodeProps>
     showInsert?: boolean
     renderDetail?: React.FC<Record<string, any>>
-}> = ({ store, showInsert, editFormProps, createFormProps, pageSize = 7, renderDetail, renderItem }) => {
+}> = ({ store, showInsert = true, editFormProps, createFormProps, pageSize = 7, renderDetail, renderItem }) => {
     const { setActive, activeInstance, schema, collection, index, identifier, insert } = store()
     const storeStatus = store(x => x.status);
     const selected = activeInstance();
@@ -54,7 +54,7 @@ export const AppCollectionInterface: React.FC<{
         return <>Error colleciton has no identifier</>
     }
 
-    const formProps = { ...(status === "create" ? { ...createFormProps, ...editFormProps } : editFormProps) };
+    const formProps = status === "create" ? createFormProps : editFormProps;
 
     return <>
         <AppGrid>
@@ -64,11 +64,11 @@ export const AppCollectionInterface: React.FC<{
                         <AppItem>
                             <AppButtons slot="start">{prettyTitle(collection)} collection ({index.length})
                             </AppButtons>
-                            <AppButtons slot="end">
+                            {showInsert && <AppButtons slot="end">
                                 <AppButton color="primary" onClick={beginInsert}>
                                     <AppIcon icon={addOutline} />
                                 </AppButton>
-                            </AppButtons>
+                            </AppButtons>}
                         </AppItem>}
                         renderItem=
                         {
@@ -117,13 +117,13 @@ export const AppCollectionInterface: React.FC<{
 
                     {schema && schema.definitions && schema.definitions[collection] && (status === "edit" || status === "create") && <AppForm
                         rootSchema={schema} objectSchema={schema.definitions![collection]} data={selected || {}}
-                        hiddenFields={formProps.hiddenFields}
+                        hiddenFields={formProps?.hiddenFields}
                         {...formProps as any}
                         onSubmit={(s) => {
                             const id = s[identifier];
                             insert(id, s).then(() => {
                                 beginView(id)
-                                formProps.onSubmit && formProps.onSubmit(s);
+                                formProps?.onSubmit && formProps.onSubmit(s);
                             })
                         }}  >
                     </AppForm>}

@@ -12,7 +12,7 @@ import { prettyTitle } from "../util";
 import { AppPaginatedList } from "./AppPaginatedList";
 export const AppCollectionInterface = ({
   store,
-  showInsert,
+  showInsert = true,
   editFormProps,
   createFormProps,
   pageSize = 7,
@@ -56,10 +56,7 @@ export const AppCollectionInterface = ({
     return /*#__PURE__*/React.createElement(React.Fragment, null, "Error colleciton has no identifier");
   }
 
-  const formProps = { ...(status === "create" ? { ...createFormProps,
-      ...editFormProps
-    } : editFormProps)
-  };
+  const formProps = status === "create" ? createFormProps : editFormProps;
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
     sizeXs: "24",
     sizeLg: "8",
@@ -68,7 +65,7 @@ export const AppCollectionInterface = ({
     pageSize: pageSize,
     title: /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
-    }, prettyTitle(collection), " collection (", index.length, ")"), /*#__PURE__*/React.createElement(AppButtons, {
+    }, prettyTitle(collection), " collection (", index.length, ")"), showInsert && /*#__PURE__*/React.createElement(AppButtons, {
       slot: "end"
     }, /*#__PURE__*/React.createElement(AppButton, {
       color: "primary",
@@ -118,13 +115,13 @@ export const AppCollectionInterface = ({
     rootSchema: schema,
     objectSchema: schema.definitions[collection],
     data: selected || {},
-    hiddenFields: formProps.hiddenFields
+    hiddenFields: formProps?.hiddenFields
   }, formProps, {
     onSubmit: s => {
       const id = s[identifier];
       insert(id, s).then(() => {
         beginView(id);
-        formProps.onSubmit && formProps.onSubmit(s);
+        formProps?.onSubmit && formProps.onSubmit(s);
       });
     }
   }))))));
