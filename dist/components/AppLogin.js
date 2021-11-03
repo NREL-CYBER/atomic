@@ -72,13 +72,13 @@ const AppLogin = ({
       onLoginSuccess(uid);
     }
   }, [access_token, onLoginSuccess, uid]);
-  const accountValidOptions = !hasAccounts ? [{
+  const accountValidOptions = serialization?.authentication?.provider.type === "oauth" ? [{
+    text: "Login With " + serialization.authentication.provider.name,
+    value: "oauth"
+  }] : !hasAccounts ? [{
     text: "Create Account",
     value: "create",
     fill: "solid"
-  }] : serialization?.authentication?.provider.type === "oauth" ? [{
-    text: "Login With " + serialization.authentication.provider.name,
-    value: "oauth"
   }] : [{
     text: "New Account",
     value: "create",

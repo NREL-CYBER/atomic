@@ -90,16 +90,16 @@ const AppLogin: React.FC<{
         }
     }, [access_token, onLoginSuccess, uid])
     const accountValidOptions: selectButtonProps[] =
-        !hasAccounts ?
+        serialization?.authentication?.provider.type === "oauth" ? [{
+            text: "Login With " + serialization.authentication.provider.name,
+            value: "oauth"
+        }] : !hasAccounts ?
             [
-                { text: "Create Account", value: "create", fill: "solid" }] : serialization?.authentication?.provider.type === "oauth" ? [{
-                    text: "Login With " + serialization.authentication.provider.name,
-                    value: "oauth"
-                }] :
-                [
-                    { text: "New Account", value: "create", fill: "solid" },
-                    { text: "Login", value: "login", fill: 'solid' }
-                ]
+                { text: "Create Account", value: "create", fill: "solid" }] :
+            [
+                { text: "New Account", value: "create", fill: "solid" },
+                { text: "Login", value: "login", fill: 'solid' }
+            ]
     useEffect(() => {
         if (status === "booting" && typeof serialization !== "undefined") {
             const synchronize = serialization && serialization.mode === "rest" ? synchronizeRest : synchronizeLocal;
