@@ -62,8 +62,9 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
         <AppToolbar color={bgColor}>
             <AppButtons slot='start'>
                 <AppMenuButton />
+                {config.topBar?.start}
                 <AppButton expand='full' routerLink={"/"}>
-                    <AppTitle color={isHome ? titleColor : undefined}><AppIcon icon={homeOutline} /> </AppTitle>
+                    <AppTitle color={isHome ? titleColor : undefined}><AppIcon icon={config.topBar?.homeIcon ? config.topBar?.homeIcon : homeOutline} /> </AppTitle>
                 </AppButton>
                 {!isHome && breadcrumbs.map(breadCrumb =>
                     <AppButton key={breadCrumb.path}
@@ -83,6 +84,7 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
                 {children}
             </AppButtons>
             <AppButtons slot='end'>
+                {config.topBar?.end}
                 {!hideAbout && <AppModal smol title={appTitle + " (" + version + ")"} onDismiss={() => { setShowAbout(false) }} isOpen={showAbout}>
                     <AppGrid>
                         <AppRow>

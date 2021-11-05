@@ -75,9 +75,6 @@ ion-progress-bar{
 width: 0px!important;  /* Remove scrollbar space */
 background: transparent!important;  /* Optional: just make scrollbar invisible */
 }
-.ion-overlay-wrapper{
-  --width:100px!important;
-}
 ion-modal {
   --min-width: 75%!important;
   --min-height: 75%!important;

@@ -78,13 +78,13 @@ const AppTopToolbar = ({
     color: bgColor
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
-  }, /*#__PURE__*/React.createElement(AppMenuButton, null), /*#__PURE__*/React.createElement(AppButton, {
+  }, /*#__PURE__*/React.createElement(AppMenuButton, null), config.topBar?.start, /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
     routerLink: "/"
   }, /*#__PURE__*/React.createElement(AppTitle, {
     color: isHome ? titleColor : undefined
   }, /*#__PURE__*/React.createElement(AppIcon, {
-    icon: homeOutline
+    icon: config.topBar?.homeIcon ? config.topBar?.homeIcon : homeOutline
   }), " ")), !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(AppButton, {
     key: breadCrumb.path,
     color: breadCrumb.path === pathname ? "tertiary" : undefined,
@@ -97,7 +97,7 @@ const AppTopToolbar = ({
     fill: "solid"
   }, /*#__PURE__*/React.createElement(AppTitle, null, title)), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
+  }, config.topBar?.end, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
     smol: true,
     title: appTitle + " (" + version + ")",
     onDismiss: () => {

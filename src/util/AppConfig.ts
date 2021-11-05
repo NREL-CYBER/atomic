@@ -46,6 +46,12 @@ export interface AppBottomBarConfig {
     showNext?: boolean
     settings?: React.FC
 }
+export interface AppTopBarConfig {
+    start?: React.FC
+    end?: React.FC
+    showNext?: boolean
+    homeIcon?: string
+}
 
 export interface AppConfig {
     search?: React.FC<{ query: string, filters?: string[], dismiss: () => void }>,
@@ -65,7 +71,7 @@ export interface AppConfig {
         type?: "overlay" | "push"
     }
     title: string
-    topBar?: React.FC
+    topBar?: AppTopBarConfig
     routes: AppRoute[],
     settings?: {
         disabled?: boolean,
