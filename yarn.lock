@@ -13180,8 +13180,8 @@ store2@^2.12.0:
   integrity sha512-7t+/wpKLanLzSnQPX8WAcuLCCeuSHoWdQuh9SB3xD0kNOM38DNf+0Oa+wmvxmYueRzkmh6IcdKFtvTa+ecgPDw==
 
 "store@https://github.com/NREL-CYBER/store":
-  version "1.8.4"
-  resolved "https://github.com/NREL-CYBER/store#8e187b016c3e1369d663d2b404896a7d61702721"
+  version "1.8.5"
+  resolved "https://github.com/NREL-CYBER/store#e7b707da54cd86303dd02e37e76ba9572364a0bc"
   dependencies:
     ajv "^7.2.1"
     ajv-formats "^1.5.1"
@@ -14293,8 +14293,8 @@ validate-npm-package-license@^3.0.1:
     spdx-expression-parse "^3.0.0"
 
 "validator@https://github.com/NREL-CYBER/validator":
-  version "4.4.2"
-  resolved "https://github.com/NREL-CYBER/validator#848cd588a3f485d5611d54bcec27151fe07eb92f"
+  version "13.7.0"
+  resolved "https://github.com/NREL-CYBER/validator#363e955495b28bf87cd830e7a5254c92b42e589f"
   dependencies:
     "@types/uuid" "^8.3.0"
     ajv "^7.2.1"
