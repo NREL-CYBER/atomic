@@ -23,7 +23,7 @@ export const AppBottomBar: React.FC<{ config: AppConfig }> = ({ children, config
     const showContinue = (bottomBar && bottomBar.showNext)
     return <AppToolbar color={darkMode ? "paper" : "tertiary"}>
         <AppButtons slot="start">
-            <AppSettingsModal config={config} />
+            {bottomBar?.settings ? bottomBar?.settings : <AppSettingsModal config={config} />}
             {bottomBar && bottomBar.start && <bottomBar.start />}
         </AppButtons>
         <AppButtons slot="end" >

@@ -32,7 +32,7 @@ export const AppBottomBar = ({
     color: darkMode ? "paper" : "tertiary"
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
-  }, /*#__PURE__*/React.createElement(AppSettingsModal, {
+  }, bottomBar?.settings ? bottomBar?.settings : /*#__PURE__*/React.createElement(AppSettingsModal, {
     config: config
   }), bottomBar && bottomBar.start && /*#__PURE__*/React.createElement(bottomBar.start, null)), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
