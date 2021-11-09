@@ -72,7 +72,7 @@ const AppFormArrayInput = (props: formInputProps) => {
     const deleteItem = useCallback(async (i: number) => {
 
 
-        const newValue = removeAtIndex(i, value)        
+        const newValue = removeAtIndex(i, value)
         const validationResult = onChange(property, newValue)
         validationResult.then(([validationStatus, errors]) => {
             setIsInsertingItem(false);
@@ -173,7 +173,7 @@ const AppFormArrayInput = (props: formInputProps) => {
         </div>
         {
             value && value.filter(Boolean).map((val, i) => {
-                return <AppItem color='paper' onClick={(e) => {
+                return <AppItem key={i} color='paper' onClick={(e) => {
                     const isCloseButton = (e.target as any).className.split(' ').includes("close-button")
                     if (!isCloseButton) {
                         editItem(i)

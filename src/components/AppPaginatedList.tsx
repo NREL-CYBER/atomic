@@ -59,8 +59,8 @@ export const AppPaginatedList: React.FC<{
         }>
             <AppGrid>
                 <AppRow>
-                    {useMemo(() => queryResults ? queryResults.map((item: any) =>
-                        <AppCol sizeLg={lg} sizeMd={md} sizeXs={xs}>
+                    {useMemo(() => queryResults ? queryResults.map((item: any,i) =>
+                        <AppCol key={i} sizeLg={lg} sizeMd={md} sizeXs={xs}>
                             {renderItem(item)}
                         </AppCol>
                     ) : <AppLoadingCard />, [lg, md, queryResults, renderItem, xs])}

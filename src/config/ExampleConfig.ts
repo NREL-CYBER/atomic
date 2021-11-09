@@ -62,17 +62,7 @@ const ExampleConfig: AppConfig = {
         component: "example application information...."
     },
     serialization: {
-        mode: "rest",
-        authentication: {
-            provider: {
-                oAuthEndPoint: "http://10.20.49.90:7777/auth/github",
-                type: "oauth",
-                name: "github",
-            }
-        },
-        rest: {
-            endpoint: "http://10.20.49.90:7777/api/v1"
-        }
+        mode: "local"
     }
 }
 export default ExampleConfig;

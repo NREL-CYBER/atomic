@@ -175,6 +175,7 @@ const AppFormArrayInput = props => {
     onClick: () => onBackPressed()
   })))), value && value.filter(Boolean).map((val, i) => {
     return /*#__PURE__*/React.createElement(AppItem, {
+      key: i,
       color: "paper",
       onClick: e => {
         const isCloseButton = e.target.className.split(' ').includes("close-button");

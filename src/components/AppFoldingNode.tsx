@@ -19,11 +19,11 @@ const AppFoldingNode: FC<{
 
     const [isFolded, setFolded] = useState<boolean>(typeof folded !== "undefined" ? folded : true);
     return <>
-        <AppItem href={"javascript:void(0)"} onClick={() => {
+        <AppItem onClick={() => {
             setFolded(x => !x);
         }}>
             <AppButtons slot="start">
-                {!hideIcon && <AppIcon color={color} icon={isFolded ? chevronDownOutline : chevronForwardOutline} />}
+                {!hideIcon && <AppIcon color={color} icon={isFolded ? chevronForwardOutline : chevronDownOutline} />}
                 {titleText ? <AppTitle color={color}> {title}
                 </AppTitle> : title}
             </AppButtons>

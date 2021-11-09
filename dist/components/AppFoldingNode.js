@@ -19,7 +19,6 @@ const AppFoldingNode = ({
 }) => {
   const [isFolded, setFolded] = useState(typeof folded !== "undefined" ? folded : true);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
-    href: "javascript:void(0)",
     onClick: () => {
       setFolded(x => !x);
     }
@@ -27,7 +26,7 @@ const AppFoldingNode = ({
     slot: "start"
   }, !hideIcon && /*#__PURE__*/React.createElement(AppIcon, {
     color: color,
-    icon: isFolded ? chevronDownOutline : chevronForwardOutline
+    icon: isFolded ? chevronForwardOutline : chevronDownOutline
   }), titleText ? /*#__PURE__*/React.createElement(AppTitle, {
     color: color
   }, " ", title) : title), centerContent && centerContent, /*#__PURE__*/React.createElement(AppButtons, {

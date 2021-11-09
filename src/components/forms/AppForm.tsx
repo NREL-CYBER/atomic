@@ -354,6 +354,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
         if (propertyType === "string" && propertyFormat && propertyFormat.includes("date")) {
             return <AppFormDateTimePicker
+                required={required}
                 rootSchema={rootSchema}
                 objectSchema={objectSchema}
                 format={propertyFormat}
@@ -367,6 +368,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
         if (propertyType === "integer") {
             return <AppFormInteger
+                required={required}
                 instanceRef={instanceRef}
                 propertyInfo={refPropertyInfo}
                 property={property}

@@ -355,6 +355,7 @@ const AppForm = props => {
 
     if (propertyType === "string" && propertyFormat && propertyFormat.includes("date")) {
       return /*#__PURE__*/React.createElement(AppFormDateTimePicker, {
+        required: required,
         rootSchema: rootSchema,
         objectSchema: objectSchema,
         format: propertyFormat,
@@ -368,6 +369,7 @@ const AppForm = props => {
 
     if (propertyType === "integer") {
       return /*#__PURE__*/React.createElement(AppFormInteger, {
+        required: required,
         instanceRef: instanceRef,
         propertyInfo: refPropertyInfo,
         property: property,

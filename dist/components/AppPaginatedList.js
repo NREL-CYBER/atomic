@@ -60,7 +60,8 @@ export const AppPaginatedList = ({
       },
       buttons: optionParams.options
     }))), Object.keys(options).length > 3 && /*#__PURE__*/React.createElement(AppButton, null, "More Filters")))
-  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, useMemo(() => queryResults ? queryResults.map(item => /*#__PURE__*/React.createElement(AppCol, {
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, useMemo(() => queryResults ? queryResults.map((item, i) => /*#__PURE__*/React.createElement(AppCol, {
+    key: i,
     sizeLg: lg,
     sizeMd: md,
     sizeXs: xs
