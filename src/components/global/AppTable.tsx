@@ -1,5 +1,5 @@
 import { ItemReorderEventDetail } from "@ionic/core"
-import { AppBadge, AppChip, AppLabel, AppTitle } from "atomic"
+import { AppBadge, AppChip, AppGrid, AppLabel, AppText, AppTitle } from "atomic"
 import produce from "immer"
 import { isArray } from "lodash"
 import React, { useState } from "react"
@@ -33,14 +33,16 @@ export const AppTableList: React.FC<appListTableProps> = ({ rows, type, data }) 
                                 textAlign: "left"
                             }}>
                                 <AppChip>
-                                    <AppLabel position="fixed">
+                                    <AppBadge color="clear">
                                         {row}
-                                    </AppLabel>
-
-                                    <AppBadge color="tertiary">
-                                        {['string', 'number'].includes(typeof item[row]) ? item[row] : <></>}
-                                        {['object'].includes(typeof item[row]) && isArray(item[row]) && <>[{item[row].length}]</>}
                                     </AppBadge>
+                                    <AppGrid>
+
+                                        <AppLabel>
+                                            {['string', 'number'].includes(typeof item[row]) ? item[row] : <></>}
+                                            {['object'].includes(typeof item[row]) && isArray(item[row]) && <>[{item[row].length}]</>}
+                                        </AppLabel>
+                                    </AppGrid>
                                 </AppChip>
                                 {['object'].includes(typeof item[row]) && !isArray(item[row]) && < AppTableList type={row} rows={Object.keys(item[row])} data={item[row]} />}
                             </div>

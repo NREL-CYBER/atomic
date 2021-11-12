@@ -1,4 +1,4 @@
-import { AppBadge, AppChip, AppLabel, AppTitle } from "atomic";
+import { AppBadge, AppChip, AppGrid, AppLabel, AppTitle } from "atomic";
 import produce from "immer";
 import { isArray } from "lodash";
 import React, { useState } from "react";
@@ -27,11 +27,9 @@ export const AppTableList = ({
     style: {
       textAlign: "left"
     }
-  }, /*#__PURE__*/React.createElement(AppChip, null, /*#__PURE__*/React.createElement(AppLabel, {
-    position: "fixed"
-  }, row), /*#__PURE__*/React.createElement(AppBadge, {
-    color: "tertiary"
-  }, ['string', 'number'].includes(typeof item[row]) ? item[row] : /*#__PURE__*/React.createElement(React.Fragment, null), ['object'].includes(typeof item[row]) && isArray(item[row]) && /*#__PURE__*/React.createElement(React.Fragment, null, "[", item[row].length, "]"))), ['object'].includes(typeof item[row]) && !isArray(item[row]) && /*#__PURE__*/React.createElement(AppTableList, {
+  }, /*#__PURE__*/React.createElement(AppChip, null, /*#__PURE__*/React.createElement(AppBadge, {
+    color: "clear"
+  }, row), /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppLabel, null, ['string', 'number'].includes(typeof item[row]) ? item[row] : /*#__PURE__*/React.createElement(React.Fragment, null), ['object'].includes(typeof item[row]) && isArray(item[row]) && /*#__PURE__*/React.createElement(React.Fragment, null, "[", item[row].length, "]")))), ['object'].includes(typeof item[row]) && !isArray(item[row]) && /*#__PURE__*/React.createElement(AppTableList, {
     type: row,
     rows: Object.keys(item[row]),
     data: item[row]

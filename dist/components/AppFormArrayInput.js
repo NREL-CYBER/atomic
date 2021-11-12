@@ -1,5 +1,5 @@
 /* eslint-disable no-script-url */
-import { AppBadge, AppGrid, AppLabel } from "atomic";
+import { AppGrid, AppLabel } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
@@ -34,11 +34,7 @@ export const VisualizeValue = ({
   }
 
   if (typeof value === "string") {
-    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppChip, null, /*#__PURE__*/React.createElement(AppLabel, {
-      position: "fixed"
-    }, "string"), /*#__PURE__*/React.createElement(AppBadge, {
-      color: "tertiary"
-    }, value)));
+    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppChip, null, value));
   }
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, String(value));

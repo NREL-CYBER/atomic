@@ -38,15 +38,8 @@ export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.F
     if (typeof value === "string") {
         return <AppGrid>
             <AppChip>
-                <AppLabel position="fixed">
-                    string
-                </AppLabel>
-
-                <AppBadge color="tertiary">
-                    {value}
-                </AppBadge>
+                {value}
             </AppChip>
-
         </AppGrid>
     }
     return <>{String(value)}</>
