@@ -1,9 +1,8 @@
 import { ItemReorderEventDetail } from "@ionic/core"
-import { AppBadge, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, AppTitle } from "atomic"
+import { AppBadge, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppTitle } from "atomic"
 import produce from "immer"
 import { isArray } from "lodash"
 import React, { useState } from "react"
-import { AppItem } from ".."
 
 export interface appTableProps {
     columns: string[]
@@ -16,7 +15,7 @@ export interface appListTableProps {
 }
 
 export const AppTableList: React.FC<appListTableProps> = ({ rows, type, data }) => {
-    const [rowName, rowNames] = useState(rows)
+    const [rowName, rowNames] = useState(rows.filter(x => x !== "uuid"))
     if (typeof data === "undefined") {
         return <AppChip color="warning">undefined</AppChip>
     }
@@ -43,17 +42,17 @@ export const AppTableList: React.FC<appListTableProps> = ({ rows, type, data }) 
                             </AppCol>
                             <AppCol>
                                 <div style={{ width: "100%", textAlign: "right", float: 'right' }}>
-                                    {['object'].includes(typeof item[row]) && !isArray(item[row]) ?
+                                    {['object'].includes(typeof item[row]) ? isArray(item[row]) && !['string', 'number'].includes(typeof item[row][0]) ?
                                         < AppTable
-                                            columns={Object.keys(item[row])} data={[item[row]]} /> :
-                                        <AppChip>
-                                            <AppGrid>
-                                                <AppLabel>
-                                                    {['string', 'number'].includes(typeof item[row]) ? item[row] : <></>}
-                                                    {['object'].includes(typeof item[row]) && isArray(item[row]) && <>[{item[row].length}]</>}
-                                                </AppLabel>
-                                            </AppGrid>
-                                        </AppChip>}
+                                            columns={Object.keys(item[row][0])} data={item[row]} /> : <>{item[row]}</>
+                                        : ['string', 'number'].includes(typeof item[row]) ?
+                                            <AppChip>
+                                                <AppGrid>
+                                                    <AppLabel>
+                                                        {item[row]}
+                                                    </AppLabel>
+                                                </AppGrid>
+                                            </AppChip> : <></>}
                                 </div>
                             </AppCol>
 
@@ -67,7 +66,7 @@ export const AppTableList: React.FC<appListTableProps> = ({ rows, type, data }) 
 }
 
 export const AppTable: React.FC<appTableProps> = ({ columns, data }) => {
-    const [columnNames, setColumnNames] = useState(columns)
+    const [columnNames, setColumnNames] = useState(columns.filter(x => x !== "uuid"))
 
     function doReorder(event: CustomEvent<ItemReorderEventDetail>) {
         // The `from` and `to` properties contain the index of the item
@@ -91,7 +90,7 @@ export const AppTable: React.FC<appTableProps> = ({ columns, data }) => {
     return <table style={{ borderRadius: 10, backgroundColor: "rgba(150,150,150,0.1)", width: "100%" }}>
         <tr style={{ borderRadius: 10, backgroundColor: "rgba(2,2,2,0.1)" }}>
             {/* <AppReorderGroup disabled={false} onReorder={doReorder}> */}
-            {columnNames.map((name) => <th>
+            {columnNames.map((name) => <th style={{ textAlign: "left" }}>
                 <AppTitle>
                     {name}
                 </AppTitle>
@@ -107,10 +106,11 @@ export const AppTable: React.FC<appTableProps> = ({ columns, data }) => {
                 {columnNames.map((column) =>
                     <td style={{
                         padding: 10,
+                        textAlign: "left",
                         backgroundColor: i % 2 === 0 ? "rgba(255,255,255,0.015)" : "rgba(255,255,255,0.001)"
                     }}>
                         <div style={{
-                            textAlign: "center!important" as any
+                            textAlign: "left!important" as any
                         }}>
                             <AppLabel>
                                 {(item[column])}

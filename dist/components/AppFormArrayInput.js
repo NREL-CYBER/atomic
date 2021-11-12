@@ -33,12 +33,12 @@ export const VisualizeValue = ({
 
   if (typeof value === "object") {
     return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
-      size: "2"
+      size: "4"
     }, value && /*#__PURE__*/React.createElement(AppGrid, null)), /*#__PURE__*/React.createElement(AppCol, {
-      size: "20"
+      size: "18"
     }, /*#__PURE__*/React.createElement(AppTableList, {
       type: title,
-      rows: Object.keys(value),
+      rows: Object.keys(value).filter(x => x !== "uuid"),
       data: [value]
     })), /*#__PURE__*/React.createElement(AppCol, {
       size: "2"

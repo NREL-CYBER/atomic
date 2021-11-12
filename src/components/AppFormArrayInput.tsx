@@ -37,12 +37,12 @@ export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.F
     if (typeof value === "object") {
         return <AppGrid>
             <AppRow>
-                <AppCol size="2" >
+                <AppCol size="4" >
                     {value && <AppGrid>
                     </AppGrid>}
                 </AppCol>
-                <AppCol size="20">
-                    <AppTableList type={title} rows={Object.keys(value)} data={[value]} />
+                <AppCol size="18">
+                    <AppTableList type={title} rows={Object.keys(value).filter(x => x !== "uuid")} data={[value]} />
                 </AppCol>
                 <AppCol size="2" >
                     {value && <AppGrid>
@@ -115,8 +115,6 @@ const AppFormArrayInput = (props: formInputProps) => {
         beginInsertItem(index);
     }
     const deleteItem = useCallback(async (i: number) => {
-
-
         const newValue = removeAtIndex(i, value)
         const validationResult = onChange(property, newValue)
         validationResult.then(([validationStatus, errors]) => {

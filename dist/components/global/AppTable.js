@@ -7,7 +7,7 @@ export const AppTableList = ({
   type,
   data
 }) => {
-  const [rowName, rowNames] = useState(rows);
+  const [rowName, rowNames] = useState(rows.filter(x => x !== "uuid"));
 
   if (typeof data === "undefined") {
     return /*#__PURE__*/React.createElement(AppChip, {
@@ -38,16 +38,16 @@ export const AppTableList = ({
       textAlign: "right",
       float: 'right'
     }
-  }, ['object'].includes(typeof item[row]) && !isArray(item[row]) ? /*#__PURE__*/React.createElement(AppTable, {
-    columns: Object.keys(item[row]),
-    data: [item[row]]
-  }) : /*#__PURE__*/React.createElement(AppChip, null, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppLabel, null, ['string', 'number'].includes(typeof item[row]) ? item[row] : /*#__PURE__*/React.createElement(React.Fragment, null), ['object'].includes(typeof item[row]) && isArray(item[row]) && /*#__PURE__*/React.createElement(React.Fragment, null, "[", item[row].length, "]"))))))))))));
+  }, ['object'].includes(typeof item[row]) ? isArray(item[row]) && !['string', 'number'].includes(typeof item[row][0]) ? /*#__PURE__*/React.createElement(AppTable, {
+    columns: Object.keys(item[row][0]),
+    data: item[row]
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, item[row]) : ['string', 'number'].includes(typeof item[row]) ? /*#__PURE__*/React.createElement(AppChip, null, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppLabel, null, item[row]))) : /*#__PURE__*/React.createElement(React.Fragment, null)))))))));
 };
 export const AppTable = ({
   columns,
   data
 }) => {
-  const [columnNames, setColumnNames] = useState(columns);
+  const [columnNames, setColumnNames] = useState(columns.filter(x => x !== "uuid"));
 
   function doReorder(event) {
     // The `from` and `to` properties contain the index of the item
@@ -84,7 +84,11 @@ export const AppTable = ({
       borderRadius: 10,
       backgroundColor: "rgba(2,2,2,0.1)"
     }
-  }, columnNames.map(name => /*#__PURE__*/React.createElement("th", null, /*#__PURE__*/React.createElement(AppTitle, null, name)))), data && data.map && data.map((item, i) => /*#__PURE__*/React.createElement("tr", {
+  }, columnNames.map(name => /*#__PURE__*/React.createElement("th", {
+    style: {
+      textAlign: "left"
+    }
+  }, /*#__PURE__*/React.createElement(AppTitle, null, name)))), data && data.map && data.map((item, i) => /*#__PURE__*/React.createElement("tr", {
     style: {
       textAlign: "center",
       backgroundColor: i % 2 === 0 ? "rgba(0,0,0,0.015)" : "rgba(0,0,0,0.05)"
@@ -92,11 +96,12 @@ export const AppTable = ({
   }, columnNames.map(column => /*#__PURE__*/React.createElement("td", {
     style: {
       padding: 10,
+      textAlign: "left",
       backgroundColor: i % 2 === 0 ? "rgba(255,255,255,0.015)" : "rgba(255,255,255,0.001)"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      textAlign: "center!important"
+      textAlign: "left!important"
     }
   }, /*#__PURE__*/React.createElement(AppLabel, null, item[column])))))));
 };

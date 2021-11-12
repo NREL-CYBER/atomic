@@ -24,7 +24,7 @@ export const useAttack = composeStore<MitreNode>(
         identifier: "id",
         initial: Attack10.objects.map(x => ({ [x.id]: { ...x } })).reduce((a, b) => ({ ...a, ...b }), {}),
         schema: {
-            $id: "inline-mitre",
+            $id:"inline-mitre",
             type: "object",
             definitions: {
                 identity: {

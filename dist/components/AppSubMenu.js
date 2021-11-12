@@ -5,18 +5,23 @@ import AppIcon from './AppIcon';
 import AppItem from './AppItem';
 import AppLabel from './AppLabel';
 import { AppButtons } from 'atomic';
+import { useAppSettings } from '../hooks/useAppSettings';
 
 const AppSubMenu = ({
   pages
 }) => {
   const currentPath = useAppLayout(x => x.path);
   const {
+    darkMode
+  } = useAppSettings();
+  const {
     pathStatusColor,
     isUnlocked
   } = useCompletion();
   return /*#__PURE__*/React.createElement(React.Fragment, null, pages.map(p => {
     const isCurrentPath = currentPath === p.path;
-    const currentPathStatusColor = isCurrentPath ? "dark" : pathStatusColor(p.path);
+    const contractColor = darkMode ? "dark" : "light";
+    const currentPathStatusColor = isCurrentPath ? contractColor : pathStatusColor(p.path);
     return /*#__PURE__*/React.createElement(AppItem, {
       lines: "none",
       key: p.path,
