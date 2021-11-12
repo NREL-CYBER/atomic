@@ -182,6 +182,12 @@ const AppForm = props => {
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState(typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
     const nestedFormColor = inputStatusColorMap[nestedFormStatus];
+    const [NestedFormVisual, setVisual] = useState(VisualizeValue({
+      customRenderMap,
+      value: { ...instanceRef.current[property]
+      },
+      propertyInfo
+    }));
     const formated_title = titleCase((property || title || '').split("_").join(" "));
     return inline ? /*#__PURE__*/React.createElement(AppForm, {
       customRenderMap: customRenderMap,
@@ -216,12 +222,7 @@ const AppForm = props => {
       color: "primary"
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: pencilOutline
-    })))), /*#__PURE__*/React.createElement(VisualizeValue, {
-      customRenderMap: customRenderMap,
-      propertyInfo: propertyInfo,
-      value: { ...instanceRef.current
-      }
-    }), /*#__PURE__*/React.createElement(Suspense, {
+    })))), typeof NestedFormVisual !== "string" && NestedFormVisual, /*#__PURE__*/React.createElement(Suspense, {
       fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
     }, /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
@@ -235,6 +236,11 @@ const AppForm = props => {
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       onSubmit: nestedObjectValue => {
         setNestedFormStatus("valid");
+        setVisual( /*#__PURE__*/React.createElement(VisualizeValue, {
+          customRenderMap: customRenderMap,
+          value: nestedObjectValue,
+          propertyInfo: propertyInfo
+        }));
         onChange(property, nestedObjectValue);
         setShowNestedFrom(false);
       }

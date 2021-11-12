@@ -23,7 +23,27 @@ export const useAttack = composeStore<MitreNode>(
     {
         identifier: "id",
         initial: Attack10.objects.map(x => ({ [x.id]: { ...x } })).reduce((a, b) => ({ ...a, ...b }), {}),
-        schema: {}, definition: "identity",
+        schema: {
+            $id: "inline-mitre",
+            type: "object",
+            definitions: {
+                identity: {
+                    $id: "#/definitions/identity",
+                    type: "object",
+                    title: "Identity",
+                    properties: {
+                        name: {
+                            type: "string"
+                        },
+                        type: {
+                            type: "string",
+                            enum: ["attack-pattern", 'malware']
+                        }
+
+                    }
+                }
+            }
+        }, definition: "identity",
     },
 );
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-script-url */
-import { AppGrid, AppLabel } from "atomic";
+import { AppCol, AppGrid, AppLabel, AppRow } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
@@ -25,16 +25,34 @@ export const VisualizeValue = ({
     return customRenderMap[id](value);
   }
 
+  const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || "";
+
+  if (typeof value === "undefined") {
+    return /*#__PURE__*/React.createElement(React.Fragment, null);
+  }
+
   if (typeof value === "object") {
-    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppTableList, {
-      type: propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || "",
+    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
+      size: "2"
+    }, value && /*#__PURE__*/React.createElement(AppGrid, null)), /*#__PURE__*/React.createElement(AppCol, {
+      size: "20"
+    }, /*#__PURE__*/React.createElement(AppTableList, {
+      type: title,
       rows: Object.keys(value),
       data: [value]
-    }));
+    })), /*#__PURE__*/React.createElement(AppCol, {
+      size: "2"
+    }, value && /*#__PURE__*/React.createElement(AppGrid, null))));
   }
 
   if (typeof value === "string") {
-    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppChip, null, value));
+    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
+      size: "2"
+    }), /*#__PURE__*/React.createElement(AppCol, {
+      size: "20"
+    }, /*#__PURE__*/React.createElement(AppChip, null, value)), /*#__PURE__*/React.createElement(AppCol, {
+      size: "2"
+    })));
   }
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, String(value));
@@ -138,7 +156,7 @@ const AppFormArrayInput = props => {
   const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     onClick: e => {
-      beginInsertItem();
+      editItem(values.length + 1);
     }
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"

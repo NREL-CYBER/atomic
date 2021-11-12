@@ -17,7 +17,26 @@ export const useAttack = composeStore({
   })).reduce((a, b) => ({ ...a,
     ...b
   }), {}),
-  schema: {},
+  schema: {
+    $id: "inline-mitre",
+    type: "object",
+    definitions: {
+      identity: {
+        $id: "#/definitions/identity",
+        type: "object",
+        title: "Identity",
+        properties: {
+          name: {
+            type: "string"
+          },
+          type: {
+            type: "string",
+            enum: ["attack-pattern", 'malware']
+          }
+        }
+      }
+    }
+  },
   definition: "identity"
 });
 export { useAddress };

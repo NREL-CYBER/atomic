@@ -1,4 +1,4 @@
-import { AppButtons, AppLabel } from "atomic";
+import { AppBadge, AppButtons, AppGrid, AppText } from "atomic";
 import React from "react";
 import { useMediaQuery } from "../../hooks";
 export const AppFormLabel = ({
@@ -13,15 +13,16 @@ export const AppFormLabel = ({
     slot: "start"
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      minWidth: 130,
+      minWidth: 230,
       fontSize: 11
     }
-  }, /*#__PURE__*/React.createElement(AppLabel, {
-    position: !isDesktop ? "stacked" : undefined,
+  }, /*#__PURE__*/React.createElement(AppBadge, {
+    color: "clear"
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppText, {
     color: color
   }, required && color !== "favorite" && /*#__PURE__*/React.createElement("span", {
     style: {
       color: "red"
     }
-  }, "*"), "            ", name)));
+  }, "*"), "            ", name)))));
 };

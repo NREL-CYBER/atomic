@@ -1,5 +1,5 @@
 /* eslint-disable no-script-url */
-import { AppBadge, AppGrid, AppLabel, AppRow, AppText } from "atomic";
+import { AppBadge, AppCol, AppGrid, AppLabel, AppRow, AppText } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
@@ -30,16 +30,43 @@ export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.F
     if (id && customRenderMap && typeof customRenderMap[id] !== "undefined") {
         return customRenderMap[id](value)
     }
+    const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || ""
+    if (typeof value === "undefined") {
+        return <></>
+    }
     if (typeof value === "object") {
         return <AppGrid>
-            <AppTableList type={propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || ""} rows={Object.keys(value)} data={[value]} />
+            <AppRow>
+                <AppCol size="2" >
+                    {value && <AppGrid>
+                    </AppGrid>}
+                </AppCol>
+                <AppCol size="20">
+                    <AppTableList type={title} rows={Object.keys(value)} data={[value]} />
+                </AppCol>
+                <AppCol size="2" >
+                    {value && <AppGrid>
+                    </AppGrid>}
+                </AppCol>
+            </AppRow>
         </AppGrid>
     }
     if (typeof value === "string") {
         return <AppGrid>
-            <AppChip>
-                {value}
-            </AppChip>
+            <AppRow>
+
+                <AppCol size="2" >
+                </AppCol>
+                <AppCol size="20">
+                    <AppChip>
+                        {value}
+                    </AppChip>
+                </AppCol>
+                <AppCol size="2" >
+                </AppCol>
+
+            </AppRow>
+
         </AppGrid>
     }
     return <>{String(value)}</>
@@ -132,7 +159,7 @@ const AppFormArrayInput = (props: formInputProps) => {
     const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
     return <>
         <AppItem onClick={(e) => {
-            beginInsertItem()
+            editItem(values.length + 1);
         }}>
             <AppButtons slot='start'>
                 <AppLabel color={inputStatusColor}>[{value.length}]</AppLabel>
