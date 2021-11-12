@@ -84,7 +84,7 @@ export const AppTable = ({
       borderRadius: 10,
       backgroundColor: "rgba(2,2,2,0.1)"
     }
-  }, columnNames.map(name => /*#__PURE__*/React.createElement("th", null, /*#__PURE__*/React.createElement(AppTitle, null, name)))), data.map((item, i) => /*#__PURE__*/React.createElement("tr", {
+  }, columnNames.map(name => /*#__PURE__*/React.createElement("th", null, /*#__PURE__*/React.createElement(AppTitle, null, name)))), data && data.map && data.map((item, i) => /*#__PURE__*/React.createElement("tr", {
     style: {
       textAlign: "center",
       backgroundColor: i % 2 === 0 ? "rgba(0,0,0,0.015)" : "rgba(0,0,0,0.05)"

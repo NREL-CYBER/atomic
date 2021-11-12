@@ -100,8 +100,8 @@ export const AppTable: React.FC<appTableProps> = ({ columns, data }) => {
         </tr>
         {/* </AppReorderGroup> */}
         {
-            data.map((item, i) => <tr style={{
-                textAlign:"center",
+            data && data.map && data.map((item, i) => <tr style={{
+                textAlign: "center",
                 backgroundColor: i % 2 === 0 ? "rgba(0,0,0,0.015)" : "rgba(0,0,0,0.05)"
             }}>
                 {columnNames.map((column) =>

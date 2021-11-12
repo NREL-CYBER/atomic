@@ -103,7 +103,9 @@ const AppFormArrayInput = props => {
   const propertyFormattedName = prettyTitle(propertyInfo.title || property);
   const inputStatusColor = inputStatusColorMap[inputStatus];
 
-  const beginInsertItem = (val = {}) => {
+  const beginInsertItem = index => {
+    setEditingItemIndex(index);
+
     if (isUndefined(value)) {
       setValue([]);
     }
@@ -113,8 +115,7 @@ const AppFormArrayInput = props => {
   };
 
   const editItem = index => {
-    setEditingItemIndex(index);
-    beginInsertItem();
+    beginInsertItem(index);
   };
 
   const deleteItem = useCallback(async i => {
@@ -156,7 +157,7 @@ const AppFormArrayInput = props => {
   const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
     onClick: e => {
-      editItem(values.length + 1);
+      beginInsertItem(values.length);
     }
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
@@ -173,7 +174,7 @@ const AppFormArrayInput = props => {
   }))), /*#__PURE__*/React.createElement(AppFormLabel, {
     required: required,
     onClick: () => {
-      beginInsertItem();
+      beginInsertItem(values.length);
     },
     name: propertyFormattedName + " ",
     color: inputStatusColor
@@ -251,17 +252,11 @@ const AppFormArrayInput = props => {
       icon: removeOutline
     }))));
   }), value.length > 0 && /*#__PURE__*/React.createElement(AppItem, {
-    onClick: beginInsertItem
+    onClick: id => beginInsertItem(value.length)
   }, /*#__PURE__*/React.createElement(AppLabel, null, /*#__PURE__*/React.createElement(AppIcon, {
     color: "primary",
     icon: addSharp
-  })), /*#__PURE__*/React.createElement(AppButton, {
-    expand: "full",
-    fill: "clear",
-    onClick: () => {
-      beginInsertItem();
-    }
-  })), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
+  }))), /*#__PURE__*/React.createElement(AppFormErrorsItem, {
     errors: errors
   }));
 };

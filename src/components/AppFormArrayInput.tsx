@@ -54,7 +54,6 @@ export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.F
     if (typeof value === "string") {
         return <AppGrid>
             <AppRow>
-
                 <AppCol size="2" >
                 </AppCol>
                 <AppCol size="20">
@@ -64,7 +63,6 @@ export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.F
                 </AppCol>
                 <AppCol size="2" >
                 </AppCol>
-
             </AppRow>
 
         </AppGrid>
@@ -106,15 +104,15 @@ const AppFormArrayInput = (props: formInputProps) => {
     const [editingItemIndex, setEditingItemIndex] = useState<number | undefined>()
     const propertyFormattedName = prettyTitle(propertyInfo.title || property);
     const inputStatusColor = inputStatusColorMap[inputStatus];
-    const beginInsertItem = (val: any = {}) => {
+    const beginInsertItem = (index: number) => {
+        setEditingItemIndex(index);
         if (isUndefined(value)) {
             setValue([])
         };
         setIsInsertingItem(true)
     };
     const editItem = (index: number) => {
-        setEditingItemIndex(index);
-        beginInsertItem();
+        beginInsertItem(index);
     }
     const deleteItem = useCallback(async (i: number) => {
 
@@ -159,7 +157,7 @@ const AppFormArrayInput = (props: formInputProps) => {
     const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
     return <>
         <AppItem onClick={(e) => {
-            editItem(values.length + 1);
+            beginInsertItem(values.length);
         }}>
             <AppButtons slot='start'>
                 <AppLabel color={inputStatusColor}>[{value.length}]</AppLabel>
@@ -171,38 +169,34 @@ const AppFormArrayInput = (props: formInputProps) => {
             </AppButtons>}
 
             <AppFormLabel required={required} onClick={() => {
-                beginInsertItem()
+                beginInsertItem(values.length)
             }} name={propertyFormattedName + " "} color={inputStatusColor} />
         </AppItem>
         <div hidden={!isInsertingItem}>
             {<AppModal isOpen={isInsertingItem} onDismiss={() =>
                 onBackPressed()
             }>
-                {customItemComponent ? <AppCard title={elementTitle}>{customItemComponent({
-                    showFields,
-                    hiddenFields,
-                    lockedFields,
-                    customRenderMap,
-                    customInputMap,
-                    rootSchema,
-                    dependencyMap,
-                    objectSchema: subSchema,
-                    onChange: (_, value) => {
-                        return onSubmitItem(value);
-                    },
-                    instanceRef: {
-                        current: {
-                            item: value && typeof editingItemIndex !== 'undefined' ?
-                                value[editingItemIndex] ?
-                                    subSchema.type === "object" ?
-                                        {} : subSchema.type === "array" ?
-                                            [] : undefined : undefined : undefined
-                        }
-                    },
-                    property: "item",
-                    propertyInfo,
-                    context: value
-                })}
+                {customItemComponent ? <AppCard
+                    title={elementTitle}>{
+                        customItemComponent({
+                            showFields, hiddenFields,
+                            lockedFields, customRenderMap,
+                            customInputMap, rootSchema,
+                            dependencyMap, objectSchema: subSchema,
+                            onChange: (_, value) => {
+                                return onSubmitItem(value);
+                            },
+                            instanceRef: {
+                                current: {
+                                    item: value &&
+                                        typeof editingItemIndex !== 'undefined' ?
+                                        value[editingItemIndex] ?
+                                            subSchema.type === "object" ?
+                                                {} : subSchema.type === "array" ?
+                                                    [] : undefined : undefined : undefined
+                                }
+                            }, property: "item", propertyInfo, context: value
+                        })}
                 </AppCard> : <AppForm
                     title={elementTitle}
                     showFields={showFields}
@@ -246,14 +240,10 @@ const AppFormArrayInput = (props: formInputProps) => {
         }
 
         {
-            value.length > 0 && <AppItem onClick={beginInsertItem}>
+            value.length > 0 && <AppItem onClick={(id) => beginInsertItem(value.length)}>
                 <AppLabel>
                     <AppIcon color="primary" icon={addSharp} />
                 </AppLabel>
-                <AppButton expand="full" fill="clear" onClick={() => {
-                    beginInsertItem()
-                }} >
-                </AppButton>
             </AppItem>
         }
 
