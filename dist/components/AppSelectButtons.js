@@ -81,7 +81,7 @@ const AppSelectButtons = props => {
       onSelectionChange([]);
     }
   }, /*#__PURE__*/React.createElement(AppChip, {
-    color: "clear"
+    color: "favorite"
   }, selected));
 };
 
