@@ -80,7 +80,7 @@ const AppSelectButtons: React.FC<selectButtonsProps> = (props) => {
     </AppList > : <AppItem onClick={() => {
         onSelectionChange([]);
     }}>
-        <AppChip color="clear">{selected}</AppChip>
+        <AppChip color="favorite">{selected}</AppChip>
     </AppItem>
 };
 export default AppSelectButtons;
