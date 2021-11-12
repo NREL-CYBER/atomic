@@ -7,6 +7,7 @@ import { v4 } from 'uuid';
 import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormAnyOfArrayInput from '../AppFormAnyOfArrayInput';
+import { VisualizeValue } from '../AppFormArrayInput';
 import { inputStatusColorMap } from '../AppFormInput';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -45,7 +46,8 @@ const AppForm = props => {
     dependencyMap,
     customSubmit,
     autoSubmit,
-    customComponentMap,
+    customInputMap,
+    customRenderMap,
     inlineFields,
     hideTitle,
     context
@@ -166,7 +168,7 @@ const AppForm = props => {
 
   const ComposeNestedFormElement = ({
     required,
-    customComponentMap,
+    customInputMap,
     propertyInfo,
     property,
     inline,
@@ -179,11 +181,10 @@ const AppForm = props => {
     } = propertyInfo;
     const [showNestedForm, setShowNestedFrom] = useState(false);
     const [nestedFormStatus, setNestedFormStatus] = useState(typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
-    const [nestedFormVisual, setNestedFormVisual] = useState(Object.entries({ ...instanceRef.current[property]
-    }).map(([key, value]) => ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]));
     const nestedFormColor = inputStatusColorMap[nestedFormStatus];
     const formated_title = titleCase((property || title || '').split("_").join(" "));
     return inline ? /*#__PURE__*/React.createElement(AppForm, {
+      customRenderMap: customRenderMap,
       data: instanceRef.current[property],
       rootSchema: rootSchema,
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
@@ -194,7 +195,7 @@ const AppForm = props => {
       hiddenFields: hiddenFields,
       lockedFields: lockedFields,
       showFields: showFields,
-      customComponentMap: customComponentMap,
+      customInputMap: customInputMap,
       context: context,
       onSubmit: nestedObjectValue => {
         onChange(property, nestedObjectValue).then(([validationStatus, errors]) => {
@@ -215,25 +216,24 @@ const AppForm = props => {
       color: "primary"
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: pencilOutline
-    })))), nestedFormVisual?.map(([prop, val]) => /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppButtons, {
-      slot: "start"
-    }), /*#__PURE__*/React.createElement(AppFormLabel, {
-      color: "favorite",
-      name: prettyTitle(prop)
-    }), /*#__PURE__*/React.createElement(AppChip, null, val))), /*#__PURE__*/React.createElement(Suspense, {
+    })))), /*#__PURE__*/React.createElement(VisualizeValue, {
+      customRenderMap: customRenderMap,
+      propertyInfo: propertyInfo,
+      value: { ...instanceRef.current
+      }
+    }), /*#__PURE__*/React.createElement(Suspense, {
       fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
     }, /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
       isOpen: showNestedForm
     }, showNestedForm && /*#__PURE__*/React.createElement(AppForm, {
       data: instanceRef.current[property],
-      customComponentMap: customComponentMap,
+      customInputMap: customInputMap,
       rootSchema: rootSchema,
       context: context,
       dependencyMap: dependencyMap,
       objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
       onSubmit: nestedObjectValue => {
-        setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) => ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]));
         setNestedFormStatus("valid");
         onChange(property, nestedObjectValue);
         setShowNestedFrom(false);
@@ -285,10 +285,10 @@ const AppForm = props => {
     } // Custom component by property name
 
 
-    if (customComponentMap && customComponentMap[property]) {
-      return customComponentMap[property]({
+    if (customInputMap && customInputMap[property]) {
+      return customInputMap[property]({
         instanceRef,
-        customComponentMap,
+        customInputMap,
         onChange: handleInputReceived,
         context,
         property,
@@ -300,10 +300,10 @@ const AppForm = props => {
     } // Custom component by property identifier
 
 
-    if (customComponentMap && propertyInfo.$id && customComponentMap[propertyInfo.$id]) {
-      return customComponentMap[propertyInfo.$id]({
+    if (customInputMap && propertyInfo.$id && customInputMap[propertyInfo.$id]) {
+      return customInputMap[propertyInfo.$id]({
         instanceRef,
-        customComponentMap,
+        customInputMap,
         onChange: handleInputReceived,
         context,
         property,
@@ -405,7 +405,7 @@ const AppForm = props => {
         showFields: showFields,
         context: context,
         property: property,
-        customComponentMap: customComponentMap,
+        customInputMap: customInputMap,
         key: property
       }) : /*#__PURE__*/React.createElement(AppFormAnyOfArrayInput, {
         required: required,
@@ -419,7 +419,7 @@ const AppForm = props => {
         lockedFields: lockedFields,
         showFields: showFields,
         property: property,
-        customComponentMap: customComponentMap,
+        customInputMap: customInputMap,
         key: property
       });
     }
@@ -430,7 +430,7 @@ const AppForm = props => {
         onChange: handleInputReceived,
         instanceRef: instanceRef,
         context: context,
-        customComponentMap: customComponentMap,
+        customInputMap: customInputMap,
         propertyInfo: propertyInfo,
         hiddenFields: hiddenFields,
         lockedFields: lockedFields,
@@ -465,7 +465,7 @@ const AppForm = props => {
         required: required,
         inline: inlineFields && inlineFields.includes(property),
         onChange: handleInputReceived,
-        customComponentMap: customComponentMap,
+        customInputMap: customInputMap,
         instanceRef: instanceRef,
         property: property,
         propertyInfo: propertyInfo

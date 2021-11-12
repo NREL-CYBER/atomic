@@ -31,7 +31,7 @@ const AppSuggestedInput: React.FC<inputProps> = ({ value, values, id, color, onI
     }> = ({ onHide }) => {
         return <IonList>
             {unique(values).map((option) =>
-                <IonItem key={option} onClick={() => {
+                <IonItem lines="none" key={option} onClick={() => {
                     dismiss();
                     onSuggestionSelected ? onSuggestionSelected(option) : onInputChange(option);
                 }} button>

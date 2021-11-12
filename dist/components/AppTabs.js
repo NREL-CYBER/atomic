@@ -5,6 +5,7 @@ import { AppBadge, AppIcon, AppLabel } from 'atomic';
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import { AppCard } from '.';
+import { useAppSettings } from '../hooks/useAppSettings';
 
 /**
  * Component to display text with optional color
@@ -20,6 +21,10 @@ const AppTabs = props => {
   })).reduce((a, b) => ({ ...a,
     ...b
   }), {}));
+  const {
+    darkMode
+  } = useAppSettings();
+  console.log(darkMode);
   return /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "clear",
     contentColor: "clear"
@@ -29,6 +34,7 @@ const AppTabs = props => {
       maxHeight: props.height
     }
   }, /*#__PURE__*/React.createElement(IonTabs, _extends({
+    className: darkMode ? "dark-theme" : "light-theme",
     onIonTabsWillChange: event => {
       setCurrentTab(event.detail.tab);
     },

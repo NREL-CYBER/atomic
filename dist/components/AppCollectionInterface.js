@@ -6,9 +6,10 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 import { AppButtons, AppText } from "atomic";
 import { addOutline, pencilOutline } from "ionicons/icons";
 import React, { useState } from "react";
-import ReactJson from "react-json-view";
 import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";
+import { useAppSettings } from "../hooks/useAppSettings";
 import { prettyTitle } from "../util";
+import { VisualizeValue } from "./AppFormArrayInput";
 import { AppPaginatedList } from "./AppPaginatedList";
 export const AppCollectionInterface = ({
   store,
@@ -30,6 +31,9 @@ export const AppCollectionInterface = ({
   } = store();
   const storeStatus = store(x => x.status);
   const selected = activeInstance();
+  const {
+    darkMode
+  } = useAppSettings();
   const [status, setStatus] = useState(selected ? "view" : "idle");
 
   const beginInsert = () => {
@@ -106,11 +110,9 @@ export const AppCollectionInterface = ({
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: pencilOutline
     }))))
-  }, renderDetail ? renderDetail(selected) : /*#__PURE__*/React.createElement(ReactJson, {
-    enableClipboard: false,
-    name: false,
-    theme: "railscasts",
-    src: selected
+  }, renderDetail ? renderDetail(selected) : /*#__PURE__*/React.createElement(VisualizeValue, {
+    propertyInfo: schema.definitions[collection],
+    value: selected
   })), schema && schema.definitions && schema.definitions[collection] && (status === "edit" || status === "create") && /*#__PURE__*/React.createElement(AppForm, _extends({
     rootSchema: schema,
     objectSchema: schema.definitions[collection],

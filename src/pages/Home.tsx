@@ -1,68 +1,15 @@
+import { AppCol, AppRow, AppTitle } from 'atomic';
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
+import { AppMarkdownEditor } from '../components/AppMarkdownEditor';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
+import { AppTable } from '../components/global/AppTable';
 import { useCompletion } from '../hooks';
 import usePageTitle from '../hooks/usePageTitle';
+import { palletSchema } from '../schemas/pallete.schema';
 
-export const palletSchema = {
-  $id: "pallete",
-  title: "Pallete",
-  type: "object",
-  properties: {
-    pallete: {
-      type: "array",
-      items: {
-        $ref: "#/definitions/pallete_element"
-      }
-    }
-  },
-  definitions: {
-    pallete_element: {
-      $id: "#/definitions/pallete_element",
-      type: "object",
-      title: "Pallet Element",
-      properties: {
-        name: {
-          title: "Pallete Color Name",
-          description: "The name of a color",
-          type: 'string',
-        },
-        a: {
-          title: "O OR 1",
-          type: "integer",
-          minimum: 0,
-          maximum: 1,
-        },
-        r: {
-          title: "red",
-          type: "number",
-          minimum: 0,
-          maximum: 1,
-        },
-        g: {
-          title: "green",
-          type: "number",
-          minimum: 0,
-          maximum: 1,
-        },
-        b: {
-          title: "blue",
-          type: "number",
-          minimum: 0,
-          maximum: 1,
-        },
-      }, required: [
-        'name',
-        'r',
-        'g',
-        'b'
-      ]
-
-    },
-
-  }
-}
 
 const Home: React.FC = () => {
   const [platform, setPlatform] = useState<string>("Develop");
@@ -81,11 +28,26 @@ const Home: React.FC = () => {
   }, [setPathState])
   return <AppPage >
     <AppContent next>
-      <AppCard headerColor="primary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
-
+      <AppCard headerColor="tertiary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
         <AppChip color="success">
           Check out the examples to get started
         </AppChip>
+        <AppRow>
+
+          <AppCol>
+
+            <AppTable
+              data={[{ uuid: v4(), name: "test" }, { uuid: v4(), name: 'test' }]}
+              columns={['name', 'uuid']}
+            />
+          </AppCol>
+          <AppCol>
+            <AppTitle>
+              Table Example
+            </AppTitle>
+          </AppCol>
+        </AppRow>
+
         <AppInput debounce={500} onInputChange={() => {
           console.log("change");
         }} onInputBlur={() => {

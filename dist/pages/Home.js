@@ -1,61 +1,13 @@
+import { AppCol, AppRow, AppTitle } from 'atomic';
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
+import { AppTable } from '../components/global/AppTable';
 import { useCompletion } from '../hooks';
 import usePageTitle from '../hooks/usePageTitle';
-export const palletSchema = {
-  $id: "pallete",
-  title: "Pallete",
-  type: "object",
-  properties: {
-    pallete: {
-      type: "array",
-      items: {
-        $ref: "#/definitions/pallete_element"
-      }
-    }
-  },
-  definitions: {
-    pallete_element: {
-      $id: "#/definitions/pallete_element",
-      type: "object",
-      title: "Pallet Element",
-      properties: {
-        name: {
-          title: "Pallete Color Name",
-          description: "The name of a color",
-          type: 'string'
-        },
-        a: {
-          title: "O OR 1",
-          type: "integer",
-          minimum: 0,
-          maximum: 1
-        },
-        r: {
-          title: "red",
-          type: "number",
-          minimum: 0,
-          maximum: 1
-        },
-        g: {
-          title: "green",
-          type: "number",
-          minimum: 0,
-          maximum: 1
-        },
-        b: {
-          title: "blue",
-          type: "number",
-          minimum: 0,
-          maximum: 1
-        }
-      },
-      required: ['name', 'r', 'g', 'b']
-    }
-  }
-};
+import { palletSchema } from '../schemas/pallete.schema';
 
 const Home = () => {
   const [platform, setPlatform] = useState("Develop");
@@ -76,13 +28,22 @@ const Home = () => {
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     next: true
   }, /*#__PURE__*/React.createElement(AppCard, {
-    headerColor: "primary",
+    headerColor: "tertiary",
     titleColor: "secondary",
     title: "Welcome to atomic",
     subTitle: "atomic"
   }, /*#__PURE__*/React.createElement(AppChip, {
     color: "success"
-  }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppInput, {
+  }, "Check out the examples to get started"), /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppTable, {
+    data: [{
+      uuid: v4(),
+      name: "test"
+    }, {
+      uuid: v4(),
+      name: 'test'
+    }],
+    columns: ['name', 'uuid']
+  })), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppTitle, null, "Table Example"))), /*#__PURE__*/React.createElement(AppInput, {
     debounce: 500,
     onInputChange: () => {
       console.log("change");

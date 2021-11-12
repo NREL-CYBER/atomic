@@ -1,29 +1,56 @@
 /* eslint-disable no-script-url */
-import { AppLabel } from "atomic";
+import { AppBadge, AppGrid, AppLabel, AppRow, AppText } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
 import React, { useCallback, useState } from 'react';
+import { PropertyDefinitionRef } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
-import { removeObjectFromArray, uniqueObjects } from "../util/unique";
+import { uniqueObjects } from "../util/unique";
 import AppCard from "./AppCard";
 import { InputStatus, inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema, nestedFormProps } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
 import { AppFormLabel } from "./forms/AppFormLabel";
+import { AppTable, AppTableList } from "./global/AppTable";
 
 
 interface formInputProps extends nestedFormProps {
     required?: boolean
     inline?: boolean,
-    customTitleFunction?: (value: any) => string,
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>
+    customRenderMap?: Record<string, React.FC<{ value: any }>>
+    customInputMap?: Record<string, React.FC<nestedFormProps>>
     context?: any
 }
 
+export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.FC<{ value: any }>>, value: any, propertyInfo: PropertyDefinitionRef }> = ({ customRenderMap, propertyInfo, value }) => {
+    const id = propertyInfo.$id || propertyInfo.$ref;
+    if (id && customRenderMap && typeof customRenderMap[id] !== "undefined") {
+        return customRenderMap[id](value)
+    }
+    if (typeof value === "object") {
+        return <AppGrid>
+            <AppTableList type={propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || ""} rows={Object.keys(value)} data={[value]} />
+        </AppGrid>
+    }
+    if (typeof value === "string") {
+        return <AppGrid>
+            <AppChip>
+                <AppLabel position="fixed">
+                    string
+                </AppLabel>
 
+                <AppBadge color="tertiary">
+                    {value}
+                </AppBadge>
+            </AppChip>
+
+        </AppGrid>
+    }
+    return <>{String(value)}</>
+}
 
 export const findShortestValue = (val: any) => {
     /**This looks like vooodooo, but it is just displaying the value 
@@ -48,9 +75,9 @@ export const findShortestValue = (val: any) => {
  * Component for input that displays validation errors
  */
 const AppFormArrayInput = (props: formInputProps) => {
-    const { property, instanceRef, onChange, customTitleFunction,
-        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, required,
-        objectSchema, rootSchema, dependencyMap } = props;
+    const { property, instanceRef, onChange,
+        propertyInfo, hiddenFields, lockedFields, showFields, required,
+        objectSchema, rootSchema, dependencyMap, customInputMap, customRenderMap } = props;
     const existing_data: any[] = instanceRef.current[property] ? instanceRef.current[property] : [];
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length > 0 ? "valid" : "empty");
@@ -107,7 +134,7 @@ const AppFormArrayInput = (props: formInputProps) => {
         setIsInsertingItem(false);
     }, [])
     const itemId = propertyInfo.items?.$ref?.toString() || ""
-    const customItemComponent = customComponentMap && customComponentMap[itemId]
+    const customItemComponent = customInputMap && customInputMap[itemId]
     const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
     const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
     return <>
@@ -135,7 +162,8 @@ const AppFormArrayInput = (props: formInputProps) => {
                     showFields,
                     hiddenFields,
                     lockedFields,
-                    customComponentMap,
+                    customRenderMap,
+                    customInputMap,
                     rootSchema,
                     dependencyMap,
                     objectSchema: subSchema,
@@ -160,7 +188,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                     showFields={showFields}
                     hiddenFields={hiddenFields}
                     lockedFields={lockedFields}
-                    customComponentMap={customComponentMap}
+                    customInputMap={customInputMap}
                     rootSchema={rootSchema}
                     dependencyMap={dependencyMap}
                     objectSchema={subSchema}
@@ -173,21 +201,17 @@ const AppFormArrayInput = (props: formInputProps) => {
         </div>
         {
             value && value.filter(Boolean).map((val, i) => {
-                return <AppItem key={i} color='paper' onClick={(e) => {
+                return <AppItem lines="none" key={i} color='paper' onClick={(e) => {
                     const isCloseButton = (e.target as any).className.split(' ').includes("close-button")
                     if (!isCloseButton) {
                         editItem(i)
                     }
-                }} lines="full">
+                }} >
                     <AppButtons slot='start'>
                         <><AppIcon icon={returnDownForwardOutline} /></>
                     </AppButtons>
-                    <AppChip key={i} >
-                        {customTitleFunction ? customTitleFunction(val) : <>
-                            {typeof val === "string" && val}
-                            {typeof val === "object" && findShortestValue(val)}
-                        </>}
-                    </AppChip>
+
+                    <VisualizeValue customRenderMap={customRenderMap} propertyInfo={propertyInfo} value={val} />
 
                     <AppButtons slot="end">
 

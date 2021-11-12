@@ -2,9 +2,9 @@ import produce from "immer";
 import { addOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { v4 } from 'uuid';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppContent, AppForm, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
+import { AppBackButton, AppButton, AppButtons, AppContent, AppForm, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { prettyTitle } from "../../util";
-import { findShortestValue } from "../AppFormArrayInput";
+import { VisualizeValue } from "../AppFormArrayInput";
 import { inputStatusColorMap } from "../AppFormInput";
 import { findSubSchema } from './AppForm';
 /**
@@ -12,19 +12,18 @@ import { findSubSchema } from './AppForm';
  */
 
 const AppFormDictionaryInput = props => {
-  console.log(props.propertyInfo); //destructure props
-
+  //destructure props
   const {
     property,
     instanceRef,
     objectSchema,
     onChange,
     propertyInfo,
-    customComponentMap,
+    customInputMap,
     hiddenFields,
+    customRenderMap,
     lockedFields,
     showFields,
-    customTitleFunction,
     rootSchema
   } = props;
   const {
@@ -75,13 +74,12 @@ const AppFormDictionaryInput = props => {
       beginInsertItem();
     },
     color: inputStatusColor
-  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && Object.entries(value).map(([i, val]) => {
-    return /*#__PURE__*/React.createElement(AppChip, {
-      key: i,
-      onClick: () => {
-        beginInsertItem(i, val);
-      }
-    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val)));
+  }, propertyFormattedName)), /*#__PURE__*/React.createElement(AppButtons, null, value && Object.entries(value).map(([prop, val]) => {
+    return /*#__PURE__*/React.createElement(VisualizeValue, {
+      propertyInfo: objectSchema.properties ? objectSchema.properties[prop] : propertyInfo,
+      customRenderMap: customRenderMap,
+      value: val
+    });
   })), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
@@ -96,7 +94,7 @@ const AppFormDictionaryInput = props => {
     isOpen: isInsertingItem,
     onDismiss: () => setIsInsertingItem(false)
   }, /*#__PURE__*/React.createElement(AppContent, null, isInsertingItem && /*#__PURE__*/React.createElement(AppForm, {
-    customComponentMap: customComponentMap,
+    customInputMap: customInputMap,
     objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
     rootSchema: rootSchema,
     data: { ...data

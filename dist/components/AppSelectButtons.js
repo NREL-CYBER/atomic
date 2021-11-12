@@ -1,12 +1,11 @@
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 import { IonSegment, IonSegmentButton } from '@ionic/react';
-import { AppChip, AppText } from 'atomic';
+import { AppBadge, AppChip, AppText } from 'atomic';
 import React from 'react';
 import { AppItem } from '.';
 import AppButton from './AppButton';
 import AppList from './AppList';
-import AppTitle from './AppTitle';
 
 /**
  * Component for a select interface via buttons
@@ -61,6 +60,7 @@ const AppSelectButtons = props => {
   }
 
   return display === "horizontal" ? /*#__PURE__*/React.createElement(React.Fragment, null, selectButtons) : selected.length === 0 && !multi ? /*#__PURE__*/React.createElement(AppList, null, buttons.map((button, i) => /*#__PURE__*/React.createElement(AppItem, {
+    color: "paper",
     key: i,
     onClick: () => {
       if (multi) {
@@ -80,7 +80,9 @@ const AppSelectButtons = props => {
     onClick: () => {
       onSelectionChange([]);
     }
-  }, /*#__PURE__*/React.createElement(AppTitle, null, selected));
+  }, /*#__PURE__*/React.createElement(AppBadge, {
+    color: "favorite"
+  }, selected));
 };
 
 export default AppSelectButtons;

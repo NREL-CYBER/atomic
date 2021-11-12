@@ -68,11 +68,6 @@ const AppFormInput = (props: formInputProps) => {
             setErrors([]);
             return;
         }
-        if (isArray(context) && typeof context.find(x => x === validating) !== "undefined") {
-            setErrors([value + " already exists"]);
-            setInputStatus("invalid");
-            return;
-        }
         const formValue = value === "" ? undefined : value;
         const propertyValue = input === "array" ? (formValue || "").split("\n") : formValue;
         setValidating(value);
@@ -97,7 +92,7 @@ const AppFormInput = (props: formInputProps) => {
                 <AppInput color="dark" type={inputMode} value={value} placeholder={description || ""} onInputChange={(val) => {
                     setValue(val)
                 }} />
-                : <span style={{ width: "100%" }}><AppTextArea rows={property === "description" ? 5 : 3} placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
+                : <span style={{ width: "100%" }}><AppTextArea rows={property === "description" ? 3 : 1} placeholder={description} color="dark" inputMode={inputMode || "text"} value={value} onTextChange={(val) => {
                     setValue(val);
                     // eslint-disable-next-line react-hooks/exhaustive-deps
                 }} /></span>}</>, [input])}

@@ -8,8 +8,10 @@ import ReactJson from "react-json-view";
 import { Store } from "store";
 import { UseBoundStore } from "zustand";
 import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";
+import { useAppSettings } from "../hooks/useAppSettings";
 import { prettyTitle } from "../util";
 import { columnAmount } from "./AppCol";
+import { VisualizeValue } from "./AppFormArrayInput";
 import { AppPaginatedList } from "./AppPaginatedList";
 import { selectButtonProps } from "./AppSelectButtons";
 type collectionInterfaceState = "switch" | "idle" | "edit" | "view" | "create"
@@ -32,6 +34,7 @@ export const AppCollectionInterface: React.FC<{
     const { setActive, activeInstance, schema, collection, index, identifier, insert } = store()
     const storeStatus = store(x => x.status);
     const selected = activeInstance();
+    const { darkMode } = useAppSettings();
     const [status, setStatus] = useState<collectionInterfaceState>(selected ? "view" : "idle")
     const beginInsert = () => {
         changeStatus("edit", "");
@@ -112,7 +115,7 @@ export const AppCollectionInterface: React.FC<{
 
                         </AppItem>
                     }>
-                        {renderDetail ? renderDetail(selected) : <ReactJson enableClipboard={false} name={false} theme="railscasts" src={selected} />}
+                        {renderDetail ? renderDetail(selected) : <VisualizeValue propertyInfo={schema.definitions![collection]} value={selected} />}
                     </AppCard>}
 
                     {schema && schema.definitions && schema.definitions[collection] && (status === "edit" || status === "create") && <AppForm

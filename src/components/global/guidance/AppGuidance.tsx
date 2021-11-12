@@ -1,12 +1,12 @@
+import { AppButtons, AppCard, AppText } from "atomic";
 import { closeOutline } from "ionicons/icons";
 import React from "react";
-import { AppButtons, AppCard, AppText } from "..";
-import { useGuidance } from "../../hooks";
-import AppButton from "../AppButton";
-import AppIcon from "../AppIcon";
-import AppItem from "../AppItem";
-import AppModal from "../AppModal";
-import AppTitle from "../AppTitle";
+import { useGuidance } from "../../../hooks";
+import AppButton from "../../AppButton";
+import AppIcon from "../../AppIcon";
+import AppItem from "../../AppItem";
+import AppModal from "../../AppModal";
+import AppTitle from "../../AppTitle";
 
 const AppGuidance: React.FC = () => {
     const { guidance, status, dismiss } = useGuidance();

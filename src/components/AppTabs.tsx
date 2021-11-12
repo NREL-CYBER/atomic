@@ -3,6 +3,7 @@ import { AppBadge, AppContent, AppGrid, AppIcon, AppLabel, AppPage, AppRoute } f
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import { AppCard } from '.';
+import { useAppSettings } from '../hooks/useAppSettings';
 import { AppColor } from '../theme';
 
 interface AppTab extends AppRoute {
@@ -29,9 +30,11 @@ const AppTabs: React.FC<tabsProps> = (props) => {
         .map((t) => ({ [t.path]: t }))
         .reduce((a, b) => ({ ...a, ...b }), {})
     )
+    const { darkMode } = useAppSettings()
+    console.log(darkMode);
     return <AppCard headerColor="clear" contentColor="clear">
         <div style={{ minHeight: props.height, maxHeight: props.height }}>
-            <IonTabs onIonTabsWillChange={(event) => {
+            <IonTabs className={darkMode ? "dark-theme" : "light-theme"} onIonTabsWillChange={(event) => {
                 setCurrentTab(event.detail.tab)
             }} onIonTabsDidChange={props.onTabsDidChange}  {...otherProps} >
                 <IonTabBar slot={props.slot || "top"}>

@@ -1,5 +1,5 @@
 /* eslint-disable no-script-url */
-import { AppLabel } from "atomic";
+import { AppBadge, AppGrid, AppLabel } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
@@ -13,6 +13,36 @@ import { inputStatusColorMap } from "./AppFormInput";
 import { findSubSchema } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
 import { AppFormLabel } from "./forms/AppFormLabel";
+import { AppTableList } from "./global/AppTable";
+export const VisualizeValue = ({
+  customRenderMap,
+  propertyInfo,
+  value
+}) => {
+  const id = propertyInfo.$id || propertyInfo.$ref;
+
+  if (id && customRenderMap && typeof customRenderMap[id] !== "undefined") {
+    return customRenderMap[id](value);
+  }
+
+  if (typeof value === "object") {
+    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppTableList, {
+      type: propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || "",
+      rows: Object.keys(value),
+      data: [value]
+    }));
+  }
+
+  if (typeof value === "string") {
+    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppChip, null, /*#__PURE__*/React.createElement(AppLabel, {
+      position: "fixed"
+    }, "string"), /*#__PURE__*/React.createElement(AppBadge, {
+      color: "tertiary"
+    }, value)));
+  }
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, String(value));
+};
 export const findShortestValue = val => {
   /**This looks like vooodooo, but it is just displaying the value 
                    * that is the shortest, which is usually the title || name */
@@ -39,16 +69,16 @@ const AppFormArrayInput = props => {
     property,
     instanceRef,
     onChange,
-    customTitleFunction,
     propertyInfo,
-    customComponentMap,
     hiddenFields,
     lockedFields,
     showFields,
     required,
     objectSchema,
     rootSchema,
-    dependencyMap
+    dependencyMap,
+    customInputMap,
+    customRenderMap
   } = props;
   const existing_data = instanceRef.current[property] ? instanceRef.current[property] : [];
   const [errors, setErrors] = useState(undefined);
@@ -107,7 +137,7 @@ const AppFormArrayInput = props => {
     setIsInsertingItem(false);
   }, []);
   const itemId = propertyInfo.items?.$ref?.toString() || "";
-  const customItemComponent = customComponentMap && customComponentMap[itemId];
+  const customItemComponent = customInputMap && customInputMap[itemId];
   const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
   const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
@@ -144,7 +174,8 @@ const AppFormArrayInput = props => {
     showFields,
     hiddenFields,
     lockedFields,
-    customComponentMap,
+    customRenderMap,
+    customInputMap,
     rootSchema,
     dependencyMap,
     objectSchema: subSchema,
@@ -164,7 +195,7 @@ const AppFormArrayInput = props => {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
-    customComponentMap: customComponentMap,
+    customInputMap: customInputMap,
     rootSchema: rootSchema,
     dependencyMap: dependencyMap,
     objectSchema: subSchema,
@@ -175,6 +206,7 @@ const AppFormArrayInput = props => {
     onClick: () => onBackPressed()
   })))), value && value.filter(Boolean).map((val, i) => {
     return /*#__PURE__*/React.createElement(AppItem, {
+      lines: "none",
       key: i,
       color: "paper",
       onClick: e => {
@@ -183,15 +215,16 @@ const AppFormArrayInput = props => {
         if (!isCloseButton) {
           editItem(i);
         }
-      },
-      lines: "full"
+      }
     }, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "start"
     }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppIcon, {
       icon: returnDownForwardOutline
-    }))), /*#__PURE__*/React.createElement(AppChip, {
-      key: i
-    }, customTitleFunction ? customTitleFunction(val) : /*#__PURE__*/React.createElement(React.Fragment, null, typeof val === "string" && val, typeof val === "object" && findShortestValue(val))), /*#__PURE__*/React.createElement(AppButtons, {
+    }))), /*#__PURE__*/React.createElement(VisualizeValue, {
+      customRenderMap: customRenderMap,
+      propertyInfo: propertyInfo,
+      value: val
+    }), /*#__PURE__*/React.createElement(AppButtons, {
       slot: "end"
     }, /*#__PURE__*/React.createElement(AppButton, {
       fill: "clear",

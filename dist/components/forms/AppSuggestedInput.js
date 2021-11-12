@@ -26,6 +26,7 @@ const AppSuggestedInput = ({
     onHide
   }) => {
     return /*#__PURE__*/React.createElement(IonList, null, unique(values).map(option => /*#__PURE__*/React.createElement(IonItem, {
+      lines: "none",
       key: option,
       onClick: () => {
         dismiss();

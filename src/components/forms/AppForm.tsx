@@ -12,6 +12,7 @@ import {
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormAnyOfArrayInput from '../AppFormAnyOfArrayInput';
+import { VisualizeValue } from '../AppFormArrayInput';
 import { inputStatusColorMap } from '../AppFormInput';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
@@ -52,7 +53,8 @@ export interface formProps {
     showFields?: string[]
     autoSubmit?: boolean
     customSubmit?: ReactFragment
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>
+    customInputMap?: Record<string, React.FC<nestedFormProps>>
+    customRenderMap?: Record<string, React.FC<{ value: any }>>,
     context?: any
 }
 
@@ -82,8 +84,8 @@ export interface nestedFormProps {
     hiddenFields?: string[],
     lockedFields?: string[],
     dependencyMap?: Record<string, string[]>,
-    customTitleFunction?: (value: any) => string,
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>
+    customRenderMap?: Record<string, React.FC<{ value: any }>>,
+    customInputMap?: Record<string, React.FC<nestedFormProps>>
     context?: any
 }
 
@@ -114,7 +116,7 @@ export type formFieldStatus = "valid" | "invalid" | "unknown" | "empty";
 const AppForm: React.FC<formNodeProps> = (props) => {
     const { rootSchema, data, onSubmit, children, lockedFields, hiddenFields,
         description, title, requiredOnly, calculatedFields, showFields, dependencyMap,
-        customSubmit, autoSubmit, customComponentMap, inlineFields, hideTitle, context } = props
+        customSubmit, autoSubmit, customInputMap, customRenderMap, inlineFields, hideTitle, context } = props
     let objectSchema = props.objectSchema || props.rootSchema;
     const [deferedValidationPromises, setDefferedValidationResultPromises] = useState<Record<string, (status: formFieldValidationStatus) => void>>({})
     if (typeof objectSchema.type === "undefined") {
@@ -200,22 +202,14 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             )
         })
     }
-    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ required, customComponentMap, propertyInfo, property, inline, instanceRef, onChange, context }) => {
+    const ComposeNestedFormElement: React.FC<nestedFormProps> = ({ required, customInputMap, propertyInfo, property, inline, instanceRef, onChange, context }) => {
         const { title } = propertyInfo;
         const [showNestedForm, setShowNestedFrom] = useState(false);
         const [nestedFormStatus, setNestedFormStatus] = useState<formFieldStatus>(typeof instanceRef.current[property] === "undefined" ? "empty" : "valid");
-        const [nestedFormVisual, setNestedFormVisual] = useState<[string, string][] | undefined>(
-            Object
-                .entries(
-                    { ...instanceRef.current[property] })
-                .map(([key, value]) =>
-                    ["string", "number"]
-                        .includes(typeof value) ?
-                        [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]
-                ));
         const nestedFormColor = inputStatusColorMap[nestedFormStatus];
         const formated_title = titleCase((property || title || '').split("_").join(" "));
         return inline ? <AppForm
+            customRenderMap={customRenderMap}
             data={instanceRef.current[property]}
             rootSchema={rootSchema}
             objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
@@ -226,7 +220,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             hiddenFields={hiddenFields}
             lockedFields={lockedFields}
             showFields={showFields}
-            customComponentMap={customComponentMap as any}
+            customInputMap={customInputMap as any}
             context={context}
             onSubmit={(nestedObjectValue) => {
                 onChange(property, nestedObjectValue).then(([validationStatus, errors]) => {
@@ -244,28 +238,17 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                     </AppButton>
                 </AppButtons>
             </AppItem >
-            {nestedFormVisual?.map(([prop, val]) => <AppItem>
-                <AppButtons slot="start">
-                </AppButtons>
-                <AppFormLabel color={"favorite"} name={prettyTitle(prop)} />
-                <AppChip >
-                    {val}
-                </AppChip>
-            </AppItem>
-            )}
+            <VisualizeValue customRenderMap={customRenderMap} propertyInfo={propertyInfo} value={{ ...instanceRef.current }} />
             <Suspense fallback={<></>}>
                 <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
                     {showNestedForm && <AppForm
                         data={instanceRef.current[property]}
-                        customComponentMap={customComponentMap as any}
+                        customInputMap={customInputMap as any}
                         rootSchema={rootSchema}
                         context={context}
                         dependencyMap={dependencyMap}
                         objectSchema={findSubSchema(rootSchema, objectSchema, propertyInfo)}
                         onSubmit={(nestedObjectValue) => {
-                            setNestedFormVisual(Object.entries(nestedObjectValue).map(([key, value]) =>
-                                ["string", "number"].includes(typeof value) ? [key, String(value)] : [key, typeof value + " " + JSON.stringify(value).length + " bytes"]
-                            ))
                             setNestedFormStatus("valid");
                             onChange(property, nestedObjectValue);
                             setShowNestedFrom(false);
@@ -306,12 +289,12 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         }
 
         // Custom component by property name
-        if (customComponentMap && customComponentMap[property]) {
-            return customComponentMap[property]({ instanceRef, customComponentMap, onChange: handleInputReceived, context, property, propertyInfo, children, objectSchema, rootSchema })
+        if (customInputMap && customInputMap[property]) {
+            return customInputMap[property]({ instanceRef, customInputMap, onChange: handleInputReceived, context, property, propertyInfo, children, objectSchema, rootSchema })
         }
         // Custom component by property identifier
-        if (customComponentMap && propertyInfo.$id && customComponentMap[propertyInfo.$id]) {
-            return customComponentMap[propertyInfo.$id]({ instanceRef, customComponentMap, onChange: handleInputReceived, context, property, propertyInfo, children, objectSchema, rootSchema })
+        if (customInputMap && propertyInfo.$id && customInputMap[propertyInfo.$id]) {
+            return customInputMap[propertyInfo.$id]({ instanceRef, customInputMap, onChange: handleInputReceived, context, property, propertyInfo, children, objectSchema, rootSchema })
         }
 
 
@@ -404,7 +387,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 showFields={showFields}
                 context={context}
                 property={property}
-                customComponentMap={customComponentMap}
+                customInputMap={customInputMap}
                 key={property}
             /> : <AppFormAnyOfArrayInput
                 required={required}
@@ -418,7 +401,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 lockedFields={lockedFields}
                 showFields={showFields}
                 property={property}
-                customComponentMap={customComponentMap as any}
+                customInputMap={customInputMap as any}
                 key={property}
             />
         }
@@ -429,7 +412,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 onChange={handleInputReceived}
                 instanceRef={instanceRef}
                 context={context}
-                customComponentMap={customComponentMap}
+                customInputMap={customInputMap}
                 propertyInfo={propertyInfo}
                 hiddenFields={hiddenFields}
                 lockedFields={lockedFields}
@@ -468,7 +451,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                 required={required}
                 inline={inlineFields && inlineFields.includes(property)}
                 onChange={handleInputReceived}
-                customComponentMap={customComponentMap}
+                customInputMap={customInputMap}
                 instanceRef={instanceRef}
                 property={property}
                 propertyInfo={propertyInfo}

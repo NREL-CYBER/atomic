@@ -22,7 +22,7 @@ interface formArrayOfInputProps extends nestedFormProps, formElementProps {
  */
 const AppFormAnyOfArrayInput = (props: formArrayOfInputProps) => {
     const { property, instanceRef, onChange,
-        propertyInfo, customComponentMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema } = props;
+        propertyInfo, customInputMap, hiddenFields, lockedFields, showFields, objectSchema, rootSchema } = props;
     const existing_data = (instanceRef.current[property] ? instanceRef.current[property] : []);
     const [errors, setErrors] = useState<string[] | undefined>(undefined);
     const [inputStatus, setInputStatus] = useState<InputStatus>(existing_data.length === 0 ? "empty" : "valid");
@@ -99,7 +99,7 @@ const AppFormAnyOfArrayInput = (props: formArrayOfInputProps) => {
                             showFields={showFields}
                             hiddenFields={hiddenFields}
                             lockedFields={lockedFields}
-                            customComponentMap={customComponentMap as any}
+                            customInputMap={customInputMap as any}
                             rootSchema={rootSchema}
                             objectSchema={findSubSchema(rootSchema, objectSchema, selectedType)}
                             data={{ ...data }}

@@ -19,7 +19,7 @@ const AppFormAnyOfArrayInput = props => {
     instanceRef,
     onChange,
     propertyInfo,
-    customComponentMap,
+    customInputMap,
     hiddenFields,
     lockedFields,
     showFields,
@@ -109,7 +109,7 @@ const AppFormAnyOfArrayInput = props => {
     showFields: showFields,
     hiddenFields: hiddenFields,
     lockedFields: lockedFields,
-    customComponentMap: customComponentMap,
+    customInputMap: customInputMap,
     rootSchema: rootSchema,
     objectSchema: findSubSchema(rootSchema, objectSchema, selectedType),
     data: { ...data

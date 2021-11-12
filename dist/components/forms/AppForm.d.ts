@@ -27,7 +27,10 @@ export interface formProps {
     showFields?: string[];
     autoSubmit?: boolean;
     customSubmit?: ReactFragment;
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>;
+    customInputMap?: Record<string, React.FC<nestedFormProps>>;
+    customRenderMap?: Record<string, React.FC<{
+        value: any;
+    }>>;
     context?: any;
 }
 export declare type formFieldValidationStatus = [formFieldStatus, string[] | undefined];
@@ -55,8 +58,10 @@ export interface nestedFormProps {
     hiddenFields?: string[];
     lockedFields?: string[];
     dependencyMap?: Record<string, string[]>;
-    customTitleFunction?: (value: any) => string;
-    customComponentMap?: Record<string, React.FC<nestedFormProps>>;
+    customRenderMap?: Record<string, React.FC<{
+        value: any;
+    }>>;
+    customInputMap?: Record<string, React.FC<nestedFormProps>>;
     context?: any;
 }
 export declare type formFieldStatus = "valid" | "invalid" | "unknown" | "empty";

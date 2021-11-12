@@ -1,4 +1,3 @@
-import { isArray } from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import { prettyTitle } from '../util';
 import AppInput from './AppInput';
@@ -65,12 +64,6 @@ const AppFormInput = props => {
       return;
     }
 
-    if (isArray(context) && typeof context.find(x => x === validating) !== "undefined") {
-      setErrors([value + " already exists"]);
-      setInputStatus("invalid");
-      return;
-    }
-
     const formValue = value === "" ? undefined : value;
     const propertyValue = input === "array" ? (formValue || "").split("\n") : formValue;
     setValidating(value);
@@ -98,7 +91,7 @@ const AppFormInput = props => {
       width: "100%"
     }
   }, /*#__PURE__*/React.createElement(AppTextArea, {
-    rows: property === "description" ? 5 : 3,
+    rows: property === "description" ? 3 : 1,
     placeholder: description,
     color: "dark",
     inputMode: inputMode || "text",

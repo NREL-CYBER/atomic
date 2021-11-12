@@ -1,5 +1,5 @@
 import { IonSegment, IonSegmentButton } from '@ionic/react';
-import { AppChip, AppText } from 'atomic';
+import { AppBadge, AppChip, AppText } from 'atomic';
 import React from 'react';
 import { AppItem } from '.';
 import { AppColor } from '../theme';
@@ -60,7 +60,7 @@ const AppSelectButtons: React.FC<selectButtonsProps> = (props) => {
         </IonSegment>
     }
     return display === "horizontal" ? <>{selectButtons}</> : selected.length === 0 && !multi ? <AppList>
-        {buttons.map((button, i) => <AppItem key={i}
+        {buttons.map((button, i) => <AppItem color="paper" key={i}
             onClick={() => {
                 if (multi) {
                     const newselected = selected.includes(button.value) ? selected.filter(v => v !== button.value) : [...selected, button.value];
@@ -80,7 +80,7 @@ const AppSelectButtons: React.FC<selectButtonsProps> = (props) => {
     </AppList > : <AppItem onClick={() => {
         onSelectionChange([]);
     }}>
-        <AppTitle>{selected}</AppTitle>
+        <AppBadge color="favorite">{selected}</AppBadge>
     </AppItem>
 };
 export default AppSelectButtons;
