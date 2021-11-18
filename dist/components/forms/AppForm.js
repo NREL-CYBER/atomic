@@ -17,7 +17,7 @@ import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import { AppFormLabel } from './AppFormLabel';
-import AppFormNumber from './AppFormNumber';
+import AppFormNumber, { AppFormNumberRange } from './AppFormNumber';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 
 const LockedField = ({
@@ -204,6 +204,11 @@ const AppForm = props => {
       customInputMap: customInputMap,
       context: context,
       onSubmit: nestedObjectValue => {
+        setVisual(VisualizeValue({
+          customRenderMap,
+          value: nestedObjectValue,
+          propertyInfo
+        }));
         onChange(property, nestedObjectValue).then(([validationStatus, errors]) => {
           setNestedFormStatus(validationStatus);
           setShowNestedFrom(false);
@@ -215,14 +220,14 @@ const AppForm = props => {
       name: formated_title,
       required: required,
       color: nestedFormColor
-    }), /*#__PURE__*/React.createElement(AppButtons, {
+    }), typeof NestedFormVisual !== "string" && NestedFormVisual, /*#__PURE__*/React.createElement(AppButtons, {
       slot: "end"
     }, /*#__PURE__*/React.createElement(AppButton, {
       fill: "clear",
       color: "primary"
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: pencilOutline
-    })))), typeof NestedFormVisual !== "string" && NestedFormVisual, /*#__PURE__*/React.createElement(Suspense, {
+    })))), /*#__PURE__*/React.createElement(Suspense, {
       fallback: /*#__PURE__*/React.createElement(React.Fragment, null)
     }, /*#__PURE__*/React.createElement(AppModal, {
       onDismiss: () => setShowNestedFrom(false),
@@ -385,7 +390,16 @@ const AppForm = props => {
     }
 
     if (propertyType === "number") {
-      return /*#__PURE__*/React.createElement(AppFormNumber, {
+      return propertyType.minimum && propertyType.maximum ? /*#__PURE__*/React.createElement(AppFormNumberRange, {
+        rootSchema: rootSchema,
+        objectSchema: objectSchema,
+        required: required,
+        instanceRef: instanceRef,
+        propertyInfo: refPropertyInfo,
+        property: property,
+        onChange: handleInputReceived,
+        key: property
+      }) : /*#__PURE__*/React.createElement(AppFormNumber, {
         rootSchema: rootSchema,
         objectSchema: objectSchema,
         required: required,

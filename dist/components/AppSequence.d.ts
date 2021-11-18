@@ -12,11 +12,12 @@ export interface SequenceElement extends Sequence {
     component: React.FC<{
         onStatusChange: (status: CompletionStatus) => void;
     }>;
+    autoNext?: boolean;
 }
 export interface appSequenceProps {
     sequence: Sequence;
-    onNext: () => void;
-    onBack: () => void;
+    onNext?: () => void;
+    onBack?: () => void;
 }
 declare const AppSequence: React.FC<appSequenceProps>;
 export default AppSequence;

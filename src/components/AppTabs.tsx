@@ -31,7 +31,6 @@ const AppTabs: React.FC<tabsProps> = (props) => {
         .reduce((a, b) => ({ ...a, ...b }), {})
     )
     const { darkMode } = useAppSettings()
-    console.log(darkMode);
     return <AppCard headerColor="clear" contentColor="clear">
         <div style={{ minHeight: props.height, maxHeight: props.height }}>
             <IonTabs className={darkMode ? "dark-theme" : "light-theme"} onIonTabsWillChange={(event) => {
@@ -49,7 +48,6 @@ const AppTabs: React.FC<tabsProps> = (props) => {
                     </IonTabButton>)}
                 </IonTabBar>
                 <IonRouterOutlet>
-
                     <Route path="*"
                         component={tabs[currentTab].component} />
                 </IonRouterOutlet>

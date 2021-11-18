@@ -1,3 +1,4 @@
+/* eslint-disable no-control-regex */
 
 /* eslint-disable no-restricted-globals */
 // eslint-disable-next-line no-unused-vars

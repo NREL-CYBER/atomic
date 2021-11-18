@@ -54,18 +54,18 @@ const AppSequence = ({
     color: status !== "locked" ? "primary" : "medium",
     disabled: status === "locked",
     onClick: onNext
-  }, "Next") : /*#__PURE__*/React.createElement(AppButton, {
+  }, "Next") : nextSequenceElement && /*#__PURE__*/React.createElement(AppButton, {
     color: status !== "locked" ? "primary" : "medium",
     disabled: status === "locked",
     onClick: () => {
       nextSequenceElement();
-      sequenceComplete();
+      sequenceComplete && sequenceComplete();
     }
   }, "Complete")), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
-  }, elements && activeElementIndex !== 0 ? /*#__PURE__*/React.createElement(AppButton, {
+  }, previousSequence && elements && activeElementIndex !== 0 ? /*#__PURE__*/React.createElement(AppButton, {
     onClick: onBack
-  }, "Back") : /*#__PURE__*/React.createElement(AppButton, {
+  }, "Back") : elements && activeElementIndex !== 0 && /*#__PURE__*/React.createElement(AppButton, {
     onClick: previousSequence
   }, "Previous"))));
 

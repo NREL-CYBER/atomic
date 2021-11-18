@@ -24,7 +24,6 @@ const AppTabs = props => {
   const {
     darkMode
   } = useAppSettings();
-  console.log(darkMode);
   return /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "clear",
     contentColor: "clear"

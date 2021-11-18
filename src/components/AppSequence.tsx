@@ -20,11 +20,12 @@ export interface Sequence {
 }
 export interface SequenceElement extends Sequence {
     component: React.FC<{ onStatusChange: (status: CompletionStatus) => void }>
+    autoNext?: boolean
 }
 
 
 
-export interface appSequenceProps { sequence: Sequence, onNext: () => void, onBack: () => void }
+export interface appSequenceProps { sequence: Sequence, onNext?: () => void, onBack?: () => void }
 
 const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) => {
     const { elements } = sequence;
@@ -56,17 +57,17 @@ const AppSequence: React.FC<appSequenceProps> = ({ sequence, onBack, onNext }) =
             < AppButtons slot="end">
                 {elements && activeElementIndex < elements.length - 1 ? <AppButton color={status !== "locked" ? "primary" : "medium"} disabled={status === "locked"} onClick={onNext}>
                     Next
-                </AppButton> : <AppButton color={status !== "locked" ? "primary" : "medium"} disabled={status === "locked"} onClick={() => {
+                </AppButton> : nextSequenceElement && <AppButton color={status !== "locked" ? "primary" : "medium"} disabled={status === "locked"} onClick={() => {
                     nextSequenceElement();
-                    sequenceComplete()
+                    sequenceComplete && sequenceComplete()
                 }}>
                     Complete
                 </AppButton>}
             </AppButtons>
             <AppButtons slot="start">
-                {elements && activeElementIndex !== 0 ? <AppButton onClick={onBack}>
+                {previousSequence && elements && activeElementIndex !== 0 ? <AppButton onClick={onBack}>
                     Back
-                </AppButton> : <AppButton onClick={previousSequence}>
+                </AppButton> : elements && activeElementIndex !== 0 && <AppButton onClick={previousSequence}>
                     Previous
                 </AppButton>}
 

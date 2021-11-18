@@ -2,7 +2,7 @@
 import { AppBadge, AppCol, AppGrid, AppLabel, AppRow, AppText } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
-import { isArray, values } from "lodash";
+import { isArray, isNull, values } from "lodash";
 import React, { useCallback, useState } from 'react';
 import { PropertyDefinitionRef } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
@@ -30,23 +30,29 @@ export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.F
     if (id && customRenderMap && typeof customRenderMap[id] !== "undefined") {
         return customRenderMap[id](value)
     }
+    const length = String(JSON.stringify(value)).length;
+    if (length === 2) {
+        return <></>
+    }
+    return <AppBadge color="tertiary">{length} bytes</AppBadge>
     const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || ""
-    if (typeof value === "undefined") {
+    if (typeof value === "undefined" || isNull(value)) {
         return <></>
     }
     if (typeof value === "object") {
+        if (isArray(value)) {
+            return <AppCol size="20">
+                Array
+                {<AppTableList type={title} rows={Object.keys(value[0]).filter(x => x !== "uuid")} data={value} />}
+            </AppCol>
+
+        }
         return <AppGrid>
             <AppRow>
                 <AppCol size="4" >
-                    {value && <AppGrid>
-                    </AppGrid>}
                 </AppCol>
-                <AppCol size="18">
-                    <AppTableList type={title} rows={Object.keys(value).filter(x => x !== "uuid")} data={[value]} />
-                </AppCol>
-                <AppCol size="2" >
-                    {value && <AppGrid>
-                    </AppGrid>}
+                <AppCol size="20">
+                    {<AppTableList type={title} rows={Object.keys(value).filter(x => x !== "uuid")} data={[value]} />}
                 </AppCol>
             </AppRow>
         </AppGrid>
@@ -57,9 +63,9 @@ export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.F
                 <AppCol size="2" >
                 </AppCol>
                 <AppCol size="20">
-                    <AppChip>
+                    {value.length > 50 ? <AppText>{value}</AppText> : <AppChip>
                         {value}
-                    </AppChip>
+                    </AppChip>}
                 </AppCol>
                 <AppCol size="2" >
                 </AppCol>
@@ -67,7 +73,7 @@ export const VisualizeValue: React.FC<{ customRenderMap?: Record<string, React.F
 
         </AppGrid>
     }
-    return <>{String(value)}</>
+    return <>{String(value) + " " + typeof (value)}TEST</>
 }
 
 export const findShortestValue = (val: any) => {
@@ -137,8 +143,11 @@ const AppFormArrayInput = (props: formInputProps) => {
 
         const validationResult = onChange(property, newValue)
         validationResult.then(([validationStatus, errors]) => {
-            setIsInsertingItem(false);
             setValue(newValue);
+            setErrors(errors); if (errors) {
+                return;
+            }
+            setIsInsertingItem(false);
             setInputStatus(validationStatus);
             setErrors(errors);
             setEditingItemIndex(undefined);
@@ -181,8 +190,8 @@ const AppFormArrayInput = (props: formInputProps) => {
                             lockedFields, customRenderMap,
                             customInputMap, rootSchema,
                             dependencyMap, objectSchema: subSchema,
-                            onChange: (_, value) => {
-                                return onSubmitItem(value);
+                            onChange: (_, v) => {
+                                return onSubmitItem(v);
                             },
                             instanceRef: {
                                 current: {
@@ -193,7 +202,8 @@ const AppFormArrayInput = (props: formInputProps) => {
                                                 {} : subSchema.type === "array" ?
                                                     [] : undefined : undefined : undefined
                                 }
-                            }, property: "item", propertyInfo, context: value
+                            }, property: "item", propertyInfo,
+                            context: value
                         })}
                 </AppCard> : <AppForm
                     title={elementTitle}
@@ -223,7 +233,10 @@ const AppFormArrayInput = (props: formInputProps) => {
                         <><AppIcon icon={returnDownForwardOutline} /></>
                     </AppButtons>
 
-                    <VisualizeValue customRenderMap={customRenderMap} propertyInfo={propertyInfo} value={val} />
+                    <VisualizeValue
+                        customRenderMap={customRenderMap}
+                        propertyInfo={propertyInfo}
+                        value={val} />
 
                     <AppButtons slot="end">
 

@@ -1,9 +1,8 @@
-import { AppCol, AppRow, AppTitle } from 'atomic';
+import { AppCol, AppRow, AppSequence } from '../components';
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
-import { AppMarkdownEditor } from '../components/AppMarkdownEditor';
 import AppSuggestedInput from '../components/forms/AppSuggestedInput';
 import { AppTable } from '../components/global/AppTable';
 import { useCompletion } from '../hooks';
@@ -42,9 +41,9 @@ const Home: React.FC = () => {
             />
           </AppCol>
           <AppCol>
-            <AppTitle>
-              Table Example
-            </AppTitle>
+            <AppSequence sequence={{title:"A",elements:[]}}>
+
+            </AppSequence>
           </AppCol>
         </AppRow>
 

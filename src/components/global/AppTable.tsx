@@ -1,5 +1,5 @@
 import { ItemReorderEventDetail } from "@ionic/core"
-import { AppBadge, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppTitle } from "atomic"
+import { AppBadge, AppButtons, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, AppTitle } from "atomic"
 import produce from "immer"
 import { isArray } from "lodash"
 import React, { useState } from "react"
@@ -33,11 +33,11 @@ export const AppTableList: React.FC<appListTableProps> = ({ rows, type, data }) 
                                     padding: 4,
                                     textAlign: "left"
                                 }}>
-                                    <AppBadge color="clear">
-                                        <AppGrid>
+                                    <AppGrid>
+                                        <AppBadge color="clear">
                                             {row}
-                                        </AppGrid>
-                                    </AppBadge>
+                                        </AppBadge>
+                                    </AppGrid>
                                 </div>
                             </AppCol>
                             <AppCol>
@@ -46,13 +46,18 @@ export const AppTableList: React.FC<appListTableProps> = ({ rows, type, data }) 
                                         < AppTable
                                             columns={Object.keys(item[row][0])} data={item[row]} /> : <>{item[row]}</>
                                         : ['string', 'number'].includes(typeof item[row]) ?
-                                            <AppChip>
+                                            <AppButtons slot="end">
                                                 <AppGrid>
-                                                    <AppLabel>
+
+                                                    {item[row].length < 100 ? <AppChip>
                                                         {item[row]}
-                                                    </AppLabel>
+                                                    </AppChip> : <AppText color="medium">
+                                                        {item[row]}
+                                                    </AppText>
+                                                    }
                                                 </AppGrid>
-                                            </AppChip> : <></>}
+                                            </AppButtons>
+                                            : <></>}
                                 </div>
                             </AppCol>
 

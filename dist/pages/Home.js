@@ -1,4 +1,4 @@
-import { AppCol, AppRow, AppTitle } from 'atomic';
+import { AppCol, AppRow, AppSequence } from '../components';
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
@@ -43,7 +43,12 @@ const Home = () => {
       name: 'test'
     }],
     columns: ['name', 'uuid']
-  })), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppTitle, null, "Table Example"))), /*#__PURE__*/React.createElement(AppInput, {
+  })), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppSequence, {
+    sequence: {
+      title: "A",
+      elements: []
+    }
+  }))), /*#__PURE__*/React.createElement(AppInput, {
     debounce: 500,
     onInputChange: () => {
       console.log("change");

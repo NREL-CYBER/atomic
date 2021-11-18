@@ -1,8 +1,8 @@
 /* eslint-disable no-script-url */
-import { AppCol, AppGrid, AppLabel, AppRow } from "atomic";
+import { AppBadge, AppCol, AppGrid, AppLabel, AppRow, AppText } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
-import { isArray, values } from "lodash";
+import { isArray, isNull, values } from "lodash";
 import React, { useCallback, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
@@ -25,24 +25,41 @@ export const VisualizeValue = ({
     return customRenderMap[id](value);
   }
 
+  const length = String(JSON.stringify(value)).length;
+
+  if (length === 2) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null);
+  }
+
+  return /*#__PURE__*/React.createElement(AppBadge, {
+    color: "tertiary"
+  }, length, " bytes");
   const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || "";
 
-  if (typeof value === "undefined") {
+  if (typeof value === "undefined" || isNull(value)) {
     return /*#__PURE__*/React.createElement(React.Fragment, null);
   }
 
   if (typeof value === "object") {
+    if (isArray(value)) {
+      return /*#__PURE__*/React.createElement(AppCol, {
+        size: "20"
+      }, "Array", /*#__PURE__*/React.createElement(AppTableList, {
+        type: title,
+        rows: Object.keys(value[0]).filter(x => x !== "uuid"),
+        data: value
+      }));
+    }
+
     return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
       size: "4"
-    }, value && /*#__PURE__*/React.createElement(AppGrid, null)), /*#__PURE__*/React.createElement(AppCol, {
-      size: "18"
+    }), /*#__PURE__*/React.createElement(AppCol, {
+      size: "20"
     }, /*#__PURE__*/React.createElement(AppTableList, {
       type: title,
       rows: Object.keys(value).filter(x => x !== "uuid"),
       data: [value]
-    })), /*#__PURE__*/React.createElement(AppCol, {
-      size: "2"
-    }, value && /*#__PURE__*/React.createElement(AppGrid, null))));
+    }))));
   }
 
   if (typeof value === "string") {
@@ -50,12 +67,12 @@ export const VisualizeValue = ({
       size: "2"
     }), /*#__PURE__*/React.createElement(AppCol, {
       size: "20"
-    }, /*#__PURE__*/React.createElement(AppChip, null, value)), /*#__PURE__*/React.createElement(AppCol, {
+    }, value.length > 50 ? /*#__PURE__*/React.createElement(AppText, null, value) : /*#__PURE__*/React.createElement(AppChip, null, value)), /*#__PURE__*/React.createElement(AppCol, {
       size: "2"
     })));
   }
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, String(value));
+  return /*#__PURE__*/React.createElement(React.Fragment, null, String(value) + " " + typeof value, "TEST");
 };
 export const findShortestValue = val => {
   /**This looks like vooodooo, but it is just displaying the value 
@@ -140,8 +157,14 @@ const AppFormArrayInput = props => {
     }));
     const validationResult = onChange(property, newValue);
     validationResult.then(([validationStatus, errors]) => {
-      setIsInsertingItem(false);
       setValue(newValue);
+      setErrors(errors);
+
+      if (errors) {
+        return;
+      }
+
+      setIsInsertingItem(false);
       setInputStatus(validationStatus);
       setErrors(errors);
       setEditingItemIndex(undefined);
@@ -194,8 +217,8 @@ const AppFormArrayInput = props => {
     rootSchema,
     dependencyMap,
     objectSchema: subSchema,
-    onChange: (_, value) => {
-      return onSubmitItem(value);
+    onChange: (_, v) => {
+      return onSubmitItem(v);
     },
     instanceRef: {
       current: {

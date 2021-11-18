@@ -2,7 +2,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { chevronDownOutline, chevronForwardOutline, pencilOutline } from 'ionicons/icons';
 import React, { FC, Fragment, MutableRefObject, ReactFragment, Suspense, useMemo, useRef, useState } from 'react';
-import { useEffect } from 'react';
 import { v4 } from 'uuid';
 import { PropertyDefinitionRef, RootSchemaObject, SchemaObjectDefinition } from 'validator';
 import {
@@ -23,7 +22,7 @@ import AppFormDateTimePicker from './AppFormDateTimePicker';
 import AppFormDictionaryInput from './AppFormDictionaryInput';
 import AppFormInteger from './AppFormInteger';
 import { AppFormLabel } from './AppFormLabel';
-import AppFormNumber from './AppFormNumber';
+import AppFormNumber, { AppFormNumberRange } from './AppFormNumber';
 import AppLastModifiedGenerator from './AppLastModifiedGenerator';
 export interface propertyKeyValue {
     property: string,
@@ -225,6 +224,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             customInputMap={customInputMap as any}
             context={context}
             onSubmit={(nestedObjectValue) => {
+                setVisual(VisualizeValue({ customRenderMap, value: nestedObjectValue, propertyInfo }));
                 onChange(property, nestedObjectValue).then(([validationStatus, errors]) => {
                     setNestedFormStatus(validationStatus);
                     setShowNestedFrom(false);
@@ -234,13 +234,13 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         </AppForm> : <>
             <AppItem onClick={() => setShowNestedFrom(x => !x)}>
                 <AppFormLabel name={formated_title} required={required} color={nestedFormColor} />
+                {typeof NestedFormVisual !== "string" && NestedFormVisual}
                 <AppButtons slot="end">
                     <AppButton fill="clear" color="primary">
                         < AppIcon icon={pencilOutline} />
                     </AppButton>
                 </AppButtons>
             </AppItem >
-            {typeof NestedFormVisual !== "string" && NestedFormVisual}
             <Suspense fallback={<></>}>
                 <AppModal onDismiss={() => setShowNestedFrom(false)} isOpen={showNestedForm}>
                     {showNestedForm && <AppForm
@@ -363,7 +363,16 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             />
         }
         if (propertyType === "number") {
-            return <AppFormNumber
+            return (propertyType as any).minimum && (propertyType as any).maximum ? <AppFormNumberRange
+                rootSchema={rootSchema}
+                objectSchema={objectSchema}
+                required={required}
+                instanceRef={instanceRef}
+                propertyInfo={refPropertyInfo}
+                property={property}
+                onChange={handleInputReceived}
+                key={property}
+            /> : <AppFormNumber
                 rootSchema={rootSchema}
                 objectSchema={objectSchema}
                 required={required}

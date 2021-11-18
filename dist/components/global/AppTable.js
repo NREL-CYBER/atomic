@@ -1,4 +1,4 @@
-import { AppBadge, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppTitle } from "atomic";
+import { AppBadge, AppButtons, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, AppTitle } from "atomic";
 import produce from "immer";
 import { isArray } from "lodash";
 import React, { useState } from "react";
@@ -30,9 +30,9 @@ export const AppTableList = ({
       padding: 4,
       textAlign: "left"
     }
-  }, /*#__PURE__*/React.createElement(AppBadge, {
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppBadge, {
     color: "clear"
-  }, /*#__PURE__*/React.createElement(AppGrid, null, row)))), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement("div", {
+  }, row)))), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement("div", {
     style: {
       width: "100%",
       textAlign: "right",
@@ -41,7 +41,11 @@ export const AppTableList = ({
   }, ['object'].includes(typeof item[row]) ? isArray(item[row]) && !['string', 'number'].includes(typeof item[row][0]) ? /*#__PURE__*/React.createElement(AppTable, {
     columns: Object.keys(item[row][0]),
     data: item[row]
-  }) : /*#__PURE__*/React.createElement(React.Fragment, null, item[row]) : ['string', 'number'].includes(typeof item[row]) ? /*#__PURE__*/React.createElement(AppChip, null, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppLabel, null, item[row]))) : /*#__PURE__*/React.createElement(React.Fragment, null)))))))));
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, item[row]) : ['string', 'number'].includes(typeof item[row]) ? /*#__PURE__*/React.createElement(AppButtons, {
+    slot: "end"
+  }, /*#__PURE__*/React.createElement(AppGrid, null, item[row].length < 100 ? /*#__PURE__*/React.createElement(AppChip, null, item[row]) : /*#__PURE__*/React.createElement(AppText, {
+    color: "medium"
+  }, item[row]))) : /*#__PURE__*/React.createElement(React.Fragment, null)))))))));
 };
 export const AppTable = ({
   columns,
