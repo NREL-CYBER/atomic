@@ -8,6 +8,7 @@ import { AppTable } from '../components/global/AppTable';
 import { useCompletion } from '../hooks';
 import usePageTitle from '../hooks/usePageTitle';
 import { palletSchema } from '../schemas/pallete.schema';
+import { VisualizeValue } from '../components/AppJsonDisplay';
 
 const Home = () => {
   const [platform, setPlatform] = useState("Develop");
@@ -27,7 +28,19 @@ const Home = () => {
   }, [setPathState]);
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     next: true
-  }, /*#__PURE__*/React.createElement(AppCard, {
+  }, /*#__PURE__*/React.createElement(VisualizeValue, {
+    value: {
+      nide: "ok",
+      "ok": [{
+        nice: [{
+          nice: {
+            ok: ["nice"]
+          }
+        }]
+      }]
+    },
+    propertyInfo: {}
+  }), /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "tertiary",
     titleColor: "secondary",
     title: "Welcome to atomic",

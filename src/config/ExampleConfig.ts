@@ -32,6 +32,9 @@ export const useAttack = composeStore<MitreNode>(
                     type: "object",
                     title: "Identity",
                     properties: {
+                        id: {
+                            type: 'string'
+                        },
                         name: {
                             type: "string"
                         },

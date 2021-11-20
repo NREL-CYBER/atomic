@@ -8,6 +8,7 @@ import { AppTable } from '../components/global/AppTable';
 import { useCompletion } from '../hooks';
 import usePageTitle from '../hooks/usePageTitle';
 import { palletSchema } from '../schemas/pallete.schema';
+import { VisualizeValue } from '../components/AppJsonDisplay';
 
 
 const Home: React.FC = () => {
@@ -27,6 +28,9 @@ const Home: React.FC = () => {
   }, [setPathState])
   return <AppPage >
     <AppContent next>
+
+      <VisualizeValue value={{ nide: "ok", "ok": [{ nice: [{ nice: { ok: ["nice"] } }] }] }} propertyInfo={{}} />
+
       <AppCard headerColor="tertiary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
         <AppChip color="success">
           Check out the examples to get started
@@ -41,7 +45,7 @@ const Home: React.FC = () => {
             />
           </AppCol>
           <AppCol>
-            <AppSequence sequence={{title:"A",elements:[]}}>
+            <AppSequence sequence={{ title: "A", elements: [] }}>
 
             </AppSequence>
           </AppCol>

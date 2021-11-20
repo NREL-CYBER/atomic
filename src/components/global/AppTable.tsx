@@ -11,10 +11,10 @@ export interface appTableProps {
 export interface appListTableProps {
     rows: string[]
     data: any[]
-    type: string
+    type?: string
 }
 
-export const AppTableList: React.FC<appListTableProps> = ({ rows, type, data }) => {
+export const AppTableList: React.FC<appListTableProps> = ({ rows, data }) => {
     const [rowName, rowNames] = useState(rows.filter(x => x !== "uuid"))
     if (typeof data === "undefined") {
         return <AppChip color="warning">undefined</AppChip>
@@ -118,7 +118,11 @@ export const AppTable: React.FC<appTableProps> = ({ columns, data }) => {
                             textAlign: "left!important" as any
                         }}>
                             <AppLabel>
-                                {(item[column])}
+
+                                {['string', 'number'].includes(typeof item[column]) && (item[column])}
+
+                                {['object'].includes(typeof item[column]) && isArray(item[column]) && typeof item[column][0] === "object" && <AppTable columns={Object.keys(item[column][0] || [])} data={item[column]} />}
+                                {['object'].includes(typeof item[column]) && isArray(item[column]) && typeof item[column] === "string" && item[column].map((x: string) => <AppChip>{x}</AppChip>)}
                             </AppLabel>
                         </div>
                     </td>

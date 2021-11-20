@@ -12,10 +12,10 @@ import {
 } from '..';
 import { prettyTitle, titleCase } from '../../util';
 import AppFormAnyOfArrayInput from '../AppFormAnyOfArrayInput';
-import { VisualizeValue } from '../AppFormArrayInput';
 import { inputStatusColorMap } from '../AppFormInput';
 import AppFormSelectArray from '../AppFormSelectArray';
 import AppFormToggle from '../AppFormToggle';
+import { VisualizeValue } from '../AppJsonDisplay';
 import AppUploader from '../serialization/AppUploader';
 import { validationCacheWorker } from "./../../workers/validationCacheWorker";
 import AppFormDateTimePicker from './AppFormDateTimePicker';

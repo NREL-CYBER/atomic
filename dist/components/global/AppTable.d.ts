@@ -6,7 +6,7 @@ export interface appTableProps {
 export interface appListTableProps {
     rows: string[];
     data: any[];
-    type: string;
+    type?: string;
 }
 export declare const AppTableList: React.FC<appListTableProps>;
 export declare const AppTable: React.FC<appTableProps>;

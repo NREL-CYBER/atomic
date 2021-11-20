@@ -1,79 +1,19 @@
 /* eslint-disable no-script-url */
-import { AppBadge, AppCol, AppGrid, AppLabel, AppRow, AppText } from "atomic";
+import { AppLabel } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
-import { isArray, isNull, values } from "lodash";
+import { isArray, values } from "lodash";
 import React, { useCallback, useState } from 'react';
-import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
+import { AppBackButton, AppButton, AppButtons, AppForm, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
 import { uniqueObjects } from "../util/unique";
 import AppCard from "./AppCard";
 import { inputStatusColorMap } from "./AppFormInput";
+import { VisualizeValue } from "./AppJsonDisplay";
 import { findSubSchema } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
 import { AppFormLabel } from "./forms/AppFormLabel";
-import { AppTableList } from "./global/AppTable";
-export const VisualizeValue = ({
-  customRenderMap,
-  propertyInfo,
-  value
-}) => {
-  const id = propertyInfo.$id || propertyInfo.$ref;
-
-  if (id && customRenderMap && typeof customRenderMap[id] !== "undefined") {
-    return customRenderMap[id](value);
-  }
-
-  const length = String(JSON.stringify(value)).length;
-
-  if (length === 2) {
-    return /*#__PURE__*/React.createElement(React.Fragment, null);
-  }
-
-  return /*#__PURE__*/React.createElement(AppBadge, {
-    color: "tertiary"
-  }, length, " bytes");
-  const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || "";
-
-  if (typeof value === "undefined" || isNull(value)) {
-    return /*#__PURE__*/React.createElement(React.Fragment, null);
-  }
-
-  if (typeof value === "object") {
-    if (isArray(value)) {
-      return /*#__PURE__*/React.createElement(AppCol, {
-        size: "20"
-      }, "Array", /*#__PURE__*/React.createElement(AppTableList, {
-        type: title,
-        rows: Object.keys(value[0]).filter(x => x !== "uuid"),
-        data: value
-      }));
-    }
-
-    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
-      size: "4"
-    }), /*#__PURE__*/React.createElement(AppCol, {
-      size: "20"
-    }, /*#__PURE__*/React.createElement(AppTableList, {
-      type: title,
-      rows: Object.keys(value).filter(x => x !== "uuid"),
-      data: [value]
-    }))));
-  }
-
-  if (typeof value === "string") {
-    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
-      size: "2"
-    }), /*#__PURE__*/React.createElement(AppCol, {
-      size: "20"
-    }, value.length > 50 ? /*#__PURE__*/React.createElement(AppText, null, value) : /*#__PURE__*/React.createElement(AppChip, null, value)), /*#__PURE__*/React.createElement(AppCol, {
-      size: "2"
-    })));
-  }
-
-  return /*#__PURE__*/React.createElement(React.Fragment, null, String(value) + " " + typeof value, "TEST");
-};
 export const findShortestValue = val => {
   /**This looks like vooodooo, but it is just displaying the value 
                    * that is the shortest, which is usually the title || name */

@@ -11,7 +11,7 @@ import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow 
 import { useAppSettings } from "../hooks/useAppSettings";
 import { prettyTitle } from "../util";
 import { columnAmount } from "./AppCol";
-import { VisualizeValue } from "./AppFormArrayInput";
+import { VisualizeValue } from "./AppJsonDisplay";
 import { AppPaginatedList } from "./AppPaginatedList";
 import { selectButtonProps } from "./AppSelectButtons";
 type collectionInterfaceState = "switch" | "idle" | "edit" | "view" | "create"

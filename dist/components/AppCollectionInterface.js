@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";
 import { useAppSettings } from "../hooks/useAppSettings";
 import { prettyTitle } from "../util";
-import { VisualizeValue } from "./AppFormArrayInput";
+import { VisualizeValue } from "./AppJsonDisplay";
 import { AppPaginatedList } from "./AppPaginatedList";
 export const AppCollectionInterface = ({
   store,

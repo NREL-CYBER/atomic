@@ -26,6 +26,9 @@ export const useAttack = composeStore({
         type: "object",
         title: "Identity",
         properties: {
+          id: {
+            type: 'string'
+          },
           name: {
             type: "string"
           },

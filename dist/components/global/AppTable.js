@@ -4,7 +4,6 @@ import { isArray } from "lodash";
 import React, { useState } from "react";
 export const AppTableList = ({
   rows,
-  type,
   data
 }) => {
   const [rowName, rowNames] = useState(rows.filter(x => x !== "uuid"));
@@ -107,5 +106,8 @@ export const AppTable = ({
     style: {
       textAlign: "left!important"
     }
-  }, /*#__PURE__*/React.createElement(AppLabel, null, item[column])))))));
+  }, /*#__PURE__*/React.createElement(AppLabel, null, ['string', 'number'].includes(typeof item[column]) && item[column], ['object'].includes(typeof item[column]) && isArray(item[column]) && typeof item[column][0] === "object" && /*#__PURE__*/React.createElement(AppTable, {
+    columns: Object.keys(item[column][0] || []),
+    data: item[column]
+  }), ['object'].includes(typeof item[column]) && isArray(item[column]) && typeof item[column] === "string" && item[column].map(x => /*#__PURE__*/React.createElement(AppChip, null, x)))))))));
 };

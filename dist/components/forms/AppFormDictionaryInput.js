@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { v4 } from 'uuid';
 import { AppBackButton, AppButton, AppButtons, AppContent, AppForm, AppIcon, AppItem, AppLabel, AppModal, AppRow, AppText, AppToolbar } from '..';
 import { prettyTitle } from "../../util";
-import { VisualizeValue } from "../AppFormArrayInput";
 import { inputStatusColorMap } from "../AppFormInput";
+import { VisualizeValue } from "../AppJsonDisplay";
 import { findSubSchema } from './AppForm';
 /**
  * Component for input that displays validation errors
