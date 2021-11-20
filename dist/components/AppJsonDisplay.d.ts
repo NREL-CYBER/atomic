@@ -1,5 +1,5 @@
-/// <reference types="react" />
 import { PropertyDefinitionRef } from "validator";
+import React from "react";
 export declare const AppJsonDisplay: React.FC<{
     customRenderMap?: Record<string, React.FC<{
         value: any;
@@ -7,8 +7,8 @@ export declare const AppJsonDisplay: React.FC<{
     value: any;
     propertyInfo: PropertyDefinitionRef;
 }>;
-export declare const VisualizeValue: import("react").FC<{
-    customRenderMap?: Record<string, import("react").FC<{
+export declare const VisualizeValue: React.FC<{
+    customRenderMap?: Record<string, React.FC<{
         value: any;
     }>> | undefined;
     value: any;

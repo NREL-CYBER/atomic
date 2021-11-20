@@ -3,7 +3,7 @@ import { isArray } from "lodash";
 import { PropertyDefinitionRef } from "validator";
 import { isNull } from "../util";
 import { AppTableList } from "./global/AppTable";
-
+import React from "react";
 
 export const AppJsonDisplay: React.FC<{ customRenderMap?: Record<string, React.FC<{ value: any }>>, value: any, propertyInfo: PropertyDefinitionRef }> = ({ customRenderMap, propertyInfo, value }) => {
     const id = propertyInfo.$id || propertyInfo.$ref;

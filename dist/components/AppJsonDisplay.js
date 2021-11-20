@@ -2,6 +2,7 @@ import { AppCol, AppGrid, AppRow, AppText, AppChip } from "atomic";
 import { isArray } from "lodash";
 import { isNull } from "../util";
 import { AppTableList } from "./global/AppTable";
+import React from "react";
 export const AppJsonDisplay = ({
   customRenderMap,
   propertyInfo,
