@@ -122,11 +122,7 @@ const AppFormArrayInput = props => {
     onClick: e => {
       beginInsertItem(values.length);
     }
-  }, /*#__PURE__*/React.createElement(AppButtons, {
-    slot: "start"
-  }, /*#__PURE__*/React.createElement(AppLabel, {
-    color: inputStatusColor
-  }, "[", value.length, "]")), value.length === 0 && /*#__PURE__*/React.createElement(AppButtons, {
+  }, value.length === 0 && /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
@@ -139,7 +135,7 @@ const AppFormArrayInput = props => {
     onClick: () => {
       beginInsertItem(values.length);
     },
-    name: propertyFormattedName + " ",
+    name: propertyFormattedName + ' [' + value.length + ']',
     color: inputStatusColor
   })), /*#__PURE__*/React.createElement("div", {
     hidden: !isInsertingItem
