@@ -117,9 +117,6 @@ const AppFormArrayInput = (props: formInputProps) => {
         <AppItem onClick={(e) => {
             beginInsertItem(values.length);
         }}>
-            <AppButtons slot='start'>
-                <AppLabel color={inputStatusColor}>[{value.length}]</AppLabel>
-            </AppButtons>
             {value.length === 0 && <AppButtons slot="end">
                 <AppButton fill="clear" color='primary' className={"close-button"}>
                     <AppIcon icon={addSharp} />
@@ -128,7 +125,7 @@ const AppFormArrayInput = (props: formInputProps) => {
 
             <AppFormLabel required={required} onClick={() => {
                 beginInsertItem(values.length)
-            }} name={propertyFormattedName + " "} color={inputStatusColor} />
+            }} name={propertyFormattedName + ' [' + value.length + ']'} color={inputStatusColor} />
         </AppItem>
         <div hidden={!isInsertingItem}>
             {<AppModal isOpen={isInsertingItem} onDismiss={() =>
