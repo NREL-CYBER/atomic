@@ -30,14 +30,47 @@ const Home = () => {
     next: true
   }, /*#__PURE__*/React.createElement(VisualizeValue, {
     value: {
-      nide: "ok",
-      "ok": [{
-        nice: [{
-          nice: {
-            ok: ["nice"]
-          }
-        }]
-      }]
+      "uuid": "1c6d044c-ee2f-4f4a-89b2-a66dbeca5404",
+      "metadata": {
+        "title": "System Security Plan",
+        "last_modified": "2021-11-22T15:31:08.236Z",
+        "version": "0.0.0",
+        "oscal_version": "1.0.0"
+      },
+      "import_profile": {
+        "href": ""
+      },
+      "system_characteristics": {
+        "system_ids": [],
+        "system_name": "",
+        "description": "",
+        "security_sensitivity_level": "",
+        "system_information": {
+          "information_types": []
+        },
+        "security_impact_level": {
+          "security_objective_confidentiality": "",
+          "security_objective_integrity": "",
+          "security_objective_availability": ""
+        },
+        "status": {
+          "state": ""
+        },
+        "authorization_boundary": {
+          "description": ""
+        }
+      },
+      "system_implementation": {
+        "users": [],
+        "components": []
+      },
+      "control_implementation": {
+        "description": "",
+        "implemented_requirements": []
+      },
+      "back_matter": {
+        "resources": []
+      }
     },
     propertyInfo: {}
   }), /*#__PURE__*/React.createElement(AppCard, {

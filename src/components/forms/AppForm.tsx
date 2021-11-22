@@ -232,7 +232,18 @@ const AppForm: React.FC<formNodeProps> = (props) => {
             }}
         >
         </AppForm> : <>
-            <AppItem onClick={() => setShowNestedFrom(x => !x)}>
+            <AppItem onClick={(e) => {
+                const className = (e.target as any).className;
+                console.log((e.target as any).nodeName);
+                if (typeof className === "undefined" || (e.target as any).nodeName === "svg") {
+                    console.log("OK");
+                    return;
+                } else {
+                    console.log("NOT OK");
+                }
+
+                setShowNestedFrom(x => !x)
+            }}>
                 <AppFormLabel name={formated_title} required={required} color={nestedFormColor} />
                 {typeof NestedFormVisual !== "string" && NestedFormVisual}
                 <AppButtons slot="end">

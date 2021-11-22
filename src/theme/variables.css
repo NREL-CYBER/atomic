@@ -4,7 +4,19 @@
  * For more information, please see
  * https://www.ionicframework.com/docs/theming/
  */
+ .pretty-json-container{
+  background-color: clear!important;
+ } 
+ .object-content{
+   background-color:clear!important;
+ }
+ .object-container{
 
+  background-color: clear!important;
+ }
+.react-json-view{
+  background-color: rgba(0,0,0,0)!important;
+}
 
  input:-webkit-autofill,
  input:-webkit-autofill:hover,

@@ -215,7 +215,19 @@ const AppForm = props => {
         });
       }
     }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppItem, {
-      onClick: () => setShowNestedFrom(x => !x)
+      onClick: e => {
+        const className = e.target.className;
+        console.log(e.target.nodeName);
+
+        if (typeof className === "undefined" || e.target.nodeName === "svg") {
+          console.log("OK");
+          return;
+        } else {
+          console.log("NOT OK");
+        }
+
+        setShowNestedFrom(x => !x);
+      }
     }, /*#__PURE__*/React.createElement(AppFormLabel, {
       name: formated_title,
       required: required,

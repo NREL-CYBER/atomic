@@ -19,11 +19,15 @@ interface textProps {
  * https://ionicframework.com/docs/api/textarea
  * As it says in ionic doc, this is not for inline children text, set the inner value by using the value param
  */
-const AppTextArea: React.FC<textProps> = ({ onTextChange, rows = 3, ...props }) => {
+const AppTextArea: React.FC<textProps> = ({ onTextChange, rows = 2, ...props }) => {
+    console.log("text area")
+    const isLong = JSON.stringify(props.value || "").length > 100;
+
     return <IonTextarea
+        style={{ minHeight: "100px!important" }}
         debounce={100}
+        autoGrow={isLong}
         rows={rows}
-        autoGrow
         onIonChange={(event) => { onTextChange(event.detail.value!) }} {...props} />
 };
 export default AppTextArea;

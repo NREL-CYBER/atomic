@@ -184,7 +184,13 @@ const AppFormArrayInput = props => {
       key: i,
       color: "paper",
       onClick: e => {
-        const isCloseButton = e.target.className.split(' ').includes("close-button");
+        const className = e.target.className || "";
+
+        if (typeof className !== "string" || e.target.nodeName === "svg") {
+          return;
+        }
+
+        const isCloseButton = className.split(' ').includes("close-button");
 
         if (!isCloseButton) {
           editItem(i);

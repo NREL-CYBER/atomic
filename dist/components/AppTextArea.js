@@ -11,13 +11,18 @@ import React from 'react';
  */
 const AppTextArea = ({
   onTextChange,
-  rows = 3,
+  rows = 2,
   ...props
 }) => {
+  console.log("text area");
+  const isLong = JSON.stringify(props.value || "").length > 100;
   return /*#__PURE__*/React.createElement(IonTextarea, _extends({
+    style: {
+      minHeight: "100px!important"
+    },
     debounce: 100,
+    autoGrow: isLong,
     rows: rows,
-    autoGrow: true,
     onIonChange: event => {
       onTextChange(event.detail.value);
     }

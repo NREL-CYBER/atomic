@@ -172,7 +172,11 @@ const AppFormArrayInput = (props: formInputProps) => {
         {
             value && value.filter(Boolean).map((val, i) => {
                 return <AppItem lines="none" key={i} color='paper' onClick={(e) => {
-                    const isCloseButton = (e.target as any).className.split(' ').includes("close-button")
+                    const className = (e.target as any).className || "";
+                    if (typeof className !== "string" || (e.target as any).nodeName === "svg") {
+                        return;
+                    }
+                    const isCloseButton = (className).split(' ').includes("close-button")
                     if (!isCloseButton) {
                         editItem(i)
                     }

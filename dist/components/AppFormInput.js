@@ -91,6 +91,9 @@ const AppFormInput = props => {
       width: "100%"
     }
   }, /*#__PURE__*/React.createElement(AppTextArea, {
+    css: {
+      minHeight: "200!important"
+    },
     rows: property === "description" ? 3 : 1,
     placeholder: description,
     color: "dark",
