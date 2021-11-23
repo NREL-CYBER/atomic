@@ -1,5 +1,8 @@
+import { AppCol, AppGrid, AppRow, AppText, AppChip } from "atomic";
+import { isArray } from "lodash";
+import { isNull } from "../util";
+import { AppTable, AppTableList } from "./global/AppTable";
 import React from "react";
-import ReactJson from "react-json-view";
 export const AppJsonDisplay = ({
   customRenderMap,
   propertyInfo,
@@ -13,17 +16,44 @@ export const AppJsonDisplay = ({
 
   const length = String(JSON.stringify(value)).length;
   const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || "";
-  return /*#__PURE__*/React.createElement(ReactJson, {
-    css: {
-      backgroundColor: "clear"
-    },
-    theme: "ashes",
-    enableClipboard: false,
-    collapsed: JSON.stringify(value).length > 30,
-    displayObjectSize: false,
-    name: false,
-    displayDataTypes: false,
-    src: value
-  });
+
+  if (typeof value === "undefined" || isNull(value)) {
+    return /*#__PURE__*/React.createElement(React.Fragment, null);
+  }
+
+  if (typeof value === "string") {
+    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
+      size: "2"
+    }), /*#__PURE__*/React.createElement(AppCol, {
+      size: "20"
+    }, value.length > 50 ? /*#__PURE__*/React.createElement(AppText, null, value) : /*#__PURE__*/React.createElement(AppChip, null, value)), /*#__PURE__*/React.createElement(AppCol, {
+      size: "2"
+    })));
+  }
+
+  if (typeof value === "object") {
+    if (isArray(value)) {
+      if (typeof value[0] === "string") {
+        return /*#__PURE__*/React.createElement(AppChip, null, value.join(","));
+      }
+
+      return /*#__PURE__*/React.createElement(AppCol, {
+        size: "20"
+      }, /*#__PURE__*/React.createElement(AppTable, {
+        columns: Object.keys(value[0] || {}).filter(x => x !== "uuid"),
+        data: value
+      }));
+    }
+
+    return /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, {
+      size: "20"
+    }, /*#__PURE__*/React.createElement(AppTableList, {
+      type: title,
+      rows: Object.keys(value).filter(x => x !== "uuid"),
+      data: [value]
+    }))));
+  }
+
+  return /*#__PURE__*/React.createElement(React.Fragment, null, String(value) + " " + typeof value, "TEST");
 };
 export const VisualizeValue = AppJsonDisplay;

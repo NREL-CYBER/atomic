@@ -28,7 +28,7 @@ const Home = () => {
   }, [setPathState]);
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, {
     next: true
-  }, /*#__PURE__*/React.createElement(VisualizeValue, {
+  }, /*#__PURE__*/React.createElement(AppCard, null, /*#__PURE__*/React.createElement(VisualizeValue, {
     value: {
       "uuid": "1c6d044c-ee2f-4f4a-89b2-a66dbeca5404",
       "metadata": {
@@ -38,12 +38,12 @@ const Home = () => {
         "oscal_version": "1.0.0"
       },
       "import_profile": {
-        "href": ""
+        "href": "HTTPS://Google.com"
       },
       "system_characteristics": {
-        "system_ids": [],
-        "system_name": "",
-        "description": "",
+        "system_ids": ["NICE"],
+        "system_name": "TEST",
+        "description": "YEAH",
         "security_sensitivity_level": "",
         "system_information": {
           "information_types": []
@@ -61,8 +61,13 @@ const Home = () => {
         }
       },
       "system_implementation": {
-        "users": [],
-        "components": []
+        "users": [{
+          nice: "ok"
+        }],
+        "components": [{
+          nice: "ok",
+          "yeah": "nice"
+        }]
       },
       "control_implementation": {
         "description": "",
@@ -73,7 +78,7 @@ const Home = () => {
       }
     },
     propertyInfo: {}
-  }), /*#__PURE__*/React.createElement(AppCard, {
+  })), /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "tertiary",
     titleColor: "secondary",
     title: "Welcome to atomic",
