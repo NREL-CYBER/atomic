@@ -2,9 +2,8 @@ import { AppCol, AppGrid, AppRow, AppText, AppChip } from "atomic";
 import { isArray } from "lodash";
 import { PropertyDefinitionRef } from "validator";
 import { isNull } from "../util";
-import { AppTableList } from "./global/AppTable";
+import { AppTable, AppTableList } from "./global/AppTable";
 import React from "react";
-import ReactJson from "react-json-view";
 
 export const AppJsonDisplay: React.FC<{ customRenderMap?: Record<string, React.FC<{ value: any }>>, value: any, propertyInfo: PropertyDefinitionRef }> = ({ customRenderMap, propertyInfo, value }) => {
     const id = propertyInfo.$id || propertyInfo.$ref;
@@ -13,6 +12,44 @@ export const AppJsonDisplay: React.FC<{ customRenderMap?: Record<string, React.F
     }
     const length = String(JSON.stringify(value)).length;
     const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || ""
-    return <ReactJson css={{ backgroundColor: "clear" }} theme="ashes" enableClipboard={false} collapsed={JSON.stringify(value).length > 30} displayObjectSize={false} name={false} displayDataTypes={false} src={value} />
+    if (typeof value === "undefined" || isNull(value)) {
+        return <></>
+    }
+    if (typeof value === "string") {
+        return <AppGrid>
+            <AppRow>
+                <AppCol size="2" >
+                </AppCol>
+                <AppCol size="20">
+                    {value.length > 50 ? <AppText>{value}</AppText> : <AppChip>
+                        {value}
+                    </AppChip>}
+                </AppCol>
+                <AppCol size="2" >
+                </AppCol>
+            </AppRow>
+
+        </AppGrid>
+    }
+    if (typeof value === "object") {
+
+        if (isArray(value)) {
+            if (typeof value[0] === "string") {
+                return <AppChip>{value.join(",")}</AppChip>
+            }
+            return <AppCol size="20">
+                {<AppTable columns={Object.keys(value[0] || {}).filter(x => x !== "uuid")} data={value} />}
+            </AppCol>
+        }
+        return <AppGrid>
+            <AppRow>
+                <AppCol size="20">
+                    {<AppTableList type={title} rows={Object.keys(value).filter(x => x !== "uuid")} data={[value]} />}
+                </AppCol>
+            </AppRow>
+        </AppGrid>
+    }
+
+    return <>{String(value) + " " + typeof (value)}TEST</>
 }
 export const VisualizeValue = AppJsonDisplay;
