@@ -4,14 +4,22 @@ import { PropertyDefinitionRef } from "validator";
 import { isNull } from "../util";
 import { AppTable, AppTableList } from "./global/AppTable";
 import React from "react";
+import { useState } from "react";
 
 export const AppJsonDisplay: React.FC<{ customRenderMap?: Record<string, React.FC<{ value: any }>>, value: any, propertyInfo: PropertyDefinitionRef }> = ({ customRenderMap, propertyInfo, value }) => {
     const id = propertyInfo.$id || propertyInfo.$ref;
+    const [show, setShow] = useState(false);
+    const length = String(JSON.stringify(value)).length;
+    const type = typeof value;
+    if (!show && length > 100) {
+        return <AppChip onClick={() => setShow(true)}>{length} byte {type}</AppChip>
+    }
     if (id && customRenderMap && typeof customRenderMap[id] !== "undefined") {
         return customRenderMap[id](value)
     }
-    const length = String(JSON.stringify(value)).length;
     const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || ""
+
+
     if (typeof value === "undefined" || isNull(value)) {
         return <></>
     }
@@ -50,6 +58,6 @@ export const AppJsonDisplay: React.FC<{ customRenderMap?: Record<string, React.F
         </AppGrid>
     }
 
-    return <>{String(value) + " " + typeof (value)}TEST</>
+    return <>{String(value) + " " + typeof (value)}</>
 }
 export const VisualizeValue = AppJsonDisplay;

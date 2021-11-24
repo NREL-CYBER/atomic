@@ -1,4 +1,5 @@
 import { AppBadge, AppButtons, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, prettyTitle } from "atomic";
+import { isArray } from "lodash";
 import React, { useState } from "react";
 import { VisualizeValue } from "../AppJsonDisplay";
 export const AppTableList = ({
@@ -30,9 +31,9 @@ export const AppTableList = ({
         padding: 4,
         textAlign: "left"
       }
-    }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppBadge, {
+    }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement(AppBadge, {
       color: "clear"
-    }, row)))), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement("div", {
+    }, prettyTitle(row))))))), /*#__PURE__*/React.createElement(AppCol, null, /*#__PURE__*/React.createElement("div", {
       style: {
         width: "100%",
         textAlign: "right",
@@ -52,7 +53,7 @@ export const AppTable = ({
   columns,
   data
 }) => {
-  const [columnNames] = useState(columns.filter(x => x !== "uuid"));
+  const [columnNames] = useState(columns.filter(x => x !== "uuid").filter(column => data.map(row => JSON.stringify(row[column] || "").length)));
 
   if (typeof data === "undefined" || JSON.stringify(data) === "{}") {
     return /*#__PURE__*/React.createElement(AppChip, {
@@ -76,9 +77,9 @@ export const AppTable = ({
     style: {
       textAlign: "left"
     }
-  }, /*#__PURE__*/React.createElement(AppBadge, {
-    color: "light"
-  }, prettyTitle(name))))), data && data.map && data.map((item, i) => /*#__PURE__*/React.createElement("tr", {
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppLabel, {
+    color: "dark"
+  }, prettyTitle(name)))))), data && data.map && data.map((item, i) => /*#__PURE__*/React.createElement("tr", {
     style: {
       textAlign: "center",
       backgroundColor: i % 2 === 0 ? "rgba(0,0,0,0.015)" : "rgba(0,0,0,0.05)"
@@ -95,6 +96,6 @@ export const AppTable = ({
       style: {
         textAlign: "left!important"
       }
-    }, /*#__PURE__*/React.createElement(AppLabel, null, ['string', 'number'].includes(typeof item[column]) && item[column])));
+    }, /*#__PURE__*/React.createElement(AppLabel, null, ['string', 'number'].includes(typeof item[column]) && item[column], ['object'].includes(typeof item[column]) && JSON.stringify(item[column]), isArray(item[column]) && "[" + item[column].length + "]")));
   }))));
 };

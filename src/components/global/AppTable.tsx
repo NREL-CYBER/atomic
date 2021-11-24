@@ -1,6 +1,4 @@
-import { ItemReorderEventDetail } from "@ionic/core"
 import { AppBadge, AppButtons, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, AppTitle, prettyTitle } from "atomic"
-import produce from "immer"
 import { isArray } from "lodash"
 import React, { useState } from "react"
 import { VisualizeValue } from "../AppJsonDisplay"
@@ -36,9 +34,14 @@ export const AppTableList: React.FC<appListTableProps> = ({ rows, data }) => {
                                     textAlign: "left"
                                 }}>
                                     <AppGrid>
-                                        <AppBadge color="clear">
-                                            {row}
-                                        </AppBadge>
+                                        <AppRow>
+                                            <AppCol>
+
+                                                <AppBadge color="clear">
+                                                    {prettyTitle(row)}
+                                                </AppBadge>
+                                            </AppCol>
+                                        </AppRow>
                                     </AppGrid>
                                 </div>
                             </AppCol>
@@ -74,7 +77,9 @@ export const AppTableList: React.FC<appListTableProps> = ({ rows, data }) => {
 }
 
 export const AppTable: React.FC<appTableProps> = ({ columns, data }) => {
-    const [columnNames] = useState(columns.filter(x => x !== "uuid"))
+    const [columnNames] = useState(columns.filter(x => x !== "uuid").filter(column =>
+        data.map(row => JSON.stringify(row[column] || "").length)
+    ))
 
     if (typeof data === "undefined" || JSON.stringify(data) === "{}") {
         return <AppChip color="warning">undefined</AppChip>
@@ -83,9 +88,12 @@ export const AppTable: React.FC<appTableProps> = ({ columns, data }) => {
         <tr style={{ borderRadius: 10, backgroundColor: "rgba(2,2,2,0.1)" }}>
             {/* <AppReorderGroup disabled={false} onReorder={doReorder}> */}
             {columnNames.map((name) => <th style={{ textAlign: "left" }}>
-                <AppBadge color="light">
-                    {prettyTitle(name)}
-                </AppBadge>
+                <AppGrid>
+
+                    <AppLabel color="dark">
+                        {prettyTitle(name)}
+                    </AppLabel>
+                </AppGrid>
             </th>
             )}
         </tr>
@@ -107,6 +115,8 @@ export const AppTable: React.FC<appTableProps> = ({ columns, data }) => {
                         }}>
                             <AppLabel>
                                 {['string', 'number'].includes(typeof item[column]) && (item[column])}
+                                {['object'].includes(typeof item[column]) && JSON.stringify(item[column])}
+                                {isArray(item[column]) && "[" + item[column].length + "]"}
                             </AppLabel>
                         </div>
                     </td>

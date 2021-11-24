@@ -3,18 +3,27 @@ import { isArray } from "lodash";
 import { isNull } from "../util";
 import { AppTable, AppTableList } from "./global/AppTable";
 import React from "react";
+import { useState } from "react";
 export const AppJsonDisplay = ({
   customRenderMap,
   propertyInfo,
   value
 }) => {
   const id = propertyInfo.$id || propertyInfo.$ref;
+  const [show, setShow] = useState(false);
+  const length = String(JSON.stringify(value)).length;
+  const type = typeof value;
+
+  if (!show && length > 100) {
+    return /*#__PURE__*/React.createElement(AppChip, {
+      onClick: () => setShow(true)
+    }, length, " byte ", type);
+  }
 
   if (id && customRenderMap && typeof customRenderMap[id] !== "undefined") {
     return customRenderMap[id](value);
   }
 
-  const length = String(JSON.stringify(value)).length;
   const title = propertyInfo.title || propertyInfo.$ref || propertyInfo.$id || "";
 
   if (typeof value === "undefined" || isNull(value)) {
@@ -54,6 +63,6 @@ export const AppJsonDisplay = ({
     }))));
   }
 
-  return /*#__PURE__*/React.createElement(React.Fragment, null, String(value) + " " + typeof value, "TEST");
+  return /*#__PURE__*/React.createElement(React.Fragment, null, String(value) + " " + typeof value);
 };
 export const VisualizeValue = AppJsonDisplay;

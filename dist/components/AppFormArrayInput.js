@@ -96,8 +96,8 @@ const AppFormArrayInput = props => {
       }
     }));
     const validationResult = onChange(property, newValue);
+    setValue(newValue);
     validationResult.then(([validationStatus, errors]) => {
-      setValue(newValue);
       setErrors(errors);
 
       if (errors) {
