@@ -107,6 +107,7 @@ const AppForm = props => {
     const property = data.property;
     const resolve = deferedValidationPromises[uuid];
     setIsValid(allErrors.length === 0);
+    console.log(allErrors);
     const parsedErrors = allErrors.map(x => "" + (x.instancePath.split("/").join("").length > 0 ? "'" + x.instancePath.split("/").join("") + "'" : "'" + x.params?.missingProperty + "'") + " " + x.keyword + " " + x.message);
     const propertyErrors = parsedErrors.filter(x => x.includes("'" + property + "'"));
     const otherErrors = parsedErrors.filter(x => !x.includes("'" + property + "'"));
@@ -125,6 +126,8 @@ const AppForm = props => {
 
   const handleInputReceived = (property, value) => {
     return new Promise(async resolve => {
+      console.log(value);
+
       if (objectSchema.type === "string" || objectSchema.type === "array" || objectSchema.type === "number") {
         instance.current = value;
       } else if (objectSchema.type === "object") {
