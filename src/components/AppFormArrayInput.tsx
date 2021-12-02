@@ -3,7 +3,7 @@ import { AppBadge, AppCol, AppGrid, AppLabel, AppRow, AppText } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, isNull, values } from "lodash";
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { PropertyDefinitionRef } from "validator";
 import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
@@ -93,8 +93,8 @@ const AppFormArrayInput = (props: formInputProps) => {
         }));
 
         const validationResult = onChange(property, newValue)
-        setValue(newValue);
         validationResult.then(([validationStatus, errors]) => {
+            setValue(newValue);
             setErrors(errors); if (errors) {
                 return;
             }
@@ -170,7 +170,7 @@ const AppFormArrayInput = (props: formInputProps) => {
             </AppModal>}
         </div>
         {
-            value && value.filter(Boolean).map((val, i) => {
+            useMemo(() => value && value.filter(Boolean).map((val, i) => {
                 return <AppItem lines="none" key={i} color='paper' onClick={(e) => {
                     const className = (e.target as any).className || "";
                     if (typeof className !== "string" || (e.target as any).nodeName === "svg") {
@@ -199,7 +199,7 @@ const AppFormArrayInput = (props: formInputProps) => {
                         </AppButton>
                     </AppButtons>
                 </AppItem>
-            })
+            }), [customRenderMap, deleteItem, editItem, propertyInfo, value])
         }
 
         {

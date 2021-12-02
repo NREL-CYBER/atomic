@@ -3,7 +3,7 @@ import { AppLabel } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppForm, AppIcon, AppItem, AppModal } from '.';
 import { isUndefined, removeAtIndex } from '../util';
 import prettyTitle from '../util/prettyTitle';
@@ -96,8 +96,8 @@ const AppFormArrayInput = props => {
       }
     }));
     const validationResult = onChange(property, newValue);
-    setValue(newValue);
     validationResult.then(([validationStatus, errors]) => {
+      setValue(newValue);
       setErrors(errors);
 
       if (errors) {
@@ -178,7 +178,7 @@ const AppFormArrayInput = props => {
     onSubmit: onSubmitItem
   }, /*#__PURE__*/React.createElement(AppBackButton, {
     onClick: () => onBackPressed()
-  })))), value && value.filter(Boolean).map((val, i) => {
+  })))), useMemo(() => value && value.filter(Boolean).map((val, i) => {
     return /*#__PURE__*/React.createElement(AppItem, {
       lines: "none",
       key: i,
@@ -216,7 +216,7 @@ const AppFormArrayInput = props => {
     }, /*#__PURE__*/React.createElement(AppIcon, {
       icon: removeOutline
     }))));
-  }), value.length > 0 && /*#__PURE__*/React.createElement(AppItem, {
+  }), [customRenderMap, deleteItem, editItem, propertyInfo, value]), value.length > 0 && /*#__PURE__*/React.createElement(AppItem, {
     onClick: id => beginInsertItem(value.length)
   }, /*#__PURE__*/React.createElement(AppLabel, null, /*#__PURE__*/React.createElement(AppIcon, {
     color: "primary",

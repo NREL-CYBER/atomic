@@ -10,7 +10,7 @@ import {
     AppList, AppLoadingCard, AppModal, AppText,
     AppTitle, AppToolbar, AppUuidGenerator
 } from '..';
-import { prettyTitle, titleCase } from '../../util';
+import { isNull, prettyTitle, titleCase } from '../../util';
 import AppFormAnyOfArrayInput from '../AppFormAnyOfArrayInput';
 import { inputStatusColorMap } from '../AppFormInput';
 import AppFormSelectArray from '../AppFormSelectArray';
@@ -178,6 +178,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
 
     const handleInputReceived: formFieldChangeEvent = (property: string, value: any) => {
         return new Promise<formFieldValidationStatus>(async (resolve) => {
+
             if (objectSchema.type === "string" || objectSchema.type === "array" || objectSchema.type === "number") {
                 instance.current = value;
             } else if (objectSchema.type === "object") {
@@ -189,6 +190,9 @@ const AppForm: React.FC<formNodeProps> = (props) => {
                         instance.current = { ...instance.current, [calculatedFieldValue.property]: calculatedFieldValue.value };
                     }
                 }
+            }
+            if (typeof value === "undefined" || isNull(value)) {
+                delete instance.current[property];
             }
             if (triggeringFields.includes(property)) {
                 setReRenderDependents(x => x + 1)
