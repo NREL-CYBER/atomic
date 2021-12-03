@@ -160,7 +160,7 @@ const AppForm: React.FC<formNodeProps> = (props) => {
         const resolve = deferedValidationPromises[uuid]
         setIsValid(allErrors.length === 0)
         console.log(allErrors)
-        const parsedErrors = allErrors.map((x: any) => "" + ((x.instancePath.split("/").join("")).length > 0 ? "'" + x.instancePath.split("/").join("") + "'" : "'" + x.params?.missingProperty + "'") + " " + x.keyword + " " + x.message);
+        const parsedErrors = allErrors.map((x: any) => "" + ((x.instancePath.split("/").join("")).length > 0 ? "'" + x.instancePath.split("/").join("") + "'" : "'" + x.params && x.params.missingProperty + "'") + " " + x.keyword + " " + x.message);
         const propertyErrors = parsedErrors.filter((x: string) => x.includes("'" + property + "'"))
         const otherErrors = parsedErrors.filter((x: string) => !x.includes("'" + property + "'"))
         setErrors(otherErrors);
