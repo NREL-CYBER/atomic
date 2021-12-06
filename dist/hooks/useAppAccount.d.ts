@@ -1,5 +1,5 @@
 import { Store } from "store";
-import { UseBoundStore } from "zustand";
+import { UseStore } from "zustand";
 import { AppConfig } from "../util";
 import { authProvider } from "../util/AppConfig";
 /**
@@ -20,7 +20,7 @@ export declare type AccountCache = {
     /**
      * Credential Store hook
      */
-    credential: UseBoundStore<Store<UserCredential>>;
+    credential: UseStore<Store<UserCredential>>;
 };
 export declare const account: AccountCache;
 /**
@@ -28,5 +28,5 @@ export declare const account: AccountCache;
  *  storing all the routes
  *  and knowing the nested page and determining the next page.
  */
-declare const useAppAccount: UseBoundStore<AppAccountState, import("zustand").StoreApi<AppAccountState>>;
+declare const useAppAccount: import("zustand").UseBoundStore<AppAccountState, import("zustand").StoreApi<AppAccountState>>;
 export default useAppAccount;

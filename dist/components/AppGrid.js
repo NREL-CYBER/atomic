@@ -10,12 +10,16 @@ import { ConentScrollBarStyle } from './AppContent';
  * anything is possible!
  */
 const AppGrid = props => {
+  var _gridRef$current2;
+
   const gridRef = useRef(null);
   useLayoutEffect(() => {
+    var _gridRef$current, _gridRef$current$shad;
+
     const styles = document.createElement('style');
     styles.textContent = ConentScrollBarStyle;
-    gridRef.current?.shadowRoot?.appendChild(styles);
-  }, [gridRef.current?.shadowRoot, gridRef]);
+    (_gridRef$current = gridRef.current) === null || _gridRef$current === void 0 ? void 0 : (_gridRef$current$shad = _gridRef$current.shadowRoot) === null || _gridRef$current$shad === void 0 ? void 0 : _gridRef$current$shad.appendChild(styles);
+  }, [(_gridRef$current2 = gridRef.current) === null || _gridRef$current2 === void 0 ? void 0 : _gridRef$current2.shadowRoot, gridRef]);
   return /*#__PURE__*/React.createElement(IonGrid, _extends({
     ref: gridRef
   }, props));

@@ -18,6 +18,8 @@ const AppTopToolbar = ({
   children,
   config
 }) => {
+  var _config$topBar, _config$topBar2, _config$topBar3, _config$topBar4;
+
   const {
     about,
     search
@@ -59,7 +61,9 @@ const AppTopToolbar = ({
   const hideAbout = typeof about === "undefined";
   useEffect(() => {
     const listener = e => {
-      if (!searchBar.current?.contains(e.target)) {
+      var _searchBar$current;
+
+      if (!((_searchBar$current = searchBar.current) !== null && _searchBar$current !== void 0 && _searchBar$current.contains(e.target))) {
         setShowSearch(false);
         setQuery("");
       }
@@ -78,13 +82,13 @@ const AppTopToolbar = ({
     color: bgColor
   }, /*#__PURE__*/React.createElement(AppButtons, {
     slot: "start"
-  }, /*#__PURE__*/React.createElement(AppMenuButton, null), config.topBar?.start, /*#__PURE__*/React.createElement(AppButton, {
+  }, /*#__PURE__*/React.createElement(AppMenuButton, null), (_config$topBar = config.topBar) === null || _config$topBar === void 0 ? void 0 : _config$topBar.start, /*#__PURE__*/React.createElement(AppButton, {
     expand: "full",
     routerLink: "/"
   }, /*#__PURE__*/React.createElement(AppTitle, {
     color: isHome ? titleColor : undefined
   }, /*#__PURE__*/React.createElement(AppIcon, {
-    icon: config.topBar?.homeIcon ? config.topBar?.homeIcon : homeOutline
+    icon: (_config$topBar2 = config.topBar) !== null && _config$topBar2 !== void 0 && _config$topBar2.homeIcon ? (_config$topBar3 = config.topBar) === null || _config$topBar3 === void 0 ? void 0 : _config$topBar3.homeIcon : homeOutline
   }), " ")), !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(AppButton, {
     key: breadCrumb.path,
     color: breadCrumb.path === pathname ? "tertiary" : undefined,
@@ -97,14 +101,14 @@ const AppTopToolbar = ({
     fill: "solid"
   }, /*#__PURE__*/React.createElement(AppTitle, null, title)), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
-  }, config.topBar?.end, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
+  }, (_config$topBar4 = config.topBar) === null || _config$topBar4 === void 0 ? void 0 : _config$topBar4.end, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
     smol: true,
     title: appTitle + " (" + version + ")",
     onDismiss: () => {
       setShowAbout(false);
     },
     isOpen: showAbout
-  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, about?.component))), !hideAbout && /*#__PURE__*/React.createElement(AppButton, {
+  }, /*#__PURE__*/React.createElement(AppGrid, null, /*#__PURE__*/React.createElement(AppRow, null, about === null || about === void 0 ? void 0 : about.component))), !hideAbout && /*#__PURE__*/React.createElement(AppButton, {
     fill: "clear",
     onClick: () => {
       setShowAbout(x => !x);

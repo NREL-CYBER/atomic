@@ -37,7 +37,7 @@ export const AppCollectionInterface = ({
   const [status, setStatus] = useState(selected ? "view" : "idle");
 
   const beginInsert = () => {
-    changeStatus("edit", "");
+    changeStatus("create", "");
   };
 
   const beginEdit = active => {
@@ -117,13 +117,13 @@ export const AppCollectionInterface = ({
     rootSchema: schema,
     objectSchema: schema.definitions[collection],
     data: selected || {},
-    hiddenFields: formProps?.hiddenFields
+    hiddenFields: formProps === null || formProps === void 0 ? void 0 : formProps.hiddenFields
   }, formProps, {
     onSubmit: s => {
       const id = s[identifier];
       insert(id, s).then(() => {
         beginView(id);
-        formProps?.onSubmit && formProps.onSubmit(s);
+        (formProps === null || formProps === void 0 ? void 0 : formProps.onSubmit) && formProps.onSubmit(s);
       });
     }
   }))))));

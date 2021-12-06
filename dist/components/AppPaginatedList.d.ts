@@ -1,6 +1,6 @@
 import React from "react";
 import { Store } from "store";
-import { UseBoundStore } from "zustand";
+import { UseStore } from "zustand";
 import { columnAmount } from "./AppCol";
 import { selectButtonProps } from "./AppSelectButtons";
 export declare const AppPaginatedList: React.FC<{
@@ -10,7 +10,7 @@ export declare const AppPaginatedList: React.FC<{
         multi: boolean;
         options: selectButtonProps[];
     }>;
-    store: UseBoundStore<Store<any>>;
+    store: UseStore<Store<any>>;
     pageSize?: number;
     itemSize?: {
         xs?: columnAmount;

@@ -44,8 +44,8 @@ const AppFormInteger = props => {
     name: propertyFormattedName,
     color: statusColor
   }), useMemo(() => /*#__PURE__*/React.createElement(AppInput, {
-    min: propertyInfo?.minumum,
-    max: propertyInfo?.maximum,
+    min: propertyInfo === null || propertyInfo === void 0 ? void 0 : propertyInfo.minumum,
+    max: propertyInfo === null || propertyInfo === void 0 ? void 0 : propertyInfo.maximum,
     type: "number",
     value: value,
     placeholder: propertyFormattedName,

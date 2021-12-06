@@ -132,7 +132,7 @@ const AppRoot = config => {
     })));
   }
 
-  const fixedMainMenu = typeof mainMenu?.fixed !== "undefined" && mainMenu.fixed;
+  const fixedMainMenu = typeof (mainMenu === null || mainMenu === void 0 ? void 0 : mainMenu.fixed) !== "undefined" && mainMenu.fixed;
   return /*#__PURE__*/React.createElement(IonApp, {
     className: darkMode ? "dark-theme" : "light-theme"
   }, serverStatus !== "connected" && cache && /*#__PURE__*/React.createElement(AppSerializer, {

@@ -41,7 +41,9 @@ const AppModal = props => {
     slot: "end"
   }, /*#__PURE__*/React.createElement(AppButton, {
     onClick: () => {
-      ref.current?.dismiss();
+      var _ref$current;
+
+      (_ref$current = ref.current) === null || _ref$current === void 0 ? void 0 : _ref$current.dismiss();
     },
     color: "danger",
     fill: "clear"

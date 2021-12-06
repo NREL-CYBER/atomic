@@ -1,5 +1,5 @@
 import { composeStore, Store } from "store";
-import create, { UseBoundStore } from "zustand";
+import create, { UseStore } from "zustand";
 import { AppConfig } from "../util";
 import { authProvider } from "../util/AppConfig";
 
@@ -61,12 +61,12 @@ export type AccountCache = {
     /**
      * Credential Store hook
      */
-    credential: UseBoundStore<Store<UserCredential>>
+    credential: UseStore<Store<UserCredential>>
 }
 export const account: AccountCache = {
     credential: composeStore({
         schema,
-    })
+    }) as any
 }
 
 /**

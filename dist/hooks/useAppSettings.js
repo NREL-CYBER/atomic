@@ -11,6 +11,8 @@ export const useAppSettings = create((set, settings) => ({
   initialized: false,
   authorized: false,
   initialize: async appConfig => {
+    var _appConfig$mainMenu;
+
     const savedSettings = (await get("atomic-settings")) || "{}";
     const cacheFields = { ...JSON.parse(savedSettings)
     }; // Combine serialized settings and app-config
@@ -31,7 +33,7 @@ export const useAppSettings = create((set, settings) => ({
       authorized,
       endpoint,
       initialized: true,
-      sections: appConfig.mainMenu?.sections || {}
+      sections: ((_appConfig$mainMenu = appConfig.mainMenu) === null || _appConfig$mainMenu === void 0 ? void 0 : _appConfig$mainMenu.sections) || {}
     });
     settings().serialize();
   },

@@ -431,7 +431,9 @@ const AppForm = props => {
     }
 
     if (propertyType === "array") {
-      return typeof propertyInfo.items?.anyOf === "undefined" ? /*#__PURE__*/React.createElement(AppFormArrayInput, {
+      var _propertyInfo$items;
+
+      return typeof ((_propertyInfo$items = propertyInfo.items) === null || _propertyInfo$items === void 0 ? void 0 : _propertyInfo$items.anyOf) === "undefined" ? /*#__PURE__*/React.createElement(AppFormArrayInput, {
         rootSchema: rootSchema,
         required: required,
         objectSchema: findSubSchema(rootSchema, objectSchema, propertyInfo),
@@ -527,7 +529,7 @@ const AppForm = props => {
     });
     return /*#__PURE__*/React.createElement(FormElement, {
       propertyInfo: objectSchema.properties && objectSchema.properties[property],
-      required: showFields ? !showFields?.includes(property) : true,
+      required: showFields ? !(showFields !== null && showFields !== void 0 && showFields.includes(property)) : true,
       context: context,
       rootSchema: rootSchema,
       objectSchema: objectSchema,
@@ -657,8 +659,10 @@ const AppForm = props => {
 
 export default AppForm;
 export function findSubSchema(schema, objectSchema, propertyInfo) {
+  var _propertyInfo$items2;
+
   const definitions = Object.values(schema.definitions || {});
-  const definition_id = propertyInfo.$ref || propertyInfo.items?.$ref;
+  const definition_id = propertyInfo.$ref || ((_propertyInfo$items2 = propertyInfo.items) === null || _propertyInfo$items2 === void 0 ? void 0 : _propertyInfo$items2.$ref);
   const matchingDefinition = definition_id && definitions.find(x => x.$id === definition_id);
 
   if (matchingDefinition) {

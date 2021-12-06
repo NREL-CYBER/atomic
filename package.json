@@ -34,7 +34,7 @@
     "uuid": "^8.3.2",
     "validator": "https://github.com/NREL-CYBER/validator",
     "workerize-loader": "^1.3.0",
-    "zustand": "^3.6.1"
+    "zustand": "^3.6.6"
   },
   "scripts": {
     "start": "ionic s",
@@ -90,6 +90,9 @@
   },
   "description": "Atomic: A Framework Component Library for Ionic/Electron Apps",
   "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-optional-chaining"
+    ],
     "presets": [
       "@babel/preset-react"
     ]

@@ -1,7 +1,7 @@
 import { arrowBackOutline, arrowForwardOutline } from "ionicons/icons";
 import React, { useEffect, useMemo, useState } from "react";
 import { Store } from "store";
-import { UseBoundStore } from "zustand";
+import { UseStore } from "zustand";
 import { AppButton, AppButtons, AppCard, AppChip, AppCol, AppGrid, AppRow, AppSearchBar, AppSelectButtons } from "./";
 import { columnAmount } from "./AppCol";
 import AppIcon from "./AppIcon";
@@ -14,7 +14,7 @@ export const AppPaginatedList: React.FC<{
     title?: React.ReactFragment,
     search?: boolean,
     filterCategories?: Record<string, { multi: boolean, options: selectButtonProps[] }>,
-    store: UseBoundStore<Store<any>>
+    store: UseStore<Store<any>>
     pageSize?: number
     itemSize?: { xs?: columnAmount, md?: columnAmount, lg?: columnAmount }
     renderItem: React.FC<Record<string, any>>

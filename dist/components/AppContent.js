@@ -30,12 +30,16 @@ export const ConentScrollBarStyle = `
  */
 
 const AppContent = props => {
+  var _contentRef$current2;
+
   const contentRef = useRef(null);
   useLayoutEffect(() => {
+    var _contentRef$current, _contentRef$current$s;
+
     const styles = document.createElement('style');
     styles.textContent = ConentScrollBarStyle;
-    contentRef.current?.shadowRoot?.appendChild(styles);
-  }, [contentRef.current?.shadowRoot, contentRef]);
+    (_contentRef$current = contentRef.current) === null || _contentRef$current === void 0 ? void 0 : (_contentRef$current$s = _contentRef$current.shadowRoot) === null || _contentRef$current$s === void 0 ? void 0 : _contentRef$current$s.appendChild(styles);
+  }, [(_contentRef$current2 = contentRef.current) === null || _contentRef$current2 === void 0 ? void 0 : _contentRef$current2.shadowRoot, contentRef]);
   return props.center ? /*#__PURE__*/React.createElement(IonContent, {
     ref: contentRef
   }, /*#__PURE__*/React.createElement(IonGrid, null, /*#__PURE__*/React.createElement(IonRow, null, /*#__PURE__*/React.createElement(IonCol, {

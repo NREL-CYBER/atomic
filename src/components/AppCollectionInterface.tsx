@@ -6,7 +6,7 @@ import { addOutline, pencilOutline } from "ionicons/icons";
 import React, { useState } from "react";
 import ReactJson from "react-json-view";
 import { Store } from "store";
-import { UseBoundStore } from "zustand";
+import { UseStore } from "zustand";
 import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";
 import { useAppSettings } from "../hooks/useAppSettings";
 import { prettyTitle } from "../util";
@@ -22,7 +22,7 @@ export const AppCollectionInterface: React.FC<{
     search?: boolean,
     editable?: boolean,
     filterCategories?: Record<string, { multi: boolean, options: selectButtonProps[] }>,
-    store: UseBoundStore<Store<any>>
+    store: UseStore<Store<any>>
     pageSize?: number
     itemSize?: { xs?: columnAmount, md?: columnAmount, lg?: columnAmount }
     renderItem?: React.FC<Record<string, any>>
@@ -37,7 +37,7 @@ export const AppCollectionInterface: React.FC<{
     const { darkMode } = useAppSettings();
     const [status, setStatus] = useState<collectionInterfaceState>(selected ? "view" : "idle")
     const beginInsert = () => {
-        changeStatus("edit", "");
+        changeStatus("create", "");
     }
     const beginEdit = (active: string) => {
         changeStatus("edit", active);

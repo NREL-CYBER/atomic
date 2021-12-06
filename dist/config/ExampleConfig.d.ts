@@ -1,5 +1,5 @@
 import { Store } from "store";
-import { UseBoundStore } from "zustand";
+import { UseStore } from "zustand";
 import { AppConfig } from "../util/AppConfig";
 declare type PalleteItem = {
     name: string;
@@ -8,13 +8,13 @@ declare type PalleteItem = {
     g: number;
     b: number;
 };
-declare const useAddress: UseBoundStore<Store<PalleteItem>>;
+declare const useAddress: UseStore<Store<PalleteItem>>;
 export interface MitreNode extends Record<string, any> {
     type: string;
     name: string;
     id: string;
 }
-export declare const useAttack: UseBoundStore<Store<MitreNode>, import("zustand").StoreApi<Store<MitreNode>>>;
+export declare const useAttack: UseStore<Store<MitreNode>, import("zustand").StoreApi<Store<MitreNode>>>;
 export { useAddress };
 declare const ExampleConfig: AppConfig;
 export default ExampleConfig;

@@ -6,6 +6,8 @@ import { useAppSettings } from "../../hooks/useAppSettings";
 export const AppSettingsModal = ({
   config
 }) => {
+  var _config$settings, _config$settings$show, _config$settings2, _config$settings2$sho, _config$settings3;
+
   const [showSettings, setShowSettings] = useState(false);
   const {
     darkMode,
@@ -40,8 +42,8 @@ export const AppSettingsModal = ({
     return /*#__PURE__*/React.createElement(React.Fragment, null);
   }
 
-  const showServer = typeof config.settings?.show?.server === "undefined" ? false : config.settings.show.server;
-  const showDarkMode = typeof config.settings?.show?.darkmode === "undefined" ? true : config.settings.show.darkmode;
+  const showServer = typeof ((_config$settings = config.settings) === null || _config$settings === void 0 ? void 0 : (_config$settings$show = _config$settings.show) === null || _config$settings$show === void 0 ? void 0 : _config$settings$show.server) === "undefined" ? false : config.settings.show.server;
+  const showDarkMode = typeof ((_config$settings2 = config.settings) === null || _config$settings2 === void 0 ? void 0 : (_config$settings2$sho = _config$settings2.show) === null || _config$settings2$sho === void 0 ? void 0 : _config$settings2$sho.darkmode) === "undefined" ? true : config.settings.show.darkmode;
   return showSettings ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppModal, {
     title: title + " Settings",
     isOpen: showSettings,
@@ -71,7 +73,7 @@ export const AppSettingsModal = ({
     expand: "full"
   }, "Synchronize with server"), serverStatus === "connected" && /*#__PURE__*/React.createElement(AppItem, null, /*#__PURE__*/React.createElement(AppTitle, {
     color: "favorite"
-  }, "Synchronizing data with ", endpoint)), config.settings?.component, /*#__PURE__*/React.createElement(AppButton, {
+  }, "Synchronizing data with ", endpoint)), (_config$settings3 = config.settings) === null || _config$settings3 === void 0 ? void 0 : _config$settings3.component, /*#__PURE__*/React.createElement(AppButton, {
     color: "primary",
     fill: "outline",
     expand: "full",

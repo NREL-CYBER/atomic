@@ -13282,14 +13282,14 @@ store2@^2.12.0:
 
 "store@https://github.com/NREL-CYBER/store":
   version "1.8.5"
-  resolved "https://github.com/NREL-CYBER/store#1d6c096e010ed86ee8d6989fe65ef4b099ed539d"
+  resolved "https://github.com/NREL-CYBER/store#2cf3ab66adb063e52f3b333f4e0a297712439ec5"
   dependencies:
     ajv "^7.2.1"
     ajv-formats "^1.5.1"
     immer "^8.0.2"
     uuid "^8.3.2"
     validator "https://github.com/NREL-CYBER/validator"
-    zustand "^3.6.1"
+    zustand "^3.6.6"
 
 storybook-addon-outline@^1.4.1:
   version "1.4.1"
@@ -15128,10 +15128,10 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zustand@^3.6.1:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.6.1.tgz#d309074dd632ca7b14e20353e5c55274e3d72eda"
-  integrity sha512-2ghTWZhOx3xUK7drIa/1fVbuzyG70XKfCXIATrRBFDPcRRV4V/9uptNOKgyCvPwCDYgLpla4EtFbXNbdLpfPcw==
+zustand@^3.6.6:
+  version "3.6.6"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-3.6.6.tgz#3b7473a15813f7af9784233abd052c3b4560bbcc"
+  integrity sha512-y4755cIzJHQFEHgTQ5cHrlHdmXMxm5N3DU05Q27yT6rK4lKs2336t5IsAz5q9/GRaoEz6o8SiCOPDhZd5BnneA==
 
 zwitch@^1.0.0:
   version "1.0.5"

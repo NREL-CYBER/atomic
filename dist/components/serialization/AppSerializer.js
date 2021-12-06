@@ -8,11 +8,13 @@ export const InitializeSynchronization = async (cache, serialization, uid, synch
 
   Object.entries(cache).forEach(([namespace, collections]) => {
     Object.values(collections).forEach(storeAPI => {
+      var _serialization$synchr, _serialization$synchr2;
+
       const {
         collection
       } = storeAPI.getState();
-      const customSynchronizer = serialization.synchronization?.listener(namespace, collection);
-      const customPreloader = serialization.synchronization?.preload(namespace, storeAPI.getState);
+      const customSynchronizer = (_serialization$synchr = serialization.synchronization) === null || _serialization$synchr === void 0 ? void 0 : _serialization$synchr.listener(namespace, collection);
+      const customPreloader = (_serialization$synchr2 = serialization.synchronization) === null || _serialization$synchr2 === void 0 ? void 0 : _serialization$synchr2.preload(namespace, storeAPI.getState);
 
       if (customSynchronizer && customPreloader) {
         customPreloader.then(() => {

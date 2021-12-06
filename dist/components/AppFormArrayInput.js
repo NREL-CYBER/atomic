@@ -36,6 +36,8 @@ export const findShortestValue = val => {
  */
 
 const AppFormArrayInput = props => {
+  var _propertyInfo$items, _propertyInfo$items$$;
+
   const {
     property,
     instanceRef,
@@ -114,7 +116,7 @@ const AppFormArrayInput = props => {
   const onBackPressed = useCallback(() => {
     setIsInsertingItem(false);
   }, []);
-  const itemId = propertyInfo.items?.$ref?.toString() || "";
+  const itemId = ((_propertyInfo$items = propertyInfo.items) === null || _propertyInfo$items === void 0 ? void 0 : (_propertyInfo$items$$ = _propertyInfo$items.$ref) === null || _propertyInfo$items$$ === void 0 ? void 0 : _propertyInfo$items$$.toString()) || "";
   const customItemComponent = customInputMap && customInputMap[itemId];
   const subSchema = findSubSchema(rootSchema, objectSchema, propertyInfo);
   const elementTitle = propertyFormattedName + "[" + (typeof editingItemIndex === "number" ? editingItemIndex : values.length) + "]";

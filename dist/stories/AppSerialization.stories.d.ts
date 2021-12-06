@@ -1,5 +1,3 @@
-import { Meta, Story } from '@storybook/react/types-6-0';
-import { AppConfig } from '../util';
-declare const _default: Meta<import("@storybook/react/types-6-0").Args>;
+declare const _default: any;
 export default _default;
-export declare const AppExample: Story<AppConfig>;
+export declare const AppExample: any;

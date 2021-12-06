@@ -54,6 +54,8 @@ const AppLogin = ({
   authenticate,
   serialization
 }) => {
+  var _serialization$authen;
+
   const [status, setStatus] = useState("booting");
   const synchronizeRest = useRestSerializeation(x => x.synchronize);
   const synchronizeLocal = useIndexDBStorage(x => x.synchronize);
@@ -72,7 +74,7 @@ const AppLogin = ({
       onLoginSuccess(uid);
     }
   }, [access_token, onLoginSuccess, uid]);
-  const accountValidOptions = serialization?.authentication?.provider.type === "oauth" ? [{
+  const accountValidOptions = (serialization === null || serialization === void 0 ? void 0 : (_serialization$authen = serialization.authentication) === null || _serialization$authen === void 0 ? void 0 : _serialization$authen.provider.type) === "oauth" ? [{
     text: "Login With " + serialization.authentication.provider.name,
     value: "oauth"
   }] : !hasAccounts ? [{
@@ -117,7 +119,9 @@ const AppLogin = ({
       } else if (values.includes("create")) {
         setStatus("create");
       } else if (values.includes("oauth")) {
-        const oAuthLink = serialization?.authentication?.provider.oAuthEndPoint;
+        var _serialization$authen2;
+
+        const oAuthLink = serialization === null || serialization === void 0 ? void 0 : (_serialization$authen2 = serialization.authentication) === null || _serialization$authen2 === void 0 ? void 0 : _serialization$authen2.provider.oAuthEndPoint;
         oAuthLink && window.location.assign(oAuthLink);
       }
     },

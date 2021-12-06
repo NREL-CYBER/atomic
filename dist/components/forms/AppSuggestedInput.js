@@ -34,7 +34,7 @@ const AppSuggestedInput = ({
       },
       button: true
     }, /*#__PURE__*/React.createElement(AppText, {
-      color: value?.includes(option) ? "success" : "medium"
+      color: value !== null && value !== void 0 && value.includes(option) ? "success" : "medium"
     }, prettyTitle(option)))));
   };
 
