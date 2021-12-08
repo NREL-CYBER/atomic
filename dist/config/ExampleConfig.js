@@ -1,3 +1,4 @@
+import { AppButton } from "atomic";
 import { composeStore } from "store";
 import AddressSchema from "../schemas/address.schema.json";
 import Attack10 from "./ATTACK10.json";
@@ -63,6 +64,9 @@ const ExampleConfig = {
       server: false
     }
   },
+  topBar: {
+    end: AppButton
+  },
   mainMenu: {
     sections: {
       example: routes.filter(x => x.path !== "/")
@@ -72,9 +76,9 @@ const ExampleConfig = {
   bottomBar: {
     start: ExampleBottomBar
   },
-  about: {
-    component: "example application information...."
-  },
+  // about: {
+  //     component: "example application information...."
+  // },
   serialization: {
     mode: "local"
   }

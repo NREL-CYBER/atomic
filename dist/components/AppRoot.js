@@ -157,7 +157,7 @@ const AppRoot = config => {
     id: "root"
   }, /*#__PURE__*/React.createElement(AppCompletion, {
     config: config
-  }), topBar ? topBar : /*#__PURE__*/React.createElement(AppTopToolbar, {
+  }), topBar && /*#__PURE__*/React.createElement(AppTopToolbar, {
     config: config
   }), fixedMainMenu ? /*#__PURE__*/React.createElement(IonContent, {
     style: {

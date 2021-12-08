@@ -20,7 +20,7 @@ import AppSearchBar from '../AppSearchBar';
  */
 
 const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) => {
-    const { about, search } = config
+    const { about, search, topBar } = config
     const [query, setQuery] = useState<string>("")
     const { pathname } = useLocation();
     const { paths } = useCompletion();
@@ -56,7 +56,7 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
         }
 
     }, [showSearch])
-
+    console.log(topBar);
     const isDesktop = useMediaQuery("only screen and (min-width: 500px)");
     return <>
         <AppToolbar color={bgColor}>

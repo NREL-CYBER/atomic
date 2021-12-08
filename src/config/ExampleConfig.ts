@@ -1,3 +1,4 @@
+import { AppButton } from "atomic";
 import { composeStore, Store } from "store";
 import { UseStore } from "zustand";
 import AddressSchema from "../schemas/address.schema.json";
@@ -24,7 +25,7 @@ export const useAttack = composeStore<MitreNode>(
         identifier: "id",
         initial: Attack10.objects.map(x => ({ [x.id]: { ...x } })).reduce((a, b) => ({ ...a, ...b }), {}),
         schema: {
-            $id:"inline-mitre",
+            $id: "inline-mitre",
             type: "object",
             definitions: {
                 identity: {
@@ -73,6 +74,9 @@ const ExampleConfig: AppConfig = {
             server: false,
         }
     },
+    topBar: {
+        end: AppButton
+    },
     mainMenu: {
         sections: {
             example:
@@ -81,9 +85,9 @@ const ExampleConfig: AppConfig = {
     },
     darkMode: false,
     bottomBar: { start: ExampleBottomBar },
-    about: {
-        component: "example application information...."
-    },
+    // about: {
+    //     component: "example application information...."
+    // },
     serialization: {
         mode: "local"
     }

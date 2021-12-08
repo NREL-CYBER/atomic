@@ -132,7 +132,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
 
         {status === "idle" && <><AppRouter animated={config.animated} id={"root"}>
             <AppCompletion config={config} />
-            {topBar ? topBar : <AppTopToolbar config={config} />}
+            {topBar && <AppTopToolbar config={config} />}
             {fixedMainMenu ? <IonContent style={{ height: "100%" }} >
                 <IonGrid style={{ height: "100%", padding: "0px", margin: "0px" }}>
                     <IonRow style={{ height: "100%", padding: "0px", margin: "0px" }}>

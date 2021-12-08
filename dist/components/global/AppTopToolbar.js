@@ -22,7 +22,8 @@ const AppTopToolbar = ({
 
   const {
     about,
-    search
+    search,
+    topBar
   } = config;
   const [query, setQuery] = useState("");
   const {
@@ -77,6 +78,7 @@ const AppTopToolbar = ({
       window.removeEventListener("mousedown", listener);
     }
   }, [showSearch]);
+  console.log(topBar);
   const isDesktop = useMediaQuery("only screen and (min-width: 500px)");
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppToolbar, {
     color: bgColor
