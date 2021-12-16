@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { AppItem, AppRow } from ".";
-import AppList from "./AppList";
+import { IonAccordion, IonAccordionGroup, IonItem, IonList } from "@ionic/react";
+import React from "react";
 
 /**
  * 
@@ -12,22 +11,16 @@ const AppAccordion = ({
   selectedColor,
   expand
 }) => {
-  const [unlockedIndex, setUnlockedIndex] = useState(-1);
-  return /*#__PURE__*/React.createElement(AppList, null, items.map((accordionItem, i) =>
+  return /*#__PURE__*/React.createElement(IonAccordionGroup, null, items.map((accordionItem, i) =>
   /*#__PURE__*/
   // eslint-disable-next-line no-script-url
-  React.createElement(React.Fragment, {
-    key: i
-  }, /*#__PURE__*/React.createElement(AppItem, {
-    color: unlockedIndex === i ? selectedColor : itemColor,
-    onClick: () => {
-      if (unlockedIndex === i) {
-        setUnlockedIndex(-1);
-      } else {
-        setUnlockedIndex(i);
-      }
-    }
-  }, accordionItem.toolbarContent), (unlockedIndex === i || expand) && /*#__PURE__*/React.createElement(AppRow, null, accordionItem.innerContent))));
+  React.createElement(IonAccordion, {
+    value: i.toString()
+  }, /*#__PURE__*/React.createElement(IonItem, {
+    slot: "header"
+  }, accordionItem.toolbarContent), /*#__PURE__*/React.createElement(IonList, {
+    slot: "content"
+  }, accordionItem.innerContent))));
 };
 
 export default AppAccordion;

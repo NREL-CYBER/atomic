@@ -1,4 +1,4 @@
-import { AppCol, AppRow, AppSequence } from '../components';
+import { AppAccordion, AppCol, AppRow, AppSequence, AppTitle } from '../components';
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
@@ -43,6 +43,9 @@ const Home: React.FC = () => {
         }} propertyInfo={{}} />
 
       </AppCard>
+      <AppAccordion items={[{ innerContent: <AppTitle>NICEPLPLPL</AppTitle>, toolbarContent: <AppRow>OUTTER</AppRow> }]} >
+
+      </AppAccordion>
       <AppCard headerColor="tertiary" titleColor="secondary" title="Welcome to atomic" subTitle="atomic">
         <AppChip color="success">
           Check out the examples to get started

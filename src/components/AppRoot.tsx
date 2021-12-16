@@ -40,7 +40,11 @@ import AppTopToolbar from './global/AppTopToolbar';
  * Component that stores the root of the application and control current theme
  */
 
+import { setupIonicReact } from '@ionic/react';
 
+setupIonicReact({
+  mode: 'md'
+});
 const AppRoot: React.FC<AppConfig> = (config) => {
     const { routes, mainMenu, topBar, bottomBar, children,
         serialization, title, version, cache } = config;

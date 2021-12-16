@@ -1,4 +1,4 @@
-import { AppCol, AppRow, AppSequence } from '../components';
+import { AppAccordion, AppCol, AppRow, AppSequence, AppTitle } from '../components';
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
@@ -78,7 +78,12 @@ const Home = () => {
       }
     },
     propertyInfo: {}
-  })), /*#__PURE__*/React.createElement(AppCard, {
+  })), /*#__PURE__*/React.createElement(AppAccordion, {
+    items: [{
+      innerContent: /*#__PURE__*/React.createElement(AppTitle, null, "NICEPLPLPL"),
+      toolbarContent: /*#__PURE__*/React.createElement(AppRow, null, "OUTTER")
+    }]
+  }), /*#__PURE__*/React.createElement(AppCard, {
     headerColor: "tertiary",
     titleColor: "secondary",
     title: "Welcome to atomic",

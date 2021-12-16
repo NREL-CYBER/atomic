@@ -31,10 +31,9 @@ interface appModalProps {
  */
 const AppModal: React.FC<appModalProps> = (props) => {
     const { children, smol, title, buttons, titleColor, headerColor, ...otherProps } = props;
-    const { darkMode } = useAppSettings();
     const ref = useRef<HTMLIonModalElement>(null);
     return <div className={smol ? "smol" : "large"}>
-        <IonModal ref={ref} animated={true} cssClass={[darkMode ? "dark-theme" : "light-theme"]}
+        <IonModal ref={ref} animated={true}
             onDidDismiss={props.onDismiss}
             {...otherProps} >
             {title && <AppItem color={headerColor || 'light'}>

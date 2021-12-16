@@ -1,3 +1,4 @@
+import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@ionic/react";
 import React, { FC, ReactFragment, useState } from "react";
 import { AppItem, AppRow } from ".";
 import { AppColor } from "../theme/AppColor";
@@ -18,24 +19,20 @@ export interface accordionProps {
  * @param accordionOptions items:[]accordionItem[], 
  */
 const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor, expand }) => {
-    const [unlockedIndex, setUnlockedIndex] = useState(-1);
 
-    return <AppList>{items.map((accordionItem, i) =>
-        // eslint-disable-next-line no-script-url
-        <React.Fragment key={i}><AppItem color={unlockedIndex === i ? selectedColor : itemColor} onClick={() => {
-            if (unlockedIndex === i) {
-                setUnlockedIndex(-1);
-            } else {
-                setUnlockedIndex(i)
-            }
-        }}>
-            {accordionItem.toolbarContent}
-        </AppItem>
-            {((unlockedIndex === i) || expand) && <AppRow>
-                {accordionItem.innerContent}
-            </AppRow>}
-        </React.Fragment >
-    )}</AppList>
+    return <IonAccordionGroup>
+        {items.map((accordionItem, i) =>
+            // eslint-disable-next-line no-script-url
+            <IonAccordion value={i.toString()}>
+                <IonItem slot="header">
+                    {accordionItem.toolbarContent}
+                </IonItem>
+
+                <IonList slot="content">
+                    {accordionItem.innerContent}
+                </IonList>
+            </IonAccordion>
+        )}</IonAccordionGroup>
 }
 
 export default AppAccordion;

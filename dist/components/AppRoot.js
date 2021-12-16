@@ -44,6 +44,11 @@ import AppTopToolbar from './global/AppTopToolbar';
  * Component that stores the root of the application and control current theme
  */
 
+import { setupIonicReact } from '@ionic/react';
+setupIonicReact({
+  mode: 'md'
+});
+
 const AppRoot = config => {
   const {
     routes,
