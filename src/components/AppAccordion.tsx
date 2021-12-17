@@ -6,13 +6,14 @@ import AppList from "./AppList";
 
 type accordionItem = {
     toolbarContent: ReactFragment,
-    innerContent: ReactFragment
+    innerContent?: ReactFragment
 }
 export interface accordionProps {
     items: accordionItem[]
     itemColor?: AppColor,
     selectedColor?: AppColor
-    expand?: boolean
+    expand?: boolean,
+    multiple?: boolean
 }
 /**
  * 
@@ -20,10 +21,9 @@ export interface accordionProps {
  */
 const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor, expand }) => {
 
-    return <IonAccordionGroup>
+    return <IonAccordionGroup value={expand ? "0" : undefined} >
         {items.map((accordionItem, i) =>
-            // eslint-disable-next-line no-script-url
-            <IonAccordion value={i.toString()}>
+            <IonAccordion value={i.toString()} toggleIcon={typeof accordionItem.innerContent !== "undefined" ? "chevron-down" : ""} disabled={typeof accordionItem.innerContent === "undefined"}>
                 <IonItem slot="header">
                     {accordionItem.toolbarContent}
                 </IonItem>

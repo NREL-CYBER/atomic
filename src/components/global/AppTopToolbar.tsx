@@ -1,5 +1,6 @@
+import { IonBreadcrumb, IonBreadcrumbs, IonIcon, IonRouterLink } from '@ionic/react';
 import { AppGrid } from 'atomic';
-import { homeOutline, searchOutline } from 'ionicons/icons';
+import { folder, homeOutline, searchOutline } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppChip, AppIcon, AppMenuButton, AppRow, AppTitle, AppToolbar } from '..';
@@ -66,21 +67,16 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
                 <AppButton expand='full' routerLink={"/"}>
                     <AppTitle color={isHome ? titleColor : undefined}><AppIcon icon={config.topBar?.homeIcon ? config.topBar?.homeIcon : homeOutline} /> </AppTitle>
                 </AppButton>
-                {!isHome && breadcrumbs.map(breadCrumb =>
-                    <AppButton key={breadCrumb.path}
-                        color={breadCrumb.path === pathname ? "tertiary" : undefined}
-                        fill={breadCrumb.path === pathname ? "solid" : "clear"}
-                        routerLink={breadCrumb.path}
-                    >
-                        {isDesktop && <AppTitle>{breadCrumb.title} </AppTitle>}
-                        <AppIcon icon={breadCrumb.icon} />
-                    </AppButton>)}
-                {title && <AppButton color="tertiary" fill="solid" >
-                    <AppTitle>
-                        {title}
-                    </AppTitle>
-                </AppButton>}
-
+                <IonBreadcrumbs>
+                    {!isHome && breadcrumbs.map(breadCrumb =>
+                        <IonRouterLink routerLink={breadCrumb.path}>
+                            <IonBreadcrumb>
+                                <IonIcon slot="start" icon={breadCrumb.icon}></IonIcon>
+                                {breadCrumb.title}
+                            </IonBreadcrumb>
+                        </IonRouterLink>
+                    )}
+                </IonBreadcrumbs>
                 {children}
             </AppButtons>
             <AppButtons slot='end'>

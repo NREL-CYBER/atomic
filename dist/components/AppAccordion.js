@@ -11,11 +11,12 @@ const AppAccordion = ({
   selectedColor,
   expand
 }) => {
-  return /*#__PURE__*/React.createElement(IonAccordionGroup, null, items.map((accordionItem, i) =>
-  /*#__PURE__*/
-  // eslint-disable-next-line no-script-url
-  React.createElement(IonAccordion, {
-    value: i.toString()
+  return /*#__PURE__*/React.createElement(IonAccordionGroup, {
+    value: expand ? "0" : undefined
+  }, items.map((accordionItem, i) => /*#__PURE__*/React.createElement(IonAccordion, {
+    value: i.toString(),
+    toggleIcon: typeof accordionItem.innerContent !== "undefined" ? "chevron-down" : "",
+    disabled: typeof accordionItem.innerContent === "undefined"
   }, /*#__PURE__*/React.createElement(IonItem, {
     slot: "header"
   }, accordionItem.toolbarContent), /*#__PURE__*/React.createElement(IonList, {

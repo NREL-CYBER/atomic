@@ -1,3 +1,4 @@
+import { IonBreadcrumb, IonBreadcrumbs, IonIcon, IonRouterLink } from '@ionic/react';
 import { AppGrid } from 'atomic';
 import { homeOutline, searchOutline } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
@@ -91,17 +92,12 @@ const AppTopToolbar = ({
     color: isHome ? titleColor : undefined
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: (_config$topBar2 = config.topBar) !== null && _config$topBar2 !== void 0 && _config$topBar2.homeIcon ? (_config$topBar3 = config.topBar) === null || _config$topBar3 === void 0 ? void 0 : _config$topBar3.homeIcon : homeOutline
-  }), " ")), !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(AppButton, {
-    key: breadCrumb.path,
-    color: breadCrumb.path === pathname ? "tertiary" : undefined,
-    fill: breadCrumb.path === pathname ? "solid" : "clear",
+  }), " ")), /*#__PURE__*/React.createElement(IonBreadcrumbs, null, !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(IonRouterLink, {
     routerLink: breadCrumb.path
-  }, isDesktop && /*#__PURE__*/React.createElement(AppTitle, null, breadCrumb.title, " "), /*#__PURE__*/React.createElement(AppIcon, {
+  }, /*#__PURE__*/React.createElement(IonBreadcrumb, null, /*#__PURE__*/React.createElement(IonIcon, {
+    slot: "start",
     icon: breadCrumb.icon
-  }))), title && /*#__PURE__*/React.createElement(AppButton, {
-    color: "tertiary",
-    fill: "solid"
-  }, /*#__PURE__*/React.createElement(AppTitle, null, title)), children), /*#__PURE__*/React.createElement(AppButtons, {
+  }), breadCrumb.title)))), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, (_config$topBar4 = config.topBar) === null || _config$topBar4 === void 0 ? void 0 : _config$topBar4.end, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
     smol: true,
