@@ -1,7 +1,7 @@
 import { formNodeProps } from "atomic/dist/components/forms/AppForm";
 import React from "react";
 import { Store } from "store";
-import { UseStore } from "zustand";
+import { UseBoundStore } from "zustand";
 import { columnAmount } from "./AppCol";
 import { selectButtonProps } from "./AppSelectButtons";
 export declare const AppCollectionInterface: React.FC<{
@@ -12,7 +12,7 @@ export declare const AppCollectionInterface: React.FC<{
         multi: boolean;
         options: selectButtonProps[];
     }>;
-    store: UseStore<Store<any>>;
+    store: UseBoundStore<Store<any>>;
     pageSize?: number;
     itemSize?: {
         xs?: columnAmount;

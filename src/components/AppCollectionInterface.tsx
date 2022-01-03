@@ -4,9 +4,8 @@ import { AppButtons, AppText } from "atomic";
 import { formNodeProps } from "atomic/dist/components/forms/AppForm";
 import { addOutline, pencilOutline } from "ionicons/icons";
 import React, { useState } from "react";
-import ReactJson from "react-json-view";
 import { Store } from "store";
-import { UseStore } from "zustand";
+import { UseBoundStore } from "zustand";
 import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";
 import { useAppSettings } from "../hooks/useAppSettings";
 import { prettyTitle } from "../util";
@@ -22,7 +21,7 @@ export const AppCollectionInterface: React.FC<{
     search?: boolean,
     editable?: boolean,
     filterCategories?: Record<string, { multi: boolean, options: selectButtonProps[] }>,
-    store: UseStore<Store<any>>
+    store: UseBoundStore<Store<any>>
     pageSize?: number
     itemSize?: { xs?: columnAmount, md?: columnAmount, lg?: columnAmount }
     renderItem?: React.FC<Record<string, any>>

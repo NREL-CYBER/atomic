@@ -1,6 +1,6 @@
 import { AppButton } from "atomic";
 import { composeStore, Store } from "store";
-import { UseStore } from "zustand";
+import { UseBoundStore } from "zustand";
 import AddressSchema from "../schemas/address.schema.json";
 import { AppConfig } from "../util/AppConfig";
 import Attack10 from "./ATTACK10.json";
@@ -16,7 +16,7 @@ type PalleteItem = {
     b: number
 }
 
-const useAddress: UseStore<Store<PalleteItem>> = composeStore<PalleteItem>(
+const useAddress: UseBoundStore<Store<PalleteItem>> = composeStore<PalleteItem>(
     { schema: AddressSchema, definition: "pallete_element", identifier: "name" }
 );
 export interface MitreNode extends Record<string, any> { type: string, name: string, id: string }

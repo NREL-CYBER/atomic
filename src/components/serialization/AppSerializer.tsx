@@ -1,6 +1,6 @@
 import React, { FC, memo, useEffect, useState } from "react";
 import { Store } from "store";
-import { UseStore } from "zustand";
+import { UseBoundStore } from "zustand";
 import useAppLayout from "../../hooks/useAppLayout";
 import useCache from "../../hooks/useCache";
 import { SynchronizationContext } from "../../hooks/useLocalSerialization";
@@ -10,7 +10,7 @@ import { AppSerializationConfig } from "../../util/AppConfig";
 export interface appLocalSerializerProps {
     cache: AppCacheIndex
     serialization: AppSerializationConfig
-    context: UseStore<SynchronizationContext>
+    context: UseBoundStore<SynchronizationContext>
     uid?: string
     endpoint?: string
 }
