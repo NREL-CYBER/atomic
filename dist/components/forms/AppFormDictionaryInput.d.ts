@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { nestedFormProps } from './AppForm';
 /**
  * Component for input that displays validation errors

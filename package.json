@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "ionic s",
-    "build": "tsc --emitDeclarationOnly --noEmit false && babel src --out-dir dist --extensions .ts,.tsx",
+    "build": "babel src --out-dir dist --extensions .ts,.tsx",
     "storybook": "start-storybook -p 6006",
     "update": "yarn install && yarn add https://github.com/NREL-CYBER/validator https://github.com/NREL-CYBER/store",
     "docs": "typedoc --out docs src/entry.ts"

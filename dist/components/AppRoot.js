@@ -155,8 +155,7 @@ const AppRoot = config => {
     id: "loading"
   }, /*#__PURE__*/React.createElement(AppLoadingCard, {
     color: "tertiary",
-    title: prettyTitle(status),
-    message: "plz wait"
+    title: prettyTitle(status)
   }))), status === "idle" && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(AppRouter, {
     animated: config.animated,
     id: "root"

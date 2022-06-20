@@ -1,3 +1,4 @@
+/// <reference types="react" />
 import { formElementProps, nestedFormProps } from './forms/AppForm';
 interface formArrayOfInputProps extends nestedFormProps, formElementProps {
 }
