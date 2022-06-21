@@ -130,7 +130,7 @@ const AppRoot: React.FC<AppConfig> = (config) => {
         {status === "synchronizing" && <>
             <AppToolbar />
             <AppPage fullscreen id="loading">
-                <AppLoadingCard color={"tertiary"} title={prettyTitle(status)} />
+                <AppLoadingCard color={"tertiary"} title={prettyTitle(status)} message={"plz wait"} />
             </AppPage>
         </>}
 

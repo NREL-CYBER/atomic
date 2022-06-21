@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { formElementProps } from './AppForm';
 /**
  * Component for input that displays validation errors

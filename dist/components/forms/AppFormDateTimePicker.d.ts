@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { formElementProps } from './AppForm';
 interface formDateTimePickerProps extends formElementProps {
     format?: string;

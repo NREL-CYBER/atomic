@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { formElementProps } from './forms/AppForm';
 export interface formSelectArrayInputProps extends formElementProps {
     propertyInfo: {

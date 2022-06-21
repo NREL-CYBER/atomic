@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { formElementProps } from './forms/AppForm';
 /**
  * Component for toggle that displays validation errors

@@ -1,4 +1,3 @@
-/// <reference types="react" />
 import { AppColor } from '../theme/AppColor';
 import { formElementProps } from './forms/AppForm';
 interface formInputProps extends formElementProps {
