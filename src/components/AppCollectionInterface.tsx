@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-script-url */
 import { AppButtons, AppText } from "atomic";
-import { formNodeProps } from "atomic/dist/components/forms/AppForm";
+import { formNodeProps } from "./forms/AppForm";
 import { addOutline, pencilOutline } from "ionicons/icons";
 import React, { useState } from "react";
 import { Store } from "store";

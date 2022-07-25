@@ -6,7 +6,7 @@ import { AppBackButton, AppButton, AppButtons, AppContent, AppForm, AppIcon, App
 import { prettyTitle } from "../../util";
 import { inputStatusColorMap } from "../AppFormInput";
 import { VisualizeValue } from "../AppJsonDisplay";
-import { findSubSchema } from './AppForm';
+import { findSubSchema } from "./AppForm";
 /**
  * Component for input that displays validation errors
  */

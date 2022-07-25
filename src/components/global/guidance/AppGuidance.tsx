@@ -1,4 +1,4 @@
-import { AppButtons, AppCard, AppText } from "atomic";
+import { AppButtons, AppCard, AppText } from "../../";
 import { closeOutline } from "ionicons/icons";
 import React from "react";
 import { useGuidance } from "../../../hooks";

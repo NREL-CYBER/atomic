@@ -1,10 +1,10 @@
 import { IonAccordion, IonAccordionGroup, IonItem, IonList } from "@ionic/react";
 import React from "react";
 
-/**
- * 
- * @param accordionOptions items:[]accordionItem[], 
- */
+// /**
+//  * 
+//  * @param accordionOptions items:[]accordionItem[], 
+//  */
 const AppAccordion = ({
   items,
   itemColor,

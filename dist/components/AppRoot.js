@@ -1,4 +1,4 @@
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 import { IonApp, IonCol, IonContent, IonFooter, IonGrid, IonRow } from '@ionic/react';
 /* Core CSS required for Ionic components to work properly */
@@ -20,26 +20,26 @@ import "@ionic/react/css/typography.css";
 import React, { memo, useEffect } from 'react';
 import { Route } from 'react-router';
 import { AppContent, AppSerializer } from '.';
-import { useAppLayout } from '../hooks';
-import useAppAccount from '../hooks/useAppAccount';
-import { useAppSettings } from '../hooks/useAppSettings';
-import useCache from '../hooks/useCache';
-import useIndexDBStorage from '../hooks/useLocalSerialization';
-import { useRestSerializeation } from '../hooks/useRestSerialization';
+import { useAppLayout } from "../hooks";
+import useAppAccount from "../hooks/useAppAccount";
+import { useAppSettings } from "../hooks/useAppSettings";
+import useCache from "../hooks/useCache";
+import useIndexDBStorage from "../hooks/useLocalSerialization";
+import { useRestSerializeation } from "../hooks/useRestSerialization";
 import "../theme/variables.css";
-import { prettyTitle } from '../util';
-import AppChip from './AppChip';
-import AppLoadingCard from './AppLoadingCard';
-import AppLogin from './AppLogin';
-import AppPage from './AppPage';
-import AppRouter from './AppRouter';
-import AppTitle from './AppTitle';
-import AppToolbar from './AppToolbar';
-import AppCompletion from './completion/AppCompletion';
-import { AppBottomBar } from './global/AppBottomBar';
-import AppMainMenu, { AppFixedMainMenu } from './global/AppMainMenu';
-import AppNotifications from './global/AppNotifications';
-import AppTopToolbar from './global/AppTopToolbar';
+import { prettyTitle } from "../util";
+import AppChip from "./AppChip";
+import AppLoadingCard from "./AppLoadingCard";
+import AppLogin from "./AppLogin";
+import AppPage from "./AppPage";
+import AppRouter from "./AppRouter";
+import AppTitle from "./AppTitle";
+import AppToolbar from "./AppToolbar";
+import AppCompletion from "./completion/AppCompletion";
+import { AppBottomBar } from "./global/AppBottomBar";
+import AppMainMenu, { AppFixedMainMenu } from "./global/AppMainMenu";
+import AppNotifications from "./global/AppNotifications";
+import AppTopToolbar from "./global/AppTopToolbar";
 /**
  * Component that stores the root of the application and control current theme
  */

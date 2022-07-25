@@ -3,6 +3,12 @@
         "@babel/preset-typescript"
     ],
     "plugins": [
-        "@babel/plugin-transform-react-jsx"
+        "@babel/plugin-transform-react-jsx",
+        ["module-resolver",
+        {
+            "alias":{
+                "atomic": "./src/entry.ts"
+            }
+        }]
     ]
 }

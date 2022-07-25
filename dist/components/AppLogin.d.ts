@@ -11,7 +11,7 @@ export interface credential {
  */
 export declare const hash_sensitive_info: (sensitive: string) => string;
 declare const _default: React.NamedExoticComponent<{
-    serialization?: AppSerializationConfig | undefined;
+    serialization?: AppSerializationConfig;
     onLoginSuccess: (uid: string) => void;
     authenticate: (email: string, password: string, operation: "create" | "login", onAuthenticated: (uid: string) => void) => Promise<string>;
 }>;

@@ -1,4 +1,4 @@
-import { formNodeProps } from "atomic/dist/components/forms/AppForm";
+import { formNodeProps } from "./forms/AppForm";
 import React from "react";
 import { Store } from "store";
 import { UseBoundStore } from "zustand";

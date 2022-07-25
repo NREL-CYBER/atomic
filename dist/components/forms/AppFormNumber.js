@@ -2,10 +2,10 @@
 import { IonLabel, IonRange } from '@ionic/react';
 import React, { useState } from 'react';
 import { AppItem } from '..';
-import { prettyTitle } from '../../util';
-import { inputStatusColorMap } from '../AppFormInput';
-import { AppFormErrorsItem } from './AppFormErrorsItem';
-import { AppFormLabel } from './AppFormLabel';
+import { prettyTitle } from "../../util";
+import { inputStatusColorMap } from "../AppFormInput";
+import { AppFormErrorsItem } from "./AppFormErrorsItem";
+import { AppFormLabel } from "./AppFormLabel";
 /**
  * Component for input that displays validation errors
  */

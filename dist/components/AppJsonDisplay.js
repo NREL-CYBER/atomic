@@ -1,4 +1,4 @@
-import { AppCol, AppGrid, AppRow, AppText, AppChip } from "atomic";
+import { AppCol, AppGrid, AppRow, AppText, AppChip } from "../entry.ts";
 import { isArray } from "lodash";
 import { isNull } from "../util";
 import { AppTable, AppTableList } from "./global/AppTable";

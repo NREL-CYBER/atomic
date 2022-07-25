@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useMemo, useState } from 'react';
 import { AppItem } from '..';
-import { prettyTitle } from '../../util';
-import { inputStatusColorMap } from '../AppFormInput';
-import AppInput from '../AppInput';
-import { AppFormErrorsItem } from './AppFormErrorsItem';
-import { AppFormLabel } from './AppFormLabel';
+import { prettyTitle } from "../../util";
+import { inputStatusColorMap } from "../AppFormInput";
+import AppInput from "../AppInput";
+import { AppFormErrorsItem } from "./AppFormErrorsItem";
+import { AppFormLabel } from "./AppFormLabel";
 
 /**
  * Component for input that displays validation errors

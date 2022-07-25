@@ -5,20 +5,20 @@ import { chevronDownOutline, chevronForwardOutline, pencilOutline } from 'ionico
 import React, { Fragment, Suspense, useMemo, useRef, useState } from 'react';
 import { v4 } from 'uuid';
 import { AppBackButton, AppButton, AppButtons, AppCard, AppChip, AppCol, AppFormArrayInput, AppFormInput, AppFormSelect, AppIcon, AppItem, AppLabel, AppList, AppLoadingCard, AppModal, AppText, AppTitle, AppToolbar, AppUuidGenerator } from '..';
-import { isNull, prettyTitle, titleCase } from '../../util';
-import AppFormAnyOfArrayInput from '../AppFormAnyOfArrayInput';
-import { inputStatusColorMap } from '../AppFormInput';
-import AppFormSelectArray from '../AppFormSelectArray';
-import AppFormToggle from '../AppFormToggle';
-import { VisualizeValue } from '../AppJsonDisplay';
-import AppUploader from '../serialization/AppUploader';
+import { isNull, prettyTitle, titleCase } from "../../util";
+import AppFormAnyOfArrayInput from "../AppFormAnyOfArrayInput";
+import { inputStatusColorMap } from "../AppFormInput";
+import AppFormSelectArray from "../AppFormSelectArray";
+import AppFormToggle from "../AppFormToggle";
+import { VisualizeValue } from "../AppJsonDisplay";
+import AppUploader from "../serialization/AppUploader";
 import { validationCacheWorker } from "./../../workers/validationCacheWorker";
-import AppFormDateTimePicker from './AppFormDateTimePicker';
-import AppFormDictionaryInput from './AppFormDictionaryInput';
-import AppFormInteger from './AppFormInteger';
-import { AppFormLabel } from './AppFormLabel';
-import AppFormNumber, { AppFormNumberRange } from './AppFormNumber';
-import AppLastModifiedGenerator from './AppLastModifiedGenerator';
+import AppFormDateTimePicker from "./AppFormDateTimePicker";
+import AppFormDictionaryInput from "./AppFormDictionaryInput";
+import AppFormInteger from "./AppFormInteger";
+import { AppFormLabel } from "./AppFormLabel";
+import AppFormNumber, { AppFormNumberRange } from "./AppFormNumber";
+import AppLastModifiedGenerator from "./AppLastModifiedGenerator";
 
 const LockedField = ({
   property,

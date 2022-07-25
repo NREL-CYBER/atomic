@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import Dropzone from 'react-dropzone-uploader';
 import 'react-dropzone-uploader/dist/styles.css';
 import { AppButtons, AppChip, AppItem } from '..';
-import { prettyTitle } from '../../util';
-import { byteArrayToBase64 } from '../../util/binaryToBase64';
-import { AppFormLabel } from '../forms/AppFormLabel';
+import { prettyTitle } from "../../util";
+import { byteArrayToBase64 } from "../../util/binaryToBase64";
+import { AppFormLabel } from "../forms/AppFormLabel";
 
 /**
  * Upload Component 

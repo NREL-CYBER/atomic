@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { prettyTitle } from '../util';
-import AppInput from './AppInput';
-import AppItem from './AppItem';
-import AppTextArea from './AppTextArea';
-import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
-import { AppFormLabel } from './forms/AppFormLabel';
+import { prettyTitle } from "../util";
+import AppInput from "./AppInput";
+import AppItem from "./AppItem";
+import AppTextArea from "./AppTextArea";
+import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
+import { AppFormLabel } from "./forms/AppFormLabel";
 export const inputStatusColorMap = {
   empty: "medium",
   valid: "favorite",
@@ -91,9 +91,6 @@ const AppFormInput = props => {
       width: "100%"
     }
   }, /*#__PURE__*/React.createElement(AppTextArea, {
-    css: {
-      minHeight: "200!important"
-    },
     rows: property === "description" ? 3 : 1,
     placeholder: description,
     color: "dark",

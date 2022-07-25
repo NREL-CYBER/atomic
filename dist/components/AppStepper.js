@@ -1,14 +1,14 @@
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 import { IonIcon, IonLabel, IonRouterOutlet } from '@ionic/react';
-import useAppLayout from '../hooks/useAppLayout';
-import useCompletion from '../hooks/useCompletion';
+import useAppLayout from "../hooks/useAppLayout";
+import useCompletion from "../hooks/useCompletion";
 import React from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { AppButton, AppRow } from '.';
-import AppGrid from './AppGrid';
-import { MapRoutes } from './AppRouterOutlet';
-import AppToolbar from './AppToolbar';
+import AppGrid from "./AppGrid";
+import { MapRoutes } from "./AppRouterOutlet";
+import AppToolbar from "./AppToolbar";
 
 const StepButton = step => {
   const {
@@ -49,9 +49,9 @@ const AppStepper = route => {
     return /*#__PURE__*/React.createElement(StepButton, _extends({
       key: step.path
     }, step));
-  })), nested && /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(MapRoutes, {
+  })), nested && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(MapRoutes, {
     routes: nested
-  }))), /*#__PURE__*/React.createElement(AppRow, null));
+  })))), /*#__PURE__*/React.createElement(AppRow, null));
 };
 
 export default AppStepper;

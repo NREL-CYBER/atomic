@@ -1,16 +1,16 @@
 import { IonBreadcrumb, IonBreadcrumbs, IonIcon, IonRouterLink } from '@ionic/react';
-import { AppGrid } from 'atomic';
+import { AppGrid } from "../../entry.ts";
 import { homeOutline, searchOutline } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { AppButton, AppButtons, AppChip, AppIcon, AppMenuButton, AppRow, AppTitle, AppToolbar } from '..';
-import { useCompletion } from '../../hooks';
-import useAppLayout from '../../hooks/useAppLayout';
-import { useAppSettings } from '../../hooks/useAppSettings';
-import useMediaQuery from '../../hooks/useMediaQuery';
-import useTitle from '../../hooks/usePageTitle';
-import AppModal from '../AppModal';
-import AppSearchBar from '../AppSearchBar';
+import { useCompletion } from "../../hooks";
+import useAppLayout from "../../hooks/useAppLayout";
+import { useAppSettings } from "../../hooks/useAppSettings";
+import useMediaQuery from "../../hooks/useMediaQuery";
+import useTitle from "../../hooks/usePageTitle";
+import AppModal from "../AppModal";
+import AppSearchBar from "../AppSearchBar";
 /**
  * Self aware top toolbar
  */
@@ -92,12 +92,12 @@ const AppTopToolbar = ({
     color: isHome ? titleColor : undefined
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: (_config$topBar2 = config.topBar) !== null && _config$topBar2 !== void 0 && _config$topBar2.homeIcon ? (_config$topBar3 = config.topBar) === null || _config$topBar3 === void 0 ? void 0 : _config$topBar3.homeIcon : homeOutline
-  }), " ")), /*#__PURE__*/React.createElement(IonBreadcrumbs, null, !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(IonRouterLink, {
+  }), " ")), /*#__PURE__*/React.createElement(IonBreadcrumbs, null, !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(IonRouterLink, {
     routerLink: breadCrumb.path
   }, /*#__PURE__*/React.createElement(IonBreadcrumb, null, /*#__PURE__*/React.createElement(IonIcon, {
     slot: "start",
     icon: breadCrumb.icon
-  }), breadCrumb.title)))), children), /*#__PURE__*/React.createElement(AppButtons, {
+  }), breadCrumb.title))))), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, (_config$topBar4 = config.topBar) === null || _config$topBar4 === void 0 ? void 0 : _config$topBar4.end, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
     smol: true,

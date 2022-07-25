@@ -41,9 +41,9 @@ const AppStepper: React.FC<AppRoute> = (route) => {
                 })}
             </AppToolbar>
 
-            {nested && <IonRouterOutlet>
+            {nested && <div><IonRouterOutlet>
                 <MapRoutes routes={nested} />
-            </IonRouterOutlet>}
+            </IonRouterOutlet></div>}
 
         </AppRow>
         <AppRow>

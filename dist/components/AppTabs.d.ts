@@ -1,4 +1,4 @@
-import { AppRoute } from 'atomic';
+import { AppRoute } from "../core/routing/";
 import React from 'react';
 import { AppColor } from '../theme';
 interface AppTab extends AppRoute {

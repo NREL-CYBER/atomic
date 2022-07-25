@@ -6,5 +6,5 @@ interface appRouterProps {
 /**
  * Component for routing root pages
  */
-declare const AppRouter: React.FC<appRouterProps>;
+declare const AppRouter: React.FC<React.PropsWithChildren<appRouterProps>>;
 export default AppRouter;

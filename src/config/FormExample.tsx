@@ -1,4 +1,4 @@
-import { AppContent } from "atomic";
+import { AppContent } from "../components";
 import React, { useState } from "react";
 import { AppPage } from "../components";
 import AppForm from "../components/forms/AppForm";

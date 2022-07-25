@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppContent, AppPage } from '../components';
-import AppUploader from '../components/serialization/AppUploader';
+import { AppContent, AppPage } from "../components";
+import AppUploader from "../components/serialization/AppUploader";
 
 const UploadExample = () => {
   return /*#__PURE__*/React.createElement(AppPage, null, /*#__PURE__*/React.createElement(AppContent, null, /*#__PURE__*/React.createElement(AppUploader, {

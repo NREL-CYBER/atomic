@@ -11,9 +11,5 @@ export interface accordionProps {
     expand?: boolean;
     multiple?: boolean;
 }
-/**
- *
- * @param accordionOptions items:[]accordionItem[],
- */
 declare const AppAccordion: FC<accordionProps>;
 export default AppAccordion;

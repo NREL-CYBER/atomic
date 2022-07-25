@@ -1,5 +1,6 @@
 import { IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
-import { AppBadge, AppContent, AppGrid, AppIcon, AppLabel, AppPage, AppRoute } from 'atomic';
+import { AppBadge, AppContent, AppGrid, AppIcon, AppLabel, AppPage} from './';
+import { AppRoute } from "../core/routing/";
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import { AppCard } from '.';
@@ -47,10 +48,12 @@ const AppTabs: React.FC<tabsProps> = (props) => {
                         </AppBadge>}
                     </IonTabButton>)}
                 </IonTabBar>
+                <div>
                 <IonRouterOutlet>
                     <Route path="*"
                         component={tabs[currentTab].component} />
                 </IonRouterOutlet>
+                </div>
             </IonTabs>
         </div>
     </AppCard>

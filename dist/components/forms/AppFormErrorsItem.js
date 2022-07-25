@@ -1,4 +1,4 @@
-import { AppItem, AppLabel, AppText } from "atomic";
+import { AppItem, AppLabel, AppText } from "../../entry.ts";
 import React from "react";
 export const AppFormErrorsItem = ({
   errors

@@ -1,8 +1,7 @@
 import { IonAccordion, IonAccordionGroup, IonItem, IonLabel, IonList } from "@ionic/react";
 import React, { FC, ReactFragment, useState } from "react";
-import { AppItem, AppRow } from ".";
+import { AppItem, AppRow } from "atomic";
 import { AppColor } from "../theme/AppColor";
-import AppList from "./AppList";
 
 type accordionItem = {
     toolbarContent: ReactFragment,
@@ -15,10 +14,10 @@ export interface accordionProps {
     expand?: boolean,
     multiple?: boolean
 }
-/**
- * 
- * @param accordionOptions items:[]accordionItem[], 
- */
+// /**
+//  * 
+//  * @param accordionOptions items:[]accordionItem[], 
+//  */
 const AppAccordion: FC<accordionProps> = ({ items, itemColor, selectedColor, expand }) => {
 
     return <IonAccordionGroup value={expand ? "0" : undefined} >

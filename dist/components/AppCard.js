@@ -1,6 +1,6 @@
 import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/react';
 import React from 'react';
-import AppTitle from './AppTitle';
+import AppTitle from "./AppTitle";
 
 /**
  * Provides an area with padding, and title

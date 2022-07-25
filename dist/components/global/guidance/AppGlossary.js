@@ -1,8 +1,8 @@
 import React from 'react';
-import AppButtons from '../../AppButtons';
-import AppItem from '../../AppItem';
-import AppPage from '../../AppPage';
-import AppLabel from '../../AppLabel';
+import AppButtons from "../../AppButtons";
+import AppItem from "../../AppItem";
+import AppPage from "../../AppPage";
+import AppLabel from "../../AppLabel";
 
 const AppGlossary = ({
   glossary

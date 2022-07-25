@@ -23,7 +23,12 @@
     "jsx": "react-jsx",
     "outDir": "dist",
     "noEmit": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "paths": {
+      "atomic": ["./src/entry.ts"]
+    }
   },
   "include": [
     "src"

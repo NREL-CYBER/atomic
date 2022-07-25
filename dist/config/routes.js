@@ -1,4 +1,4 @@
-import { AppPage } from "atomic";
+import { AppPage } from "../entry.ts";
 import { documentOutline, homeOutline, searchOutline } from "ionicons/icons";
 import Home from "../pages/Home";
 import { ExamplePaginationAndSearch } from "./ExamplePaginationAndSearch";

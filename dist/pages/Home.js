@@ -1,14 +1,14 @@
-import { AppAccordion, AppCol, AppRow, AppSequence, AppTitle } from '../components';
+import { AppAccordion, AppCol, AppRow, AppSequence, AppTitle } from "../components";
 import { listOutline, peopleOutline } from 'ionicons/icons';
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
-import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from '../components';
-import AppSuggestedInput from '../components/forms/AppSuggestedInput';
-import { AppTable } from '../components/global/AppTable';
-import { useCompletion } from '../hooks';
-import usePageTitle from '../hooks/usePageTitle';
-import { palletSchema } from '../schemas/pallete.schema';
-import { VisualizeValue } from '../components/AppJsonDisplay';
+import { AppButton, AppButtons, AppCard, AppChip, AppContent, AppForm, AppInput, AppItem, AppItemDivider, AppLabel, AppPage, AppRouteCard, AppSelect, AppSelectButtons, AppSelectOption, AppTabs } from "../components";
+import AppSuggestedInput from "../components/forms/AppSuggestedInput";
+import { AppTable } from "../components/global/AppTable";
+import { useCompletion } from "../hooks";
+import usePageTitle from "../hooks/usePageTitle";
+import { palletSchema } from "../schemas/pallete.schema";
+import { VisualizeValue } from "../components/AppJsonDisplay";
 
 const Home = () => {
   const [platform, setPlatform] = useState("Develop");

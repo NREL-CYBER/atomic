@@ -1,4 +1,4 @@
-import { AppBadge, AppButtons, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, prettyTitle } from "atomic";
+import { AppBadge, AppButtons, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, prettyTitle } from "../../entry.ts";
 import { isArray } from "lodash";
 import React, { useState } from "react";
 import { VisualizeValue } from "../AppJsonDisplay";
