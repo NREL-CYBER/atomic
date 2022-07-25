@@ -48,12 +48,12 @@ const AppTabs: React.FC<tabsProps> = (props) => {
                         </AppBadge>}
                     </IonTabButton>)}
                 </IonTabBar>
-                <div>
                 <IonRouterOutlet>
+                    <div>
                     <Route path="*"
                         component={tabs[currentTab].component} />
+                        </div>
                 </IonRouterOutlet>
-                </div>
             </IonTabs>
         </div>
     </AppCard>

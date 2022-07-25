@@ -13,7 +13,7 @@ interface appRouterProps {
  */
 const AppRouter: React.FC<React.PropsWithChildren<appRouterProps>> = (props) =>
     // @ts-ignore
-   <div><IonReactHashRouter {...props} /></div>
+   <IonReactHashRouter {...props} />
 
 
 export default AppRouter;

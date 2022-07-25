@@ -7,6 +7,6 @@ import React from 'react';
 const AppRouter = props =>
 /*#__PURE__*/
 // @ts-ignore
-React.createElement("div", null, /*#__PURE__*/React.createElement(IonReactHashRouter, props));
+React.createElement(IonReactHashRouter, props);
 
 export default AppRouter;
