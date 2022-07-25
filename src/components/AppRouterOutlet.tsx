@@ -33,10 +33,10 @@ export const MapRoutes: React.FC<routeMapProps> = ({ routes }) => {
  * this is how side menus and pages get their own routing
  */
 export const AppRouterOutlet: React.FC<routerOutletProps> = ({ root, id }) =>
-    <div><IonRouterOutlet id={id}>
+    <IonRouterOutlet id={id}>
         {root.nested ? <MapRoutes routes={root.nested} /> : <></>}
         {<Route {...root} />}
-    </IonRouterOutlet ></div>
+    </IonRouterOutlet >
 
 
 

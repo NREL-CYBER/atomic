@@ -49,9 +49,9 @@ const AppStepper = route => {
     return /*#__PURE__*/React.createElement(StepButton, _extends({
       key: step.path
     }, step));
-  })), nested && /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(MapRoutes, {
+  })), nested && /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(MapRoutes, {
     routes: nested
-  })))), /*#__PURE__*/React.createElement(AppRow, null));
+  }))), /*#__PURE__*/React.createElement(AppRow, null));
 };
 
 export default AppStepper;

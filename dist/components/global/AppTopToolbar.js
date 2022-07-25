@@ -92,12 +92,12 @@ const AppTopToolbar = ({
     color: isHome ? titleColor : undefined
   }, /*#__PURE__*/React.createElement(AppIcon, {
     icon: (_config$topBar2 = config.topBar) !== null && _config$topBar2 !== void 0 && _config$topBar2.homeIcon ? (_config$topBar3 = config.topBar) === null || _config$topBar3 === void 0 ? void 0 : _config$topBar3.homeIcon : homeOutline
-  }), " ")), /*#__PURE__*/React.createElement(IonBreadcrumbs, null, !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(IonRouterLink, {
+  }), " ")), /*#__PURE__*/React.createElement(IonBreadcrumbs, null, !isHome && breadcrumbs.map(breadCrumb => /*#__PURE__*/React.createElement(IonRouterLink, {
     routerLink: breadCrumb.path
   }, /*#__PURE__*/React.createElement(IonBreadcrumb, null, /*#__PURE__*/React.createElement(IonIcon, {
     slot: "start",
     icon: breadCrumb.icon
-  }), breadCrumb.title))))), children), /*#__PURE__*/React.createElement(AppButtons, {
+  }), breadCrumb.title)))), children), /*#__PURE__*/React.createElement(AppButtons, {
     slot: "end"
   }, (_config$topBar4 = config.topBar) === null || _config$topBar4 === void 0 ? void 0 : _config$topBar4.end, !hideAbout && /*#__PURE__*/React.createElement(AppModal, {
     smol: true,

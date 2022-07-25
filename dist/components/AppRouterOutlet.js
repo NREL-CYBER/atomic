@@ -23,9 +23,9 @@ export const MapRoutes = ({
 export const AppRouterOutlet = ({
   root,
   id
-}) => /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(IonRouterOutlet, {
+}) => /*#__PURE__*/React.createElement(IonRouterOutlet, {
   id: id
 }, root.nested ? /*#__PURE__*/React.createElement(MapRoutes, {
   routes: root.nested
-}) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(Route, root)));
+}) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(Route, root));
 export default AppRouterOutlet;
