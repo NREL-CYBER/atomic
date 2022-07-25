@@ -69,12 +69,14 @@ const AppTopToolbar: React.FC<{ config: AppConfig }> = ({ children, config }) =>
                 </AppButton>
                 <IonBreadcrumbs>
                     {!isHome && breadcrumbs.map(breadCrumb =>
+                        <div>
                         <IonRouterLink routerLink={breadCrumb.path}>
                             <IonBreadcrumb>
                                 <IonIcon slot="start" icon={breadCrumb.icon}></IonIcon>
                                 {breadCrumb.title}
                             </IonBreadcrumb>
                         </IonRouterLink>
+                        </div>
                     )}
                 </IonBreadcrumbs>
                 {children}

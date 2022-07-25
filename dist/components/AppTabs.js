@@ -50,10 +50,10 @@ const AppTabs = props => {
     icon: tab.icon
   }), /*#__PURE__*/React.createElement(AppLabel, null, tab.title), tab.notifications && /*#__PURE__*/React.createElement(AppBadge, {
     color: tab.notificationColor
-  }, tab.notifications)))), /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(Route, {
+  }, tab.notifications)))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(IonRouterOutlet, null, /*#__PURE__*/React.createElement(Route, {
     path: "*",
     component: tabs[currentTab].component
-  })))));
+  }))))));
 };
 
 export default AppTabs;
