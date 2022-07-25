@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { useAppLayout } from "../../hooks";
-import useCompletion from "../../hooks/useCompletion";
+import { useAppLayout } from '../../hooks';
+import useCompletion from '../../hooks/useCompletion';
 
 /**
  * Manage the availability of routes based on conditions

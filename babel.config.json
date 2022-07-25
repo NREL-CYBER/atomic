@@ -3,12 +3,12 @@
         "@babel/preset-typescript"
     ],
     "plugins": [
-        "@babel/plugin-transform-react-jsx",
-        ["module-resolver",
-        {
-            "alias":{
-                "atomic": "./src/"
-            }
-        }]
+        "@babel/plugin-transform-react-jsx"
+        // ["module-resolver",
+        // {
+        //     "alias":{
+        //         "atomic": "./src/"
+        //     }
+        // }]
     ]
 }

@@ -2,21 +2,21 @@ import { arrowBackOutline } from 'ionicons/icons';
 import React, { memo, useEffect, useState } from 'react';
 import { SHA3 } from 'sha3';
 import { AppTitle } from '.';
-import { useNotifications } from "../hooks";
-import { account } from "../hooks/useAppAccount";
-import useIndexDBStorage from "../hooks/useLocalSerialization";
-import { useRestSerializeation } from "../hooks/useRestSerialization";
-import { prettyTitle } from "../util";
-import { base64ToHex } from "../util/base64ToHex";
-import { byteArrayToBase64 } from "../util/binaryToBase64";
-import AppButton from "./AppButton";
-import AppCard from "./AppCard";
-import AppIcon from "./AppIcon";
-import AppItemDivider from "./AppItemDivider";
-import AppLoadingCard from "./AppLoadingCard";
-import AppProgress from "./AppProgress";
-import AppSelectButtons from "./AppSelectButtons";
-import AppForm from "./forms/AppForm";
+import { useNotifications } from '../hooks';
+import { account } from '../hooks/useAppAccount';
+import useIndexDBStorage from '../hooks/useLocalSerialization';
+import { useRestSerializeation } from '../hooks/useRestSerialization';
+import { prettyTitle } from '../util';
+import { base64ToHex } from '../util/base64ToHex';
+import { byteArrayToBase64 } from '../util/binaryToBase64';
+import AppButton from './AppButton';
+import AppCard from './AppCard';
+import AppIcon from './AppIcon';
+import AppItemDivider from './AppItemDivider';
+import AppLoadingCard from './AppLoadingCard';
+import AppProgress from './AppProgress';
+import AppSelectButtons from './AppSelectButtons';
+import AppForm from './forms/AppForm';
 const loginFormSchema = {
   "$id": "user",
   "$schema": "http://json-schema.org/draft-07/schema#",

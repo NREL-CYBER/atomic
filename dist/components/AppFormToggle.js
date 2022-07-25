@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { AppButtons, AppFormLabel } from '.';
-import titleCase from "../util/titleCase";
-import { inputStatusColorMap } from "./AppFormInput";
-import AppItem from "./AppItem";
-import AppLabel from "./AppLabel";
-import AppSelectButtons from "./AppSelectButtons";
-import AppText from "./AppText";
+import titleCase from '../util/titleCase';
+import { inputStatusColorMap } from './AppFormInput';
+import AppItem from './AppItem';
+import AppLabel from './AppLabel';
+import AppSelectButtons from './AppSelectButtons';
+import AppText from './AppText';
 
 /**
  * Component for toggle that displays validation errors

@@ -2,7 +2,7 @@ function _extends() { _extends = Object.assign ? Object.assign.bind() : function
 
 import { IonButton } from '@ionic/react';
 import React from 'react';
-import { rogueColorToStyle } from "../theme/AppColor";
+import { rogueColorToStyle } from '../theme/AppColor';
 
 /**
  * Button Component 

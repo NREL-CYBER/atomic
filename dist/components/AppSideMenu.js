@@ -1,8 +1,8 @@
 import { IonSplitPane } from '@ionic/react';
 import React from 'react';
-import AppList from "./AppList";
-import AppRouterOutlet from "./AppRouterOutlet";
-import AppSubMenu from "./AppSubMenu";
+import AppList from './AppList';
+import AppRouterOutlet from './AppRouterOutlet';
+import AppSubMenu from './AppSubMenu';
 /**
  * Component to handle the creation of side menus
  */

@@ -1,11 +1,11 @@
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 import { IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
-import { AppBadge, AppIcon, AppLabel } from "./";
+import { AppBadge, AppIcon, AppLabel } from './';
 import React, { useState } from 'react';
 import { Route } from 'react-router-dom';
 import { AppCard } from '.';
-import { useAppSettings } from "../hooks/useAppSettings";
+import { useAppSettings } from '../hooks/useAppSettings';
 
 /**
  * Component to display text with optional color

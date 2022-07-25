@@ -2,7 +2,7 @@ function _extends() { _extends = Object.assign ? Object.assign.bind() : function
 
 import { IonRange } from '@ionic/react';
 import React from 'react';
-import { isNumber } from "../util";
+import { isNumber } from '../util';
 
 /**
  * Range Slider component, behaves like you expect!

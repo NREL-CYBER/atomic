@@ -1,7 +1,7 @@
-import { AppButtons, AppContent } from "../..";
+import { AppButtons, AppContent } from 'atomic';
 import React, { memo, useState } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
-import { useAppLayout, useCompletion } from "../../hooks";
+import { useAppLayout, useCompletion } from '../../hooks';
 
 /**
  * @param sections  a key value object containing all sections of routes 

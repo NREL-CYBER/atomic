@@ -3,11 +3,11 @@ import { addOutline } from 'ionicons/icons';
 import { isUndefined } from "lodash";
 import React, { Suspense, useCallback, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppChip, AppForm, AppIcon, AppItem, AppLabel, AppLoadingCard, AppModal, AppRow, AppText, AppToolbar } from '.';
-import { remove } from "../util";
-import prettyTitle from "../util/prettyTitle";
+import { remove } from '../util';
+import prettyTitle from '../util/prettyTitle';
 import { findShortestValue } from "./AppFormArrayInput";
 import { inputStatusColorMap } from "./AppFormInput";
-import { findSubSchema } from "./forms/AppForm";
+import { findSubSchema } from './forms/AppForm';
 
 /**
  * Find a way to keep this DRY there is too much overlap with standard array editor

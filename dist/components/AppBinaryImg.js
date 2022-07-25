@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { binaryToFileUri } from "../util";
+import { binaryToFileUri } from '../util';
 
 /**
  */

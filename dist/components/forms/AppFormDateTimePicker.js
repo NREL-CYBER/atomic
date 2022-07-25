@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { AppItem } from '..';
-import { prettyTitle } from "../../util";
-import { AppDateTime } from "../AppDateTime";
-import { inputStatusColorMap } from "../AppFormInput";
-import { AppFormErrorsItem } from "./AppFormErrorsItem";
-import { AppFormLabel } from "./AppFormLabel";
+import { prettyTitle } from '../../util';
+import { AppDateTime } from '../AppDateTime';
+import { inputStatusColorMap } from '../AppFormInput';
+import { AppFormErrorsItem } from './AppFormErrorsItem';
+import { AppFormLabel } from './AppFormLabel';
 
 /**
  * Component for input that displays validation errors

@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { AppSelectArray } from '.';
-import { prettyTitle } from "../util";
-import { inputStatusColorMap } from "./AppFormInput";
-import AppItem from "./AppItem";
-import AppSelectOption from "./AppSelectOption";
-import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
-import { AppFormLabel } from "./forms/AppFormLabel";
+import { prettyTitle } from '../util';
+import { inputStatusColorMap } from './AppFormInput';
+import AppItem from './AppItem';
+import AppSelectOption from './AppSelectOption';
+import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
+import { AppFormLabel } from './forms/AppFormLabel';
 
 /**
  * Component for input that displays validation errors

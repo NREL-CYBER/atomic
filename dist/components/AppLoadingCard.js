@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppCard } from '.';
-import AppItemDivider from "./AppItemDivider";
-import AppProgress from "./AppProgress";
+import AppItemDivider from './AppItemDivider';
+import AppProgress from './AppProgress';
 /**
  * Component to show a loading overlay on the application
  */

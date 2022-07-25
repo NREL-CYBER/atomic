@@ -3,7 +3,7 @@ function _extends() { _extends = Object.assign ? Object.assign.bind() : function
 import React from 'react';
 import { IonToast } from '@ionic/react';
 import { useHistory } from 'react-router';
-import useCompletion from "../hooks/useCompletion";
+import useCompletion from '../hooks/useCompletion';
 
 /**
  * A title component for an Toast item

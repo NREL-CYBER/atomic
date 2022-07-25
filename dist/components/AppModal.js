@@ -4,8 +4,8 @@ import { IonModal } from '@ionic/react';
 import { closeOutline } from 'ionicons/icons';
 import React, { useRef } from 'react';
 import { AppButtons, AppContent, AppItem, AppSelectButtons, AppTitle } from '.';
-import AppButton from "./AppButton";
-import AppIcon from "./AppIcon";
+import AppButton from './AppButton';
+import AppIcon from './AppIcon';
 
 /**
  * Component for modals

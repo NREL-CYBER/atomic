@@ -1,17 +1,17 @@
 /* eslint-disable no-script-url */
-import { AppLabel } from "./..";
+import { AppLabel } from "atomic";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";
 import React, { useCallback, useMemo, useState } from 'react';
 import { AppBackButton, AppButton, AppButtons, AppForm, AppIcon, AppItem, AppModal } from '.';
-import { isUndefined, removeAtIndex } from "../util";
-import prettyTitle from "../util/prettyTitle";
+import { isUndefined, removeAtIndex } from '../util';
+import prettyTitle from '../util/prettyTitle';
 import { uniqueObjects } from "../util/unique";
 import AppCard from "./AppCard";
 import { inputStatusColorMap } from "./AppFormInput";
 import { VisualizeValue } from "./AppJsonDisplay";
-import { findSubSchema } from "./forms/AppForm";
+import { findSubSchema } from './forms/AppForm';
 import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
 import { AppFormLabel } from "./forms/AppFormLabel";
 export const findShortestValue = val => {

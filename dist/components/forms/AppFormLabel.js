@@ -1,4 +1,4 @@
-import { AppBadge, AppButtons, AppGrid, AppText } from "../..";
+import { AppBadge, AppButtons, AppGrid, AppText } from "atomic";
 import React from "react";
 import { useMediaQuery } from "../../hooks";
 export const AppFormLabel = ({

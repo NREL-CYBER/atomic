@@ -1,10 +1,10 @@
 import React from 'react';
 import { AppButtons, AppToolbar } from '..';
-import { useAppSettings } from "../../hooks/useAppSettings";
-import useCompletion from "../../hooks/useCompletion";
-import AppProgress from "../AppProgress";
-import { AppSettingsModal } from "../serialization/AppSettingsModal";
-import { AppContinueButton } from "./AppContinueButton";
+import { useAppSettings } from '../../hooks/useAppSettings';
+import useCompletion from '../../hooks/useCompletion';
+import AppProgress from '../AppProgress';
+import { AppSettingsModal } from '../serialization/AppSettingsModal';
+import { AppContinueButton } from './AppContinueButton';
 export const AppCompletionProgress = () => {
   const completionValue = useCompletion(x => x.completion);
   return /*#__PURE__*/React.createElement(AppProgress, {

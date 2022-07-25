@@ -1,11 +1,11 @@
 import React from 'react';
-import useAppLayout from "../hooks/useAppLayout";
-import useCompletion from "../hooks/useCompletion";
-import AppIcon from "./AppIcon";
-import AppItem from "./AppItem";
-import AppLabel from "./AppLabel";
-import { AppButtons } from "./..";
-import { useAppSettings } from "../hooks/useAppSettings";
+import useAppLayout from '../hooks/useAppLayout';
+import useCompletion from '../hooks/useCompletion';
+import AppIcon from './AppIcon';
+import AppItem from './AppItem';
+import AppLabel from './AppLabel';
+import { AppButtons } from 'atomic';
+import { useAppSettings } from '../hooks/useAppSettings';
 
 const AppSubMenu = ({
   pages

@@ -2,7 +2,7 @@ function _extends() { _extends = Object.assign ? Object.assign.bind() : function
 
 import { IonGrid } from '@ionic/react';
 import React, { useLayoutEffect, useRef } from 'react';
-import { ConentScrollBarStyle } from "./AppContent";
+import { ConentScrollBarStyle } from './AppContent';
 
 /**
  * Component to house a grid of AppCol and AppRow

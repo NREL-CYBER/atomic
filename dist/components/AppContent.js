@@ -1,7 +1,7 @@
 import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
 import React, { useLayoutEffect, useRef } from 'react';
 import { AppToolbar } from '.';
-import { AppNextButton } from "./global/AppNextButton";
+import { AppNextButton } from './global/AppNextButton';
 export const ConentScrollBarStyle = `
 ::-webkit-scrollbar {
   width: 9px;

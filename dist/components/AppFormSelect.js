@@ -1,12 +1,12 @@
-import { AppCol } from "./..";
+import { AppCol } from 'atomic';
 import { isArray } from 'lodash';
 import React, { useState } from 'react';
-import { prettyTitle } from "../util";
-import { inputStatusColorMap } from "./AppFormInput";
-import AppItem from "./AppItem";
-import AppSelectButtons from "./AppSelectButtons";
-import { AppFormErrorsItem } from "./forms/AppFormErrorsItem";
-import { AppFormLabel } from "./forms/AppFormLabel";
+import { prettyTitle } from '../util';
+import { inputStatusColorMap } from './AppFormInput';
+import AppItem from './AppItem';
+import AppSelectButtons from './AppSelectButtons';
+import { AppFormErrorsItem } from './forms/AppFormErrorsItem';
+import { AppFormLabel } from './forms/AppFormLabel';
 
 /**
  * Component for input that displays validation errors
