@@ -1,4 +1,4 @@
-import { AppPage } from "../entry.ts";
+import { AppPage } from "./..";
 import { documentOutline, homeOutline, searchOutline } from "ionicons/icons";
 import Home from "../pages/Home";
 import { ExamplePaginationAndSearch } from "./ExamplePaginationAndSearch";

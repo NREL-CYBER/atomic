@@ -1,4 +1,4 @@
-import { AppCol } from "../entry.ts";
+import { AppCol } from "./..";
 import { isArray } from 'lodash';
 import React, { useState } from 'react';
 import { prettyTitle } from "../util";

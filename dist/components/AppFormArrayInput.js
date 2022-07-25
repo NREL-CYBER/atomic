@@ -1,5 +1,5 @@
 /* eslint-disable no-script-url */
-import { AppLabel } from "../entry.ts";
+import { AppLabel } from "./..";
 import produce from "immer";
 import { addSharp, removeOutline, returnDownForwardOutline } from 'ionicons/icons';
 import { isArray, values } from "lodash";

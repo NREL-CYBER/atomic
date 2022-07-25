@@ -1,4 +1,4 @@
-import { AppItem, AppLabel, AppText } from "../../entry.ts";
+import { AppItem, AppLabel, AppText } from "../..";
 import React from "react";
 export const AppFormErrorsItem = ({
   errors

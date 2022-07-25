@@ -7,7 +7,7 @@
         ["module-resolver",
         {
             "alias":{
-                "atomic": "./src/entry.ts"
+                "atomic": "./src/"
             }
         }]
     ]

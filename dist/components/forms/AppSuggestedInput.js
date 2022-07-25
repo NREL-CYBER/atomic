@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { IonButton, IonInput, IonItem, IonList, useIonPopover } from '@ionic/react';
-import { prettyTitle, unique } from "../../entry.ts";
+import { prettyTitle, unique } from "../..";
 import { caretDown } from 'ionicons/icons';
 import React, { useRef } from 'react';
 import { AppIcon, AppRow } from '..';

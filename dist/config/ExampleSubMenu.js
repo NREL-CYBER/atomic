@@ -1,5 +1,5 @@
 import { IonSplitPane } from "@ionic/react";
-import { AppContent } from "../entry.ts";
+import { AppContent } from "./..";
 import { AppCard, AppList } from "../components";
 import AppSubMenu from "../components/AppSubMenu";
 import { submenuRoute } from "./routes";

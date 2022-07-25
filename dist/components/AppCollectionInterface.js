@@ -3,7 +3,7 @@ function _extends() { _extends = Object.assign ? Object.assign.bind() : function
 /* eslint-disable react-hooks/exhaustive-deps */
 
 /* eslint-disable no-script-url */
-import { AppButtons, AppText } from "../entry.ts";
+import { AppButtons, AppText } from "./..";
 import { addOutline, pencilOutline } from "ionicons/icons";
 import React, { useState } from "react";
 import { AppButton, AppCard, AppCol, AppForm, AppGrid, AppIcon, AppItem, AppRow } from ".";

@@ -1,4 +1,4 @@
-import { AppBadge, AppButtons, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, prettyTitle } from "../../entry.ts";
+import { AppBadge, AppButtons, AppChip, AppCol, AppGrid, AppLabel, AppRow, AppText, prettyTitle } from "../..";
 import { isArray } from "lodash";
 import React, { useState } from "react";
 import { VisualizeValue } from "../AppJsonDisplay";

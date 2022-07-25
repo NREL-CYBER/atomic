@@ -1,5 +1,5 @@
 import { IonBreadcrumb, IonBreadcrumbs, IonIcon, IonRouterLink } from '@ionic/react';
-import { AppGrid } from "../../entry.ts";
+import { AppGrid } from "../..";
 import { homeOutline, searchOutline } from 'ionicons/icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';

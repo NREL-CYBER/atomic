@@ -1,4 +1,4 @@
-import { AppButton } from "../entry.ts";
+import { AppButton } from "./..";
 import { composeStore } from "store";
 import AddressSchema from "../schemas/address.schema.json";
 import Attack10 from "./ATTACK10.json";

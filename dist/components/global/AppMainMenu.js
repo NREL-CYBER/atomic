@@ -1,4 +1,4 @@
-import { AppButtons, AppContent } from "../../entry.ts";
+import { AppButtons, AppContent } from "../..";
 import React, { memo, useState } from 'react';
 import { AppIcon, AppItem, AppLabel, AppList, AppListHeader, AppMenu, AppMenuToggle } from '..';
 import { useAppLayout, useCompletion } from "../../hooks";
